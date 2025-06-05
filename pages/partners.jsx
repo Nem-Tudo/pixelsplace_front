@@ -4430,7 +4430,7 @@ export default function Partners() {
                         />
                         <div className={styles.guildInfo}>
                             <h2 className={styles.guildName} translate="no">{guild.name}</h2>
-                            <a className={styles.guildLink} href="#">Veja mais</a>
+                            <a className={styles.guildLink} href="https://discord.gg/nemtudo" target="_blank" rel="norreferer">Entrar</a>
                         </div>
                     </div>
                 ))}
