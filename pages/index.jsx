@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "./index.module.css";
+import styles from "./Index.module.css";
 import Link from "next/link";
 import { MainLayout } from "@/layout/MainLayout";
 
