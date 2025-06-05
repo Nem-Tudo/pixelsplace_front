@@ -3,15 +3,18 @@ import styles from "./MainLayout.module.css";
 import Head from "next/head";
 import Header from "@/components/Header"
 
-export function MainLayout({ children, user }) {
+import { useAuth } from '../context/AuthContext';
 
+export function MainLayout({ children }) {
+
+    const { loggedUser, loading } = useAuth();
 
     return (
         <>
             <Head>
                 <title>{`PixelsPlace`}</title>
             </Head>
-            <Header user={user} />
+            <Header loggedUser={loggedUser} loading={loading} />
             {children}
         </>
     )

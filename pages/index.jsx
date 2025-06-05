@@ -1,43 +1,14 @@
 import Head from "next/head";
 import styles from "./index.module.css";
 import Link from "next/link";
-import settings from "@/settings.js";
 import { MainLayout } from "@/layout/MainLayout";
-import { parseCookies } from "nookies";
-import { useState } from "react";
+
+import { useAuth } from '@/context/AuthContext';
 
 
-export async function getServerSideProps({ req }) {
-  const cookies = parseCookies({ req });
-  const token = cookies.authorization;
+export default function Home() {
 
-  if (!token) {
-    return { props: { user: null } };
-  }
-
-  try {
-    const res = await fetch(`${settings.apiURL}/users/@me`, {
-      headers: { Authorization: token }
-    });
-
-    if (!res.ok) {
-      return { props: { user: null } };
-    }
-
-    const user = await res.json();
-    return { props: { user } };
-  } catch (err) {
-    console.error("Erro ao buscar usuário:", err);
-    return { props: { user: null } };
-  }
-}
-
-
-
-
-export default function Home(props) {
-
-  const [user, setUser] = useState(props.user);
+  const { loggedUser } = useAuth();
 
   return (
     <>
@@ -47,7 +18,7 @@ export default function Home(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MainLayout user={user}>
+      <MainLayout>
         <div
           className={styles.page}
         >
@@ -57,7 +28,7 @@ export default function Home(props) {
               <h1>Pixels Place</h1>
             </div>
             <div className={styles.buttons}>
-              <Link className={styles.btn} href={user ? "/place" : "/login"}>Começar</Link>
+              <Link className={styles.btn} href={loggedUser ? "/place" : "/login"}>Começar</Link>
               <Link className={styles.btn} href="/partners">Servidores</Link>
             </div>
           </main>

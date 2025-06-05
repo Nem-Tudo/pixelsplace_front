@@ -3,7 +3,7 @@ import styles from "./Header.module.css"
 import Tippy from "@tippyjs/react"
 import Link from "next/link"
 
-export default function Header({ user }) {
+export default function Header({ loggedUser, loading }) {
 
     return (
         <>
@@ -14,8 +14,8 @@ export default function Header({ user }) {
                 </nav>
                 <nav className={styles.right}>
                     {
-                        user?.id ? <>
-                            <span>{user.username}</span>
+                        !loading && loggedUser?.id ? <>
+                            <span>{loggedUser.username}</span>
                             <Tippy trigger="click" interactive={true} content={<>
 
                                 <div className={styles.tippy_disconnect}>
@@ -25,7 +25,7 @@ export default function Header({ user }) {
                                 </div>
 
                             </>}>
-                                <img src={settings.avatarURL(user.id, user.avatar)} alt={user.username} />
+                                <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
                             </Tippy>
                         </> : <>
                             <Link href={"/login"}>
