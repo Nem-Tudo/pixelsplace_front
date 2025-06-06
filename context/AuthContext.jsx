@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(null);
 
     const cookies = parseCookies()
 
@@ -17,6 +18,7 @@ export function AuthProvider({ children }) {
 
     async function updateUser() {
         const token = cookies.authorization;
+        setToken(token)
 
         if (!token) {
             setUser(null);
@@ -46,7 +48,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ loggedUser: user, loading }}>
+        <AuthContext.Provider value={{ loggedUser: user, loading, token }}>
             {children}
         </AuthContext.Provider>
     );

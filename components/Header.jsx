@@ -9,29 +9,38 @@ export default function Header({ loggedUser, loading }) {
         <>
             <header className={styles.header}>
                 <nav className={styles.left}>
-                    <Link href={"/"}>PixelsPlace</Link>
-                    <Link href={"/premium"}>Vantagens</Link>
+                    <Link href={"/"}>
+                        <div className={styles.item}>
+                            <img style={{width: "40px"}} src="/logo.png" alt="" />
+                            <span>PixelsPlace</span>
+                        </div>
+                    </Link>
+                    <Link href={"/premium"}><span id={styles.premium}>Vantagens</span></Link>
                 </nav>
                 <nav className={styles.right}>
                     {
                         !loading && loggedUser?.id ? <>
-                            <span>{loggedUser.username}</span>
-                            <Tippy trigger="click" interactive={true} content={<>
+                            <div className={styles.loggedUser}>
+                                <span>{loggedUser.username}</span>
+                                <Tippy trigger="click" interactive={true} content={<>
 
-                                <div className={styles.tippy_disconnect}>
-                                    <Link href={"/auth/discord"}>
-                                        <span>Desconectar</span>
-                                    </Link>
-                                </div>
+                                    <div className={styles.tippy_disconnect}>
+                                        <Link href={"/auth/discord"}>
+                                            <span>Desconectar</span>
+                                        </Link>
+                                    </div>
 
-                            </>}>
-                                <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
-                            </Tippy>
+                                </>}>
+                                    <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
+                                </Tippy>
+                            </div>
                         </> : <>
-                            <Link href={"/login"}>
-                                <span>Logar</span>
-                                <img src="/avatar.png" alt="Deslogado" />
-                            </Link>
+                            <div className={styles.loggedUser}>
+                                <Link href={"/login"}>
+                                    <span>Logar</span>
+                                    <img src="/assets/avatar.png" alt="Deslogado" />
+                                </Link>
+                            </div>
                         </>
                     }
                 </nav>

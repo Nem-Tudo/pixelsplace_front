@@ -1,5 +1,12 @@
 import Link from "next/link";
 import styles from "./partners.module.css";
+import { BsArrowLeft, BsStar, BsStarHalf, BsFillStarFill } from "react-icons/bs";
+import { MainLayout } from "@/layout/MainLayout";
+
+// Nao selecionado: bs BsStar
+// Hover: bs BsStarHalf
+// Selecionado: bs BsFillStarFill
+
 
 export default function Partners() {
 
@@ -4414,11 +4421,16 @@ export default function Partners() {
 
 
     return (<>
-        <div className={styles.page}>
+
+        <MainLayout>
+
+        <main className={styles.main}>
+          <div className={styles.title}>
             <h1>SERVIDORES</h1>
             <h5>Servidores participando</h5>
+            <Link href="/"><BsArrowLeft /> Voltar</Link>
+          </div>
 
-            <Link href="/">Voltar</Link>
 
             <div className={styles.servers}>
                 {guilds.slice(0, 30).map((guild) => (
@@ -4435,7 +4447,10 @@ export default function Partners() {
                     </div>
                 ))}
             </div>
-        </div>
+        </main>
+        </MainLayout>
+
+
 
     </>)
 

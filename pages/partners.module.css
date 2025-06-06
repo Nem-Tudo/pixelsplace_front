@@ -1,25 +1,43 @@
-.page {
-    background-color: #0b0f1a;
-    color: #e0f0ff;
-    min-height: 100vh;
+.main {
+    --color-text: #9dcaff;
+    --color-button-a: #0075d5;
+    --color-primaria: #141c2f
+}
+
+.main .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.main .title h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.main .title h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.main .title a {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    flex-direction: row;
     flex-wrap: nowrap;
-    padding: 15px;
-}
 
-.page h1 {
-    font-size: 2.5rem;
-    color: #9dcaff;
-    margin-bottom: 0.5rem;
-}
-
-.page h5 {
-    font-size: 1.2rem;
-    color: #7aa8d9;
-    margin-bottom: 2rem;
+    background-color: var(--color-button-a);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 .servers {
@@ -35,7 +53,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background-color: #141c2f;
+    background-color: var(--color-primaria);
     border: 1px solid #1f2a44;
     border-radius: 12px;
     padding: 1rem;
@@ -71,7 +89,7 @@
 .guildName {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #9dcaff;
+    color: var(--color-text);
     white-space: nowrap;
     max-width: 80%;
     overflow: hidden;
@@ -80,7 +98,7 @@
 
 .guildLink {
     align-self: flex-start;
-    background-color: #1a4aff;
+    background-color: var(--color-button-a);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 8px;

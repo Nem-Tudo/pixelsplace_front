@@ -15,7 +15,9 @@ export function MainLayout({ children }) {
                 <title>{`PixelsPlace`}</title>
             </Head>
             <Header loggedUser={loggedUser} loading={loading} />
-            {children}
+            <main className={styles.main}>
+                {children}
+            </main>
         </>
     )
 

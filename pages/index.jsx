@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "./Index.module.css";
+import styles from "./index.module.css";
 import Link from "next/link";
 import { MainLayout } from "@/layout/MainLayout";
 
@@ -19,20 +19,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-        <div
-          className={styles.page}
-        >
-          <main className={styles.main}>
-            <div className={styles.logo}>
-              <img src="/logo.png" alt="logo" />
-              <h1>Pixels Place</h1>
-            </div>
-            <div className={styles.buttons}>
-              <Link className={styles.btn} href={loggedUser ? "/place" : "/login"}>Começar</Link>
-              <Link className={styles.btn} href="/partners">Servidores</Link>
-            </div>
-          </main>
-        </div>
+        <main className={styles.main}>
+          <div className={styles.logo}>
+            <img src="/logo.png" alt="logo" />
+            <h1>Pixels Place</h1>
+          </div>
+          <div className={styles.buttons}>
+            <Link className={styles.btn} href={"/place"}>Começar</Link>
+            <Link className={styles.btn} href="/partners">Servidores</Link>
+          </div>
+        </main>
       </MainLayout>
     </>
   );

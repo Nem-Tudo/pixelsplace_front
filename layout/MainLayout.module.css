@@ -1,0 +1,8 @@
+.main {
+    background-color: #293146;
+    color: #e0f0ff;
+    min-height: calc(100dvh - 72px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
