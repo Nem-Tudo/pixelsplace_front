@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./partners.module.css";
+import React, { useState } from 'react';
 import { BsArrowLeft, BsStar, BsStarHalf, BsFillStarFill } from "react-icons/bs";
 import { MainLayout } from "@/layout/MainLayout";
 
@@ -4419,35 +4420,51 @@ export default function Partners() {
         }
     ]
 
+    const [hovered, setHovered] = useState(null);
+    const [userServer, setUserServer] = useState(null);
+
 
     return (<>
 
         <MainLayout>
 
-        <main className={styles.main}>
-          <div className={styles.title}>
-            <h1>SERVIDORES</h1>
-            <h5>Servidores participando</h5>
-            <Link href="/"><BsArrowLeft /> Voltar</Link>
-          </div>
+            <main className={styles.main}>
+                <div className={styles.title}>
+                    <h1>SERVIDORES</h1>
+                    <h5>Servidores participando</h5>
+                    <Link href="/"><BsArrowLeft /> Voltar</Link>
+                </div>
 
 
-            <div className={styles.servers}>
-                {guilds.slice(0, 30).map((guild) => (
-                    <div key={guild.id} className={styles.guildCard}>
-                        <img
-                            className={styles.guildIcon}
-                            src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=512`}
-                            alt={`Ícone de ${guild.name}`}
-                        />
-                        <div className={styles.guildInfo}>
-                            <h2 className={styles.guildName} translate="no">{guild.name}</h2>
-                            <a className={styles.guildLink} href="https://discord.gg/nemtudo" target="_blank" rel="norreferer">Entrar</a>
+                <div className={styles.servers}>
+                    {guilds.slice(0, 30).map((guild) => (
+                        <div key={guild.id} className={styles.guildCard} style={userServer === guild.id ? {background: "linear-gradient(rgb(255 255 0 / 10%), rgb(255 255 0 / 10%)), #141c2f"} : {}}>
+                            <img
+                                className={styles.guildIcon}
+                                src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=512`}
+                                alt={`Ícone de ${guild.name}`}
+                            />
+                            <div className={styles.guildInfo}>
+                                <h2 className={styles.guildName} translate="no">{guild.name}</h2>
+                                <a className={styles.guildLink} href="https://discord.gg/nemtudo" target="_blank" rel="norreferer">Entrar</a>
+                                <div
+                                    onMouseEnter={() => setHovered(guild.id)}
+                                    onMouseLeave={() => setHovered(null)}
+                                    onClick={() => setUserServer(guild.id)}
+                                    style={{ fontSize: '2rem', cursor: 'pointer', position: 'absolute', right: '0' }}
+                                >
+                                    {userServer === guild.id
+                                        ? <BsFillStarFill />
+                                        : hovered === guild.id
+                                            ? <BsStarHalf />
+                                            : <BsStar />
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-        </main>
+                    ))}
+                </div>
+            </main>
         </MainLayout>
 
 

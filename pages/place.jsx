@@ -15,11 +15,13 @@ export default function Place() {
     const overlayCanvasRef = useRef(null);
 
 
-    const [canvasWidth, setCanvasWidth] = useState(1);
-    const [canvasHeight, setCanvasHeight] = useState(1);
+    const [canvasConfig, setCanvasConfig] = useState({})
 
     const [canvasPixels, setCanvasPixels] = useState(new Map());
+
+
     const [selectedPixel, setSelectedPixel] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null)
 
     const transform = useRef({
         scale: 1,
@@ -42,8 +44,8 @@ export default function Place() {
         const viewWidth = window.innerWidth;
         const viewHeight = window.innerHeight - 72;
 
-        const offsetX = (viewWidth - canvasWidth * scale) / 2;
-        const offsetY = (viewHeight - canvasHeight * scale) / 2;
+        const offsetX = (viewWidth - canvasConfig.width * scale) / 2;
+        const offsetY = (viewHeight - canvasConfig.height * scale) / 2;
 
         transform.current.pointX = offsetX;
         transform.current.pointY = offsetY;
@@ -53,23 +55,23 @@ export default function Place() {
 
     //Inicial: Da fetch no canvas
     useEffect(() => {
+        let MIN_SCALE_MULTIPLIER = 0.8;
+        let MAX_SCALE_MULTIPLIER = 150;
         async function fetchCanvas() {
-            const canvasSettings = await fetch(`${settings.apiURL}/canvas`);
-            const { width, height } = await canvasSettings.json();
-            setCanvasWidth(width);
-            setCanvasHeight(height);
+            const request = await fetch(`${settings.apiURL}/canvas`);
+            const canvasSettings = await request.json();
+            setCanvasConfig(canvasSettings)
 
             const res = await fetch(`${settings.apiURL}/canvas/pixels`);
             const buffer = await res.arrayBuffer();
             const bytes = new Uint8Array(buffer);
 
             const ctx = canvasRef.current.getContext("2d");
-            const pixelSize = 1;
 
             const pixelsMap = new Map();
             let i = 0;
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
+            for (let y = 0; y < canvasSettings.height; y++) {
+                for (let x = 0; x < canvasSettings.width; x++) {
                     const r = bytes[i++];
                     const g = bytes[i++];
                     const b = bytes[i++];
@@ -90,10 +92,10 @@ export default function Place() {
             const viewWidth = window.innerWidth;
             const viewHeight = window.innerHeight - 72;
 
-            const scaleX = viewWidth / width;
-            const scaleY = viewHeight / height;
-            const minScale = Math.min(scaleX, scaleY) * 0.8;
-            const maxScale = 100;
+            const scaleX = viewWidth / canvasSettings.width;
+            const scaleY = viewHeight / canvasSettings.height;
+            const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
+            const maxScale = MAX_SCALE_MULTIPLIER;
 
             transform.current.scale = minScale;
             transform.current.minScale = minScale;
@@ -172,32 +174,70 @@ export default function Place() {
             window.removeEventListener("keypress", onKeyPress);
 
         };
-    }, [canvasWidth, canvasHeight]);
+    }, [canvasConfig.width, canvasConfig.height]);
 
 
     //Ao atualizar o selectedPixel, atualiza a marcação no canvasOverlay
     useEffect(() => {
+        const SCALE = 10; // escala de visualização
+
         const canvas = overlayCanvasRef.current;
         if (!canvas || !selectedPixel) return;
 
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const scale = 10; // escala de visualização
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(
-            selectedPixel.x * scale,
-            selectedPixel.y * scale,
-            scale,
-            scale
-        );
-        console.log(selectedPixel, "selectedPixel")
+        //branco externo
+        ctx.fillStyle = "#b3b3b3cf"; //branco transpa
+        ctx.fillRect((selectedPixel.x * SCALE) - 2, (selectedPixel.y * SCALE) - 2, 14, 14);
+
+        //limpa o interno
+        ctx.clearRect((selectedPixel.x * SCALE) - 1, (selectedPixel.y * SCALE) - 1, 12, 12);
+
+        //preto interno
+        ctx.fillStyle = "#05050096";
+        ctx.fillRect((selectedPixel.x * SCALE) - 1, (selectedPixel.y * SCALE) - 1, 12, 12);
+
+        //limpa o interior
+        ctx.clearRect((selectedPixel.x * SCALE), (selectedPixel.y * SCALE), 10, 10);
+
+        //deixa só os cantos
+        ctx.clearRect((selectedPixel.x * SCALE) + 2, (selectedPixel.y * SCALE) - 2, 6, 15);
+        ctx.clearRect((selectedPixel.x * SCALE) - 2, (selectedPixel.y * SCALE) + 2, 15, 6);
+
+    }, [selectedPixel]);
+
+    //Mover o selected Pixel
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (!selectedPixel) return;
+            switch (event.key) {
+                case 'ArrowUp':
+                    setSelectedPixel({ x: selectedPixel.x, y: selectedPixel.y - 1 })
+                    break;
+                case 'ArrowDown':
+                    setSelectedPixel({ x: selectedPixel.x, y: selectedPixel.y + 1 })
+                    break;
+                case 'ArrowLeft':
+                    setSelectedPixel({ x: selectedPixel.x - 1, y: selectedPixel.y })
+                    break;
+                case 'ArrowRight':
+                    setSelectedPixel({ x: selectedPixel.x + 1, y: selectedPixel.y })
+                    break;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Limpeza ao desmontar
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
     }, [selectedPixel]);
 
 
     async function placePixel(x, y, color) {
-        const oldpixel = canvasPixels.get(`${x}:${y}`)
+        const oldpixel = canvasPixels.get(`${x},${y}`)
 
         updatePixel(x, y, color, true);
         const request = await fetch(`${settings.apiURL}/canvas/pixel`, {
@@ -214,15 +254,15 @@ export default function Place() {
         })
         const data = await request.json()
         if (!request.ok) {
-            updatePixel(oldpixel.x, oldpixel.y, oldpixel.color)
+            if (oldpixel) updatePixel(oldpixel.x, oldpixel.y, oldpixel.c)
             return alert(`Erro ao colocar pixel: ${data.message}`)
         }
     }
 
-    function updatePixel(x, y, color) {
+    function updatePixel(x, y, color, loading) {
         const ctx = canvasRef.current.getContext("2d");
 
-        ctx.fillStyle = numberToHex(color);
+        ctx.fillStyle = !loading ? numberToHex(color) : `${numberToHex(color)}cf`; //não tá carregando? Cor total : meio transparente
         ctx.fillRect(x, y, 1, 1);
 
         setCanvasPixels(prev => {
@@ -247,12 +287,35 @@ export default function Place() {
             </Head>
             <div>
                 <button onClick={() => {
-                    let info = prompt("x:y #hex")
-                    if (!info) return;
-                    placePixel(info.split(":")[0], info.split(":")[1].split(" ")[0], hexToNumber(`#` + info.split("#")[1]))
+                    placePixel(selectedPixel.x, selectedPixel.y, selectedColor)
                 }}>Bota pixel</button>
             </div>
             <MainLayout>
+
+                {
+                    !canvasConfig.width && <span>Carregando...  </span>
+                }
+
+
+                <section className={styles.overlaygui}>
+                    <div className={styles.top}>
+
+                    </div>
+                    <div className={styles.bottom}>
+                        <div className={styles.colors}>
+                            {
+                                canvasConfig?.freeColors?.map((color, index) => <>
+
+                                    <div key={index} onClick={() => { setSelectedColor(color) }} className={styles.color} style={{ backgroundColor: numberToHex(color), border: selectedColor === color ? "2px solid white" : "" }} />
+
+                                </>)
+                            }
+                            <input onChange={(e) => setSelectedColor(hexToNumber(e.target.value))} type="color"/>
+                        </div>
+                    </div>
+                </section>
+
+
                 <div
                     style={{
                         width: "100vw",
@@ -273,8 +336,8 @@ export default function Place() {
                     >
                         <canvas
                             ref={overlayCanvasRef}
-                            width={canvasWidth * 10}
-                            height={canvasHeight * 10}
+                            width={canvasConfig.width * 10}
+                            height={canvasConfig.height * 10}
                             id={styles.canvas}
                             style={{
                                 position: "absolute",
@@ -304,8 +367,8 @@ export default function Place() {
                             }}
                             id={styles.canvas}
                             ref={canvasRef}
-                            width={canvasWidth}
-                            height={canvasHeight}
+                            width={canvasConfig.width}
+                            height={canvasConfig.height}
                         />
                     </div>
                 </div>

@@ -2,3 +2,34 @@
     image-rendering: pixelated;
     image-rendering: crisp-edges;
 }
+
+.overlaygui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.overlaygui .bottom {
+    margin-top: auto;
+    pointer-events: all;
+}
+
+.overlaygui .bottom .colors {
+    overflow-x: auto;
+    display: flex;
+}
+
+.overlaygui .bottom .colors .color {
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 7px;
+    margin: 7px;
+    cursor: pointer
+}

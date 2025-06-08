@@ -10,6 +10,10 @@
   align-items: center;
   flex-direction: column;
   margin-bottom: 50px;
+      height: -webkit-fill-available;
+    margin: 15px;
+    gap: 15px;
+
 }
 
 .main .title h1 {
@@ -84,6 +88,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    position: relative;
+    width: 0%;
 }
 
 .guildName {
@@ -91,7 +97,7 @@
     font-weight: 600;
     color: var(--color-text);
     white-space: nowrap;
-    max-width: 80%;
+    max-width: 70%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -110,3 +116,4 @@
 .guildLink:hover {
     background-color: #003dcc;
 }
+
