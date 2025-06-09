@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://n2.enigmaa.me:25616:path*',
+        destination: 'http://n2.enigmaa.me:25616/:path*',
       },
     ];
   },
