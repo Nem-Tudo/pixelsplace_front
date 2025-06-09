@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tippyjs/react": "^4.2.6",
+    "http-proxy": "^1.18.1",
     "next": "15.3.2",
     "nookies": "^2.5.2",
     "react": "^19.0.0",
