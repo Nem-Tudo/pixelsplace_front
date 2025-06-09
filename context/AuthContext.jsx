@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
                 headers: {
                     authorization: token
                 }
-            });
+            }).catch(() => {});
 
             if (!res.ok) {
                 setUser(null);
@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
             setUser(user);
             setLoading(false);
         } catch (err) {
-            console.error("Erro ao buscar usuário:", err);
+            console.log("Erro ao buscar usuário:", err);
             setUser(null);
             return setLoading(false);
         }

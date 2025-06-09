@@ -1,0 +1,40 @@
+.messagediv {
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+    margin: 10px;
+}
+
+.messagediv .main,
+.messagediv .content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.messagediv .expand {
+    cursor: pointer;
+}
+
+.messagediv.warn {
+    background-color: #ff9600;
+}
+
+.messagediv.normal-white {
+    color: white;
+}
+
+.messagediv button {
+    background-color: rgba(255, 255, 255, 0.404);
+    border: none;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: all .2s ease;
+}
+
+.messagediv button:hover {
+    background-color: rgba(255, 255, 255, 0.507);
+}

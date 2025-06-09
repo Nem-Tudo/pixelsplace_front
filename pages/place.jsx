@@ -5,23 +5,34 @@ import settings from "@/settings";
 import styles from "./place.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { socket } from "@/src/socket";
+import { useRouter } from 'next/router'
+import MessageDiv from "@/components/MessageDiv";
+import Loading from "@/components/Loading";
 
 export default function Place() {
 
     const { token } = useAuth()
+    const router = useRouter()
 
     const canvasRef = useRef(null);
     const wrapperRef = useRef(null);
     const overlayCanvasRef = useRef(null);
+    const selectedPixelRef = useRef(null);
+
+    const [apiError, setApiError] = useState(false);
+    const [loading, setLoading] = useState(true);
 
 
     const [canvasConfig, setCanvasConfig] = useState({})
-
     const [canvasPixels, setCanvasPixels] = useState(new Map());
 
+    const [canPlaceIn, setCanPlaceIn] = useState(null);
+    // const [canPlace, setCanPlace] = useState(false);
 
     const [selectedPixel, setSelectedPixel] = useState(null);
-    const [selectedColor, setSelectedColor] = useState(null)
+    const [selectedColor, setSelectedColor] = useState(null);
+
+    const [showingColors, setShowingColors] = useState(false);
 
     const transform = useRef({
         scale: 1,
@@ -37,6 +48,24 @@ export default function Place() {
         const wrapper = wrapperRef.current;
         const { pointX, pointY, scale } = transform.current;
         wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+
+        const updatedQuery = {
+            ...router.query,
+            s: Math.round(scale),
+            px: Math.round(pointX),
+            py: Math.round(pointY),
+        };
+
+        const currentPixel = selectedPixelRef.current;
+        if (currentPixel) {
+            updatedQuery.x = currentPixel.x;
+            updatedQuery.y = currentPixel.y;
+        }
+
+        router.push({
+            pathname: router.pathname,
+            query: updatedQuery,
+        }, undefined, { shallow: true });
     };
 
     const centerCanvas = () => {
@@ -52,64 +81,132 @@ export default function Place() {
         applyTransform();
     };
 
+    //selected pixel ref
+    useEffect(() => {
+        selectedPixelRef.current = selectedPixel;
+    }, [selectedPixel]);
 
     //Inicial: Da fetch no canvas
     useEffect(() => {
-        let MIN_SCALE_MULTIPLIER = 0.8;
-        let MAX_SCALE_MULTIPLIER = 150;
-        async function fetchCanvas() {
-            const request = await fetch(`${settings.apiURL}/canvas`);
-            const canvasSettings = await request.json();
-            setCanvasConfig(canvasSettings)
+        // Ensure router is ready before fetching
+        if (router.isReady) {
+            fetchCanvas();
+        } else {
+            console.log("Router not ready, waiting...");
+        }
+    }, [router.isReady]); // Depend on router.isReady
 
-            const res = await fetch(`${settings.apiURL}/canvas/pixels`);
-            const buffer = await res.arrayBuffer();
+    async function fetchCanvas() {
+        try {
+            const MIN_SCALE_MULTIPLIER = 0.8;
+            const MAX_SCALE_MULTIPLIER = 150;
+
+            // Paralelize os fetches
+            const [settingsRes, pixelsRes] = await Promise.all([
+                fetch(`${settings.apiURL}/canvas`),
+                fetch(`${settings.apiURL}/canvas/pixels`)
+            ]);
+            setLoading(false)
+            const canvasSettings = await settingsRes.json();
+            setCanvasConfig(canvasSettings);
+
+            const buffer = await pixelsRes.arrayBuffer();
             const bytes = new Uint8Array(buffer);
 
             const ctx = canvasRef.current.getContext("2d");
-
-            const pixelsMap = new Map();
-            let i = 0;
-            for (let y = 0; y < canvasSettings.height; y++) {
-                for (let x = 0; x < canvasSettings.width; x++) {
-                    const r = bytes[i++];
-                    const g = bytes[i++];
-                    const b = bytes[i++];
-                    const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-                    ctx.fillStyle = hex;
-                    ctx.fillRect(x, y, 1, 1); // pixelSize é 1
-
-                    pixelsMap.set(`${x},${y}`, {
-                        x,
-                        y,
-                        c: hexToNumber(hex)
-                    });
-                }
+            if (!ctx) {
+                console.error("Main canvas context not available");
+                return;
             }
-            setCanvasPixels(pixelsMap);
 
-            // Escala dinâmica
+            // Ajusta as dimensões do canvas
+            canvasRef.current.width = canvasSettings.width;
+            canvasRef.current.height = canvasSettings.height;
+            overlayCanvasRef.current.width = canvasSettings.width * 10;
+            overlayCanvasRef.current.height = canvasSettings.height * 10;
+
+            // Cria ImageData e preenche diretamente os pixels
+            const imageData = ctx.createImageData(canvasSettings.width, canvasSettings.height);
+            const data = imageData.data;
+
+            let i = 0;
+            for (let j = 0; j < data.length; j += 4) {
+                data[j] = bytes[i++];       // R
+                data[j + 1] = bytes[i++];   // G
+                data[j + 2] = bytes[i++];   // B
+                data[j + 3] = 255;          // Alpha totalmente opaco
+            }
+
+            // Renderiza a imagem no próximo frame para performance
+            requestAnimationFrame(() => {
+                ctx.putImageData(imageData, 0, 0);
+            });
+
+            // NÃO cria pixelsMap aqui para evitar overhead — crie só quando realmente precisar
+
+            // Escala dinâmica do canvas
             const viewWidth = window.innerWidth;
             const viewHeight = window.innerHeight - 72;
-
             const scaleX = viewWidth / canvasSettings.width;
             const scaleY = viewHeight / canvasSettings.height;
             const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
             const maxScale = MAX_SCALE_MULTIPLIER;
 
-            transform.current.scale = minScale;
             transform.current.minScale = minScale;
             transform.current.maxScale = maxScale;
-            applyTransform();
-        }
 
-        fetchCanvas();
-    }, []);
+            // Parâmetros da URL
+            const { s, px, py, x, y } = router.query;
+
+            let initialScale = s && !isNaN(parseFloat(s)) ? parseFloat(s) : minScale;
+            initialScale = Math.max(minScale, Math.min(maxScale, initialScale));
+            transform.current.scale = initialScale;
+
+            if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
+                transform.current.pointX = parseFloat(px);
+                transform.current.pointY = parseFloat(py);
+            } else {
+                const offsetX = (viewWidth - canvasSettings.width * initialScale) / 2;
+                const offsetY = (viewHeight - canvasSettings.height * initialScale) / 2;
+                transform.current.pointX = offsetX;
+                transform.current.pointY = offsetY;
+            }
+
+            if (
+                x &&
+                y &&
+                !isNaN(parseInt(x)) &&
+                !isNaN(parseInt(y)) &&
+                parseInt(x) >= 0 &&
+                parseInt(x) < canvasSettings.width &&
+                parseInt(y) >= 0 &&
+                parseInt(y) < canvasSettings.height
+            ) {
+                setSelectedPixel({ x: parseInt(x), y: parseInt(y) });
+            }
+
+            if (wrapperRef.current) {
+                wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
+            } else {
+                console.error("wrapperRef not available");
+            }
+        } catch (e) {
+            setApiError(e)
+        }
+    }
+
 
     //Inicial: inicializa os sockets
     useEffect(() => {
         socket.on("pixel_placed", data => {
             updatePixel(data.x, data.y, data.c)
+        })
+        socket.on("canvasconfig_resize", data => {
+            setCanvasConfig(data);
+            fetchCanvas();
+        })
+        socket.on("canvasconfig_freecolorschange", data => {
+            setCanvasConfig(data);
         })
     }, [])
 
@@ -134,8 +231,8 @@ export default function Place() {
                 window.removeEventListener("mouseup", onMouseUp);
             };
 
-            window.addEventListener("mousemove", onMouseMove);
-            window.addEventListener("mouseup", onMouseUp);
+            window?.addEventListener("mousemove", onMouseMove);
+            window?.addEventListener("mouseup", onMouseUp);
         };
 
         const onWheel = (e) => {
@@ -163,22 +260,24 @@ export default function Place() {
             }
         };
 
-        wrapper.addEventListener("mousedown", onMouseDown);
-        wrapper.addEventListener("wheel", onWheel, { passive: false });
-        window.addEventListener("keypress", onKeyPress);
+        wrapper?.addEventListener("mousedown", onMouseDown);
+        wrapper?.addEventListener("wheel", onWheel, { passive: false });
+        window?.addEventListener("keypress", onKeyPress);
 
 
         return () => {
-            wrapper.removeEventListener("mousedown", onMouseDown);
-            wrapper.removeEventListener("wheel", onWheel);
-            window.removeEventListener("keypress", onKeyPress);
+            wrapper?.removeEventListener("mousedown", onMouseDown);
+            wrapper?.removeEventListener("wheel", onWheel);
+            window?.removeEventListener("keypress", onKeyPress);
 
         };
     }, [canvasConfig.width, canvasConfig.height]);
 
 
-    //Ao atualizar o selectedPixel, atualiza a marcação no canvasOverlay
+    //Ao atualizar o selectedPixel
     useEffect(() => {
+
+        //Atualiza o overlay
         const SCALE = 10; // escala de visualização
 
         const canvas = overlayCanvasRef.current;
@@ -205,6 +304,12 @@ export default function Place() {
         ctx.clearRect((selectedPixel.x * SCALE) + 2, (selectedPixel.y * SCALE) - 2, 6, 15);
         ctx.clearRect((selectedPixel.x * SCALE) - 2, (selectedPixel.y * SCALE) + 2, 15, 6);
 
+        //Atualiza a query
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query, x: selectedPixel.x, y: selectedPixel.y },
+        }, undefined, { shallow: true })
+
     }, [selectedPixel]);
 
     //Mover o selected Pixel
@@ -227,7 +332,7 @@ export default function Place() {
             }
         };
 
-        window.addEventListener('keydown', handleKeyDown);
+        window?.addEventListener('keydown', handleKeyDown);
 
         // Limpeza ao desmontar
         return () => {
@@ -260,20 +365,22 @@ export default function Place() {
     }
 
     function updatePixel(x, y, color, loading) {
-        const ctx = canvasRef.current.getContext("2d");
+        if (canvasRef?.current?.getContext) {
+            const ctx = canvasRef.current.getContext("2d");
 
-        ctx.fillStyle = !loading ? numberToHex(color) : `${numberToHex(color)}cf`; //não tá carregando? Cor total : meio transparente
-        ctx.fillRect(x, y, 1, 1);
+            ctx.fillStyle = !loading ? numberToHex(color) : `${numberToHex(color)}cf`; //não tá carregando? Cor total : meio transparente
+            ctx.fillRect(x, y, 1, 1);
 
-        setCanvasPixels(prev => {
-            const newMap = new Map(prev);
-            newMap.set(`${x},${y}`, {
-                x,
-                y,
-                c: color
+            setCanvasPixels(prev => {
+                const newMap = new Map(prev);
+                newMap.set(`${x},${y}`, {
+                    x,
+                    y,
+                    c: color
+                });
+                return newMap;
             });
-            return newMap;
-        });
+        }
     }
 
 
@@ -285,93 +392,101 @@ export default function Place() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div>
-                <button onClick={() => {
-                    placePixel(selectedPixel.x, selectedPixel.y, selectedColor)
-                }}>Bota pixel</button>
-            </div>
             <MainLayout>
-
-                {
-                    !canvasConfig.width && <span>Carregando...  </span>
-                }
-
-
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
 
                     </div>
                     <div className={styles.bottom}>
-                        <div className={styles.colors}>
-                            {
-                                canvasConfig?.freeColors?.map((color, index) => <>
-
-                                    <div key={index} onClick={() => { setSelectedColor(color) }} className={styles.color} style={{ backgroundColor: numberToHex(color), border: selectedColor === color ? "2px solid white" : "" }} />
-
-                                </>)
-                            }
-                            <input onChange={(e) => setSelectedColor(hexToNumber(e.target.value))} type="color"/>
-                        </div>
+                        {
+                            selectedPixel && <div className={styles.pixelplacament} showingcolors={String(showingColors)}>
+                                <div>
+                                    {/* {!showingColors && <button class={styles.placepixel} id={styles.cooldown}>49:03</button>} */}
+                                    {!showingColors && <button class={styles.placepixel} id={styles.opencolor} onClick={() => setShowingColors(true)}>Colocar pixel</button>}
+                                    {showingColors && <button class={styles.placepixel} id={styles.confirm} onClick={() => {
+                                        placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
+                                        setShowingColors(false)
+                                    }}>Confirmar</button>}
+                                    {showingColors && <button class={styles.placepixel} id={styles.cancel} onClick={() => setShowingColors(false)}>Cancelar</button>}
+                                </div>
+                                {
+                                    showingColors && <div className={styles.colors}>
+                                        {
+                                            canvasConfig?.freeColors?.map((color, index) =>
+                                                <div key={index} onClick={() => { setSelectedColor(color) }} className={styles.color} style={{ backgroundColor: numberToHex(color), border: selectedColor === color ? "2px solid #17a6ff" : "" }} />
+                                            )
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
                     </div>
                 </section>
-
-
-                <div
-                    style={{
-                        width: "100vw",
-                        height: "calc(100vh - 72px)",
-                        overflow: "hidden",
-                        position: "relative",
-                        background: "#ccc",
-                    }}
-                >
-                    <div
-                        ref={wrapperRef}
+                {
+                    !canvasConfig.width && !apiError && <MessageDiv type="normal-white"> <Loading width={"50px"} /> <span style={{fontSize: "2rem"}}>Carregando...</span></MessageDiv>
+                }
+                {
+                    apiError && <MessageDiv type="warn" expand={String(apiError)}><span>Ocorreu um erro ao se conectar com a api principal</span><button onClick={() => location.reload()}>Recarregar</button></MessageDiv>
+                }
+                {
+                    !apiError && !loading && <div
                         style={{
-                            transformOrigin: "0 0",
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
+                            width: "100vw",
+                            height: "calc(100vh - 72px)",
+                            overflow: "hidden",
+                            position: "relative",
+                            background: "#ccc",
                         }}
                     >
-                        <canvas
-                            ref={overlayCanvasRef}
-                            width={canvasConfig.width * 10}
-                            height={canvasConfig.height * 10}
-                            id={styles.canvas}
+                        <div
+                            ref={wrapperRef}
                             style={{
+                                transformOrigin: "0 0",
                                 position: "absolute",
                                 top: 0,
                                 left: 0,
-                                pointerEvents: "none",
-                                transformOrigin: "0 0",
-                                zIndex: 10,
-                                width: "100%"
                             }}
-                        />
+                        >
+                            <canvas
+                                ref={overlayCanvasRef}
+                                width={canvasConfig.width * 10}
+                                height={canvasConfig.height * 10}
+                                id={styles.canvas}
+                                style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    pointerEvents: "none",
+                                    transformOrigin: "0 0",
+                                    zIndex: 10,
+                                    width: "100%",
+                                    display: Math.max(canvasConfig.width, canvasConfig.height) > 1500 ? "none" : "unset"
+                                }}
+                            />
 
 
-                        <canvas
-                            onClick={(e) => {
-                                const canvas = canvasRef.current;
-                                if (!canvas) return;
+                            <canvas
+                                onClick={(e) => {
+                                    const canvas = canvasRef.current;
+                                    if (!canvas) return;
 
-                                const rect = canvas.getBoundingClientRect();
-                                const scaleX = canvas.width / rect.width;
-                                const scaleY = canvas.height / rect.height;
+                                    const rect = canvas.getBoundingClientRect();
+                                    const scaleX = canvas.width / rect.width;
+                                    const scaleY = canvas.height / rect.height;
 
-                                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                                const y = Math.floor((e.clientY - rect.top) * scaleY);
+                                    const x = Math.floor((e.clientX - rect.left) * scaleX);
+                                    const y = Math.floor((e.clientY - rect.top) * scaleY);
 
-                                setSelectedPixel({ x, y })
-                            }}
-                            id={styles.canvas}
-                            ref={canvasRef}
-                            width={canvasConfig.width}
-                            height={canvasConfig.height}
-                        />
+                                    setSelectedPixel({ x, y })
+                                }}
+                                id={styles.canvas}
+                                ref={canvasRef}
+                                width={canvasConfig.width}
+                                height={canvasConfig.height}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
             </MainLayout>
         </>
     );

@@ -1,5 +1,5 @@
 module.exports = {
-    apiURL: "http://localhost:3032",
-    socketURL: "ws://localhost:3032",
+    apiURL: "http://n2.enigmaa.me:25616",
+    socketURL: "ws://n2.enigmaa.me:25616",
     avatarURL: (userid, avatar) => `https://cdn.discordapp.com/avatars/${userid}/${avatar}.webp?size=512`
 }
