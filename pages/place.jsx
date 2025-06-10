@@ -442,7 +442,7 @@ export default function Place() {
             if (oldpixelcolor) updatePixel(x, y, oldpixelcolor)
             return alert(`Erro ao colocar pixel: ${data.message}`)
         }
-        setCooldownInfo({ lastPaintPixel: data.lastPaintPixel });
+        setCooldownInfo({ lastPaintPixel: new Date() });
     }
 
     function updatePixel(x, y, color, loading) {
