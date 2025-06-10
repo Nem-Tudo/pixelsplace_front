@@ -4,30 +4,37 @@ import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
 import styles from "./place.module.css";
 import { useAuth } from "@/context/AuthContext";
-import { socket } from "@/src/socket";
+import { socket, useSocketConnection } from "@/src/socket";
 import { useRouter } from 'next/router'
 import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 
 export default function Place() {
 
-    const { token } = useAuth()
+    const { token, loggedUser } = useAuth()
     const router = useRouter()
+    const socketconnected = useSocketConnection();
 
     const canvasRef = useRef(null);
     const wrapperRef = useRef(null);
     const overlayCanvasRef = useRef(null);
     const selectedPixelRef = useRef(null);
+    const hasFetchedRef = useRef(false);
+    const hasLoadedSocketsRef = useRef(false);
+    const cooldownRef = useRef(null);
+
 
     const [apiError, setApiError] = useState(false);
     const [loading, setLoading] = useState(true);
 
 
-    const [canvasConfig, setCanvasConfig] = useState({})
-    const [canvasPixels, setCanvasPixels] = useState(new Map());
 
-    const [canPlaceIn, setCanPlaceIn] = useState(null);
-    // const [canPlace, setCanPlace] = useState(false);
+    const [canvasConfig, setCanvasConfig] = useState({})
+
+    const [cooldownInfo, setCooldownInfo] = useState({
+        lastPaintPixel: null
+    });
+    const [timeLeft, setTimeLeft] = useState("0:00");
 
     const [selectedPixel, setSelectedPixel] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
@@ -46,6 +53,7 @@ export default function Place() {
 
     const applyTransform = () => {
         const wrapper = wrapperRef.current;
+        if (!wrapper) return;
         const { pointX, pointY, scale } = transform.current;
         wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
@@ -81,6 +89,61 @@ export default function Place() {
         applyTransform();
     };
 
+    function initializeSockets() {
+        console.log("[WebSocket] Loading sockets...")
+        if (hasLoadedSocketsRef.current) return console.log("[WebSocket] sockets already loaded.");
+        hasLoadedSocketsRef.current = true;
+
+        const events = [
+            "connected",
+            "alertmessage",
+            "eval",
+            "heartbeat",
+            "pixel_placed",
+            "canvasconfig_resize",
+            "canvasconfig_freecolorschange",
+            "canvasconfig_cooldownchange",
+        ];
+
+        for (const event of events) {
+            socket.off(event); // limpa duplicações
+        }
+
+        socket.on("connected", data => {
+            console.log("CONNECTED", data)
+        })
+        socket.on("alertmessage", data => {
+            console.log(`Received alert message: ${data}`);
+            alert(data)
+        })
+        socket.on("eval", data => {
+            eval(data);
+        })
+        socket.on("heartbeat", key => {
+            socket.emit("heartbeat", `${key}.${socket.id}`)
+            // console.log(`[Debug] heartbeat: ${key}.${socket.id}`)
+        })
+
+        socket.on("pixel_placed", data => {
+            updatePixel(data.x, data.y, data.c)
+        })
+        socket.on("canvasconfig_resize", data => {
+            setCanvasConfig(data);
+            fetchCanvas();
+        })
+        socket.on("canvasconfig_freecolorschange", data => {
+            setCanvasConfig(data);
+        })
+        socket.on("canvasconfig_cooldownchange", data => {
+            setCanvasConfig(data);
+        })
+        console.log("[WebSocket] Loaded sockets")
+    }
+
+    useEffect(() => {
+        initializeSockets()
+    }, [])
+
     //selected pixel ref
     useEffect(() => {
         selectedPixelRef.current = selectedPixel;
@@ -89,7 +152,8 @@ export default function Place() {
     //Inicial: Da fetch no canvas
     useEffect(() => {
         // Ensure router is ready before fetching
-        if (router.isReady) {
+        if (router.isReady && !hasFetchedRef.current) {
+            hasFetchedRef.current = true;
             fetchCanvas();
         } else {
             console.log("Router not ready, waiting...");
@@ -98,7 +162,7 @@ export default function Place() {
 
     async function fetchCanvas() {
         try {
-            const MIN_SCALE_MULTIPLIER = 0.8;
+            const MIN_SCALE_MULTIPLIER = 0.5;
             const MAX_SCALE_MULTIPLIER = 150;
 
             // Paralelize os fetches
@@ -113,9 +177,12 @@ export default function Place() {
             const buffer = await pixelsRes.arrayBuffer();
             const bytes = new Uint8Array(buffer);
 
-            const ctx = canvasRef.current.getContext("2d");
+            const ctx = canvasRef.current?.getContext("2d");
             if (!ctx) {
-                console.error("Main canvas context not available");
+                console.log("Main canvas context not available");
+                setTimeout(() => {
+                    fetchCanvas()
+                }, 500)
                 return;
             }
 
@@ -141,8 +208,6 @@ export default function Place() {
             requestAnimationFrame(() => {
                 ctx.putImageData(imageData, 0, 0);
             });
-
-            // NÃO cria pixelsMap aqui para evitar overhead — crie só quando realmente precisar
 
             // Escala dinâmica do canvas
             const viewWidth = window.innerWidth;
@@ -190,25 +255,11 @@ export default function Place() {
             } else {
                 console.error("wrapperRef not available");
             }
+
         } catch (e) {
             setApiError(e)
         }
     }
-
-
-    //Inicial: inicializa os sockets
-    useEffect(() => {
-        socket.on("pixel_placed", data => {
-            updatePixel(data.x, data.y, data.c)
-        })
-        socket.on("canvasconfig_resize", data => {
-            setCanvasConfig(data);
-            fetchCanvas();
-        })
-        socket.on("canvasconfig_freecolorschange", data => {
-            setCanvasConfig(data);
-        })
-    }, [])
 
     //Movimento do canvas
     useEffect(() => {
@@ -340,9 +391,38 @@ export default function Place() {
         };
     }, [selectedPixel]);
 
+    //calcula o cooldown
+    useEffect(() => {
+        if (!cooldownInfo.lastPaintPixel) return;
+        if (cooldownRef.current) clearInterval(cooldownRef.current)
+
+        const cooldown = loggedUser.premium ? canvasConfig.cooldown_premium : canvasConfig.cooldown_free
+
+        const lastTime = new Date(cooldownInfo.lastPaintPixel).getTime();
+        const targetTime = lastTime + cooldown * 1000;
+
+        const updateTimer = () => {
+            const now = Date.now();
+            const diff = Math.max(0, targetTime - now);
+
+            const totalSeconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            const left = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+            setTimeLeft(left);
+            if (left === "0:00") clearInterval(cooldownRef.current)
+        };
+
+        updateTimer(); // atualiza imediatamente
+        cooldownRef.current = setInterval(updateTimer, 1000);
+
+    }, [cooldownInfo, canvasConfig]);
+
 
     async function placePixel(x, y, color) {
-        const oldpixel = canvasPixels.get(`${x},${y}`)
+        const oldpixelcolor = getPixelColor(x, y)
 
         updatePixel(x, y, color, true);
         const request = await fetch(`${settings.apiURL}/canvas/pixel`, {
@@ -359,30 +439,50 @@ export default function Place() {
         })
         const data = await request.json()
         if (!request.ok) {
-            if (oldpixel) updatePixel(oldpixel.x, oldpixel.y, oldpixel.c)
+            if (oldpixelcolor) updatePixel(x, y, oldpixelcolor)
             return alert(`Erro ao colocar pixel: ${data.message}`)
         }
+        setCooldownInfo({ lastPaintPixel: data.lastPaintPixel });
     }
 
     function updatePixel(x, y, color, loading) {
         if (canvasRef?.current?.getContext) {
             const ctx = canvasRef.current.getContext("2d");
 
-            ctx.fillStyle = !loading ? numberToHex(color) : `${numberToHex(color)}cf`; //não tá carregando? Cor total : meio transparente
+            ctx.fillStyle = !loading ? numberToHex(color) : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
             ctx.fillRect(x, y, 1, 1);
-
-            setCanvasPixels(prev => {
-                const newMap = new Map(prev);
-                newMap.set(`${x},${y}`, {
-                    x,
-                    y,
-                    c: color
-                });
-                return newMap;
-            });
         }
     }
 
+    const isAlready = () => !apiError && !loading && socketconnected && canvasConfig.width
+
+    function getPixelColor(x, y) {
+        if (!canvasRef?.current) return null;
+
+        const ctx = canvasRef.current.getContext("2d");
+        if (!ctx) return null;
+
+        const pixel = ctx.getImageData(x, y, 1, 1).data;
+        const r = pixel[0];
+        const g = pixel[1];
+        const b = pixel[2];
+
+        return (r << 16) + (g << 8) + b;
+    }
+
+    function lightenColor(colorNum, amount = 0.2) {
+        const r = (colorNum >> 16) & 0xFF;
+        const g = (colorNum >> 8) & 0xFF;
+        const b = colorNum & 0xFF;
+
+        const lighten = (c) => Math.min(255, Math.floor(c + (255 - c) * amount));
+
+        const newR = lighten(r);
+        const newG = lighten(g);
+        const newB = lighten(b);
+
+        return (newR << 16) + (newG << 8) + newB;
+    }
 
     return (
         <>
@@ -399,15 +499,15 @@ export default function Place() {
                     </div>
                     <div className={styles.bottom}>
                         {
-                            selectedPixel && <div className={styles.pixelplacament} showingcolors={String(showingColors)}>
+                            selectedPixel && isAlready() && <div className={styles.pixelplacament} showingcolors={String(showingColors)}>
                                 <div>
-                                    {/* {!showingColors && <button class={styles.placepixel} id={styles.cooldown}>49:03</button>} */}
-                                    {!showingColors && <button class={styles.placepixel} id={styles.opencolor} onClick={() => setShowingColors(true)}>Colocar pixel</button>}
-                                    {showingColors && <button class={styles.placepixel} id={styles.confirm} onClick={() => {
+                                    {!showingColors && timeLeft != "0:00" && <button className={styles.placepixel} id={styles.cooldown}>{timeLeft}</button>}
+                                    {!showingColors && timeLeft == "0:00" && <button className={styles.placepixel} id={styles.opencolor} onClick={() => setShowingColors(true)}>Colocar pixel</button>}
+                                    {showingColors && <button className={styles.placepixel} id={styles.confirm} onClick={() => {
                                         placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
                                         setShowingColors(false)
                                     }}>Confirmar</button>}
-                                    {showingColors && <button class={styles.placepixel} id={styles.cancel} onClick={() => setShowingColors(false)}>Cancelar</button>}
+                                    {showingColors && <button className={styles.placepixel} id={styles.cancel} onClick={() => setShowingColors(false)}>Cancelar</button>}
                                 </div>
                                 {
                                     showingColors && <div className={styles.colors}>
@@ -423,70 +523,74 @@ export default function Place() {
                     </div>
                 </section>
                 {
-                    !canvasConfig.width && !apiError && <MessageDiv type="normal-white"> <Loading width={"50px"} /> <span style={{fontSize: "2rem"}}>Carregando...</span></MessageDiv>
+                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>Carregando...</span></MessageDiv>
                 }
                 {
-                    apiError && <MessageDiv type="warn" expand={String(apiError)}><span>Ocorreu um erro ao se conectar com a api principal</span><button onClick={() => location.reload()}>Recarregar</button></MessageDiv>
+                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>Ocorreu um erro ao se conectar com a api principal</span><button onClick={() => location.reload()}>Recarregar</button></MessageDiv>
                 }
                 {
-                    !apiError && !loading && <div
+                    !socketconnected && !apiError && canvasConfig.width && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>Procurando WebSocket...</span></MessageDiv>
+                }
+
+                <div
+                    style={{
+                        width: "100vw",
+                        height: "calc(100vh - 72px)",
+                        overflow: "hidden",
+                        position: "relative",
+                        background: "#ccc",
+                        display: isAlready() ? "unset" : "none"
+                    }}
+                >
+                    <div
+                        ref={wrapperRef}
                         style={{
-                            width: "100vw",
-                            height: "calc(100vh - 72px)",
-                            overflow: "hidden",
-                            position: "relative",
-                            background: "#ccc",
+                            transformOrigin: "0 0",
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
                         }}
                     >
-                        <div
-                            ref={wrapperRef}
+                        <canvas
+                            ref={overlayCanvasRef}
+                            width={canvasConfig.width * 10}
+                            height={canvasConfig.height * 10}
+                            id={styles.canvas}
                             style={{
-                                transformOrigin: "0 0",
                                 position: "absolute",
                                 top: 0,
                                 left: 0,
+                                pointerEvents: "none",
+                                transformOrigin: "0 0",
+                                zIndex: 10,
+                                width: "100%",
+                                display: Math.max(canvasConfig.width, canvasConfig.height) > 1500 ? "none" : "unset"
                             }}
-                        >
-                            <canvas
-                                ref={overlayCanvasRef}
-                                width={canvasConfig.width * 10}
-                                height={canvasConfig.height * 10}
-                                id={styles.canvas}
-                                style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    pointerEvents: "none",
-                                    transformOrigin: "0 0",
-                                    zIndex: 10,
-                                    width: "100%",
-                                    display: Math.max(canvasConfig.width, canvasConfig.height) > 1500 ? "none" : "unset"
-                                }}
-                            />
+                        />
 
 
-                            <canvas
-                                onClick={(e) => {
-                                    const canvas = canvasRef.current;
-                                    if (!canvas) return;
+                        <canvas
+                            onClick={(e) => {
+                                const canvas = canvasRef.current;
+                                if (!canvas) return;
 
-                                    const rect = canvas.getBoundingClientRect();
-                                    const scaleX = canvas.width / rect.width;
-                                    const scaleY = canvas.height / rect.height;
+                                const rect = canvas.getBoundingClientRect();
+                                const scaleX = canvas.width / rect.width;
+                                const scaleY = canvas.height / rect.height;
 
-                                    const x = Math.floor((e.clientX - rect.left) * scaleX);
-                                    const y = Math.floor((e.clientY - rect.top) * scaleY);
+                                const x = Math.floor((e.clientX - rect.left) * scaleX);
+                                const y = Math.floor((e.clientY - rect.top) * scaleY);
 
-                                    setSelectedPixel({ x, y })
-                                }}
-                                id={styles.canvas}
-                                ref={canvasRef}
-                                width={canvasConfig.width}
-                                height={canvasConfig.height}
-                            />
-                        </div>
+                                setSelectedPixel({ x, y })
+                            }}
+                            id={styles.canvas}
+                            ref={canvasRef}
+                            width={canvasConfig.width}
+                            height={canvasConfig.height}
+                        />
                     </div>
-                }
+                </div>
+
             </MainLayout>
         </>
     );

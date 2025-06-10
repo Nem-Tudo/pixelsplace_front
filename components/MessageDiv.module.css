@@ -6,6 +6,14 @@
     margin: 10px;
 }
 
+.centerscreen {
+    width: 100dvw;
+    height: calc(100dvh - 92px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .messagediv .main,
 .messagediv .content {
     display: flex;
