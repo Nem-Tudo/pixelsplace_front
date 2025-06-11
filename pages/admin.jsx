@@ -2,7 +2,7 @@ import styles from "./admin.module.css";
 import settings from "@/settings.js";
 import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function AdminPage() {
   const { token, loggedUser } = useAuth();
@@ -17,7 +17,7 @@ export default function AdminPage() {
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [showColorsArray, setShowingColorsArray] = useState(false)
+  const [showColorsArray, setShowingColorsArray] = useState(false);
 
   const fetchCanvas = async () => {
     const res = await fetch(`${settings.apiURL}/canvas`);
@@ -53,13 +53,47 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  if (!loggedUser?.flags.includes("ADMIN") && !loggedUser?.flags.includes("ADMIN_VIEWPAGE")) return (
-    <MainLayout>
-      <span>Você não tem permissão para acessar essa página.</span>
-    </MainLayout>
+
+    // arrastar:
+
+  const dragItem = useRef();
+  const dragOverItem = useRef();
+
+  const handleDragStart = (index) => {
+    dragItem.current = index;
+  };
+
+  const handleDragEnter = (index) => {
+    dragOverItem.current = index;
+  };
+
+  const handleDrop = () => {
+    const copy = [...freeColors];
+    const dragFrom = dragItem.current;
+    const dragTo = dragOverItem.current;
+
+    const item = copy[dragFrom];
+    copy.splice(dragFrom, 1);
+    copy.splice(dragTo, 0, item);
+
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setFreeColors(copy);
+  };
+
+  //verifica se é admin
+  if (
+    !loggedUser?.flags.includes("ADMIN") &&
+    !loggedUser?.flags.includes("ADMIN_VIEWPAGE")
   )
+    return (
+      <MainLayout>
+        <span>Você não tem permissão para acessar essa página.</span>
+      </MainLayout>
+    );
+
 
   return (
     <MainLayout>
@@ -102,45 +136,80 @@ export default function AdminPage() {
           <legend>
             <strong>Cores Gratuitas</strong>
           </legend>
-          {
-            showColorsArray && <span style={{maxWidth: "700px", lineBreak: "anywhere", display: "block"}}>{freeColors.join(",")}</span>
-          }
-          <div style={{ display: "flex", gap: "14px", rowGap: "12px", flexWrap: "wrap", maxWidth: "1550px", overflow: "auto", padding: "10px" }}>
+          {showColorsArray && (
+            <span
+              style={{
+                maxWidth: "700px",
+                lineBreak: "anywhere",
+                display: "block",
+              }}
+            >
+              {freeColors.join(",")}
+            </span>
+          )}
+          <div
+            style={{
+              display: "flex",
+              gap: "14px",
+              rowGap: "12px",
+              flexWrap: "wrap",
+              maxWidth: "1550px",
+              overflow: "auto",
+              padding: "10px",
+            }}
+          >
             {freeColors.map((color, index) => (
-              <>
-                <div className={styles.coloritem}>
-                  <input
-                    key={index}
-                    type="color"
-                    value={"#" + color.toString(16).padStart(6, "0")}
-                    onChange={(e) => {
-                      const hex = e.target.value.replace("#", "");
-                      const newColors = [...freeColors];
-                      newColors[index] = parseInt(hex, 16);
-                      setFreeColors(newColors);
-                    }}
-                  />
-                  <button className={styles.remove} onClick={() => {
-                    const newColors = removeItemFromArray(freeColors, index)
+              <div
+                key={index}
+                className={styles.coloritem}
+                draggable
+                onDragStart={() => handleDragStart(index)}
+                onDragEnter={() => handleDragEnter(index)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleDrop}
+              >
+                <input
+                  type="color"
+                  value={"#" + color.toString(16).padStart(6, "0")}
+                  onChange={(e) => {
+                    const hex = e.target.value.replace("#", "");
+                    const newColors = [...freeColors];
+                    newColors[index] = parseInt(hex, 16);
                     setFreeColors(newColors);
-                  }}>X</button>
-                </div>
-              </>
+                  }}
+                />
+                <button
+                  className={styles.remove}
+                  onClick={() => {
+                    const newColors = removeItemFromArray(freeColors, index);
+                    setFreeColors(newColors);
+                  }}
+                >
+                  X
+                </button>
+              </div>
             ))}
           </div>
-          <button className={styles.createbutton} style={{ marginRight: "15px" }} onClick={() => {
-            const color = prompt("Código hex");
-            if (!color) return;
-            const number = hexToNumber(color);
+          <button
+            className={styles.createbutton}
+            style={{ marginRight: "15px" }}
+            onClick={() => {
+              const color = prompt("Código hex");
+              if (!color) return;
+              const number = hexToNumber(color);
 
-            if (isNaN(number)) return alert("cor invalida: NaN")
-            if (number < 0) return alert("cor invalida: numero menor q 0")
-            if (number > 16777215) return alert("cor invalida: numero maior q 16777215")
+              if (isNaN(number)) return alert("cor invalida: NaN");
+              if (number < 0) return alert("cor invalida: numero menor q 0");
+              if (number > 16777215)
+                return alert("cor invalida: numero maior q 16777215");
 
-            const newColors = [...freeColors];
-            newColors.push(number)
-            setFreeColors(newColors)
-          }}>Adicionar cor</button>
+              const newColors = [...freeColors];
+              newColors.push(number);
+              setFreeColors(newColors);
+            }}
+          >
+            Adicionar cor
+          </button>
           <button
             disabled={loading}
             onClick={async () => {
@@ -153,15 +222,14 @@ export default function AdminPage() {
             Salvar Cores
           </button>
           <button
-            className={styles.infobutton} style={{ marginLeft: "15px" }}
+            className={styles.infobutton}
+            style={{ marginLeft: "15px" }}
             onClick={() => {
               console.log(freeColors);
-              setShowingColorsArray(!showColorsArray)
+              setShowingColorsArray(!showColorsArray);
             }}
           >
-            {
-              showColorsArray ? "Esconder Array" : "Mostrar Array"
-            }
+            {showColorsArray ? "Esconder Array" : "Mostrar Array"}
           </button>
         </fieldset>
 
@@ -283,12 +351,11 @@ export default function AdminPage() {
   );
 }
 
-
 function removeItemFromArray(arr, index) {
   if (index < 0 || index >= arr.length) return arr;
   return [...arr.slice(0, index), ...arr.slice(index + 1)];
 }
 
 function hexToNumber(hex) {
-  return parseInt(hex.replace('#', ''), 16);
+  return parseInt(hex.replace("#", ""), 16);
 }
