@@ -51,7 +51,7 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <MainLayout>
