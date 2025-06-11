@@ -19,6 +19,8 @@ export default function AdminPage() {
 
   const [showColorsArray, setShowingColorsArray] = useState(false);
 
+  const [freeColorsInput, setFreeColorsInput] = useState("");
+
   const fetchCanvas = async () => {
     const res = await fetch(`${settings.apiURL}/canvas`);
     const data = await res.json();
@@ -55,8 +57,7 @@ export default function AdminPage() {
     }
   };
 
-
-    // arrastar:
+  // arrastar:
 
   const dragItem = useRef();
   const dragOverItem = useRef();
@@ -93,7 +94,6 @@ export default function AdminPage() {
         <span>Você não tem permissão para acessar essa página.</span>
       </MainLayout>
     );
-
 
   return (
     <MainLayout>
@@ -136,17 +136,43 @@ export default function AdminPage() {
           <legend>
             <strong>Cores Gratuitas</strong>
           </legend>
+
           {showColorsArray && (
-            <span
+            <textarea
               style={{
                 maxWidth: "700px",
-                lineBreak: "anywhere",
+                width: "100%",
                 display: "block",
+                fontFamily: "monospace",
+                whiteSpace: "pre-wrap",
+                minHeight: "100px",
+                marginBottom: "12px",
               }}
-            >
-              {freeColors.join(",")}
-            </span>
+              value={freeColorsInput}
+              onChange={(e) => {
+                const value = e.target.value;
+                setFreeColorsInput(value);
+
+                // Só atualiza o array se terminar com vírgula (valor finalizado)
+                if (value.endsWith(",")) {
+                  const parts = value
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter((s) => s !== "");
+
+                  const numbers = parts.map((part) => parseInt(part, 10));
+                  const allValid = numbers.every(
+                    (n) => !isNaN(n) && n >= 0 && n <= 16777215
+                  );
+
+                  if (allValid) {
+                    setFreeColors(numbers);
+                  }
+                }
+              }}
+            />
           )}
+
           <div
             style={{
               display: "flex",
@@ -225,7 +251,9 @@ export default function AdminPage() {
             className={styles.infobutton}
             style={{ marginLeft: "15px" }}
             onClick={() => {
-              console.log(freeColors);
+              if (!showColorsArray) {
+                setFreeColorsInput(freeColors.join(","));
+              }
               setShowingColorsArray(!showColorsArray);
             }}
           >
