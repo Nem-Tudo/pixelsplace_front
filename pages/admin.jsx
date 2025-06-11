@@ -3,10 +3,12 @@ import settings from "@/settings.js";
 import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState, useRef } from "react";
+import Cookies from 'js-cookie'
 
 export default function AdminPage() {
   const { token, loggedUser } = useAuth();
   const [canvas, setCanvas] = useState(null);
+  const [stats, setStats] = useState(null)
 
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
@@ -32,8 +34,23 @@ export default function AdminPage() {
     setCooldownPremium(data.cooldown_premium);
   };
 
+  const fetchStats = async () => {
+    const res = await fetch(`${settings.apiURL}/admin/stats`, {
+      headers: {
+        authorization: Cookies.get("authorization")
+      }
+    }).catch(() => {})
+    if (!res.ok) return;
+    const data = await res.json();
+    setStats(data);
+  }
+
   useEffect(() => {
     fetchCanvas();
+    fetchStats();
+    setInterval(() => {
+      fetchStats()
+    }, 10 * 1000)
   }, []);
 
   const fetchWithAuth = async (url, method, body) => {
@@ -100,6 +117,13 @@ export default function AdminPage() {
       <main className={styles.main}>
         <h1>Administração do Canvas</h1>
 
+
+        <div style={{display: "flex", flexDirection: "column"}}>
+          <span>Update: {stats.time}</span>
+          <span>Online: {stats.online}</span>
+          <span>Usuarios: {stats.registeredUsers}</span>
+          <span>Pixels: {stats.pixels}</span>
+        </div>
         {/* Redimensionar */}
         <fieldset>
           <legend>
