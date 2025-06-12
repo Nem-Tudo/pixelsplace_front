@@ -23,6 +23,7 @@
 .overlaygui .bottom .colors {
     overflow-x: auto;
     display: flex;
+    max-width: 100dvw;
 }
 
 .overlaygui .bottom .colors .color {
@@ -35,7 +36,11 @@
     border: 1px solid rgba(0, 0, 0, 0.158);
 }
 
-
+.confirmation{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .pixelplacament {
     display: flex;

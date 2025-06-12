@@ -266,6 +266,20 @@ export default function Place() {
         const wrapper = wrapperRef.current;
         const zoom = transform.current;
 
+        let lastTouchDistance = null;
+
+        const getTouchCenter = (touches) => {
+            const x = (touches[0].clientX + touches[1].clientX) / 2;
+            const y = (touches[0].clientY + touches[1].clientY) / 2;
+            return { x, y };
+        };
+
+        const getTouchDistance = (touches) => {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        };
+
         const onMouseDown = (e) => {
             e.preventDefault();
             zoom.startX = e.clientX - zoom.pointX;
@@ -282,8 +296,53 @@ export default function Place() {
                 window.removeEventListener("mouseup", onMouseUp);
             };
 
-            window?.addEventListener("mousemove", onMouseMove);
-            window?.addEventListener("mouseup", onMouseUp);
+            window.addEventListener("mousemove", onMouseMove);
+            window.addEventListener("mouseup", onMouseUp);
+        };
+
+        const onTouchStart = (e) => {
+            if (e.touches.length === 1) {
+                zoom.startX = e.touches[0].clientX - zoom.pointX;
+                zoom.startY = e.touches[0].clientY - zoom.pointY;
+            } else if (e.touches.length === 2) {
+                lastTouchDistance = getTouchDistance(e.touches);
+            }
+        };
+
+        const onTouchMove = (e) => {
+            e.preventDefault();
+
+            if (e.touches.length === 1) {
+                zoom.pointX = e.touches[0].clientX - zoom.startX;
+                zoom.pointY = e.touches[0].clientY - zoom.startY;
+                applyTransform();
+            } else if (e.touches.length === 2) {
+                const newDistance = getTouchDistance(e.touches);
+                const center = getTouchCenter(e.touches);
+
+                if (lastTouchDistance) {
+                    const delta = newDistance / lastTouchDistance;
+                    let newScale = zoom.scale * delta;
+                    newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
+
+                    const xs = (center.x - zoom.pointX) / zoom.scale;
+                    const ys = (center.y - zoom.pointY) / zoom.scale;
+
+                    zoom.scale = newScale;
+                    zoom.pointX = center.x - xs * newScale;
+                    zoom.pointY = center.y - ys * newScale;
+
+                    applyTransform();
+                }
+
+                lastTouchDistance = newDistance;
+            }
+        };
+
+        const onTouchEnd = (e) => {
+            if (e.touches.length < 2) {
+                lastTouchDistance = null;
+            }
         };
 
         const onWheel = (e) => {
@@ -313,16 +372,25 @@ export default function Place() {
 
         wrapper?.addEventListener("mousedown", onMouseDown);
         wrapper?.addEventListener("wheel", onWheel, { passive: false });
-        window?.addEventListener("keypress", onKeyPress);
 
+        wrapper?.addEventListener("touchstart", onTouchStart, { passive: false });
+        wrapper?.addEventListener("touchmove", onTouchMove, { passive: false });
+        wrapper?.addEventListener("touchend", onTouchEnd);
+
+        window?.addEventListener("keypress", onKeyPress);
 
         return () => {
             wrapper?.removeEventListener("mousedown", onMouseDown);
             wrapper?.removeEventListener("wheel", onWheel);
-            window?.removeEventListener("keypress", onKeyPress);
 
+            wrapper?.removeEventListener("touchstart", onTouchStart);
+            wrapper?.removeEventListener("touchmove", onTouchMove);
+            wrapper?.removeEventListener("touchend", onTouchEnd);
+
+            window?.removeEventListener("keypress", onKeyPress);
         };
     }, [canvasConfig.width, canvasConfig.height]);
+
 
 
     //Ao atualizar o selectedPixel
@@ -500,7 +568,7 @@ export default function Place() {
                     <div className={styles.bottom}>
                         {
                             selectedPixel && isAlready() && <div className={styles.pixelplacament} showingcolors={String(showingColors)}>
-                                <div>
+                                <div className={styles.confirmation}>
                                     {!showingColors && timeLeft != "0:00" && <button className={styles.placepixel} id={styles.cooldown}>{timeLeft}</button>}
                                     {!showingColors && timeLeft == "0:00" && <button className={styles.placepixel} id={styles.opencolor} onClick={() => setShowingColors(true)}>Colocar pixel</button>}
                                     {showingColors && <button className={styles.placepixel} id={styles.confirm} onClick={() => {
