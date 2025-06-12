@@ -4437,7 +4437,8 @@ export default function Partners() {
 
 
                 <div className={styles.servers}>
-                    {guilds.slice(0, 30).map((guild, index) => (
+                    <span>Segredo...</span>
+                    {false && guilds.slice(0, 30).map((guild, index) => (
                         <div key={index} className={styles.guildCard} style={userServer === guild.id ? {background: "linear-gradient(rgb(255 255 0 / 10%), rgb(255 255 0 / 10%)), #141c2f"} : {}}>
                             <img
                                 className={styles.guildIcon}
