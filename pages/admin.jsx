@@ -119,10 +119,10 @@ export default function AdminPage() {
 
 
         <div style={{display: "flex", flexDirection: "column"}}>
-          <span>Update: {stats.time}</span>
-          <span>Online: {stats.online}</span>
-          <span>Usuarios: {stats.registeredUsers}</span>
-          <span>Pixels: {stats.pixels}</span>
+          <span>Update: {stats?.time}</span>
+          <span>Online: {stats?.online}</span>
+          <span>Usuarios: {stats?.registeredUsers}</span>
+          <span>Pixels: {stats?.pixels}</span>
         </div>
         {/* Redimensionar */}
         <fieldset>
@@ -290,13 +290,13 @@ export default function AdminPage() {
           <legend>
             <strong>Cooldowns</strong>
           </legend>
-          <label>Grátis (ms):</label>
+          <label>Grátis (s):</label>
           <input
             type="number"
             value={cooldownFree}
             onChange={(e) => setCooldownFree(Number(e.target.value))}
           />
-          <label>Premium (ms):</label>
+          <label>Premium (s):</label>
           <input
             type="number"
             value={cooldownPremium}
