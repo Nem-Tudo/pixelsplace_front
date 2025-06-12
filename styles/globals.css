@@ -35,13 +35,14 @@
 
 body {
   overflow-x: hidden;
+  touch-action: none;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
-a{
+a {
   color: unset;
   cursor: pointer;
 }

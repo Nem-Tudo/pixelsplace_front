@@ -262,6 +262,11 @@ export default function Place() {
     }
 
     //Movimento do canvas
+    const getRelativeTouch = (touch, rect) => ({
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+    });
+
     useEffect(() => {
         const wrapper = wrapperRef.current;
         const zoom = transform.current;
@@ -302,8 +307,10 @@ export default function Place() {
 
         const onTouchStart = (e) => {
             if (e.touches.length === 1) {
-                zoom.startX = e.touches[0].clientX - zoom.pointX;
-                zoom.startY = e.touches[0].clientY - zoom.pointY;
+                const rect = wrapper.getBoundingClientRect();
+                const { x, y } = getRelativeTouch(e.touches[0], rect);
+                zoom.startX = x - zoom.pointX;
+                zoom.startY = y - zoom.pointY;
             } else if (e.touches.length === 2) {
                 lastTouchDistance = getTouchDistance(e.touches);
             }
@@ -311,26 +318,30 @@ export default function Place() {
 
         const onTouchMove = (e) => {
             e.preventDefault();
+            const rect = wrapper.getBoundingClientRect();
 
             if (e.touches.length === 1) {
-                zoom.pointX = e.touches[0].clientX - zoom.startX;
-                zoom.pointY = e.touches[0].clientY - zoom.startY;
+                const { x, y } = getRelativeTouch(e.touches[0], rect);
+                zoom.pointX = x - zoom.startX;
+                zoom.pointY = y - zoom.startY;
                 applyTransform();
             } else if (e.touches.length === 2) {
                 const newDistance = getTouchDistance(e.touches);
                 const center = getTouchCenter(e.touches);
+                const centerX = center.x - rect.left;
+                const centerY = center.y - rect.top;
 
                 if (lastTouchDistance) {
                     const delta = newDistance / lastTouchDistance;
                     let newScale = zoom.scale * delta;
                     newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
 
-                    const xs = (center.x - zoom.pointX) / zoom.scale;
-                    const ys = (center.y - zoom.pointY) / zoom.scale;
+                    const xs = (centerX - zoom.pointX) / zoom.scale;
+                    const ys = (centerY - zoom.pointY) / zoom.scale;
 
                     zoom.scale = newScale;
-                    zoom.pointX = center.x - xs * newScale;
-                    zoom.pointY = center.y - ys * newScale;
+                    zoom.pointX = centerX - xs * newScale;
+                    zoom.pointY = centerY - ys * newScale;
 
                     applyTransform();
                 }
@@ -338,6 +349,7 @@ export default function Place() {
                 lastTouchDistance = newDistance;
             }
         };
+
 
         const onTouchEnd = (e) => {
             if (e.touches.length < 2) {

@@ -1,6 +1,7 @@
 #canvas {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
+    touch-action: none;
 }
 
 .overlaygui {
@@ -36,7 +37,7 @@
     border: 1px solid rgba(0, 0, 0, 0.158);
 }
 
-.confirmation{
+.confirmation {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
