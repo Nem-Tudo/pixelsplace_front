@@ -85,6 +85,11 @@
     background-color: rgb(0, 165, 82);
 }
 
+.pixelplacament #confirm:disabled {
+    background-color: rgb(64, 156, 110) !important;
+    cursor: not-allowed;
+}
+
 .pixelplacament #confirm:hover {
     background-color: rgb(0, 139, 70);
 }

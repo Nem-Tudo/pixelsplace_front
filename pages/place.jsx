@@ -569,8 +569,11 @@ export default function Place() {
                             selectedPixel && isAlready() && <div className={styles.pixelplacament} showingcolors={String(showingColors)}>
                                 <div className={styles.confirmation}>
                                     {!showingColors && timeLeft != "0:00" && <button className={styles.placepixel} id={styles.cooldown}>{timeLeft}</button>}
-                                    {!showingColors && timeLeft == "0:00" && <button className={styles.placepixel} id={styles.opencolor} onClick={() => setShowingColors(true)}>Colocar pixel</button>}
-                                    {showingColors && <button className={styles.placepixel} id={styles.confirm} onClick={() => {
+                                    {!showingColors && timeLeft == "0:00" && <button className={styles.placepixel} id={styles.opencolor} onClick={() => {
+                                        if (!loggedUser) return location.href = "/login"
+                                        setShowingColors(true)
+                                    }}>{loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}</button>}
+                                    {showingColors && <button disabled={!selectedColor} className={styles.placepixel} id={styles.confirm} onClick={() => {
                                         placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
                                         setShowingColors(false)
                                     }}>Confirmar</button>}
