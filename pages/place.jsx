@@ -8,6 +8,8 @@ import { socket, useSocketConnection } from "@/src/socket";
 import { useRouter } from 'next/router'
 import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
+import Link from "next/link";
+import Verified from "@/components/Verified";
 
 export default function Place() {
 
@@ -38,6 +40,7 @@ export default function Place() {
 
     const [selectedPixel, setSelectedPixel] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
+    const [showingPixelInfo, setShowingPixelInfo] = useState(null);
 
     const [showingColors, setShowingColors] = useState(false);
 
@@ -522,6 +525,19 @@ export default function Place() {
         }
     }
 
+    async function showPixelInfo(x, y) {
+        const request = await fetch(`${settings.apiURL}/canvas/pixel?x=${x}&y=${y}`, {
+            method: "GET"
+        }).catch(e => {
+            console.log("Erro ao obter pixel: ", e)
+            alert(`Erro ao obter pixel: `, e)
+        })
+        if (!request.ok) return alert(`[${request.status}] Erro ao obter Pixel`)
+
+        const data = await request.json();
+        setShowingPixelInfo(data);
+    }
+
     const isAlready = () => !apiError && !loading && socketconnected && canvasConfig.width
 
     function getPixelColor(x, y) {
@@ -563,6 +579,39 @@ export default function Place() {
             <MainLayout>
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
+                        {
+                            showingPixelInfo && <div className={styles.pixelInfo}>
+                                <span style={{marginBottom: "15px"}}>(isso tá em alpha da beta da alpha)</span>
+                                <div className={styles.pixelcolorinfo} >
+                                    <div style={{
+                                        width: "50px",
+                                        height: "50px",
+                                        borderRadius: "5px",
+                                        backgroundColor: numberToHex(showingPixelInfo.c)
+                                    }} />
+                                    <span>{showingPixelInfo.ca}</span>
+                                </div>
+                                {
+                                    showingPixelInfo.u && <div className={styles.pixeluserinfo}>
+                                        <span>Usuário: <Link href={`/user/${showingPixelInfo.u}`}>{showingPixelInfo.author.username}</Link> <Verified verified={showingPixelInfo.author.premium} /></span>
+                                        <span>Servidor: {showingPixelInfo.author.mainServer || "Não selecionado"}</span>
+                                    </div>
+                                }
+                                <div className={styles.pixelbuttons}>
+                                    <button onClick={() => {
+                                        setShowingPixelInfo(null)
+                                    }}>fechar info</button>
+                                    <button onClick={() => alert("Ainda não foi feito :v")}>Histórico</button>
+                                    <button onClick={() => {
+                                        if (canvasConfig.freeColors.includes(showingPixelInfo.c)) {
+                                            setSelectedColor(showingPixelInfo.c)
+                                        } else {
+                                            alert("Essa cor está disponível apenas para Premiums! :(")
+                                        }
+                                    }}>Selecionar cor</button>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <div className={styles.bottom}>
                         {
@@ -573,6 +622,9 @@ export default function Place() {
                                         if (!loggedUser) return location.href = "/login"
                                         setShowingColors(true)
                                     }}>{loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}</button>}
+                                    {!showingColors && <button className={styles.placepixel} id={styles.pixelinfo} onClick={() => {
+                                        showPixelInfo(selectedPixel.x, selectedPixel.y)
+                                    }}>Pixel info</button>}
                                     {showingColors && <button disabled={!selectedColor} className={styles.placepixel} id={styles.confirm} onClick={() => {
                                         placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
                                         setShowingColors(false)

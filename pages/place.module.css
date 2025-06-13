@@ -81,6 +81,14 @@
     background-color: rgb(78, 89, 252);
 }
 
+.pixelplacament #pixelinfo{
+    background-color: rgb(133, 133, 133);
+}
+.pixelplacament #pixelinfo:hover{
+    background-color: rgb(107, 107, 107);
+}
+
+
 .pixelplacament #confirm {
     background-color: rgb(0, 165, 82);
 }
@@ -101,4 +109,49 @@
 
 .pixelplacament #cancel:hover {
     background-color: rgb(107, 107, 107);
+}
+
+.pixelInfo {
+    background-color: white;
+    padding: 10px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    right: 0;
+    width: fit-content;
+    position: fixed;
+    top: 50%;
+    margin-right: 50px;
+    color: black;
+    box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    pointer-events: all;
+}
+
+.pixelInfo .pixelcolorinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pixelInfo .pixelcolorinfo span {
+    margin-top: 7px;
+}
+
+.pixelInfo .pixelcolorinfo div{
+    border: 1px solid rgba(0, 0, 0, 0.253);
+}
+
+.pixelInfo .pixeluserinfo{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.pixelInfo .pixelbuttons{
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
 }
