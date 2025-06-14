@@ -616,9 +616,6 @@ useEffect(() => {
                                     </div>
                                 }
                                 <div className={styles.pixelbuttons}>
-                                    <button onClick={() => {
-                                        setShowingPixelInfo(null)
-                                    }}>fechar info</button>
                                     <button onClick={() => alert("Ainda não foi feito :v")}>Histórico</button>
                                     <button onClick={() => {
                                         if (canvasConfig.freeColors.includes(showingPixelInfo.c)) {
