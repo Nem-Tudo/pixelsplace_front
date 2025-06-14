@@ -452,16 +452,35 @@ export default function Place() {
                 case 'ArrowRight':
                     setSelectedPixel({ x: selectedPixel.x + 1, y: selectedPixel.y })
                     break;
+                    case 'Enter':
+                if (timeLeft === "0:00") {
+                    if (!loggedUser) {
+                        window.location.href = "/login";
+                    } else {
+                        setShowingColors(true);
+                    }
+                }
+                break;
             }
         };
 
+        ///mouse click
+         const handleRightClick = (event) => {
+        event.preventDefault(); // impede o menu padrão do botão direito
+        if (!selectedPixel) return;
+        showPixelInfo(selectedPixel.x, selectedPixel.y);
+    };
+
+
         window?.addEventListener('keydown', handleKeyDown);
+        window?.addEventListener('contextmenu', handleRightClick);
 
         // Limpeza ao desmontar
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            window.addEventListener('contextmenu', handleRightClick);
         };
-    }, [selectedPixel]);
+    }, [selectedPixel, timeLeft, loggedUser]);
 
     //calcula o cooldown
     useEffect(() => {
