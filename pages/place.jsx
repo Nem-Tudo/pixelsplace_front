@@ -13,8 +13,8 @@ import Verified from "@/components/Verified";
 
 export default function Place() {
 
-    const { token, loggedUser } = useAuth()
-    const router = useRouter()
+    const { token, loggedUser } = useAuth();
+    const router = useRouter();
     const socketconnected = useSocketConnection();
 
     const canvasRef = useRef(null);
