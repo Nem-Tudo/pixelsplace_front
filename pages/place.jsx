@@ -492,20 +492,30 @@ export default function Place() {
 
     }, [cooldownInfo, canvasConfig]);
 
-//fecha div pixelInfo ao clicar fora
-useEffect(() => {
-    function handleClickOutside(event) {
-        // Se o pixelInfo estiver sendo mostrado e o clique foi fora da div
-        if (showingPixelInfo && pixelInfoRef.current && !pixelInfoRef.current.contains(event.target)) {
-            setShowingPixelInfo(null);
+    //fecha div pixelInfo ao clicar fora
+    useEffect(() => {
+        function handleClickOutside(event) {
+            // Se o pixelInfo estiver sendo mostrado e o clique foi fora da div
+            if (showingPixelInfo && pixelInfoRef.current && !pixelInfoRef.current.contains(event.target)) {
+                setShowingPixelInfo(null);
+            }
         }
-    }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-    };
-}, [showingPixelInfo]);
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showingPixelInfo]);
+
+    //comverte o tempo
+    function formatDate(isoString) {
+        const date = new Date(isoString);
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0"); // mês começa em 0
+        return `${hours}:${minutes} ${day}/${month}`;
+    }
 
     async function placePixel(x, y, color) {
         const oldpixelcolor = getPixelColor(x, y)
@@ -607,7 +617,9 @@ useEffect(() => {
                                         margin: "0px",
                                         fontSize: "x-small",
                                         }}>#{showingPixelInfo.c}</span>
-                                    <span>{showingPixelInfo.ca}</span>
+                                    <span>
+                                        {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
+                                    </span>
                                 </div>
                                 {
                                     showingPixelInfo.u && <div className={styles.pixeluserinfo}>
