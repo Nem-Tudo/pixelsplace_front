@@ -24,6 +24,7 @@ export default function Place() {
     const hasFetchedRef = useRef(false);
     const hasLoadedSocketsRef = useRef(false);
     const cooldownRef = useRef(null);
+    const pixelInfoRef = useRef(null);
 
 
     const [apiError, setApiError] = useState(false);
@@ -491,6 +492,20 @@ export default function Place() {
 
     }, [cooldownInfo, canvasConfig]);
 
+//fecha div pixelInfo ao clicar fora
+useEffect(() => {
+    function handleClickOutside(event) {
+        // Se o pixelInfo estiver sendo mostrado e o clique foi fora da div
+        if (showingPixelInfo && pixelInfoRef.current && !pixelInfoRef.current.contains(event.target)) {
+            setShowingPixelInfo(null);
+        }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, [showingPixelInfo]);
 
     async function placePixel(x, y, color) {
         const oldpixelcolor = getPixelColor(x, y)
@@ -580,8 +595,7 @@ export default function Place() {
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
                         {
-                            showingPixelInfo && <div className={styles.pixelInfo}>
-                                <span style={{marginBottom: "15px"}}>(isso tá em alpha da beta da alpha)</span>
+                            showingPixelInfo && <div className={styles.pixelInfo} ref={pixelInfoRef}>
                                 <div className={styles.pixelcolorinfo} >
                                     <div style={{
                                         width: "50px",
@@ -589,6 +603,10 @@ export default function Place() {
                                         borderRadius: "5px",
                                         backgroundColor: numberToHex(showingPixelInfo.c)
                                     }} />
+                                    <span style={{
+                                        margin: "0px",
+                                        fontSize: "x-small",
+                                        }}>#{showingPixelInfo.c}</span>
                                     <span>{showingPixelInfo.ca}</span>
                                 </div>
                                 {

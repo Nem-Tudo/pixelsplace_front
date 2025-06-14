@@ -155,3 +155,82 @@
     display: flex;
     gap: 5px;
 }
+
+
+/*pixelInfo*/
+
+.pixelInfo{
+    --color-text: #9dcaff;
+    --color-button-a: #0075d5;
+    --color-primaria: #141c2f
+}
+
+.pixelInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: var(--color-primaria);
+  color: var(--color-text);
+  border: 1px solid #2d3748;
+  border-radius: 12px;
+  max-width: 350px;
+  margin: 0 auto;
+  font-family: sans-serif;
+  gap: 10px;
+}
+
+.pixelInfo span:first-child {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.pixelcolorinfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pixelcolorinfo div {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.pixeluserinfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+.pixeluserinfo a {
+  color: #9dcaff;
+  text-decoration: none;
+}
+
+.pixeluserinfo a:hover {
+  text-decoration: underline;
+}
+
+.pixelbuttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.pixelbuttons button {
+  background-color: var(--color-button-a);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pixelbuttons button:hover {
+  background-color: #0054e5;
+}
