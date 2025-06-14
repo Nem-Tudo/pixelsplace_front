@@ -452,33 +452,23 @@ export default function Place() {
                 case 'ArrowRight':
                     setSelectedPixel({ x: selectedPixel.x + 1, y: selectedPixel.y })
                     break;
-                    case 'Enter':
-                if (timeLeft === "0:00") {
-                    if (!loggedUser) {
-                        window.location.href = "/login";
-                    } else {
-                        setShowingColors(true);
+                case 'Enter':
+                    if (timeLeft === "0:00") {
+                        if (!loggedUser) {
+                            window.location.href = "/login";
+                        } else {
+                            setShowingColors(true);
+                        }
                     }
-                }
-                break;
+                    break;
             }
         };
 
-        ///mouse click
-         const handleRightClick = (event) => {
-        event.preventDefault(); // impede o menu padrão do botão direito
-        if (!selectedPixel) return;
-        showPixelInfo(selectedPixel.x, selectedPixel.y);
-    };
-
-
         window?.addEventListener('keydown', handleKeyDown);
-        window?.addEventListener('contextmenu', handleRightClick);
 
         // Limpeza ao desmontar
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-            window.addEventListener('contextmenu', handleRightClick);
         };
     }, [selectedPixel, timeLeft, loggedUser]);
 
@@ -635,7 +625,7 @@ export default function Place() {
                                     <span style={{
                                         margin: "0px",
                                         fontSize: "x-small",
-                                        }}>#{showingPixelInfo.c}</span>
+                                    }}>#{showingPixelInfo.c}</span>
                                     <span>
                                         {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
                                     </span>
@@ -668,9 +658,9 @@ export default function Place() {
                                         if (!loggedUser) return location.href = "/login"
                                         setShowingColors(true)
                                     }}>{loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}</button>}
-                                    {!showingColors && <button className={styles.placepixel} id={styles.pixelinfo} onClick={() => {
+                                    {/* {!showingColors && <button className={styles.placepixel} id={styles.pixelinfo} onClick={() => {
                                         showPixelInfo(selectedPixel.x, selectedPixel.y)
-                                    }}>Pixel info</button>}
+                                    }}>Pixel info</button>} */}
                                     {showingColors && <button disabled={!selectedColor} className={styles.placepixel} id={styles.confirm} onClick={() => {
                                         placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
                                         setShowingColors(false)
@@ -750,6 +740,20 @@ export default function Place() {
                                 const y = Math.floor((e.clientY - rect.top) * scaleY);
 
                                 setSelectedPixel({ x, y })
+                            }}
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                const canvas = canvasRef.current;
+                                if (!canvas) return;
+
+                                const rect = canvas.getBoundingClientRect();
+                                const scaleX = canvas.width / rect.width;
+                                const scaleY = canvas.height / rect.height;
+
+                                const x = Math.floor((e.clientX - rect.left) * scaleX);
+                                const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                                showPixelInfo(x, y)
                             }}
                             id={styles.canvas}
                             ref={canvasRef}
