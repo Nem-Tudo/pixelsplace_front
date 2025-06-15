@@ -11,6 +11,7 @@ import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
 import useDraggable from '../src/useDraggable';
+import { MdDragIndicator } from "react-icons/md";
 
 export default function Place() {
 
@@ -97,10 +98,10 @@ export default function Place() {
     const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
 
     const initialY = screenHeight / 2 - 100;
-    const initialX = screenWidth - 320;
+    const initialX = screenWidth - 265;
 
     const {
-        elementRef,
+        movePixelInfoRef,
         position,
         handleMouseDown,
         direction,
@@ -628,17 +629,24 @@ export default function Place() {
                     <div className={styles.top}>
                         {
                             showingPixelInfo && <div
-                                ref={elementRef}
-                                onMouseDown={handleMouseDown}
+                                ref={movePixelInfoRef}
                                 style={{
                                     position: 'absolute',
                                     top: `${position.y}px`,
                                     left: `${position.x}px`,
-                                    cursor: 'move',
                                     zIndex: 9999,
                                 }}
-                            >
+                                >
                                 <div className={`${styles.pixelInfo} ${direction === 'left' ? styles.showLeft : styles.showRight}`} ref={pixelInfoRef}>
+                                <MdDragIndicator 
+                                onMouseDown={handleMouseDown}
+                                onTouchStart={handleMouseDown}
+                                style={{
+                                        cursor: 'move',
+                                        position: "absolute",
+                                        right: "20px",
+                                }}
+                                />
                                     <div className={styles.pixelcolorinfo} >
                                         <div style={{
                                             width: "50px",
@@ -649,6 +657,7 @@ export default function Place() {
                                         <span style={{
                                             margin: "0px",
                                             fontSize: "x-small",
+                                            userSelect: "all",
                                         }}>#{showingPixelInfo.c}</span>
                                         <span>
                                             {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
