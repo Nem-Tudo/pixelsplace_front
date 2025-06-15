@@ -10,7 +10,7 @@ import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
-import useDraggable from './_useDraggable';
+import useDraggable from '../src/useDraggable';
 
 export default function Place() {
 
@@ -93,18 +93,18 @@ export default function Place() {
         applyTransform();
     };
 
-const screenHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
-const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
+    const screenHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+    const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
 
-  const initialY = screenHeight / 2 - 100;
-  const initialX = screenWidth - 320;
+    const initialY = screenHeight / 2 - 100;
+    const initialX = screenWidth - 320;
 
-  const {
-    elementRef,
-    position,
-    handleMouseDown,
-    direction,
-  } = useDraggable({ x: initialX, y: initialY });
+    const {
+        elementRef,
+        position,
+        handleMouseDown,
+        direction,
+    } = useDraggable({ x: initialX, y: initialY });
 
     function initializeSockets() {
         console.log("[WebSocket] Loading sockets...")
@@ -627,50 +627,50 @@ const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
                         {
-                            showingPixelInfo &&<div
+                            showingPixelInfo && <div
                                 ref={elementRef}
                                 onMouseDown={handleMouseDown}
                                 style={{
                                     position: 'absolute',
-                                top: `${position.y}px`,
-                                left: `${position.x}px`,
-                                cursor: 'move',
-                                zIndex: 9999,
+                                    top: `${position.y}px`,
+                                    left: `${position.x}px`,
+                                    cursor: 'move',
+                                    zIndex: 9999,
                                 }}
-                                >
-                            <div  className={`${styles.pixelInfo} ${direction === 'left' ? styles.showLeft : styles.showRight}`} ref={pixelInfoRef}>
-                                <div className={styles.pixelcolorinfo} >
-                                    <div style={{
-                                        width: "50px",
-                                        height: "50px",
-                                        borderRadius: "5px",
-                                        backgroundColor: numberToHex(showingPixelInfo.c)
-                                    }} />
-                                    <span style={{
-                                        margin: "0px",
-                                        fontSize: "x-small",
-                                    }}>#{showingPixelInfo.c}</span>
-                                    <span>
-                                        {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                                    </span>
-                                </div>
-                                {
-                                    showingPixelInfo.u && <div className={styles.pixeluserinfo}>
-                                        <span>Usuário: <Link href={`/user/${showingPixelInfo.u}`}>{showingPixelInfo.author.username}</Link> <Verified verified={showingPixelInfo.author.premium} /></span>
-                                        <span>Servidor: {showingPixelInfo.author.mainServer || "Não selecionado"}</span>
+                            >
+                                <div className={`${styles.pixelInfo} ${direction === 'left' ? styles.showLeft : styles.showRight}`} ref={pixelInfoRef}>
+                                    <div className={styles.pixelcolorinfo} >
+                                        <div style={{
+                                            width: "50px",
+                                            height: "50px",
+                                            borderRadius: "5px",
+                                            backgroundColor: numberToHex(showingPixelInfo.c)
+                                        }} />
+                                        <span style={{
+                                            margin: "0px",
+                                            fontSize: "x-small",
+                                        }}>#{showingPixelInfo.c}</span>
+                                        <span>
+                                            {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
+                                        </span>
                                     </div>
-                                }
-                                <div className={styles.pixelbuttons}>
-                                    <button onClick={() => alert("Ainda não foi feito :v")}>Histórico</button>
-                                    <button onClick={() => {
-                                        if (canvasConfig.freeColors.includes(showingPixelInfo.c)) {
-                                            setSelectedColor(showingPixelInfo.c)
-                                        } else {
-                                            alert("Essa cor está disponível apenas para Premiums! :(")
-                                        }
-                                    }}>Selecionar cor</button>
+                                    {
+                                        showingPixelInfo.u && <div className={styles.pixeluserinfo}>
+                                            <span>Usuário: <Link href={`/user/${showingPixelInfo.u}`}>{showingPixelInfo.author.username}</Link> <Verified verified={showingPixelInfo.author.premium} /></span>
+                                            <span>Servidor: {showingPixelInfo.author.mainServer || "Não selecionado"}</span>
+                                        </div>
+                                    }
+                                    <div className={styles.pixelbuttons}>
+                                        <button onClick={() => alert("Ainda não foi feito :v")}>Histórico</button>
+                                        <button onClick={() => {
+                                            if (canvasConfig.freeColors.includes(showingPixelInfo.c)) {
+                                                setSelectedColor(showingPixelInfo.c)
+                                            } else {
+                                                alert("Essa cor está disponível apenas para Premiums! :(")
+                                            }
+                                        }}>Selecionar cor</button>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         }
                     </div>
