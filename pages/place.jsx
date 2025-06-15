@@ -10,7 +10,7 @@ import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
-import useDraggable from './useDraggable';
+import useDraggable from './_useDraggable';
 
 export default function Place() {
 
@@ -94,14 +94,17 @@ export default function Place() {
     };
 
 const screenHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
+
   const initialY = screenHeight / 2 - 100;
+  const initialX = screenWidth - 320;
 
   const {
     elementRef,
     position,
     handleMouseDown,
     direction,
-  } = useDraggable({ x: window.innerWidth - 320, y: initialY });
+  } = useDraggable({ x: initialX, y: initialY });
 
     function initializeSockets() {
         console.log("[WebSocket] Loading sockets...")
@@ -625,16 +628,16 @@ const screenHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
                     <div className={styles.top}>
                         {
                             showingPixelInfo &&<div
-      ref={elementRef}
-      onMouseDown={handleMouseDown}
-      style={{
-         position: 'absolute',
-        top: `${position.y}px`,
-        left: `${position.x}px`,
-        cursor: 'move',
-        zIndex: 9999,
-      }}
-    >
+                                ref={elementRef}
+                                onMouseDown={handleMouseDown}
+                                style={{
+                                    position: 'absolute',
+                                top: `${position.y}px`,
+                                left: `${position.x}px`,
+                                cursor: 'move',
+                                zIndex: 9999,
+                                }}
+                                >
                             <div  className={`${styles.pixelInfo} ${direction === 'left' ? styles.showLeft : styles.showRight}`} ref={pixelInfoRef}>
                                 <div className={styles.pixelcolorinfo} >
                                     <div style={{
