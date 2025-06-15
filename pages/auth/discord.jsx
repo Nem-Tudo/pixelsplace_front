@@ -39,7 +39,7 @@ export default function DiscordOauth2({ token, redirectURL }) {
         <div style={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100dvh",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center"

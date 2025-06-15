@@ -391,7 +391,7 @@ export default function Place() {
                             }} />
                             <span>Atual: {includeHistory ? "Todo o histórico" : "Só o que mudou"}</span>
                         </div>
-                        <div style={{ marginBottom: "15px", display: "flex", width: "100vw", justifyContent: "center", color: "black" }}>
+                        <div style={{ marginBottom: "15px", display: "flex", width: "100dvw", justifyContent: "center", color: "black" }}>
                             <div>
                                 <span>Marcha (m): </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
@@ -403,7 +403,7 @@ export default function Place() {
                                 <input
                                     min={0}
                                     max={100}
-                                    style={{ width: "80vw" }}
+                                    style={{ width: "80dvw" }}
                                     type="range"
                                     defaultValue={travelMultiplier}
                                     onMouseUp={(e) => setTravelMultiplier(e.target.value)}
@@ -417,8 +417,8 @@ export default function Place() {
                 </section>
                 <div
                     style={{
-                        width: "100vw",
-                        height: "calc(100vh - 72px)",
+                        width: "100dvw",
+                        height: "calc(100dvh - 72px)",
                         overflow: "hidden",
                         position: "relative",
                         background: "#ccc",

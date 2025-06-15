@@ -717,8 +717,8 @@ export default function Place() {
 
                 <div
                     style={{
-                        width: "100vw",
-                        height: "calc(100vh - 72px)",
+                        width: "100dvw",
+                        height: "calc(100dvh - 72px)",
                         overflow: "hidden",
                         position: "relative",
                         background: "#ccc",
