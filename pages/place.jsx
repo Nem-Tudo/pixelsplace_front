@@ -10,6 +10,7 @@ import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
+import useDraggable from './useDraggable';
 
 export default function Place() {
 
@@ -25,7 +26,6 @@ export default function Place() {
     const hasLoadedSocketsRef = useRef(false);
     const cooldownRef = useRef(null);
     const pixelInfoRef = useRef(null);
-
 
     const [apiError, setApiError] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -92,6 +92,16 @@ export default function Place() {
         transform.current.pointY = offsetY;
         applyTransform();
     };
+
+const screenHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const initialY = screenHeight / 2 - 100;
+
+  const {
+    elementRef,
+    position,
+    handleMouseDown,
+    direction,
+  } = useDraggable({ x: window.innerWidth - 320, y: initialY });
 
     function initializeSockets() {
         console.log("[WebSocket] Loading sockets...")
@@ -614,7 +624,18 @@ export default function Place() {
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
                         {
-                            showingPixelInfo && <div className={styles.pixelInfo} ref={pixelInfoRef}>
+                            showingPixelInfo &&<div
+      ref={elementRef}
+      onMouseDown={handleMouseDown}
+      style={{
+         position: 'absolute',
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+        cursor: 'move',
+        zIndex: 9999,
+      }}
+    >
+                            <div  className={`${styles.pixelInfo} ${direction === 'left' ? styles.showLeft : styles.showRight}`} ref={pixelInfoRef}>
                                 <div className={styles.pixelcolorinfo} >
                                     <div style={{
                                         width: "50px",
@@ -646,6 +667,7 @@ export default function Place() {
                                         }
                                     }}>Selecionar cor</button>
                                 </div>
+                            </div>
                             </div>
                         }
                     </div>
