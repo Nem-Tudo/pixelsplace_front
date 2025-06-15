@@ -46,3 +46,27 @@ a {
   color: unset;
   cursor: pointer;
 }
+
+@media (max-width: 720px) {
+  .mobilehidden_720 {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .mobilehidden_500 {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .mobilehidden_420 {
+    display: none;
+  }
+}
+
+@media (max-width: 320px) {
+  .mobilehidden_320 {
+    display: none;
+  }
+}

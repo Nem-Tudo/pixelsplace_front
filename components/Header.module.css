@@ -115,3 +115,15 @@
 .tippy_disconnect:hover span {
     color: white !important;
 }
+
+@media (max-width: 500px) {
+  .header{
+    padding: 1rem .5rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .left{
+    gap: 12px;
+  }
+}
