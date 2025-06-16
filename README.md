@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-COMMAND_COMMIT = 1
+COMMAND_COMMIT = 2
 
 First, run the development server:
 
