@@ -538,7 +538,9 @@ export default function Place() {
     };
 
     checkMobile()
-    });
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
     //comverte o tempo
     function formatDate(isoString) {
         const date = new Date(isoString);

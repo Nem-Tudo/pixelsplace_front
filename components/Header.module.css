@@ -1,5 +1,4 @@
 .header {
-    width: 100%;
     background: #7f99cb;
     padding: 1rem 2rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -9,6 +8,7 @@
     /* flex-direction: row-reverse; */
     align-items: center;
     user-select: none;
+    width: 100vw;
 }
 
 .left {
@@ -16,6 +16,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 30px;
+    max-width: 50%;
+    overflow: hidden;
 }
 
 .left span {
@@ -54,11 +56,21 @@
     display: flex;
     align-items: center;
     gap: 7px;
+
+        max-width: min-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .right {
     margin-left: auto;
     gap: 7px;
+    width: min-content;
+    max-width: 50%;
+    margin: 0px;
+    right: 15px;
+    position: absolute;
 }
 
 .right .loggedUser {
