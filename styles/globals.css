@@ -76,14 +76,16 @@ a {
 .premiumOnly {
       position: relative;
       overflow: hidden;
-      /* background-color: #333; */
       color: white;
       padding: 16px 32px;
       font-size: 18px;
       border: none;
       cursor: pointer;
       background: linear-gradient(to right, hsl(269.291 52.697% 52.745% /1), hsl(295.645 50% 51.373% /1), hsl(325.385 31.707% 51.765% /1)) !important;
+      z-index: 1;
+      background-color: inherit;
 }
+
 
 .premiumOnly .glassEffect {
   position: absolute;
@@ -98,17 +100,51 @@ a {
     rgba(255, 255, 255, 0.555) 52%,
     transparent 55%
   );
-  animation: moveDiagonal 2s linear infinite;
+  animation: moveDiagonal 3s linear infinite;
   pointer-events: none;
 }
 
 
 @keyframes moveDiagonal {
     0% {
-      transform: translate(-100%, -100%);
+      transform: translate(-150%, -150%);
     }
     100% {
       transform: translate(100%, 100%);
     }
 }
 
+/* remove isso aqui ate o fim */
+.premiumOnly::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    270deg,
+    hsl(269.291 52.697% 52.745% /1),
+    hsl(295.645 50% 51.373% /1),
+    hsl(325.385 31.707% 51.765% /1),
+    #0075d5
+  );
+  background-size: 600% 600%;
+  animation: premiumGradient 6s ease infinite;
+  z-index: -1;
+  filter: blur(12px);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes premiumGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
