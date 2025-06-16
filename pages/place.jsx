@@ -670,7 +670,9 @@ export default function Place() {
                                         </div>
                                     }
                                     <div className={styles.pixelbuttons}>
-                                        <button onClick={() => alert("Ainda não foi feito :v")}>Histórico</button>
+                                        <button className="premiumOnly" onClick={() => alert("Ainda não foi feito :v")}>Histórico
+                                            <div className="glassEffect "></div>
+                                        </button>
                                         <button onClick={() => {
                                             if (canvasConfig.freeColors.includes(showingPixelInfo.c)) {
                                                 setSelectedColor(showingPixelInfo.c)
@@ -698,7 +700,7 @@ export default function Place() {
                                     {showingColors && <button disabled={!selectedColor} className={styles.placepixel} id={styles.confirm} onClick={() => {
                                         placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
                                         setShowingColors(false)
-                                    }}>Confirmar</button>}
+                                    }}> {selectedColor ? "Confirmar" : "Selecione uma Cor"} </button>}
                                     {showingColors && <button className={styles.placepixel} id={styles.cancel} onClick={() => setShowingColors(false)}>Cancelar</button>}
                                 </div>
                                 {

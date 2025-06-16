@@ -70,3 +70,45 @@ a {
     display: none;
   }
 }
+
+/* glass effect */
+
+.premiumOnly {
+      position: relative;
+      overflow: hidden;
+      /* background-color: #333; */
+      color: white;
+      padding: 16px 32px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(to right, hsl(269.291 52.697% 52.745% /1), hsl(295.645 50% 51.373% /1), hsl(325.385 31.707% 51.765% /1)) !important;
+}
+
+.premiumOnly .glassEffect {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.555) 48%,
+    rgba(255, 255, 255, 0.555) 52%,
+    transparent 55%
+  );
+  animation: moveDiagonal 2s linear infinite;
+  pointer-events: none;
+}
+
+
+@keyframes moveDiagonal {
+    0% {
+      transform: translate(-100%, -100%);
+    }
+    100% {
+      transform: translate(100%, 100%);
+    }
+}
+
