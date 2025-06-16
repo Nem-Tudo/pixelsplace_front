@@ -5,13 +5,13 @@ import settings from "@/settings";
 import styles from "./place.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { socket, useSocketConnection } from "@/src/socket";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
 import useDraggable from '../src/useDraggable';
-import { MdDragIndicator } from "react-icons/md";
+import { MdDragIndicator, MdClose } from "react-icons/md";
 
 export default function Place() {
 
@@ -31,7 +31,7 @@ export default function Place() {
     const [apiError, setApiError] = useState(false);
     const [loading, setLoading] = useState(true);
 
-
+    const [isMobile, setIsMobile] = useState(false)
 
     const [canvasConfig, setCanvasConfig] = useState({})
 
@@ -101,11 +101,11 @@ export default function Place() {
     const initialX = screenWidth - 265;
 
     const {
-        movePixelInfoRef,
-        position,
-        handleMouseDown,
-        direction,
-    } = useDraggable({ x: initialX, y: initialY });
+      movePixelInfoRef,
+      direction,
+      styleDrag,
+      iconDrag,
+    } = useDraggable({ x: initialX, y: initialY }, 'desktop');
 
     function initializeSockets() {
         console.log("[WebSocket] Loading sockets...")
@@ -530,6 +530,15 @@ export default function Place() {
         };
     }, [showingPixelInfo]);
 
+
+    useEffect(() => {
+    const checkMobile = () => {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        setIsMobile(/android|iphone|ipad|ipod|windows phone/i.test(userAgent));
+    };
+
+    checkMobile()
+    });
     //comverte o tempo
     function formatDate(isoString) {
         const date = new Date(isoString);
@@ -617,191 +626,284 @@ export default function Place() {
     }
 
     return (
-        <>
-            <Head>
-                <title>PixelsPlace</title>
-                <meta name="description" content="Participe do PixelsPlace!" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <MainLayout>
-                <section className={styles.overlaygui}>
-                    <div className={styles.top}>
-                        {
-                            showingPixelInfo && <div
-                                ref={movePixelInfoRef}
-                                style={{
-                                    position: 'absolute',
-                                    top: `${position.y}px`,
-                                    left: `${position.x}px`,
-                                    zIndex: 9999,
-                                }}
-                                >
-                                <div className={`${styles.pixelInfo} ${direction === 'left' ? styles.showLeft : styles.showRight}`} ref={pixelInfoRef}>
-                                <MdDragIndicator 
-                                onMouseDown={handleMouseDown}
-                                onTouchStart={handleMouseDown}
-                                style={{
-                                        cursor: 'move',
-                                        position: "absolute",
-                                        right: "20px",
-                                }}
-                                />
-                                    <div className={styles.pixelcolorinfo} >
-                                        <div style={{
-                                            width: "50px",
-                                            height: "50px",
-                                            borderRadius: "5px",
-                                            backgroundColor: numberToHex(showingPixelInfo.c)
-                                        }} />
-                                        <span style={{
-                                            margin: "0px",
-                                            fontSize: "x-small",
-                                            userSelect: "all",
-                                        }}>#{showingPixelInfo.c}</span>
-                                        <span>
-                                            {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                                        </span>
-                                    </div>
-                                    {
-                                        showingPixelInfo.u && <div className={styles.pixeluserinfo}>
-                                            <span>Usuário: <Link href={`/user/${showingPixelInfo.u}`}>{showingPixelInfo.author.username}</Link> <Verified verified={showingPixelInfo.author.premium} /></span>
-                                            <span>Servidor: {showingPixelInfo.author.mainServer || "Não selecionado"}</span>
-                                        </div>
-                                    }
-                                    <div className={styles.pixelbuttons}>
-                                        <button className="premiumOnly" onClick={() => alert("Ainda não foi feito :v")}>Histórico
-                                            <div className="glassEffect "></div>
-                                        </button>
-                                        <button onClick={() => {
-                                            if (canvasConfig.freeColors.includes(showingPixelInfo.c)) {
-                                                setSelectedColor(showingPixelInfo.c)
-                                            } else {
-                                                alert("Essa cor está disponível apenas para Premiums! :(")
-                                            }
-                                        }}>Selecionar cor</button>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+      <>
+        <Head>
+          <title>PixelsPlace</title>
+          <meta name="description" content="Participe do PixelsPlace!" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <MainLayout>
+          <section className={styles.overlaygui}>
+            <div className={styles.top}>
+              {showingPixelInfo && (
+                <div
+                  ref={movePixelInfoRef}
+                  style={styleDrag}
+                >
+                  <div
+                    className={`${styles.pixelInfo} ${
+                      direction === "left" ? styles.showLeft : styles.showRight
+                    }`}
+                    ref={pixelInfoRef}
+                  >
+                    <div style={{ position: 'absolute', right: '20px' }}>
+                        { isMobile? <MdClose onClick={() => setShowingPixelInfo(null)}/> : iconDrag  }
                     </div>
-                    <div className={styles.bottom}>
-                        {
-                            selectedPixel && isAlready() && <div className={styles.pixelplacament} showingcolors={String(showingColors)}>
-                                <div className={styles.confirmation}>
-                                    {!showingColors && timeLeft != "0:00" && <button className={styles.placepixel} id={styles.cooldown}>{timeLeft}</button>}
-                                    {!showingColors && timeLeft == "0:00" && <button className={styles.placepixel} id={styles.opencolor} onClick={() => {
-                                        if (!loggedUser) return location.href = "/login"
-                                        setShowingColors(true)
-                                    }}>{loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}</button>}
-                                    {/* {!showingColors && <button className={styles.placepixel} id={styles.pixelinfo} onClick={() => {
+                    <div className={styles.pixelcolorinfo}>
+                      <div
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "5px",
+                          backgroundColor: numberToHex(showingPixelInfo.c),
+                        }}
+                      />
+                      <span
+                        style={{
+                          margin: "0px",
+                          fontSize: "x-small",
+                          userSelect: "all",
+                        }}
+                      >
+                        #{showingPixelInfo.c}
+                      </span>
+                      <span>
+                        {showingPixelInfo?.ca &&
+                          formatDate(showingPixelInfo.ca)}
+                      </span>
+                    </div>
+                    {showingPixelInfo.u && (
+                      <div className={styles.pixeluserinfo}>
+                        <span>
+                          Usuário:{" "}
+                          <Link href={`/user/${showingPixelInfo.u}`}>
+                            {showingPixelInfo.author.username}
+                          </Link>{" "}
+                          <Verified
+                            verified={showingPixelInfo.author.premium}
+                          />
+                        </span>
+                        <span>
+                          Servidor:{" "}
+                          {showingPixelInfo.author.mainServer ||
+                            "Não selecionado"}
+                        </span>
+                      </div>
+                    )}
+                    <div className={styles.pixelbuttons}>
+                      <button
+                        className="premiumOnly"
+                        onClick={() => alert("Ainda não foi feito :v")}
+                      >
+                        Histórico
+                        <div className="glassEffect "></div>
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (
+                            canvasConfig.freeColors.includes(showingPixelInfo.c)
+                          ) {
+                            setSelectedColor(showingPixelInfo.c);
+                          } else {
+                            alert(
+                              "Essa cor está disponível apenas para Premiums! :("
+                            );
+                          }
+                        }}
+                      >
+                        Selecionar cor
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className={styles.bottom}>
+              {selectedPixel && isAlready() && (
+                <div
+                  className={styles.pixelplacament}
+                  showingcolors={String(showingColors)}
+                >
+                  <div className={styles.confirmation}>
+                    {!showingColors && timeLeft != "0:00" && (
+                      <button
+                        className={styles.placepixel}
+                        id={styles.cooldown}
+                      >
+                        {timeLeft}
+                      </button>
+                    )}
+                    {!showingColors && timeLeft == "0:00" && (
+                      <button
+                        className={styles.placepixel}
+                        id={styles.opencolor}
+                        onClick={() => {
+                          if (!loggedUser) return (location.href = "/login");
+                          setShowingColors(true);
+                        }}
+                      >
+                        {loggedUser
+                          ? "Colocar pixel"
+                          : "Logue para colocar pixel"}
+                      </button>
+                    )}
+                    {/* {!showingColors && <button className={styles.placepixel} id={styles.pixelinfo} onClick={() => {
                                         showPixelInfo(selectedPixel.x, selectedPixel.y)
                                     }}>Pixel info</button>} */}
-                                    {showingColors && <button disabled={!selectedColor} className={styles.placepixel} id={styles.confirm} onClick={() => {
-                                        placePixel(selectedPixel.x, selectedPixel.y, selectedColor);
-                                        setShowingColors(false)
-                                    }}> {selectedColor ? "Confirmar" : "Selecione uma Cor"} </button>}
-                                    {showingColors && <button className={styles.placepixel} id={styles.cancel} onClick={() => setShowingColors(false)}>Cancelar</button>}
-                                </div>
-                                {
-                                    showingColors && <div className={styles.colors}>
-                                        {
-                                            canvasConfig?.freeColors?.map((color, index) =>
-                                                <div key={index} onClick={() => { setSelectedColor(color) }} className={styles.color} style={{ backgroundColor: numberToHex(color), border: selectedColor === color ? "2px solid #17a6ff" : "" }} />
-                                            )
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        }
-                    </div>
-                </section>
-                {
-                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>Carregando...</span></MessageDiv>
-                }
-                {
-                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>Ocorreu um erro ao se conectar com a api principal</span><button onClick={() => location.reload()}>Recarregar</button></MessageDiv>
-                }
-                {
-                    !socketconnected && !apiError && canvasConfig.width && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>Procurando WebSocket...</span></MessageDiv>
-                }
-
-                <div
-                    style={{
-                        width: "100dvw",
-                        height: "calc(100dvh - 72px)",
-                        overflow: "hidden",
-                        position: "relative",
-                        background: "#ccc",
-                        display: isAlready() ? "unset" : "none"
-                    }}
-                >
-                    <div
-                        ref={wrapperRef}
-                        style={{
-                            transformOrigin: "0 0",
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
+                    {showingColors && (
+                      <button
+                        disabled={!selectedColor}
+                        className={styles.placepixel}
+                        id={styles.confirm}
+                        onClick={() => {
+                          placePixel(
+                            selectedPixel.x,
+                            selectedPixel.y,
+                            selectedColor
+                          );
+                          setShowingColors(false);
                         }}
-                    >
-                        <canvas
-                            ref={overlayCanvasRef}
-                            width={canvasConfig.width * 10}
-                            height={canvasConfig.height * 10}
-                            id={styles.canvas}
-                            style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                pointerEvents: "none",
-                                transformOrigin: "0 0",
-                                zIndex: 10,
-                                width: "100%",
-                                display: Math.max(canvasConfig.width, canvasConfig.height) > 1500 ? "none" : "unset"
-                            }}
+                      >
+                        {" "}
+                        {selectedColor ? "Confirmar" : "Selecione uma Cor"}{" "}
+                      </button>
+                    )}
+                    {showingColors && (
+                      <button
+                        className={styles.placepixel}
+                        id={styles.cancel}
+                        onClick={() => setShowingColors(false)}
+                      >
+                        Cancelar
+                      </button>
+                    )}
+                  </div>
+                  {showingColors && (
+                    <div className={styles.colors}>
+                      {canvasConfig?.freeColors?.map((color, index) => (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            setSelectedColor(color);
+                          }}
+                          className={styles.color}
+                          style={{
+                            backgroundColor: numberToHex(color),
+                            border:
+                              selectedColor === color
+                                ? "2px solid #17a6ff"
+                                : "",
+                          }}
                         />
-
-
-                        <canvas
-                            onClick={(e) => {
-                                const canvas = canvasRef.current;
-                                if (!canvas) return;
-
-                                const rect = canvas.getBoundingClientRect();
-                                const scaleX = canvas.width / rect.width;
-                                const scaleY = canvas.height / rect.height;
-
-                                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                                const y = Math.floor((e.clientY - rect.top) * scaleY);
-
-                                setSelectedPixel({ x, y })
-                            }}
-                            onContextMenu={(e) => {
-                                e.preventDefault();
-                                const canvas = canvasRef.current;
-                                if (!canvas) return;
-
-                                const rect = canvas.getBoundingClientRect();
-                                const scaleX = canvas.width / rect.width;
-                                const scaleY = canvas.height / rect.height;
-
-                                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                                const y = Math.floor((e.clientY - rect.top) * scaleY);
-
-                                showPixelInfo(x, y)
-                            }}
-                            id={styles.canvas}
-                            ref={canvasRef}
-                            width={canvasConfig.width}
-                            height={canvasConfig.height}
-                        />
+                      ))}
                     </div>
+                  )}
                 </div>
+              )}
+            </div>
+          </section>
+          {!canvasConfig.width && !apiError && (
+            <MessageDiv centerscreen={true} type="normal-white">
+              {" "}
+              <Loading width={"50px"} />{" "}
+              <span style={{ fontSize: "2rem" }}>Carregando...</span>
+            </MessageDiv>
+          )}
+          {apiError && (
+            <MessageDiv
+              centerscreen={true}
+              type="warn"
+              expand={String(apiError)}
+            >
+              <span>Ocorreu um erro ao se conectar com a api principal</span>
+              <button onClick={() => location.reload()}>Recarregar</button>
+            </MessageDiv>
+          )}
+          {!socketconnected && !apiError && canvasConfig.width && (
+            <MessageDiv centerscreen={true} type="normal-white">
+              {" "}
+              <Loading width={"50px"} />{" "}
+              <span style={{ fontSize: "2rem" }}>Procurando WebSocket...</span>
+            </MessageDiv>
+          )}
 
+          <div
+            style={{
+              width: "100dvw",
+              height: "calc(100dvh - 72px)",
+              overflow: "hidden",
+              position: "relative",
+              background: "#ccc",
+              display: isAlready() ? "unset" : "none",
+            }}
+          >
+            <div
+              ref={wrapperRef}
+              style={{
+                transformOrigin: "0 0",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+            >
+              <canvas
+                ref={overlayCanvasRef}
+                width={canvasConfig.width * 10}
+                height={canvasConfig.height * 10}
+                id={styles.canvas}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  pointerEvents: "none",
+                  transformOrigin: "0 0",
+                  zIndex: 10,
+                  width: "100%",
+                  display:
+                    Math.max(canvasConfig.width, canvasConfig.height) > 1500
+                      ? "none"
+                      : "unset",
+                }}
+              />
 
-            </MainLayout>
-        </>
+              <canvas
+                onClick={(e) => {
+                  const canvas = canvasRef.current;
+                  if (!canvas) return;
+
+                  const rect = canvas.getBoundingClientRect();
+                  const scaleX = canvas.width / rect.width;
+                  const scaleY = canvas.height / rect.height;
+
+                  const x = Math.floor((e.clientX - rect.left) * scaleX);
+                  const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                  setSelectedPixel({ x, y });
+                }}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  const canvas = canvasRef.current;
+                  if (!canvas) return;
+
+                  const rect = canvas.getBoundingClientRect();
+                  const scaleX = canvas.width / rect.width;
+                  const scaleY = canvas.height / rect.height;
+
+                  const x = Math.floor((e.clientX - rect.left) * scaleX);
+                  const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                  showPixelInfo(x, y);
+                }}
+                id={styles.canvas}
+                ref={canvasRef}
+                width={canvasConfig.width}
+                height={canvasConfig.height}
+              />
+            </div>
+          </div>
+        </MainLayout>
+      </>
     );
 }
 

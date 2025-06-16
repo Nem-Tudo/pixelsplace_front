@@ -1,11 +1,18 @@
 import { useRef, useState, useEffect } from 'react';
+import { MdDragIndicator } from "react-icons/md";
 
-export default function useDraggable(initialPosition = { x: 0, y: 0 }) {
+export default function useDraggable(initialPosition = { x: 0, y: 0 }, targetDevice = 'both') {
   const movePixelInfoRef = useRef(null);
   const [position, setPosition] = useState(initialPosition);
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [direction, setDirection] = useState('right');
+  const styleDrag = {
+    position: 'absolute',
+    top: `${position.y}px`,
+    left: `${position.x}px`,
+    zIndex: 9999,
+  };
 
   // Função para pegar coordenadas (mouse ou toque)
   function getEventCoordinates(e) {
@@ -53,11 +60,59 @@ export default function useDraggable(initialPosition = { x: 0, y: 0 }) {
     setDragging(true);
   }
 
+  // Escolha o ícone correto baseado no targetDevice
+  let iconDrag = null;
+  if (targetDevice === 'desktop') {
+    iconDrag = (
+      <MdDragIndicator
+        onMouseDown={handleMouseDown}
+        style={{ cursor: 'move' }}
+      />
+    );
+  } else if (targetDevice === 'mobile') {
+    iconDrag = (
+      <MdDragIndicator
+        onTouchStart={handleMouseDown}
+        style={{ cursor: 'move' }}
+      />
+    );
+  } else {
+    // both
+    iconDrag = (
+      <MdDragIndicator
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
+        style={{ cursor: 'move' }}
+      />
+    );
+  }
+
   return {
     movePixelInfoRef,
-    position,
-    handleMouseDown,
+    // position,
+    // handleMouseDown,
     direction,
-    dragging,
+    // dragging,
+    styleDrag,
+    iconDrag,
   };
 }
+
+{/*
+  como utiliar:
+
+const {
+  movePixelInfoRef,
+  direction,
+  styleDrag,
+  iconDrag,
+} = useDraggable({ x: initialX, y: initialY }, 'escolha para onde sera utilizado: desktop | mobile | both');
+
+<div
+  ref={movePixelInfoRef}
+  style={styleDrag}
+>
+<div style={{ style para definir o local aonde vai ficar o icon }}>
+  {iconDrag}
+</div>
+*/}

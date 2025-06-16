@@ -1,21 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 @font-face {
-  font-family: 'Franklin Gothic Medium';
-  src: url('/fonts/OPTIFranklinGothic-Medium.otf');
+  font-family: "Franklin Gothic Medium";
+  src: url("/fonts/OPTIFranklinGothic-Medium.otf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Segoe UI Variable';
-  src: url('/fonts/SEGUIVAR.ttf');
+  font-family: "Segoe UI Variable";
+  src: url("/fonts/SEGUIVAR.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
-
 
 ::-webkit-scrollbar {
   height: 7px;
@@ -74,18 +73,22 @@ a {
 /* glass effect */
 
 .premiumOnly {
-      position: relative;
-      overflow: hidden;
-      color: white;
-      padding: 16px 32px;
-      font-size: 18px;
-      border: none;
-      cursor: pointer;
-      background: linear-gradient(to right, hsl(269.291 52.697% 52.745% /1), hsl(295.645 50% 51.373% /1), hsl(325.385 31.707% 51.765% /1)) !important;
-      z-index: 1;
-      background-color: inherit;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  padding: 16px 32px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    hsl(269.291 52.697% 52.745% /1),
+    hsl(295.645 50% 51.373% /1),
+    hsl(325.385 31.707% 51.765% /1)
+  ) !important;
+  z-index: 1;
+  background-color: inherit;
 }
-
 
 .premiumOnly .glassEffect {
   position: absolute;
@@ -104,14 +107,13 @@ a {
   pointer-events: none;
 }
 
-
 @keyframes moveDiagonal {
-    0% {
-      transform: translate(-150%, -150%);
-    }
-    100% {
-      transform: translate(100%, 100%);
-    }
+  0% {
+    transform: translate(-150%, -150%);
+  }
+  100% {
+    transform: translate(100%, 100%);
+  }
 }
 
 /* remove isso aqui ate o fim */
@@ -120,14 +122,14 @@ a {
   position: absolute;
   top: -50%;
   left: -50%;
-  width: 200%;
-  height: 200%;
+  width: 300%;
+  height: 250%;
   background: linear-gradient(
     270deg,
     hsl(269.291 52.697% 52.745% /1),
     hsl(295.645 50% 51.373% /1),
     hsl(325.385 31.707% 51.765% /1),
-    #0075d5
+    hsl(207 100% 42% /1)
   );
   background-size: 600% 600%;
   animation: premiumGradient 6s ease infinite;
