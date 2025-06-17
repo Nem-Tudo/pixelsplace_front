@@ -1,0 +1,101 @@
+.container {
+  background-color: #141c2f;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.logo {
+  font-weight: bold;
+  color: white;
+}
+
+.nav a {
+  color: #7affba;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.username {
+  color: white;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  width: 100vw;
+}
+
+.cover {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  margin-bottom: 3rem;
+}
+
+.avatarCircle {
+  width: 180px;
+  height: 180px;
+  border: 2px solid black;
+  border-radius: 50%;
+  background-color: transparent;
+  margin-top: -90px;
+}
+
+.name {
+  font-size: 2rem;
+  margin: 1rem 0 0.2rem;
+}
+
+.handle {
+  font-size: 1rem;
+  color: #9dcaff;
+  text-decoration: underline;
+  margin-bottom: 1rem;
+}
+
+.description {
+  width: 300px;
+  height: 100px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.details {
+  color: #ccc;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.avatarCircle img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 2px solid black;
+  object-fit: cover;
+}
+
+.cover img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.premiumIcon {
+  color: gold;
+  font-size: 1.2rem;
+}

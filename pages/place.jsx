@@ -681,7 +681,7 @@ export default function Place() {
                         <span>
                           Usuário:{" "}
                           <Link href={`/user/${showingPixelInfo.u}`}>
-                            {showingPixelInfo.author.username}
+                            {showingPixelInfo.author.username}  
                           </Link>{" "}
                           <Verified
                             verified={showingPixelInfo.author.premium}
