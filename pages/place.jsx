@@ -12,6 +12,7 @@ import Link from "next/link";
 import Verified from "@/components/Verified";
 import useDraggable from '../src/useDraggable';
 import { MdDragIndicator, MdClose } from "react-icons/md";
+import PremiumButton from './PremiumButton';
 
 export default function Place() {
 
@@ -694,13 +695,9 @@ export default function Place() {
                       </div>
                     )}
                     <div className={styles.pixelbuttons}>
-                      <button
-                        className="premiumOnly"
-                        onClick={() => alert("Ainda não foi feito :v")}
-                      >
+                      <PremiumButton onClick={() => alert("Ainda não foi feito :v")}>
                         Histórico
-                        <div className="glassEffect "></div>
-                      </button>
+                      </PremiumButton>
                       <button
                         onClick={() => {
                           if (

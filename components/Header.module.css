@@ -9,6 +9,7 @@
     align-items: center;
     user-select: none;
     width: 100vw;
+    justify-content: space-between;
 }
 
 .left {
@@ -16,8 +17,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 30px;
-    max-width: 50%;
-    overflow: hidden;
+    /* max-width: 50%; */
+    /* overflow: hidden; */
 }
 
 .left span {
@@ -56,21 +57,18 @@
     display: flex;
     align-items: center;
     gap: 7px;
-
-        max-width: min-content;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .right {
     margin-left: auto;
     gap: 7px;
     width: min-content;
-    max-width: 50%;
+    /* max-width: fit-content; */
     margin: 0px;
-    right: 15px;
-    position: absolute;
+    /* right: 15px; */
+    /* position: absolute; */
+    overflow: hidden;
+
 }
 
 .right .loggedUser {
@@ -85,6 +83,11 @@
     color: #ffffff;
     padding-right: 10px;
     cursor: default;
+    /* width: 0px; */
+            max-width: min-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .right .loggedUser img {
