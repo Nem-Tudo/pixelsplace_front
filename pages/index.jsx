@@ -5,7 +5,7 @@ import { MainLayout } from "@/layout/MainLayout";
 
 import { useAuth } from '@/context/AuthContext';
 
-import PremiumButton from './PremiumButton';
+import PremiumButton from '@/components/PremiumButton';
 
 export default function Home() {
 
@@ -27,8 +27,8 @@ export default function Home() {
           </div>
           <div className={styles.buttons}>
 
-            {/* <Link className={styles.btn} href={"/place"}>Começar</Link> */}
-            <PremiumButton className={styles.btn} as={Link} href="/place">Começar</PremiumButton>
+            <Link className={styles.btn} href={"/place"}>Começar</Link>
+            {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Link className={styles.btn} href="/partners">Servidores</Link>
           </div>
         </main>

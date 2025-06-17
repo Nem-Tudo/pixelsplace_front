@@ -12,7 +12,7 @@ import Link from "next/link";
 import Verified from "@/components/Verified";
 import useDraggable from '../src/useDraggable';
 import { MdDragIndicator, MdClose } from "react-icons/md";
-import PremiumButton from './PremiumButton';
+import PremiumButton from '@/components/PremiumButton';
 
 export default function Place() {
 
