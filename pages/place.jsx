@@ -10,7 +10,7 @@ import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
-import useDraggable from '../src/useDraggable';
+import useDraggable from '@/src/useDraggable';
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from '@/components/PremiumButton';
 

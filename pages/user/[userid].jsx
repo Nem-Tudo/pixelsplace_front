@@ -1,54 +1,137 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import settings from "@/settings";
 import { MainLayout } from "@/layout/MainLayout";
 import styles from "./UserProfile.module.css";
+import Verified from "@/components/Verified";
+import { useAuth } from '@/context/AuthContext';
+import { MdOutlineModeEditOutline } from "react-icons/md";
+import PremiumButton from '@/components/PremiumButton';
 
+
+
+
+// https://cdn.discordapp.com/avatars/385478022670843904/3b1a8bd0e926cab98eeef77f5fcd1c45.webp?size=512
 const userInfo = {
-  id: "1299261588326580226",
-  avatar: "eb3e418c94d091b214d9b617ab684db8",
+  id: "385478022670843904",
+  avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45",
   bgUser: "https://commandbat.com.br/homepage/img/projects/imgproject2.png",
   premium: true,
-  display_name: "Nem Tudo",
-  username: "nemtudo",
-  bio: "Eu amo o commandbat",
+  display_name: "commandbat",
+  username: "commandbat",
+  bio: "Penis",
   pixelQuantity: "10000",
-  serverFav: "Casa do Nem Tudo",
+  serverFav: { 
+    name: "Casa do Nem Tudo",
+    id: "485738053663457280",
+    icon: "b6e58c4cddd88a18ff3f96ec7f1ec54a",
+    banner: "a2c63426357e55b341f6b6d68aa0e5ac",
+  },
 };
 
 const userAvatar = settings.avatarURL(userInfo.id, userInfo.avatar);
 
 export default function UserProfile() {
-  const [bio, setBio] = useState(userInfo.bio);
+    const { loggedUser, loading } = useAuth();
+    const [bio, setBio] = useState(userInfo.bio);
+  const [editStates, setEditStates] = useState({
+    bio: false,
+    bgImg: false,
+  });
+    
+
+  const switchEdit = (key) => {
+    setEditStates((prev) => ({
+      ...prev,
+      [key]: !prev[key], // inverte o valor atual da chave
+    }));
+  };
+
+
+  const bioRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (editStates.bio && bioRef.current && !bioRef.current.contains(e.target)) {
+        switchEdit("bio");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editStates.bio]);
+
+
   return (
     <MainLayout>
-      <main className={styles.profile}>
-        <div className={styles.cover}>
-          <img src={userInfo.bgUser} alt="background do perfil" />
-        </div>
+  <main className={styles.profile}>
+    <img src={userInfo.bgUser} alt="background do perfil" className={styles.bgUser} />
 
+<div className={styles.divPag}>
+    <div className={styles.perfil}>
         <div className={styles.avatarCircle}>
           <img src={userAvatar} alt="Avatar do usuário" />
         </div>
 
-        <h1 className={styles.name}>{userInfo.display_name}</h1>
+        <h1 className={styles.displayName}>{userInfo.display_name}</h1>
 
-        <p className={styles.handle}>
-          @{userInfo.username} {userInfo.premium && <span className={styles.premiumIcon}>✅</span>}
+        <p className={styles.username}>
+          @{userInfo.username} <Verified verified={userInfo.premium} />
         </p>
-
-        <div className={styles.description}>
+  </div>
+  <div className={styles.moreInfo}>
+    <div className={styles.serverInfo}>
+      {
+      <div className={styles.guildCard} >
+        <img
+            className={styles.guildIcon}
+            src={`https://cdn.discordapp.com/icons/${userInfo.serverFav.id}/${userInfo.serverFav.icon}.webp?size=512`}
+            alt={`Ícone de ${userInfo.serverFav.name}`}
+        />
+        <div className={styles.guildInfo}>
+          <h2 className={styles.guildName} translate="no">{userInfo.serverFav.name}</h2>
+          <a className={styles.guildLink} href="https://discord.gg/nemtudo" target="_blank" rel="norreferer">Entrar</a>
+        </div>
+    </div>
+    }
+  </div>
+  <div className={styles.description}  ref={bioRef}> 
+          {editStates.bio ? <>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             rows={4}
-          />
+            />
+          </>:<>
+          <div>
+            {!loading && loggedUser?.id === userInfo.id ? <>
+              <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("bio")}/>
+              </>:<>
+            </>}
+            <span >{bio}</span>
+          </div>
+          </>}
         </div>
+    <div className={styles.pixelsInfo}>
+      <p className={styles.pixelsText}>
+        O {userInfo.display_name} inseriu {userInfo.pixelQuantity} pixels
+      </p>
+      <PremiumButton setClass={styles.viewPixelsButton} onClick={() => alert("não feito ainda")}>
+        Ver os pixels do {userInfo.display_name}
+      </PremiumButton>
+  </div>
+  </div>
+</div>
 
-        <p className={styles.details}>
-          Quantidade de pixel: {userInfo.pixelQuantity} <br />
-          Servidor: {userInfo.serverFav}
-        </p>
-      </main>
-    </MainLayout>
+    
+    <div className={styles.divPag}>
+      
+      
+
+    </div>
+  </main>
+</MainLayout>
+
   );
 }
