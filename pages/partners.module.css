@@ -117,3 +117,6 @@
     background-color: #003dcc;
 }
 
+@media (max-width: 320px) {
+  /*mudar a ordem dos bgl*/
+}
