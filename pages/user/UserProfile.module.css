@@ -185,10 +185,11 @@
     font-size: 1.25rem;
     font-weight: 600;
     color: #9dcaff;
-    white-space: nowrap;
+    /* white-space: nowrap;
     max-width: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
+    text-align: start;
 }
 
 .guildLink {
@@ -207,7 +208,7 @@
 }
 
 .viewPixelsButton {
-  padding: 0.7rem 1.5rem;
+  /* padding: 0.7rem 1.5rem; */
   color: white;
   border: none;
   border-radius: 12px;
@@ -215,10 +216,10 @@
   font-weight: bold;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.3s;  
-  margin-top: 1rem;
   text-align: center;
   display: flex;
   align-items: center;
+  height: 40%;
 }
 
 .viewPixelsButton:hover {
@@ -226,9 +227,18 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   background: linear-gradient(135deg, #5599ff, #8e44ff);
 }
-
+.pixelsInfo{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
 /* 465px */
 @media (max-width: 705px) {
+  .guildCard, .description span, .pixelsInfo{
+  min-height: 20dvh;
+}
   .serverInfo{
   order: 1;
   }
@@ -238,7 +248,9 @@
   width: 100vw;
   display: flex;
   justify-content: center;
-  }
+  height: 25dvh;
+  
+}
 
   .pixelsInfo{
   order: 2;
