@@ -45,8 +45,14 @@ export default function Place() {
     const [selectedColor, setSelectedColor] = useState(null);
     const [showingPixelInfo, setShowingPixelInfo] = useState(null);
 
+    const [showingPixelPosition, setShowingPixelPosition] = useState(null);
+
+    /* não sei como fazer para atualizar o zoom */
+    // const [sliderValue, setSliderValue] = useState(0);
+
     const [showingColors, setShowingColors] = useState(false);
 
+    
     const transform = useRef({
         scale: 1,
         pointX: 0,
@@ -531,6 +537,22 @@ export default function Place() {
         };
     }, [showingPixelInfo]);
 
+        //fecha div pixelInfo ao clicar fora
+    useEffect(() => {
+        function handleClickOutside(event) {
+          // Se o PixelPosition estiver sendo mostrado e o clique foi fora da div
+            if (showingPixelPosition && canvasRef.current && !canvasRef.current.contains(event.target)) {
+                setShowingPixelPosition(null);
+          }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showingPixelPosition]);
+
+
 
     useEffect(() => {
     const checkMobile = () => {
@@ -542,6 +564,21 @@ export default function Place() {
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    /* não sei como fazer para atualizar o zoom */
+   // slide de zoom
+  //   const mapSliderToScale = (val) => {
+  //   return (val / 100) * (150 - 6) + 6;
+  // };
+
+
+  //   const handleChange = (e) => {
+  //   const sliderVal = parseInt(e.target.value, 10);
+  //   setSliderValue(sliderVal);
+  //   transform.current.scale = mapSliderToScale(sliderVal);
+  // };  
+
+
     //comverte o tempo
     function formatDate(isoString) {
         const date = new Date(isoString);
@@ -639,6 +676,22 @@ export default function Place() {
         <MainLayout>
           <section className={styles.overlaygui}>
             <div className={styles.top}>
+              <div className={styles.overlayZoom}>
+                {/* não sei como fazer para atualizar o zoom */}
+                {/* <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      value={sliderValue}
+                      onChange={handleChange}
+                  />
+                <span> zoom: {Math.round(parseFloat(transform.current.scale))}x</span> */}
+
+              </div>
+              {showingPixelPosition && <div className={styles.overlayPosition}>
+                <span className={styles.x}>x: {showingPixelPosition.x} </span>
+                <span className={styles.y}>y: {showingPixelPosition.y}</span>
+                  </div>}
               {showingPixelInfo && (
                 <div
                   ref={movePixelInfoRef}
@@ -878,6 +931,8 @@ export default function Place() {
 
                   const x = Math.floor((e.clientX - rect.left) * scaleX);
                   const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                  setShowingPixelPosition({x, y});
 
                   setSelectedPixel({ x, y });
                 }}

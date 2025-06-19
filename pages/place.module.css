@@ -271,3 +271,35 @@
 
 
 
+/*overlay*/
+
+.overlaygui .top{
+    position: relative;
+    pointer-events: all;
+    top: 87px;
+}
+.overlayPosition{
+    position: relative;
+    align-self: center;
+    justify-self: center;
+    background-color: #808080d6;
+    padding: 5px;
+    border-radius: 100vh;
+}
+
+.overlayPosition .x{
+
+}
+
+.overlayPosition .y{
+
+}
+
+.overlayZoom {
+    position: relative;
+    align-self: flex-end;
+    justify-self: flex-end;
+    background-color: #808080d6;
+    padding: 5px;
+    border-radius: 100vh;
+}
