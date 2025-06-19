@@ -33,11 +33,14 @@ const userAvatar = settings.avatarURL(userInfo.id, userInfo.avatar);
 export default function UserProfile() {
     const { loggedUser, loading } = useAuth();
     const [bio, setBio] = useState(userInfo.bio);
-  const [editStates, setEditStates] = useState({
-    bio: false,
-    bgImg: false,
-  });
-    
+    const [editStates, setEditStates] = useState({
+      bio: false,
+      bgImg: false,
+    });
+    const [bgImgSrc, setBgImgSrc] = useState(userInfo.bgUser);
+
+    const fileInputRef = useRef(null);
+
 
   const switchEdit = (key) => {
     setEditStates((prev) => ({
@@ -62,15 +65,51 @@ export default function UserProfile() {
     };
   }, [editStates.bio]);
 
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+  
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+  if (file) {
+    const imageURL = URL.createObjectURL(file);
+    setBgImgSrc(imageURL);
+    console.log('Imagem selecionada:', file); 
+  }
+  };
+
+  
+    useEffect(() => {
+    if (editStates.bgImg) {
+      handleButtonClick();
+    }
+  }, [editStates.bgImg]);
+
 
   return (
     <MainLayout>
   <main className={styles.profile}>
-    <img src={userInfo.bgUser} alt="background do perfil" className={styles.bgUser} />
+<div style={{height: "100%",
+    width: "100%",
+    position: "relative",
+    zIndex:"0"}}>
+{!loading && loggedUser?.id === userInfo.id ? <>
+              <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("bgImg")}/>
+                <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
+              </>:<>
+            </>}
+    <img src={bgImgSrc} alt="background do perfil" className={styles.bgUser} />
+    </div>
 
 <div className={styles.divPag}>
     <div className={styles.perfil}>
-        <div className={styles.avatarCircle}>
+        <div className={styles.avatarCircle} style={{zIndex:"1"}}>
           <img src={userAvatar} alt="Avatar do usuário" />
         </div>
 
