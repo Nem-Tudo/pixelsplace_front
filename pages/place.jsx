@@ -642,7 +642,7 @@ export default function Place() {
               {showingPixelInfo && (
                 <div
                   ref={movePixelInfoRef}
-                  style={styleDrag}
+                  style={{ ...styleDrag, touchAction: "none" }}
                 >
                   <div
                     className={`${styles.pixelInfo} ${
@@ -833,6 +833,7 @@ export default function Place() {
               height: "calc(100dvh - 72px)",
               overflow: "hidden",
               position: "relative",
+              touchAction: "none",
               background: "#ccc",
               display: isAlready() ? "unset" : "none",
             }}
@@ -901,6 +902,7 @@ export default function Place() {
               />
             </div>
           </div>
+
         </MainLayout>
       </>
     );
