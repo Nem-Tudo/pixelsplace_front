@@ -18,7 +18,7 @@ const userInfo = {
   premium: true,
   display_name: "commandbat",
   username: "commandbat",
-  bio: "Penis",
+  bio: "Biografia",
   pixelQuantity: "10000",
   serverFav: { 
     name: "Casa do Nem Tudo",
@@ -105,11 +105,11 @@ export default function UserProfile() {
             />
           </>:<>
           <div>
-            {!loading && loggedUser?.id === userInfo.id ? <>
+            
+            <span >{!loading && loggedUser?.id === userInfo.id ? <>
               <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("bio")}/>
               </>:<>
-            </>}
-            <span >{bio}</span>
+            </>}{bio}</span>
           </div>
           </>}
         </div>
