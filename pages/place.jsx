@@ -48,7 +48,7 @@ export default function Place() {
     const [showingPixelPosition, setShowingPixelPosition] = useState(null);
 
     /* não sei como fazer para atualizar o zoom */
-    // const [sliderValue, setSliderValue] = useState(0);
+    const [sliderValue, setSliderValue] = useState(0);
 
     const [showingColors, setShowingColors] = useState(false);
 
@@ -567,16 +567,16 @@ export default function Place() {
 
     /* não sei como fazer para atualizar o zoom */
    // slide de zoom
-  //   const mapSliderToScale = (val) => {
-  //   return (val / 100) * (150 - 6) + 6;
-  // };
+    const mapSliderToScale = (val) => {
+    return (val / 100) * (150 - 6) + 6;
+  };
 
 
-  //   const handleChange = (e) => {
-  //   const sliderVal = parseInt(e.target.value, 10);
-  //   setSliderValue(sliderVal);
-  //   transform.current.scale = mapSliderToScale(sliderVal);
-  // };  
+    const handleChange = (e) => {
+    const sliderVal = parseInt(e.target.value, 10);
+    setSliderValue(sliderVal);
+    transform.current.scale = mapSliderToScale(sliderVal);
+  };  
 
 
     //comverte o tempo
@@ -676,18 +676,21 @@ export default function Place() {
         <MainLayout>
           <section className={styles.overlaygui}>
             <div className={styles.top}>
-              <div className={styles.overlayZoom}>
+                {socketconnected && <div className={styles.overlayZoom}>
                 {/* não sei como fazer para atualizar o zoom */}
-                {/* <input
+                <span>zoom</span>
+                <input
                       type="range"
                       min={0}
                       max={100}
                       value={sliderValue}
                       onChange={handleChange}
+                      className={styles.slideZoom}
                   />
-                <span> zoom: {Math.round(parseFloat(transform.current.scale))}x</span> */}
+                <span>{Math.round(parseFloat(transform.current.scale))}x</span>
+                </div>}
 
-              </div>
+
               {showingPixelPosition && <div className={styles.overlayPosition}>
                 <span className={styles.x}>x: {showingPixelPosition.x} </span>
                 <span className={styles.y}>y: {showingPixelPosition.y}</span>

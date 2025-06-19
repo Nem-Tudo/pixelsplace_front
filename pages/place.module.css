@@ -296,10 +296,24 @@
 }
 
 .overlayZoom {
-    position: relative;
+    position: fixed;
     align-self: flex-end;
     justify-self: flex-end;
     background-color: #808080d6;
     padding: 5px;
-    border-radius: 100vh;
+    border-radius: 10px;
+    padding-right: 3px;
+    padding-left: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    right: 15px;
+}
+
+.slideZoom{
+    writing-mode: bt-lr; /* base writing direction */
+    -webkit-appearance: slider-vertical; /* Safari/Chrome */
+    width: 10px;
+
 }
