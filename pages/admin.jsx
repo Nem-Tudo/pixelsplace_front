@@ -113,6 +113,14 @@ export default function AdminPage() {
     );
 
   return (
+    <>
+      <Head>
+        <title>PixelsPlace</title>
+        <meta name="description" content="Participe do PixelsPlace!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
     <MainLayout>
       <main className={styles.main}>
         <h1>Administração do Canvas</h1>
@@ -400,6 +408,7 @@ export default function AdminPage() {
         </fieldset>
       </main>
     </MainLayout>
+    </>
   );
 }
 
