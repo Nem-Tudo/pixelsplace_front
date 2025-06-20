@@ -153,7 +153,6 @@
     gap: 5px;
 }
 
-
 /*pixelInfo*/
 
 .pixelInfo {
@@ -234,42 +233,40 @@
 }
 
 .showRight {
-   animation: showRight 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
+    animation: showRight 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
     box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
 }
 
 .showLeft {
-   animation: showLeft 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
-       box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    animation: showLeft 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
+    box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes showRight {
-  0% {
-    transform: translateX(100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0px);
-    opacity: 1;
-  }
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
 }
 
 @keyframes showLeft {
-  0% {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0px);
-    opacity: 1;
-  }
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
 }
-
-
 
 /*overlay*/
 
@@ -285,35 +282,4 @@
     background-color: #808080d6;
     padding: 5px;
     border-radius: 100vh;
-}
-
-.overlayPosition .x{
-
-}
-
-.overlayPosition .y{
-
-}
-
-.overlayZoom {
-    position: fixed;
-    align-self: flex-end;
-    justify-self: flex-end;
-    background-color: #808080d6;
-    padding: 5px;
-    border-radius: 10px;
-    padding-right: 3px;
-    padding-left: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    right: 15px;
-}
-
-.slideZoom{
-    writing-mode: bt-lr; /* base writing direction */
-    -webkit-appearance: slider-vertical; /* Safari/Chrome */
-    width: 10px;
-
 }

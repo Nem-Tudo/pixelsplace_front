@@ -47,9 +47,6 @@ export default function Place() {
 
     const [showingPixelPosition, setShowingPixelPosition] = useState(null);
 
-    /* não sei como fazer para atualizar o zoom */
-    const [sliderValue, setSliderValue] = useState(0);
-
     const [showingColors, setShowingColors] = useState(false);
 
     
@@ -79,7 +76,7 @@ export default function Place() {
         const currentPixel = selectedPixelRef.current;
         if (currentPixel) {
             updatedQuery.x = currentPixel.x;
-            updatedQuery.y = currentPixel.y;
+            updatedQuery.y = currentPixel.y;  
         }
 
         router.push({
@@ -565,20 +562,6 @@ export default function Place() {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    /* não sei como fazer para atualizar o zoom */
-   // slide de zoom
-    const mapSliderToScale = (val) => {
-    return (val / 100) * (150 - 6) + 6;
-  };
-
-
-    const handleChange = (e) => {
-    const sliderVal = parseInt(e.target.value, 10);
-    setSliderValue(sliderVal);
-    transform.current.scale = mapSliderToScale(sliderVal);
-  };  
-
-
     //comverte o tempo
     function formatDate(isoString) {
         const date = new Date(isoString);
@@ -665,6 +648,16 @@ export default function Place() {
         return (newR << 16) + (newG << 8) + newB;
     }
 
+    function transformarValor(x) {
+      const xMin = 6;
+      const xMax = 150;
+      const newMin = 1;
+      const newMax = 150;
+
+      return Math.round(((x - xMin) * (newMax - newMin)) / (xMax - xMin) + newMin);
+    }
+
+
     return (
       <>
         <Head>
@@ -676,24 +669,8 @@ export default function Place() {
         <MainLayout>
           <section className={styles.overlaygui}>
             <div className={styles.top}>
-                {socketconnected && <div className={styles.overlayZoom}>
-                {/* não sei como fazer para atualizar o zoom */}
-                <span>zoom</span>
-                <input
-                      type="range"
-                      min={0}
-                      max={100}
-                      value={sliderValue}
-                      onChange={handleChange}
-                      className={styles.slideZoom}
-                  />
-                <span>{Math.round(parseFloat(transform.current.scale))}x</span>
-                </div>}
-
-
               {showingPixelPosition && <div className={styles.overlayPosition}>
-                <span className={styles.x}>x: {showingPixelPosition.x} </span>
-                <span className={styles.y}>y: {showingPixelPosition.y}</span>
+                <span>({showingPixelPosition.x},{showingPixelPosition.y}) {transformarValor(transform.current.scale)}x</span>
                   </div>}
               {showingPixelInfo && (
                 <div
