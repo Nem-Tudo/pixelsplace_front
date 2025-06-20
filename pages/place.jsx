@@ -48,7 +48,6 @@ export default function Place() {
     const [showingPixelPosition, setShowingPixelPosition] = useState(null);
 
     const [showingColors, setShowingColors] = useState(false);
-
     
     const transform = useRef({
         scale: 1,
@@ -102,7 +101,7 @@ export default function Place() {
     const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 600;
 
     const initialY = screenHeight / 2 - 100;
-    const initialX = screenWidth - 265;
+    const initialX = screenWidth - 280;
 
     const {
       movePixelInfoRef,
