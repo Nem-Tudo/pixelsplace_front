@@ -268,12 +268,35 @@
     }
 }
 
+
+@keyframes showTop {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+
+@keyframes showButtom {
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 /*overlay*/
 
 .overlaygui .top{
     position: relative;
     pointer-events: all;
-    top: 87px;
 }
 .overlayPosition{
     position: relative;
@@ -282,4 +305,6 @@
     background-color: #808080d6;
     padding: 5px;
     border-radius: 100vh;
+    top: 87px;
+    animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
 }

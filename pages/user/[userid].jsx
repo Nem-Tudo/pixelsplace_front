@@ -15,7 +15,7 @@ const userInfo = {
   id: "385478022670843904",
   avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45",
   bgUser: "https://commandbat.com.br/homepage/img/projects/imgproject2.png",
-  premium: true,
+  premium: false,
   display_name: "commandbat",
   username: "commandbat",
   bio: "Biografia",
@@ -91,10 +91,15 @@ export default function UserProfile() {
   <main className={styles.profile}>
 <div style={{height: "100%",
     width: "100%",
-    position: "relative",
-    zIndex:"0"}}>
+    position: "relative"}}>
 {!loading && loggedUser?.id === userInfo.id ? <>
-              <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("bgImg")}/>
+              {/* <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("bgImg")}/> */}
+<PremiumButton as="icon" icon={<MdOutlineModeEditOutline
+      style={{ position: 'absolute', top: "5px", right: '5px', cursor: "pointer" }}
+      onClick={() => switchEdit("bgImg")}
+    />} ></PremiumButton>
+
+                {/* {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />} */}
                 <input
         type="file"
         accept="image/*"
