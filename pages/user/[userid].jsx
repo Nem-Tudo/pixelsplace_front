@@ -42,6 +42,17 @@ export default function UserProfile() {
     const fileInputRef = useRef(null);
 
 
+      //*loggedUser 
+    // avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45"
+    // createdAt : "2025-06-05T15:55:59.953Z"
+    // flags : ['ADMIN']
+    // id : "385478022670843904"
+    // lastPaintPixel : "2025-06-20T01:06:08.084Z"
+    // premium : false
+    // updatedAt : "2025-06-20T01:06:08.085Z"
+    // username : "commandbat"
+
+    
   const switchEdit = (key) => {
     setEditStates((prev) => ({
       ...prev,
