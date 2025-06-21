@@ -4,6 +4,8 @@ import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState, useRef } from "react";
 import Cookies from 'js-cookie'
+import Head from "next/head";
+
 
 export default function AdminPage() {
   const { token, loggedUser } = useAuth();
