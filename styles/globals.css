@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: "Dogica Pixel";
-  src: url("../fonts/dogicapixel.ttf");
+  src: url("../fonts/dogicapixel/dogicapixel.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -26,7 +26,7 @@
 
 @font-face {
   font-family: "Dogica Pixel Bold";
-  src: url("../fonts/dogicapixelbold.ttf");
+  src: url("../fonts/dogicapixel/dogicapixelbold.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
