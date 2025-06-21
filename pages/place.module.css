@@ -21,6 +21,7 @@
 .overlaygui .bottom {
     margin-top: auto;
     pointer-events: all;
+    justify-items: center;
 }
 
 .overlaygui .bottom .colors {
@@ -334,6 +335,7 @@
 .overlaygui .top{
     position: relative;
     pointer-events: all;
+    justify-items: center;
 }
 .overlayPosition{
     position: relative;
