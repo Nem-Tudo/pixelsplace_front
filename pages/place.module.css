@@ -56,14 +56,15 @@
 }
 
 .pixelplacament[showingcolors="true"] {
-    background: linear-gradient(45deg, whitesmoke, white);
+    background: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%))
     -webkit-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
     box-shadow: var(--shadow);
-    margin: 10px;
+    backdrop-filter: var(--frosted-glass-blur);
+    margin: 5px;
     border-radius: 22px;
     overflow: hidden;
-
+    border: var(--outline);
 }
 
 .pixelplacament .placepixel {
@@ -326,7 +327,7 @@
     align-self: center;
     justify-self: center;
     background-color: #808080d6;
-    padding: 5px 8px;
+    padding: 8px 10px;
     border-radius: 100vh;
     top: 87px;
     animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
