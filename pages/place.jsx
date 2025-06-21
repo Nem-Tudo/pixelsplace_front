@@ -18,7 +18,7 @@ import { userAgent } from "next/server";
 export default function Place() {
   const { token, loggedUser } = useAuth();
   const router = useRouter();
-  const socketconnected = useSocketConnection();
+  const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect } = useSocketConnection();
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -662,7 +662,7 @@ export default function Place() {
   }
 
   const isAlready = () =>
-    !apiError && !loading && socketconnected && canvasConfig.width;
+    !socketerror && !apiError && !loading && socketconnected && canvasConfig.width;
 
   function getPixelColor(x, y) {
     if (!canvasRef?.current) return null;
@@ -885,26 +885,47 @@ export default function Place() {
             )}
           </div>
         </section>
-        {!canvasConfig.width && !apiError && (
+
+
+
+        {/* Loading canvas */}
+        {!canvasConfig?.width && !apiError && (
           <MessageDiv centerscreen={true} type="normal-white">
             {" "}
             <Loading width={"50px"} />{" "}
             <span style={{ fontSize: "2rem" }}>Carregando...</span>
           </MessageDiv>
         )}
+
+        {/* API Error */}
         {apiError && (
           <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}>
             <span>Ocorreu um erro ao se conectar com a api principal</span>
             <button onClick={() => location.reload()}>Recarregar</button>
           </MessageDiv>
         )}
-        {!socketconnected && !apiError && canvasConfig.width && (
+
+        {/* WebSocket Connecting */}
+        {socketconnecting && !apiError && canvasConfig?.width && (
           <MessageDiv centerscreen={true} type="normal-white">
-            {" "}
-            <Loading width={"50px"} />{" "}
+            <Loading width={"50px"} />
             <span style={{ fontSize: "2rem" }}>Procurando WebSocket...</span>
           </MessageDiv>
         )}
+
+        {/* WebSocket Error */}
+        {socketerror && !socketconnected && !socketconnecting && !apiError && canvasConfig.width && (
+          <MessageDiv centerscreen={true} type="warn" expand={socketerror.message}>
+            <span>Falha na conexão WebSocket</span>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={socketreconnect}>Tentar Novamente</button>
+              <button onClick={() => location.reload()}>Recarregar Página</button>
+            </div>
+          </MessageDiv>
+        )}
+
+
+
 
         <div
           style={{
