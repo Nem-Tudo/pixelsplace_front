@@ -159,7 +159,7 @@ export default function UserProfile() {
             <></>
           )}
           <img
-            src={bgImgSrc}
+            src={bgImgSrc || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
             alt="background do perfil"
             className={styles.bgUser}
           />
