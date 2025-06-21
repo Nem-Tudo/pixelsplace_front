@@ -13,6 +13,7 @@ import Verified from "@/components/Verified";
 import useDraggable from '@/src/useDraggable';
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from '@/components/PremiumButton';
+import { userAgent } from "next/server";
 
 export default function Place() {
 
@@ -23,6 +24,7 @@ export default function Place() {
     const canvasRef = useRef(null);
     const wrapperRef = useRef(null);
     const overlayCanvasRef = useRef(null);
+    const overlayPremiumCanvasRef = useRef(null);
     const selectedPixelRef = useRef(null);
     const hasFetchedRef = useRef(false);
     const hasLoadedSocketsRef = useRef(false);
@@ -42,6 +44,8 @@ export default function Place() {
     const [timeLeft, setTimeLeft] = useState("0:00");
 
     const [selectedPixel, setSelectedPixel] = useState(null);
+    const [overlayPixels, setOverlayPixels] = useState(null);
+
     const [selectedColor, setSelectedColor] = useState(null);
     const [showingPixelInfo, setShowingPixelInfo] = useState(null);
 
@@ -212,6 +216,8 @@ export default function Place() {
             canvasRef.current.height = canvasSettings.height;
             overlayCanvasRef.current.width = canvasSettings.width * 10;
             overlayCanvasRef.current.height = canvasSettings.height * 10;
+            overlayPremiumCanvasRef.current.width = canvasSettings.width * 10;
+            overlayPremiumCanvasRef.current.height = canvasSettings.height * 10;
 
             // Cria ImageData e preenche diretamente os pixels
             const imageData = ctx.createImageData(canvasSettings.width, canvasSettings.height);
@@ -452,6 +458,37 @@ export default function Place() {
 
     }, [selectedPixel]);
 
+    useEffect(() => {
+
+        //Atualiza o overlay
+        const SCALE = 10; // escala de visualização
+
+        const canvas = overlayCanvasRef.current;
+        if (!canvas || !overlayPixels) return;
+
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        //branco externo
+        ctx.fillStyle = "#ff0000cf"; //branco transpa
+        ctx.fillRect((overlayPixels.x * SCALE) + 3, (overlayPixels.y * SCALE) + 3, 4, 4);
+
+        //limpa o interno
+        // ctx.clearRect((overlayPixels.x * SCALE) - 1, (overlayPixels.y * SCALE) - 1, 12, 12);
+
+        //preto interno
+        // ctx.fillStyle = "#ff0000cf";
+        // ctx.fillRect((overlayPixels.x * SCALE) - 1, (overlayPixels.y * SCALE) - 1, 12, 12);
+
+        //limpa o interior
+        // ctx.clearRect((overlayPixels.x * SCALE), (overlayPixels.y * SCALE), 10, 10);
+
+        //deixa só os cantos
+        // ctx.clearRect((overlayPixels.x * SCALE) + 2, (overlayPixels.y * SCALE) - 2, 6, 15);
+        // ctx.clearRect((overlayPixels.x * SCALE) - 2, (overlayPixels.y * SCALE) + 2, 15, 6);
+
+    }, [overlayPixels]);
+
     //Mover o selected Pixel
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -459,6 +496,7 @@ export default function Place() {
             switch (event.key) {
                 case 'ArrowUp':
                     setSelectedPixel({ x: selectedPixel.x, y: selectedPixel.y - 1 })
+                    setOverlayPixels({ x: selectedPixel.x, y: selectedPixel.y - 1 })
                     break;
                 case 'ArrowDown':
                     setSelectedPixel({ x: selectedPixel.x, y: selectedPixel.y + 1 })
@@ -880,6 +918,26 @@ export default function Place() {
               }}
             >
               <canvas
+                ref={overlayPremiumCanvasRef}
+                width={canvasConfig.width * 10}
+                height={canvasConfig.height * 10}
+                id={styles.canvas}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  pointerEvents: "none",
+                  transformOrigin: "0 0",
+                  zIndex: 10,
+                  width: "100%",
+                  display:
+                    Math.max(canvasConfig.width, canvasConfig.height) > 1500
+                      ? "none"
+                      : "unset",
+                }}
+              />
+
+                            <canvas
                 ref={overlayCanvasRef}
                 width={canvasConfig.width * 10}
                 height={canvasConfig.height * 10}
