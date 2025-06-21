@@ -1,39 +1,40 @@
 .main {
-  --color-text: #9dcaff;
-  --color-button-a: #0075d5;
-  --color-button-hover: #0054e5;
-  --color-primaria: #141c2f;
-  --color-borda: #2a3550;
-  --color-input-bg: #1c243b;
-  --color-white: #ffffff;
+  padding: 10px;
+  width: 100dvw;
+  overflow-x: hidden;
 }
 
 .container {
   padding: 30px;
   max-width: 800px;
   margin: 0 auto;
-  color: var(--color-text);
+  color: var(--color-muted);
 }
 
 .main h1 {
-  font-size: 2.2rem;
+  font-size: clamp(1rem, 1.7rem, 2.2rem);
   margin-bottom: 30px;
   text-align: center;
-  color: var(--color-text);
+  color: var(--color-muted);
+  font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
 }
 
 .main fieldset {
-  border: 1px solid var(--color-borda);
-  border-radius: 8px;
+  border: 1px solid var(--color-mid);
+  border-radius: 28px;
   padding: 20px;
   margin-bottom: 30px;
-  background-color: var(--color-primaria);
+  box-shadow: var(--shadow);
 }
 
 .main legend {
-  color: var(--color-text);
+  color: var(--color-muted);
   font-size: 1.2rem;
   padding: 0 10px;
+}
+
+.main legend strong {
+  font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
 .main label {
@@ -47,9 +48,9 @@
   width: 100%;
   padding: 10px;
   background-color: var(--color-input-bg);
-  color: var(--color-white);
-  border: 1px solid var(--color-borda);
-  border-radius: 6px;
+  color: white;
+  border: 1px solid var(--color-mid);
+  border-radius: 8px;
   margin-top: 5px;
   margin-bottom: 15px;
   font-size: 1rem;
@@ -64,19 +65,20 @@
 }
 
 .main button {
-  background-color: var(--color-button-a);
+  background-color: var(--color-accent);
   color: white;
   padding: 12px 20px;
-  border: none;
+  border: var(--outline);
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s;
+  transition: var(--smooth-transition);
   margin-top: 10px;
 }
 
 .main button:hover {
-  background-color: var(--color-button-hover);
+  background-color: var(--color-darker);
+  scale: var(--hover-scale)
 }
 
 .main button[disabled] {

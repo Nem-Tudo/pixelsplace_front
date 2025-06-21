@@ -1,6 +1,6 @@
 .main {
-    background-color: #293146;
-    color: #e0f0ff;
+    background-color: var(--color-darkest);
+    color: var(--color-muted);
     min-height: calc(100dvh - 72px);
     display: flex;
     flex-direction: column;

@@ -118,6 +118,7 @@ export default function AdminPage() {
         <title>PixelsPlace</title>
         <meta name="description" content="Participe do PixelsPlace!" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#80bbff" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -125,13 +126,15 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Canvas</h1>
 
-
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <fieldset style={{ display: "flex", flexDirection: "column" }}>
+            <legend>
+              <strong>Informações principais</strong>
+            </legend>
             <span>Update: {stats?.time}</span>
             <span>Online: {stats?.online}</span>
             <span>Usuarios: {stats?.registeredUsers}</span>
             <span>Pixels: {stats?.pixels}</span>
-          </div>
+          </fieldset>
           {/* Redimensionar */}
           <fieldset>
             <legend>
