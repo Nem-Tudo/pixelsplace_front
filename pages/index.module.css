@@ -31,11 +31,14 @@
   font-size: 3rem;
   font-weight: bold;
   color: #9dcaff;
+  font-family: 'Pixelated', Arial, Helvetica, sans-serif;
 }
 
 .btn {
-  background-color: #0075d5;
+  background-color: var(--cor-principal);
   color: white;
+  border: var(--outline);
+  box-shadow: var(--sombra);
   padding: 18px;
   border-radius: 8px;
   transition: background-color 0.3s;
@@ -44,5 +47,6 @@
 }
 
 .btn:hover {
-  background-color: #0054e5;
+  background-color: var(--cor-escura);
+  scale: var(--hover-scale);
 }

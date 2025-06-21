@@ -16,6 +16,23 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Pixelated";
+  src: url("/fonts/pixelated.ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --cor-outline: hsla(0deg, 0%, 100%, 50%);
+  --cor-principal: hsl(207.04deg 100% 41.76%);
+  --cor-escura: hsl(217.99deg 100% 44.9%);
+  --sombra: 2px 2px 7px #00000024;
+  --outline: 1px solid var(--cor-outline);
+  --hover-scale: 1.05;
+}
+
 ::-webkit-scrollbar {
   height: 7px;
   width: 5px;
