@@ -99,6 +99,7 @@
 
 .pixelplacament #opencolor {
     background-color: var(--color-accent);
+    justify-self: center;
 }
 
 .pixelplacament #opencolor:hover {
@@ -344,4 +345,6 @@
     animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
     border: var(--outline);
     backdrop-filter: var(--frosted-glass-blur);
+    width: fit-content;
+    justify-self: center;
 }
