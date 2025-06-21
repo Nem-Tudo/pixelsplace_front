@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
-import styles from "./place.module.css";
+import styles from "./timetravel.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/router'
 import MessageDiv from "@/components/MessageDiv";
@@ -384,21 +384,21 @@ export default function Place() {
                     <div className={styles.top}>
                     </div>
                     <div className={styles.bottom}>
-                        <div style={{ display: "flex", justifyContent: "center", color: "black" }}>
+                        <div style={{ display: "flex", justifyContent: "center"}}>
                             <span>Mostra todo o histórico ou só o que mudou?</span>
                             <input type="checkbox" checked={includeHistory} onChange={(e) => {
                                 setIncludeHistory(e.target.checked)
                             }} />
                             <span>Atual: {includeHistory ? "Todo o histórico" : "Só o que mudou"}</span>
                         </div>
-                        <div style={{ marginBottom: "15px", display: "flex", width: "100dvw", justifyContent: "center", color: "black" }}>
+                        <div style={{ marginBottom: "15px", display: "flex", width: "100dvw", justifyContent: "center"}}>
                             <div>
                                 <span>Marcha (m): </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
                                     setTravelDuration(e.target.value);
                                 }} />
                             </div>
-                            <span>
+                            <span style={{ display: "flex", justifyContent: "center"}}>
                                 <span>Multiplicador:</span>
                                 <input
                                     min={0}
@@ -408,6 +408,7 @@ export default function Place() {
                                     defaultValue={travelMultiplier}
                                     onMouseUp={(e) => setTravelMultiplier(e.target.value)}
                                     onTouchEnd={(e) => setTravelMultiplier(e.target.value)}
+                                    // onChange={(e) => setTravelMultiplier(Number(e.target.value))}
                                 />
                                 <span>({travelMultiplier}x)</span>
                             </span>

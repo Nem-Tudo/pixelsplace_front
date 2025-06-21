@@ -1,0 +1,90 @@
+#canvas {
+    /* image-rendering: crisp-edges; */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    touch-action: none;
+    width: 50vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(50%, 50%);
+}
+
+.overlaygui {
+    --color-text: #9dcaff;
+    --color-button-a: #0075d5;
+    --color-primaria: #141c2f;
+}
+
+.overlaygui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.overlaygui .bottom {
+    margin-top: auto;
+    pointer-events: all;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100dvw;
+    color: var(--color-text);
+    background-color: var(--color-primaria);
+    border-top: 2px solid var(--color-button-a);
+    padding: 16px 12px;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    z-index: 1000;
+}
+
+.bottom > div:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: var(--color-text);
+}
+
+.bottom input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.bottom > div:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--color-text);
+}
+
+.bottom input[type="number"] {
+    width: 60px;
+    padding: 4px;
+    margin-left: 4px;
+    border: 1px solid var(--color-button-a);
+    border-radius: 4px;
+}
+
+.bottom input[type="range"] {
+    width: 80dvw;
+    max-width: 400px;
+    margin: 0 8px;
+}
+
+.bottom span {
+    font-size: 14px;
+    color: var(--color-text);
+}
