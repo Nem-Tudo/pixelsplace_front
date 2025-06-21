@@ -1,11 +1,4 @@
 .main {
-  --color-text: #9dcaff;
-  --color-button-a: #0075d5;
-  --color-button-hover: #0054e5;
-  --color-primaria: #141c2f;
-  --color-borda: #2a3550;
-  --color-input-bg: #1c243b;
-  --color-white: #ffffff;
   padding: 10px;
 }
 
@@ -13,28 +6,27 @@
   padding: 30px;
   max-width: 800px;
   margin: 0 auto;
-  color: var(--color-text);
+  color: var(--color-muted);
 }
 
 .main h1 {
   font-size: 2.2rem;
   margin-bottom: 30px;
   text-align: center;
-  color: var(--color-text);
+  color: var(--color-muted);
   font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
 }
 
 .main fieldset {
-  border: 1px solid var(--color-borda);
+  border: 1px solid var(--color-mid);
   border-radius: 28px;
   padding: 20px;
   margin-bottom: 30px;
-  background-color: var(--color-primaria);
   box-shadow: var(--shadow);
 }
 
 .main legend {
-  color: var(--color-text);
+  color: var(--color-muted);
   font-size: 1.2rem;
   padding: 0 10px;
 }
@@ -54,8 +46,8 @@
   width: 100%;
   padding: 10px;
   background-color: var(--color-input-bg);
-  color: var(--color-white);
-  border: 1px solid var(--color-borda);
+  color: white;
+  border: 1px solid var(--color-mid);
   border-radius: 8px;
   margin-top: 5px;
   margin-bottom: 15px;
