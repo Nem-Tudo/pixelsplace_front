@@ -21,6 +21,7 @@
 .overlaygui .bottom {
     margin-top: auto;
     pointer-events: all;
+    justify-items: center;
 }
 
 .overlaygui .bottom .colors {
@@ -30,7 +31,7 @@
     padding: 0 15px;
 }
 
-.overlaygui .bottom .colors .color {
+.overlaygui .bottom .colors .color, .confirmation .color {
     width: 50px;
     min-width: 50px;
     height: 50px;
@@ -38,12 +39,18 @@
     margin: 7px;
     cursor: pointer;
     border: var(--outline);
+    box-shadow: var(--shadow);
+    transition: var(--smooth-transition);
+}
+.overlaygui .bottom .colors .color:hover, .confirmation .color:hover {
+    scale: var(--hover-scale);
 }
 
 .confirmation {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-items: center;
+    align-items: center
 }
 
 .pixelplacament {
@@ -52,6 +59,9 @@
     align-items: center;
     padding-bottom: 10px;
     padding-top: 7px;
+    justify-self: center;
+    max-width: fit-content;
+    width: 99dvw;
 }
 
 .pixelplacament[showingcolors="true"] {
@@ -64,6 +74,12 @@
     border-radius: 22px;
     overflow: hidden;
     border: var(--outline);
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+        margin: 0;
+        width: unset;
+    }
 }
 
 .pixelplacament .placepixel {
@@ -71,11 +87,11 @@
     border: var(--outline);
     color: white;
     margin: 7px;
-    padding: 20px 50px;
+    padding: 20px;
     cursor: pointer;
-    width: 180px;
     box-shadow: var(--shadow);
     transition: var(--smooth-transition);
+    width: fit-content;
 }
 
 .pixelplacament #cooldown {
@@ -85,6 +101,8 @@
 
 .pixelplacament #opencolor {
     background-color: var(--color-accent);
+    justify-self: center;
+    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
 .pixelplacament #opencolor:hover {
@@ -103,6 +121,8 @@
 
 .pixelplacament #confirm {
     background-color: rgb(0, 165, 82);
+    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+    line-height: 1.5;
 }
 
 .pixelplacament #confirm:hover {
@@ -317,6 +337,7 @@
 .overlaygui .top{
     position: relative;
     pointer-events: all;
+    justify-items: center;
 }
 .overlayPosition{
     position: relative;
@@ -329,4 +350,6 @@
     animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
     border: var(--outline);
     backdrop-filter: var(--frosted-glass-blur);
+    width: fit-content;
+    justify-self: center;
 }

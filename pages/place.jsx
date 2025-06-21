@@ -853,16 +853,18 @@ export default function Place() {
                       }}
                     >
                       {" "}
-                      {selectedColor ? "Confirmar" : "Selecione uma Cor"}{" "}
+                      {selectedColor ? "Colocar!" : "Selecione uma cor"}{" "}
                     </button>
+                  )}
+                  {showingColors && (
+                    <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onChange={(e) => {
+                      if (!loggedUser.premium) return alert("Vish isso aí é só pra premium rapaize - command ou vaca faz um css dps")
+                      setSelectedColor(hexToNumber(e.target.value))
+                    }} />
                   )}
                 </div>
                 {showingColors && (
                   <div className={styles.colors}>
-                    <input type="color" id="" value={numberToHex(selectedColor)} onChange={(e) => {
-                      if (!loggedUser.premium) return alert("Vish isso aí é só pra premium rapaize - command ou vaca faz um css dps")
-                      setSelectedColor(hexToNumber(e.target.value))
-                    }} />
                     {canvasConfig?.freeColors?.map((color, index) => (
                       <div
                         key={index}
