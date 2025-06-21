@@ -3,6 +3,8 @@ import styles from "./partners.module.css";
 import React, { useState } from 'react';
 import { BsArrowLeft, BsStar, BsStarHalf, BsFillStarFill } from "react-icons/bs";
 import { MainLayout } from "@/layout/MainLayout";
+import checkFlags from "@/src/checkFlags";
+import { useAuth } from "@/context/AuthContext";
 
 // Nao selecionado: bs BsStar
 // Hover: bs BsStarHalf
@@ -10,6 +12,8 @@ import { MainLayout } from "@/layout/MainLayout";
 
 
 export default function Partners() {
+
+    const { loggedUser } = useAuth()
 
     const guilds = [
         {
@@ -4437,9 +4441,9 @@ export default function Partners() {
 
 
                 <div className={styles.servers}>
-                    <span>Segredo...</span>
-                    {false && guilds.slice(0, 30).map((guild, index) => (
-                        <div key={index} className={styles.guildCard} style={userServer === guild.id ? {background: "linear-gradient(rgb(255 255 0 / 10%), rgb(255 255 0 / 10%)), #141c2f"} : {}}>
+                    {!checkFlags(loggedUser?.flags, "VIEW_PARTNERS") && <span>Segredo...</span>}
+                    {checkFlags(loggedUser?.flags, "VIEW_PARTNERS") && guilds.slice(0, 30).map((guild, index) => (
+                        <div key={index} className={styles.guildCard} style={userServer === guild.id ? { background: "linear-gradient(rgb(255 255 0 / 10%), rgb(255 255 0 / 10%)), #141c2f" } : {}}>
                             <img
                                 className={styles.guildIcon}
                                 src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=512`}
