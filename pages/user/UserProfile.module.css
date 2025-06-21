@@ -115,7 +115,7 @@
   background-color: var(--bg-color-secundaria);
 }
 
-.guildCard, .description span, .pixelsInfo{
+.guildCard, .description span, .description textarea, .pixelsInfo{
   min-width: 225px;
 }
 
@@ -236,7 +236,7 @@
 }
 /* 465px */
 @media (max-width: 705px) {
-  .guildCard, .description span, .pixelsInfo{
+  .guildCard, .description span, .description textarea, .pixelsInfo{
   min-height: 20dvh;
 }
   .serverInfo{
