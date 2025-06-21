@@ -27,14 +27,15 @@ export default function PremiumWarning({ onClose }) {
             top: "20px",
             right: "20px",
             cursor: "pointer",
+            color: "#b3b3b3"
         }}
         onClick={onClose}
         >
         <MdClose />
         </div>
-        <span>Essa função é apenas para premium</span>
+        <span style={{marginTop:"8px"}}>Essa função é apenas para Premium</span>
         <PremiumButton setClass={styles.button} as={Link} redirect={true} href="/premium">
-        <span className={styles.span}>compre o premium aqui</span>
+        <span className={styles.span}>Compre o Premium aqui!</span>
         </PremiumButton>
     </div>
     );
