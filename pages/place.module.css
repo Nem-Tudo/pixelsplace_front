@@ -38,6 +38,7 @@
     margin: 7px;
     cursor: pointer;
     border: var(--outline);
+    box-shadow: var(--shadow);
 }
 
 .confirmation {
