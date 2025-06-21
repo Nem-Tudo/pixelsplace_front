@@ -1,9 +1,10 @@
 .div{
     height: 200px;
-    background-color: #141c2f;;
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
     width: 250px;
     padding: 15px;
-    color: #9dcaff;
+    color: var(--color-muted);
     border-radius: 30px;
     padding-top: 30px;
     display: flex;
@@ -21,15 +22,19 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: black 6px 6px 20px 6px ;
+    box-shadow: var(--shadow);
 }
 .button{
-    border-radius: 15px;
+    border-radius: 12px;
     height: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    box-shadow: var(--shadow);
+}
+.button:hover {
+    scale: var(--hover-scale);
 }
 .button .span{
     font-size: 1.25rem;
