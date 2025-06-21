@@ -1,5 +1,5 @@
 .header {
-    background: #7f99cb;
+    background: var(--color-muted);
     padding: 1rem 2rem;
     box-shadow: var(--shadow);
     display: flex;
@@ -8,6 +8,8 @@
     user-select: none;
     width: 100vw;
     justify-content: space-between;
+    height: 72px;
+    border-bottom: var(--outline);
 }
 
 .left {
@@ -98,7 +100,6 @@
     font-weight: 500;
     color: #ffffff;
     padding-right: 10px;
-    cursor: default;
     /* width: 0px; */
             max-width: min-content;
     overflow: hidden;
