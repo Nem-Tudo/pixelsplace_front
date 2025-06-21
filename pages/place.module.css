@@ -55,7 +55,7 @@
 }
 
 .pixelplacament[showingcolors="true"] {
-    background: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
+    background: var(--frosted-glass);
     -webkit-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
     box-shadow: var(--shadow);
@@ -135,7 +135,7 @@
 }
 
 .pixelInfo {
-    background-color: white;
+    background: white;
     padding: 10px;
     border-radius: 7px;
     display: flex;
@@ -179,19 +179,15 @@
 /*pixelInfo*/
 
 .pixelInfo {
-    --color-text: #9dcaff;
-    --color-button-a: #0075d5;
-    --color-primaria: #141c2f;
-}
-
-.pixelInfo {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    background-color: var(--color-primaria);
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
+    box-shadow: var(--shadow);
     color: var(--color-text);
-    border: 1px solid #2d3748;
-    border-radius: 12px;
+    border: var(--outline);
+    border-radius: 28px;
     max-width: 350px;
     margin: 0 auto;
     font-family: sans-serif;
@@ -242,31 +238,32 @@
 }
 
 .pixelbuttons button {
-    background-color: var(--color-button-a);
+    background-color: var(--color-accent);
     color: white;
     padding: 10px 16px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: var(--smooth-transition);
 }
 
 .pixelbuttons button:hover {
-    background-color: #0054e5;
+    background-color: var(--color-darker);
+    scale: var(--hover-scale);
 }
 
 .showRight {
     animation: showRight 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
-    -webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    /*-webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
-    box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);*/
 }
 
 .showLeft {
     animation: showLeft 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
-    -webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    /*-webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
-    box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);*/
 }
 
 @keyframes showRight {

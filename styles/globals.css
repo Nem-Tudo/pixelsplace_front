@@ -39,6 +39,9 @@
   --color-accent: hsl(207.04deg 100% 41.76%);
   --color-darker: hsl(217.99deg 100% 44.9%);
   --color-muted: hsl(212deg 100% 75%);
+  --color-text: hsla(0deg, 0%, 25%, 75%);
+  /* Degradês */
+  --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
   /* Atributos */
   --shadow: 2px 2px 7px #00000024;
   --outline: 1px solid var(--color-outline);
