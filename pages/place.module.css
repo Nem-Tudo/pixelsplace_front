@@ -99,6 +99,7 @@
 
 .pixelplacament #opencolor {
     background-color: var(--color-accent);
+    justify-self: center;
 }
 
 .pixelplacament #opencolor:hover {
@@ -118,6 +119,7 @@
 .pixelplacament #confirm {
     background-color: rgb(0, 165, 82);
     font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+    line-height: 1.5;
 }
 
 .pixelplacament #confirm:hover {
