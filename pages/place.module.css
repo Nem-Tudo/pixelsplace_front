@@ -39,6 +39,10 @@
     cursor: pointer;
     border: var(--outline);
     box-shadow: var(--shadow);
+    transition: var(--smooth-transition);
+}
+.overlaygui .bottom .colors .color:hover {
+    scale: var(--hover-scale);
 }
 
 .confirmation {
@@ -113,6 +117,7 @@
 
 .pixelplacament #confirm {
     background-color: rgb(0, 165, 82);
+    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
 .pixelplacament #confirm:hover {
