@@ -88,9 +88,9 @@
     margin: 7px;
     padding: 20px;
     cursor: pointer;
-    width: 180px;
     box-shadow: var(--shadow);
     transition: var(--smooth-transition);
+    width: fit-content;
 }
 
 .pixelplacament #cooldown {
@@ -101,6 +101,7 @@
 .pixelplacament #opencolor {
     background-color: var(--color-accent);
     justify-self: center;
+    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
 .pixelplacament #opencolor:hover {

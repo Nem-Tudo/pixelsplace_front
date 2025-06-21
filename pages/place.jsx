@@ -853,7 +853,7 @@ export default function Place() {
                       }}
                     >
                       {" "}
-                      {selectedColor ? "Confirmar" : "Selecione uma cor"}{" "}
+                      {selectedColor ? "Colocar!" : "Selecione uma cor"}{" "}
                     </button>
                   )}
                 </div>
