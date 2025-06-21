@@ -1,31 +1,26 @@
-.main {
-    --color-text: #9dcaff;
-    --color-button-a: #0075d5;
-    --color-primaria: #141c2f
-}
-
 .main .title {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   margin-bottom: 50px;
-      height: -webkit-fill-available;
-    margin: 15px;
-    gap: 15px;
-
+  height: -webkit-fill-available;
+  margin: 15px;
+  gap: 15px;
 }
 
 .main .title h1 {
   font-size: 3rem;
   font-weight: bold;
-  color: var(--color-text);
+  font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
+  color: var(--color-muted);
 }
 
 .main .title h5 {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--color-text);
+  color: var(--color-muted);
+  opacity: 0.5;
 }
 
 .main .title a {
@@ -35,13 +30,21 @@
     flex-direction: row;
     flex-wrap: nowrap;
 
-    background-color: var(--color-button-a);
+    background-color: var(--color-accent);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: var(--smooth-transition);
+    gap: 8px;
+    box-shadow: var(--shadow);
+    border: var(--outline);
+}
+
+.main .title a:hover {
+    scale: var(--hover-scale);
+    background-color: var(--color-darker);
 }
 
 .servers {
@@ -57,7 +60,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background-color: var(--color-primaria);
+    background-color: var(--color-darkest);
     border: 1px solid #1f2a44;
     border-radius: 12px;
     padding: 1rem;
@@ -95,7 +98,7 @@
 .guildName {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-muted);
     white-space: nowrap;
     max-width: 70%;
     overflow: hidden;
@@ -104,7 +107,7 @@
 
 .guildLink {
     align-self: flex-start;
-    background-color: var(--color-button-a);
+    background-color: var(--color-accent);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 8px;
