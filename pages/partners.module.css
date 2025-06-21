@@ -60,16 +60,17 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background-color: var(--color-darkest);
-    border: 1px solid #1f2a44;
-    border-radius: 12px;
+    background-color: var(--color-mid);
+    border: var(--outline);
+    border-radius: 23px;
     padding: 1rem;
     margin-bottom: 1rem;
     color: #d0e6ff;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: var(--smooth-transition);
     padding: 15px;
     width: 450px;
     margin: 15px;
+    box-shadow: var(--shadow);
 }
 
 .guildCard:hover {
@@ -113,9 +114,11 @@
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: var(--smooth-transition);
+    border: var(--outline);
 }
 
 .guildLink:hover {
-    background-color: #003dcc;
+    background-color: var(--color-darker);
+    scale: var(--hover-scale);
 }
