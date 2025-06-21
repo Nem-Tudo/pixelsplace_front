@@ -99,7 +99,6 @@
 
 .pixelplacament #opencolor {
     background-color: var(--color-accent);
-    justify-self: center;
 }
 
 .pixelplacament #opencolor:hover {
