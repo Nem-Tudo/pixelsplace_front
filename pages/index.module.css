@@ -31,14 +31,14 @@
   font-size: 3rem;
   font-weight: bold;
   color: #9dcaff;
-  font-family: 'Pixelated', Arial, Helvetica, sans-serif;
+  font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
 .btn {
-  background-color: var(--cor-principal);
+  background-color: var(--color-accent);
   color: white;
   border: var(--outline);
-  box-shadow: var(--sombra);
+  box-shadow: var(--shadow);
   padding: 18px;
   border-radius: 12px;
   transition: all ease 0.3s;
@@ -47,6 +47,6 @@
 }
 
 .btn:hover {
-  background-color: var(--cor-escura);
+  background-color: var(--color-darker);
   scale: var(--hover-scale);
 }

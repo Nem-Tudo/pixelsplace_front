@@ -17,18 +17,26 @@
 }
 
 @font-face {
-  font-family: "Pixelated";
-  src: url("/fonts/pixelated.ttf");
+  font-family: "Dogica Pixel";
+  src: url("/fonts/dogicapixel.ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dogica Pixel Bold";
+  src: url("/fonts/dogicapixelbold.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --cor-outline: hsla(0deg, 0%, 100%, 50%);
-  --cor-principal: hsl(207.04deg 100% 41.76%);
-  --cor-escura: hsl(217.99deg 100% 44.9%);
-  --sombra: 2px 2px 7px #00000024;
+  --color-outline: hsla(0deg, 0%, 100%, 20%);
+  --color-accent: hsl(207.04deg 100% 41.76%);
+  --color-darker: hsl(217.99deg 100% 44.9%);
+  --shadow: 2px 2px 7px #00000024;
   --outline: 1px solid var(--cor-outline);
   --hover-scale: 1.05;
 }
