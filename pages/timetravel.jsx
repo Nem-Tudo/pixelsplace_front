@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
+import checkFlags from "@/src/checkFlags";
 
 export default function Place() {
 
@@ -355,10 +356,7 @@ export default function Place() {
     const isAlready = () => !apiError && !loading && canvasConfig.width
 
     //verifica se é admin
-    if (
-        !loggedUser?.flags.includes("ADMIN") &&
-        !loggedUser?.flags.includes("TIMETRAVEL_VIEW")
-    )
+    if (!checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW"))
         return (
             <MainLayout>
                 <span>Você não tem permissão para acessar essa página.</span>

@@ -6,6 +6,7 @@ import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from '@/context/AuthContext';
 
 import PremiumButton from '@/components/PremiumButton';
+import checkFlags from "@/src/checkFlags";
 
 export default function Home() {
 
@@ -30,6 +31,9 @@ export default function Home() {
             <Link className={styles.btn} href={"/place"}>Começar</Link>
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Link className={styles.btn} href="/partners">Servidores</Link>
+            {
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link className={styles.btn} href="/admin">⚙ Admin</Link>
+            }
           </div>
         </main>
       </MainLayout>
