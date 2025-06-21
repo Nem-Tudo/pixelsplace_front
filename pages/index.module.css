@@ -30,8 +30,9 @@
 .main .logo h1 {
   font-size: 3rem;
   font-weight: bold;
-  color: #9dcaff;
+  color: var(--color-muted);
   font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+  text-align: center;
 }
 
 .btn {
