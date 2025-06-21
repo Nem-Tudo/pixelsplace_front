@@ -369,6 +369,7 @@ export default function Place() {
                 <title>Timetravel PixelsPlace</title>
                 <meta name="description" content="Participe do PixelsPlace!" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="theme-color" content="#80bbff" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <MainLayout>
