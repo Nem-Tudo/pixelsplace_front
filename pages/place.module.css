@@ -26,6 +26,7 @@
     overflow-x: auto;
     display: flex;
     max-width: 100dvw;
+    padding: 0 15px;
 }
 
 .overlaygui .bottom .colors .color {
@@ -114,11 +115,17 @@
 
 
 .pixelplacament #cancel {
-    background-color: rgb(167, 167, 167);
+    background-color: transparent;
+    color: hsla(0deg, 0%, 25%, 75%);
+    box-shadow: none;
+    border: none;
 }
 
 .pixelplacament #cancel:hover {
-    background-color: rgb(107, 107, 107);
+    background-color: rgba(255, 255, 255, 0.516);
+    color: white;
+    box-shadow: var(--shadow);
+    border: var(--outline);
 }
 
 .pixelInfo {
