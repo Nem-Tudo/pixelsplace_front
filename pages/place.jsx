@@ -728,9 +728,8 @@ export default function Place() {
                 style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo} ${
-                    direction === "left" ? styles.showLeft : styles.showRight
-                  }`}
+                  className={`${styles.pixelInfo} ${direction === "left" ? styles.showLeft : styles.showRight
+                    }`}
                   ref={pixelInfoRef}
                 >
                   <div style={{ position: "absolute", right: "20px" }}>
@@ -830,9 +829,15 @@ export default function Place() {
                         : "Logue para colocar pixel"}
                     </button>
                   )}
-                  {/* {!showingColors && <button className={styles.placepixel} id={styles.pixelinfo} onClick={() => {
-                                        showPixelInfo(selectedPixel.x, selectedPixel.y)
-                                    }}>Pixel info</button>} */}
+                  {showingColors && (
+                    <button
+                      className={styles.placepixel}
+                      id={styles.cancel}
+                      onClick={() => setShowingColors(false)}
+                    >
+                      Cancelar
+                    </button>
+                  )}
                   {showingColors && (
                     <button
                       disabled={!selectedColor}
@@ -851,18 +856,13 @@ export default function Place() {
                       {selectedColor ? "Confirmar" : "Selecione uma Cor"}{" "}
                     </button>
                   )}
-                  {showingColors && (
-                    <button
-                      className={styles.placepixel}
-                      id={styles.cancel}
-                      onClick={() => setShowingColors(false)}
-                    >
-                      Cancelar
-                    </button>
-                  )}
                 </div>
                 {showingColors && (
                   <div className={styles.colors}>
+                    <input type="color" id="" value={numberToHex(selectedColor)} onChange={(e) => {
+                      if (!loggedUser.premium) return alert("Vish isso aí é só pra premium rapaize - command ou vaca faz um css dps")
+                      setSelectedColor(hexToNumber(e.target.value))
+                    }} />
                     {canvasConfig?.freeColors?.map((color, index) => (
                       <div
                         key={index}
