@@ -43,7 +43,7 @@ export default function Place() {
 
   const [selectedPixel, setSelectedPixel] = useState(null);
 
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(0);
   const [showingPixelInfo, setShowingPixelInfo] = useState(null);
 
   const [showingPixelPosition, setShowingPixelPosition] = useState(null);
@@ -987,9 +987,9 @@ export default function Place() {
   );
 }
 
-function hexToNumber(hex) {
+function hexToNumber(hex = "000000") {
   return parseInt(hex.replace("#", ""), 16);
 }
-function numberToHex(num) {
+function numberToHex(num = 0) {
   return "#" + num.toString(16).padStart(6, "0");
 }
