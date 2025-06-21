@@ -3,6 +3,7 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
     touch-action: none;
+    box-shadow: var(--shadow);
 }
 
 .overlaygui {
@@ -325,8 +326,10 @@
     align-self: center;
     justify-self: center;
     background-color: #808080d6;
-    padding: 5px;
+    padding: 5px 8px;
     border-radius: 100vh;
     top: 87px;
     animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
+    border: var(--outline);
+    backdrop-filter: var(--frosted-glass-blur);
 }
