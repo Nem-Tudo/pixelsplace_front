@@ -1,6 +1,7 @@
 #canvas {
+    /* image-rendering: crisp-edges; */
+    image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
-    image-rendering: crisp-edges;
     touch-action: none;
 }
 
@@ -53,9 +54,9 @@
 
 .pixelplacament[showingcolors="true"] {
     background-color: white;
-    box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
     -webkit-box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
     -moz-box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
+    box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
 }
 
 .pixelplacament .placepixel {
@@ -124,6 +125,7 @@
     color: black;
     pointer-events: all;
     width: max-content;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -234,16 +236,16 @@
 
 .showRight {
     animation: showRight 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
-    box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
 }
 
 .showLeft {
     animation: showLeft 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35); 
-    box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
+    box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes showRight {
