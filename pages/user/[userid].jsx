@@ -178,7 +178,7 @@ export default function UserProfile() {
             </p>
           </div>
           <div className={styles.moreInfo}>
-            {userInfo?.serverFav && (
+            {!userInfo?.serverFav && (
               <div className={styles.serverInfo}>
                 {
                   <div className={styles.guildCard}>
