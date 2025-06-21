@@ -10,7 +10,7 @@
 }
 
 .main .title h1 {
-  font-size: 3rem;
+  font-size: min(9dvw,3rem);
   font-weight: bold;
   font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
   color: var(--color-muted);
@@ -68,7 +68,7 @@
     color: #d0e6ff;
     transition: var(--smooth-transition);
     padding: 15px;
-    width: 450px;
+    width: min(450px, 90dvw);
     margin: 15px;
     box-shadow: var(--shadow);
 }

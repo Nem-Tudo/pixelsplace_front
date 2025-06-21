@@ -1,7 +1,5 @@
 .main {
   padding: 10px;
-  width: 100dvw;
-  overflow-x: hidden;
 }
 
 .container {
@@ -12,7 +10,7 @@
 }
 
 .main h1 {
-  font-size: clamp(1rem, 1.7rem, 2.2rem);
+  font-size: min(4dvw,3rem);
   margin-bottom: 30px;
   text-align: center;
   color: var(--color-muted);
