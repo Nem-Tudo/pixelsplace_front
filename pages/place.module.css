@@ -53,6 +53,9 @@
     align-items: center;
     padding-bottom: 10px;
     padding-top: 7px;
+    justify-self: center;
+    max-width: fit-content;
+    width: 99dvw;
 }
 
 .pixelplacament[showingcolors="true"] {
@@ -72,7 +75,7 @@
     border: var(--outline);
     color: white;
     margin: 7px;
-    padding: 20px 50px;
+    padding: 20px;
     cursor: pointer;
     width: 180px;
     box-shadow: var(--shadow);
