@@ -133,6 +133,15 @@ export default function AdminPage() {
             <span>Usuarios: {stats?.registeredUsers}</span>
             <span>Pixels: {stats?.pixels}</span>
           </div>
+          <fieldset>
+            <legend>
+              <strong>Informações principais</strong>
+            </legend>
+            <span>Update: {stats?.time}</span>
+            <span>Online: {stats?.online}</span>
+            <span>Usuarios: {stats?.registeredUsers}</span>
+            <span>Pixels: {stats?.pixels}</span>
+          </fieldset>
           {/* Redimensionar */}
           <fieldset>
             <legend>
