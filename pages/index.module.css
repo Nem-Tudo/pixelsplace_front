@@ -40,8 +40,8 @@
   border: var(--outline);
   box-shadow: var(--sombra);
   padding: 18px;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+  border-radius: 12px;
+  transition: all ease 0.3s;
   width: 215px;
   font-size: 1.2rem 19.2px;
 }
