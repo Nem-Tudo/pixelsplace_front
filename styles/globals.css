@@ -39,7 +39,7 @@
   --color-accent: hsl(207.04deg 100% 41.76%);
   --color-darker: hsl(217.99deg 100% 44.9%);
   --color-mid: hsl(222, 26%, 22%);
-  --color-input-bg: #1c243b;
+  --color-input-bg: hsl(225, 36%, 17%);
   --color-darkest: hsl(222, 40%, 13%);
   --color-muted: hsl(212, 100%, 75%);
   --color-text: hsla(0deg, 0%, 25%, 75%);
