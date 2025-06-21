@@ -1,6 +1,4 @@
 # PixelsPlace
-PixelsPlace é um site que permite que diversos usuários coloquem pixels em uma tela em tempo real! 
----
-# Legacy
-- COMMAND_COMMIT = 9
-- VACA_COMMIT = 3
+PixelsPlace é um site que permite que diversos usuários coloquem pixels em uma tela em tempo real!
+Acesse: https://pixelsplace.nemtudo.me/
+API: https://apipixelsplace.nemtudo.me/
