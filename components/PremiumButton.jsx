@@ -16,7 +16,7 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   if (loggedUser?.premium || redirect) {
     if (onClick) onClick(event);
   } else {
-    event.preventDefault(); // bloqueia navegação
+    event.preventDefault();
     setShowWarning(true);
   }
 };
@@ -91,5 +91,10 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
 </PremiumButton>
 
 //* icon
-<PremiumButton as="icon" icon={<MdOutlineModeEditOutline style={} onClick={() => switchEdit("bgImg")}/>} ></PremiumButton>
+<PremiumButton as="icon" icon={ <icon style={} onClick={() => alert()}/> }></PremiumButton>
+
+//* redirect
+<PremiumButton setClass={styles.button} as={Link} redirect={true} href="/premium">
+  bypass premium, go to link 
+</PremiumButton>
 */}

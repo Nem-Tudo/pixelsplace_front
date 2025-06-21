@@ -12,7 +12,7 @@ export default function Header({ loggedUser, loading }) {
                     <Link href={"/"}>
                         <div className={styles.item}>
                             <img style={{width: "40px"}} src="/logo.png" alt="" />
-                            <span>PixelsPlace</span>
+                            <span id={styles.pixelPlace}>PixelsPlace</span>
                         </div>
                     </Link>
                     <Link href={"/premium"}><span id={styles.premium}>Vantagens</span></Link>
@@ -24,7 +24,8 @@ export default function Header({ loggedUser, loading }) {
                                 <span className="mobilehidden_500">{loggedUser.username}</span>
                                 <Tippy trigger="click" interactive={true} content={<>
 
-                                    <div className={styles.tippy_disconnect}>
+                                    <div className={styles.tippy_menu}>
+                                        <Link href={"/user/"+loggedUser?.id}></Link>
                                         <Link href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>

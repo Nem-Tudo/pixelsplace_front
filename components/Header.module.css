@@ -4,6 +4,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
+    -webkit-user-select: none;
     user-select: none;
     width: 100vw;
     justify-content: space-between;
@@ -28,6 +29,7 @@
     background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     position: relative;
     display: inline-block;
 }
@@ -45,6 +47,28 @@
 }
 
 .left #premium:hover::after {
+    width: 100%;
+}
+
+.left #pixelPlace {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+}
+
+.left #pixelPlace::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 0%;
+    background: white;
+    /* ou um gradiente se quiser */
+    transition: width 0.3s ease;
+}
+
+.left #pixelPlace:hover::after {
     width: 100%;
 }
 
@@ -101,36 +125,37 @@
     align-items: center;
 }
 
-.tippy_disconnect {
+.tippy_menu {
     background-color: white;
     padding: 10px;
     border-radius: 10px;
+    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.tippy_disconnect span {
+.tippy_menu span {
     color: red !important;
     padding: 0 !important;
 }
 
-.tippy_disconnect:hover {
+.tippy_menu:hover {
     background-color: red !important;
 }
 
-.tippy_disconnect:hover span {
+.tippy_menu:hover span {
     color: white !important;
 }
 
 @media (max-width: 500px) {
-  .header{
-    padding: 1rem .5rem;
-  }
+    .header{
+        padding: 1rem .5rem;
+    }
 }
 
 @media (max-width: 350px) {
-  .left{
-    gap: 12px;
-  }
+    .left{
+        gap: 12px;
+    }
 }

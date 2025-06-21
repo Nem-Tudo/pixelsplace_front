@@ -123,16 +123,6 @@ export default function UserProfile() {
     }
   }, [editStates.bgImg]);
 
-  if (!userid) {
-    return <p>Carregando ID do usuário...</p>;
-  }
-
-  if (!userInfo) {
-    return <p>Carregando dados do usuário...</p>;
-  }
-  if (!userAvatar) {
-    return <p>Carregando foto de perfil</p>;
-  }
 
   return (
     <MainLayout>
