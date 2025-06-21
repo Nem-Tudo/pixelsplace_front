@@ -138,9 +138,10 @@ export default function UserProfile() {
                     style={{
                       position: "absolute",
                       top: "5px",
-                      right: "5px",
+                      right: "10px",
                       cursor: "pointer",
                     }}
+                    className={styles.editPencil}
                     onClick={() => switchEdit("bgImg")}
                   />
                 }
@@ -225,7 +226,7 @@ export default function UserProfile() {
                             style={{
                               position: "absolute",
                               top: "5px",
-                              right: "5px",
+                              right: "px",
                               cursor: "pointer",
                             }}
                             onClick={() => switchEdit("bio")}
