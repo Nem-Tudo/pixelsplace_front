@@ -126,14 +126,7 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Canvas</h1>
 
-
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span>Update: {stats?.time}</span>
-            <span>Online: {stats?.online}</span>
-            <span>Usuarios: {stats?.registeredUsers}</span>
-            <span>Pixels: {stats?.pixels}</span>
-          </div>
-          <fieldset>
+          <fieldset style={{ display: "flex", flexDirection: "column" }}>
             <legend>
               <strong>Informações principais</strong>
             </legend>

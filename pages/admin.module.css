@@ -37,6 +37,9 @@
   color: var(--color-text);
   font-size: 1.2rem;
   padding: 0 10px;
+}
+
+.main legend strong {
   font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
