@@ -112,7 +112,7 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #5599ff;
+    border: var(--outline);
 }
 
 
@@ -127,22 +127,25 @@
 }
 
 .tippy_menu {
-    background-color: white;
+    background-color: hsla(0deg, 0%, 100%, 75%);
+    backdrop-filter: var(--frosted-glass-blur);
+    border: var(--outline);
     padding: 10px;
     border-radius: 10px;
     -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: var(--smooth-transition);
 }
 
 .tippy_menu span {
-    color: red !important;
+    color: hsla(0deg, 0%, 25%, 75%) !important;
     padding: 0 !important;
 }
 
 .tippy_menu:hover {
     background-color: red !important;
+    scale: var(--hover-scale);
 }
 
 .tippy_menu:hover span {

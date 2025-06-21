@@ -32,14 +32,20 @@
   font-display: swap;
 }
 
+/* Variáveis globais (consistência) */
 :root {
+  /* Cores */
   --color-outline: hsla(0deg, 0%, 100%, 20%);
   --color-accent: hsl(207.04deg 100% 41.76%);
   --color-darker: hsl(217.99deg 100% 44.9%);
   --color-muted: hsl(212deg 100% 75%);
+  /* Atributos */
   --shadow: 2px 2px 7px #00000024;
   --outline: 1px solid var(--color-outline);
+  --smooth-transition: all .4s ease;
+  /* Valores */
   --hover-scale: 1.05;
+  --frosted-glass-blur: blur(5px);
 }
 
 ::-webkit-scrollbar {

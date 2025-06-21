@@ -35,12 +35,13 @@
     border-radius: 7px;
     margin: 7px;
     cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.158);
+    border: var(--outline);
 }
 
 .confirmation {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row-reverse;
     justify-content: center;
 }
 
@@ -53,20 +54,26 @@
 }
 
 .pixelplacament[showingcolors="true"] {
-    background-color: white;
-    -webkit-box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
-    -moz-box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
-    box-shadow: -1px 1px 31px 9px rgba(0, 0, 0, 0.42);
+    background: linear-gradient(45deg, whitesmoke, white);
+    -webkit-box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
+    margin: 10px;
+    border-radius: 22px;
+    overflow: hidden;
+
 }
 
 .pixelplacament .placepixel {
-    border-radius: 3px;
-    border: none;
+    border-radius: 12px;
+    border: var(--outline);
     color: white;
     margin: 7px;
     padding: 20px 50px;
     cursor: pointer;
     width: 180px;
+    box-shadow: var(--shadow);
+    transition: var(--smooth-transition);
 }
 
 .pixelplacament #cooldown {
@@ -75,11 +82,12 @@
 }
 
 .pixelplacament #opencolor {
-    background-color: rgb(96, 107, 255);
+    background-color: var(--color-accent);
 }
 
 .pixelplacament #opencolor:hover {
-    background-color: rgb(78, 89, 252);
+    background-color: var(--color-darker);
+    scale: var(--hover-scale);
 }
 
 .pixelplacament #pixelinfo {
