@@ -111,6 +111,7 @@
 
 .pixelplacament #confirm:hover {
     background-color: rgb(0, 139, 70);
+    scale: var(--hover-scale);
 }
 
 
@@ -118,14 +119,14 @@
     background-color: transparent;
     color: hsla(0deg, 0%, 25%, 75%);
     box-shadow: none;
-    border: none;
+    border: 1px solid transparent;
 }
 
 .pixelplacament #cancel:hover {
     background-color: rgba(255, 255, 255, 0.516);
-    color: white;
     box-shadow: var(--shadow);
     border: var(--outline);
+    scale: var(--hover-scale);
 }
 
 .pixelInfo {
