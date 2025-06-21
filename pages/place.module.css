@@ -68,6 +68,11 @@
     border-radius: 22px;
     overflow: hidden;
     border: var(--outline);
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+        margin: 0;
+    }
 }
 
 .pixelplacament .placepixel {
