@@ -29,7 +29,9 @@ export default function Header({ loggedUser, loading }) {
                                 <Tippy trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
-                                        <Link href={"/user/" + loggedUser?.id}></Link>
+                                        <Link href={"/user/" + loggedUser?.id}>
+                                            <span>Perfil</span>
+                                        </Link>
                                         <Link href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>
