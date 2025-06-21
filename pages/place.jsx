@@ -911,7 +911,7 @@ export default function Place() {
             overflow: "hidden",
             position: "relative",
             touchAction: "none",
-            background: "#ccc",
+            background: "whitesmoke",
             display: isAlready() ? "unset" : "none",
           }}
         >
