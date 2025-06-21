@@ -839,6 +839,12 @@ export default function Place() {
                     </button>
                   )}
                   {showingColors && (
+                    <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onChange={(e) => {
+                      if (!loggedUser.premium) return alert("Vish isso aí é só pra premium rapaize - command ou vaca faz um css dps")
+                      setSelectedColor(hexToNumber(e.target.value))
+                    }} />
+                  )}
+                  {showingColors && (
                     <button
                       disabled={!selectedColor}
                       className={styles.placepixel}
@@ -859,10 +865,6 @@ export default function Place() {
                 </div>
                 {showingColors && (
                   <div className={styles.colors}>
-                    <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onChange={(e) => {
-                      if (!loggedUser.premium) return alert("Vish isso aí é só pra premium rapaize - command ou vaca faz um css dps")
-                      setSelectedColor(hexToNumber(e.target.value))
-                    }} />
                     {canvasConfig?.freeColors?.map((color, index) => (
                       <div
                         key={index}

@@ -31,7 +31,7 @@
     padding: 0 15px;
 }
 
-.overlaygui .bottom .colors .color {
+.overlaygui .bottom .colors .color, .confirmation .color {
     width: 50px;
     min-width: 50px;
     height: 50px;
@@ -42,7 +42,7 @@
     box-shadow: var(--shadow);
     transition: var(--smooth-transition);
 }
-.overlaygui .bottom .colors .color:hover {
+.overlaygui .bottom .colors .color:hover, .confirmation .color:hover {
     scale: var(--hover-scale);
 }
 
