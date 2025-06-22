@@ -152,7 +152,7 @@
 };
 
 .tippy_menu a span {
-    color: hsla(0deg, 0%, 25%, 75%) !important;
+    color: hsla(0deg, 0%, 25%, 75%);
     padding: 0 !important;
 }
 
