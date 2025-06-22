@@ -45,7 +45,7 @@
     bottom: -4px;
     height: 2px;
     width: 0%;
-    background: rgba(0, 255, 225, 0.8);
+    background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
     /* ou um gradiente se quiser */
     transition: width 0.3s ease;
 }
@@ -54,13 +54,13 @@
     width: 100%;
 }
 
-.left #pixelPlace {
+.left #pixelPlace, .left #admin {
     text-decoration: none;
     position: relative;
     display: inline-block;
 }
 
-.left #pixelPlace::after {
+.left #pixelPlace::after, .left #admin::after {
     content: "";
     position: absolute;
     left: 0;
@@ -72,7 +72,7 @@
     transition: width 0.3s ease;
 }
 
-.left #pixelPlace:hover::after {
+.left #pixelPlace:hover::after, .left #admin:hover::after {
     width: 100%;
 }
 
@@ -132,7 +132,7 @@
     background-color: hsla(0deg, 0%, 100%, 75%);
     backdrop-filter: var(--frosted-glass-blur);
     border: var(--outline);
-    padding: 10px;
+    padding: 5px;
     border-radius: 10px;
     -webkit-user-select: none;
     user-select: none;
@@ -140,18 +140,20 @@
     transition: var(--smooth-transition);
 }
 
+.tippy_menu a {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0);
+    transition: var(--smooth-transition);
+}
+
+.tippy_menu a:hover {
+    background-color: white;
+};
+
 .tippy_menu span {
     color: hsla(0deg, 0%, 25%, 75%) !important;
     padding: 0 !important;
-}
-
-.tippy_menu:hover {
-    background-color: red !important;
-    scale: var(--hover-scale);
-}
-
-.tippy_menu:hover span {
-    color: white !important;
 }
 
 @media (max-width: 500px) {

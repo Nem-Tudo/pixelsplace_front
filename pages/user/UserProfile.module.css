@@ -3,13 +3,22 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100vw;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 }
 .perfil{
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  align-items: center;
+  align-items: flex-start;
   margin-left: 20px;
+  gap: 8px;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 }
 .moreInfo{
   display: flex;
@@ -26,12 +35,12 @@
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  background-color: #141c2f;
+  background: #141c2f;
   color: #fff;
   min-height: 100vh;
 }
 
-.profile svg {
+.editPencil {
   backdrop-filter: var(--frosted-glass-blur);
   width: 24px;
   height: 24px;
@@ -39,9 +48,10 @@
   border: var(--outline);
   border-radius: 5px;
   transition: var(--smooth-transition);
+  box-shadow: var(--shadow);
 }
 
-.profile svg:hover {
+.editPencil:hover {
   scale: var(--hover-scale);
 }
 
@@ -52,10 +62,10 @@
   justify-content: center;
   gap: 1rem;
   background-color: var(--color-mid);
-  border: 1px solid var(--color-darkest);
+  border: var(--outline);
   border-radius: 12px;
-  color: #d0e6ff;
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--color-muted);
+  transition: var(--smooth-transition);
   width: 25vw;
   height: 12vh;
   padding: 5px;
@@ -96,7 +106,7 @@
 
 .displayName {
   font-size: 2rem;
-  margin: 1rem 0 0.2rem;
+  font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
 }
 
 .username {
@@ -109,18 +119,28 @@
 
 .description {
   position: relative;
+  transition: var(--smooth-transition);
+  border-radius: 12px;
+}
+
+.description:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .description textarea {
   width: 25vw;
   height: 12vh;
-  border-radius: 6px;
+  border-radius: 12px;
   padding: 0.5rem;
   resize: none;
   border: none;
   font-size: 1rem;
   color: #fff;
   background-color: var(--color-mid);
+  border: var(--outline);
+  box-shadow: var(--shadow);
+  transition: var(--smooth-transition);
 }
 
 .guildCard, .description span, .description textarea, .pixelsInfo{
@@ -131,7 +151,7 @@
   display: block;
   width: 25vw;
   height: 12vh;
-  border-radius: 6px;
+  border-radius: 12px;
   padding: 0.5rem;
   font-size: 1rem;
   color: #fff;
@@ -139,6 +159,9 @@
   white-space: pre-wrap;
   overflow-y: auto;
   position: relative;
+  border: var(--outline);
+  box-shadow: var(--shadow);
+  transition: var(--smooth-transition);
 }
 
 .pixels {
@@ -160,10 +183,11 @@
     border: 1px solid var(--color-darkest);
     border-radius: 12px;
     color: #d0e6ff;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: var(--smooth-transition);
     padding: 19px;
     width: 25vw;
     height: 12vh;
+    border: var(--outline);
 }
 
 .guildCard:hover {
@@ -202,28 +226,31 @@
 
 .guildLink {
     align-self: flex-start;
-    background-color: #0075d5;
+    background-color: var(--color-accent);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: var(--smooth-transition);
+    border: var(--outline);
 }
 
 .guildLink:hover {
-    background-color: #003dcc;
+    background-color: var(--color-darker);
+    scale: var(--hover-scale);
 }
 
 .viewPixelsButton {
   /* padding: 0.7rem 1.5rem; */
   color: white;
-  border: none;
+  border: var(--outline);
+  box-shadow: var(--shadow);
   border-radius: 12px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.3s;  
+  transition: var(--smooth-transition);  
   text-align: center;
   display: flex;
   align-items: center;
@@ -241,6 +268,11 @@
     align-items: center;
     flex-direction: column;
     flex-wrap: nowrap;
+    transition: var(--smooth-transition);
+}
+.pixelsInfo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 /* 465px */
 @media (max-width: 705px) {

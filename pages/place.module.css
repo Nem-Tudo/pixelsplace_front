@@ -344,6 +344,7 @@
     align-self: center;
     justify-self: center;
     background-color: #808080d6;
+    color: hsla(0deg, 0%, 100%, 75%);
     padding: 8px 10px;
     border-radius: 100vh;
     top: 87px;
