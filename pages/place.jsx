@@ -881,10 +881,12 @@ export default function Place() {
                       </>
                     }>
                       <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onClick={(e) => {
-                        e.preventDefault();
-                        setShowingPopup("premium_color")
+                        if (!loggedUser?.premium) {
+                          e.preventDefault();
+                          setShowingPopup("premium_color")
+                        }
                       }} onChange={(e) => {
-                        if (!loggedUser.premium) return
+                        if (!loggedUser?.premium) return
                         setSelectedColor(hexToNumber(e.target.value))
                       }} />
                     </Tippy>
