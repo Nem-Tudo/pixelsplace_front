@@ -20,6 +20,9 @@ export default function Header({ loggedUser, loading }) {
                     {
                         checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span id={styles.admin}>Admin</span></Link>
                     }
+                    {
+                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/timetravel"}><span id={styles.timeTravel}>Time Travel</span></Link>
+                    }
                 </nav>
                 <nav className={styles.right}>
                     {
