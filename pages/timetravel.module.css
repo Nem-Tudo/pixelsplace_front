@@ -42,14 +42,14 @@
     z-index: 1000;
     margin: 5px;
     border-radius: 22px;
-    width: 99dvw;
+    width: fit-content;
     overflow: hidden;
     border: var(--outline);
 
     @media (max-width: 768px) {
         border-radius: 0;
         margin: 0;
-        width: unset;
+        width: 100dvw;
     }
 }
 
