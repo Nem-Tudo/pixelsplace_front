@@ -59,25 +59,26 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 12px;
-    color: var(--color-muted);
-}
-
-.bottom input[type="checkbox"]:checked {
-    transform: scale(1.2);
-    cursor: pointer;
+    color: white;
 }
 
 #timeModeCheck {
-    background-color: red;
+    display: none;
 }
 #timeModeCheck + label {
     background-color: var(--color-muted);
+    padding: 5px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 #timeModeCheck:checked + label {
     background-color: var(--color-accent);
 }
 #timeModeCheck + label + label {
     background-color: var(--color-accent);
+    padding: 5px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 #timeModeCheck:checked + label + label {
     background-color: var(--color-muted);
