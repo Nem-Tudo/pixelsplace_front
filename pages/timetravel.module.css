@@ -57,7 +57,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
     margin-bottom: 12px;
     color: white;
 }
@@ -67,18 +66,20 @@
 }
 #timeModeCheck + label {
     background-color: var(--color-muted);
-    padding: 5px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    cursor: pointer;
 }
 #timeModeCheck:checked + label {
     background-color: var(--color-accent);
 }
 #timeModeCheck + label + label {
     background-color: var(--color-accent);
-    padding: 5px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
 }
 #timeModeCheck:checked + label + label {
     background-color: var(--color-muted);
