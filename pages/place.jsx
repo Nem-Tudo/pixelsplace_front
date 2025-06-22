@@ -18,7 +18,7 @@ import { userAgent } from "next/server";
 export default function Place() {
   const { token, loggedUser } = useAuth();
   const router = useRouter();
-  const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect } = useSocketConnection();
+  const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -662,7 +662,7 @@ export default function Place() {
   }
 
   const isAlready = () =>
-    !socketerror && !apiError && !loading && socketconnected && canvasConfig.width;
+    !socketdisconnectforced && !socketerror && !apiError && !loading && socketconnected && canvasConfig.width;
 
   function getPixelColor(x, y) {
     if (!canvasRef?.current) return null;
@@ -920,6 +920,16 @@ export default function Place() {
             <span>Falha na conexão WebSocket</span>
             <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={socketreconnect}>Tentar Novamente</button>
+              <button onClick={() => location.reload()}>Recarregar Página</button>
+            </div>
+          </MessageDiv>
+        )}
+
+        {/* WebSocket Disconnected */}
+        {socketdisconnectforced && (
+          <MessageDiv centerscreen={true} type="warn">
+            <span>WebSocket desconectado: Você foi kickado da sala</span>
+            <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => location.reload()}>Recarregar Página</button>
             </div>
           </MessageDiv>

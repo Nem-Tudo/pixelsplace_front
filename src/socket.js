@@ -47,7 +47,8 @@ export function useSocketConnection() {
     const [state, setState] = useState({
         connected: false,
         connecting: false,
-        error: null
+        error: null,
+        disconnectforced: false
     });
 
     const connectTimeoutRef = useRef(null);
@@ -148,7 +149,8 @@ export function useSocketConnection() {
             updateState({
                 connected: false,
                 connecting: false,
-                error: null
+                error: null,
+                disconnectforced: true
             });
             return;
         }
@@ -322,6 +324,7 @@ export function useSocketConnection() {
         connected: state.connected,
         connecting: state.connecting,
         error: state.error,
+        disconnectforced: state.disconnectforced,
         reconnect: attemptReconnect
     };
 }
