@@ -35,6 +35,9 @@ export default function Home() {
             {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link className={styles.btn} href="/admin">⚙ Admin</Link>
             }
+            {
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link className={styles.btn} href="/timetravel">⚙ Time Travel</Link>
+            }
           </div>
         </main>
       </MainLayout>
