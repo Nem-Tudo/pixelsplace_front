@@ -1,9 +1,10 @@
 .messagediv {
     color: black;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-radius: 100dvw;
     width: fit-content;
     margin: 10px;
+    box-shadow: var(--shadow);
 }
 
 .centerscreen {
@@ -26,7 +27,7 @@
 }
 
 .messagediv.warn {
-    background-color: #ff9600;
+    background: linear-gradient(45deg, #ff5a00, #ff9600);
 }
 
 .messagediv.normal-white {
@@ -35,14 +36,16 @@
 
 .messagediv button {
     background-color: rgba(255, 255, 255, 0.404);
-    border: none;
+    border: var(--outline);
     padding: 7px 15px;
-    border-radius: 5px;
+    border-radius: 100dvw;
     cursor: pointer;
     outline: none;
-    transition: all .2s ease;
+    transition: var(--smooth-transition);
+    box-shadow: var(--shadow);
 }
 
 .messagediv button:hover {
     background-color: rgba(255, 255, 255, 0.507);
+    scale: var(--hover-scale);
 }

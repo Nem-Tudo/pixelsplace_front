@@ -120,13 +120,6 @@
 
 .description {
   position: relative;
-  transition: var(--smooth-transition);
-  border-radius: 12px;
-}
-
-.description:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .description textarea {
@@ -163,6 +156,11 @@
   border: var(--outline);
   box-shadow: var(--shadow);
   transition: var(--smooth-transition);
+}
+
+.description span:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .pixels {

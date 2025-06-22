@@ -392,7 +392,7 @@ export default function Place() {
                             <label for={styles.timeModeCheck}>Apenas as mudanças</label>
 
                         </div>
-                        <div style={{ display: "flex", width: "100dvw", justifyContent: "center"}}>
+                        <div style={{ display: "flex", justifyContent: "center"}}>
                             <div>
                                 <span>Marcha (m): </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
