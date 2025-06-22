@@ -33,10 +33,11 @@
     left: 0;
     width: 100dvw;
     color: var(--color-muted);
-    background-color: var(--color-darkest);
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
     border-top: 2px solid var(--color-accent);
     padding: 16px 12px;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     font-family: sans-serif;
     z-index: 1000;
 }
