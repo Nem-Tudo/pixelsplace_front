@@ -98,7 +98,7 @@
     cursor: pointer;
 }
 
-.right .loggedUser span#userName {
+.right .loggedUser .userName {
     font-weight: 500;
     color: #ffffff;
     padding-right: 10px;
