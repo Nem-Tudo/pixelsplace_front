@@ -45,7 +45,7 @@
     bottom: -4px;
     height: 2px;
     width: 0%;
-    background: rgba(0, 255, 225, 0.8);
+    background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
     /* ou um gradiente se quiser */
     transition: width 0.3s ease;
 }
