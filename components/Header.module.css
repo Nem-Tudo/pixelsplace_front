@@ -54,13 +54,13 @@
     width: 100%;
 }
 
-.left #pixelPlace, .left #admin {
+.left #pixelPlace, .left #admin, .left #timeTravel {
     text-decoration: none;
     position: relative;
     display: inline-block;
 }
 
-.left #pixelPlace::after, .left #admin::after {
+.left #pixelPlace::after, .left #admin::after, .left #timeTravel::after {
     content: "";
     position: absolute;
     left: 0;
@@ -72,7 +72,7 @@
     transition: width 0.3s ease;
 }
 
-.left #pixelPlace:hover::after, .left #admin:hover::after {
+.left #pixelPlace:hover::after, .left #admin:hover::after, .left #timeTravel:hover::after {
     width: 100%;
 }
 
@@ -98,12 +98,12 @@
     cursor: pointer;
 }
 
-.right .loggedUser span {
+.right .loggedUser span#userName {
     font-weight: 500;
     color: #ffffff;
     padding-right: 10px;
     /* width: 0px; */
-            max-width: min-content;
+    max-width: min-content;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -132,29 +132,36 @@
     background-color: hsla(0deg, 0%, 100%, 75%);
     backdrop-filter: var(--frosted-glass-blur);
     border: var(--outline);
-    padding: 5px;
     border-radius: 10px;
     -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     transition: var(--smooth-transition);
+    overflow: hidden;
 }
 
 .tippy_menu a {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 0px;
     background-color: rgba(255, 255, 255, 0);
     transition: var(--smooth-transition);
+    color: var(--color-text);
+    span {
+        color: var(--color-text);
+    }
 }
 
 .tippy_menu a:hover {
     background-color: white;
-};
-
-.tippy_menu span {
-    color: hsla(0deg, 0%, 25%, 75%) !important;
-    padding: 0 !important;
 }
+
+.tippy_menu a#tippyDisconnect:hover {
+    background-color: red;
+    color: white;
+    span {
+        color: white;
+    }
+} 
 
 @media (max-width: 500px) {
     .header{

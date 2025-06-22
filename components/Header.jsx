@@ -20,19 +20,22 @@ export default function Header({ loggedUser, loading }) {
                     {
                         checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span id={styles.admin}>Admin</span></Link>
                     }
+                    {
+                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/timetravel"}><span id={styles.timeTravel}>Time Travel</span></Link>
+                    }
                 </nav>
                 <nav className={styles.right}>
                     {
                         !loading && loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
-                                <span className="mobilehidden_500">{loggedUser.username}</span>
+                                <span id={styles.userName} className="mobilehidden_500">{loggedUser.username}</span>
                                 <Tippy trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
                                         <Link href={"/user/" + loggedUser?.id}>
                                             <span>Perfil</span>
                                         </Link>
-                                        <Link href={"/auth/discord"}>
+                                        <Link id={styles.tippyDisconnect} href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>
                                     </div>

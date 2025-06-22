@@ -18,6 +18,7 @@
 
   @media (max-width: 768px) {
     align-items: center;
+    margin-left: unset;
   }
 }
 .moreInfo{

@@ -172,11 +172,11 @@ export default function UserProfile() {
               <img src={userAvatar} alt="Avatar do usuário" />
             </div>
 
-            <h1 className={styles.displayName}>{userInfo?.display_name}</h1>
+            <h1 className={styles.displayName}>
+              {userInfo?.display_name} <Verified verified={userInfo?.premium} />
+            </h1>
 
-            <p className={styles.username}>
-              @{userInfo?.username} <Verified verified={userInfo?.premium} />
-            </p>
+            <p className={styles.username}>@{userInfo?.username} </p>
           </div>
           <div className={styles.moreInfo}>
             {!userInfo?.serverFav && (
@@ -243,14 +243,14 @@ export default function UserProfile() {
             </div>
             <div className={styles.pixelsInfo}>
               <p className={styles.pixelsText}>
-                O {userInfo?.display_name} inseriu {userInfo?.pixelQuantity}{" "}
+                {userInfo?.display_name} inseriu {userInfo?.pixelQuantity}{" "}
                 pixels
               </p>
               <PremiumButton
                 setClass={styles.viewPixelsButton}
                 onClick={() => alert("não feito ainda")}
               >
-                Ver os pixels do {userInfo?.display_name}
+                Ver os pixels de {userInfo?.display_name}
               </PremiumButton>
             </div>
           </div>

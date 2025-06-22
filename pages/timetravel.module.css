@@ -11,12 +11,6 @@
 }
 
 .overlaygui {
-    --color-text: #9dcaff;
-    --color-button-a: #0075d5;
-    --color-primaria: #141c2f;
-}
-
-.overlaygui {
     position: fixed;
     top: 0;
     left: 0;
@@ -38,27 +32,61 @@
     bottom: 0;
     left: 0;
     width: 100dvw;
-    color: var(--color-text);
-    background-color: var(--color-primaria);
-    border-top: 2px solid var(--color-button-a);
+    color: var(--color-muted);
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
+    border: var(--outline);
     padding: 16px 12px;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     font-family: sans-serif;
     z-index: 1000;
+    margin: 5px;
+    border-radius: 22px;
+    width: 99dvw;
+    overflow: hidden;
+    border: var(--outline);
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+        margin: 0;
+        width: unset;
+    }
 }
 
 .bottom > div:first-child {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
     margin-bottom: 12px;
-    color: var(--color-text);
+    color: white;
 }
 
-.bottom input[type="checkbox"] {
-    transform: scale(1.2);
+#timeModeCheck {
+    display: none;
+}
+#timeModeCheck + label {
+    background-color: var(--color-muted);
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     cursor: pointer;
+    border: var(--outline);
+    box-shadow: var(--shadow);
+}
+#timeModeCheck:checked + label {
+    background-color: var(--color-accent);
+}
+#timeModeCheck + label + label {
+    background-color: var(--color-accent);
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    border: var(--outline);
+    box-shadow: var(--shadow);
+}
+#timeModeCheck:checked + label + label {
+    background-color: var(--color-muted);
 }
 
 .bottom > div:last-child {
@@ -67,14 +95,14 @@
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
-    color: var(--color-text);
+    color: var(--color-muted);
 }
 
 .bottom input[type="number"] {
     width: 60px;
     padding: 4px;
     margin-left: 4px;
-    border: 1px solid var(--color-button-a);
+    border: 1px solid var(--color-accent);
     border-radius: 4px;
 }
 
@@ -86,5 +114,5 @@
 
 .bottom span {
     font-size: 14px;
-    color: var(--color-text);
+    color: var(--color-muted);
 }
