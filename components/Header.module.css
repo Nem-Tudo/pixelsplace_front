@@ -142,7 +142,14 @@
 
 .tippy_menu a {
     padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0);
+    transition: var(--smooth-transition);
 }
+
+.tippy_menu a:hover {
+    background-color: white;
+};
 
 .tippy_menu span {
     color: hsla(0deg, 0%, 25%, 75%) !important;
