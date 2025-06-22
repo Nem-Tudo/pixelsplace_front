@@ -32,7 +32,7 @@ export default function Header({ loggedUser, loading }) {
                                         <Link href={"/user/" + loggedUser?.id}>
                                             <span>Perfil</span>
                                         </Link>
-                                        <Link href={"/auth/discord"}>
+                                        <Link id="D" href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>
                                     </div>
