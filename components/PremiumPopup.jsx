@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
-import styles from "./PremiumPopup.module.css";
+import styles from "./PremiumPopup.module.css"; // ou o mesmo 'commandbat.module.css'
 
-export default function PremiumWarning({ onClose }) {
+export default function PremiumPopup({ onClose }) {
     const divRef = useRef(null);
-    const [showingPopup, setShowingPopup] = useState(null);
 
     // Fecha se clicar fora
     useEffect(() => {
@@ -27,7 +26,7 @@ export default function PremiumWarning({ onClose }) {
             <span>Consiga isso e muito mais com PixelsPlace Premium</span>
             <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
             <footer>
-                <button onClick={() => setShowingPopup(null)}>
+                <button onClick={() => onClose()}>
                 Talvez depois
                 </button>
                 <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
