@@ -432,8 +432,6 @@
 }
 .popups .popup footer button:hover {
     scale: var(--hover-scale);
-    box-shadow: var(--shadow);
-    border: var(--outline);
 }
 
 .btn {
