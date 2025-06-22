@@ -1,11 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
-import styles from "./PremiumPopup.module.css"; // ou o mesmo 'commandbat.module.css'
+import styles from "./PremiumPopup.module.css";
 
 export default function PremiumWarning({ onClose }) {
     const divRef = useRef(null);
+    const [showingPopup, setShowingPopup] = useState(null);
 
     // Fecha se clicar fora
     useEffect(() => {

@@ -707,7 +707,7 @@ export default function Place() {
         {
           showingPopup && <section className={styles.popups}>
             {
-              showingPopup === "premium_color" && <PremiumPopup />
+              showingPopup === "premium_color" && <PremiumPopup onClose={setShowingPopup(null)}/>
             }
           </section>
         }
