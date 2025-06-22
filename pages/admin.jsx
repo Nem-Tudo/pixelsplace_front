@@ -21,6 +21,7 @@ export default function AdminPage() {
   const [evalCode, setEvalCode] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ choosePage, setChoosePage] = useState(null);
 
   const [showColorsArray, setShowingColorsArray] = useState(false);
 
@@ -112,7 +113,16 @@ export default function AdminPage() {
       </MainLayout>
     );
 
-  return (
+
+
+
+    switch (choosePage) {
+    case "canva":
+      
+
+
+
+      return (
     <>
       <Head>
         <title>PixelsPlace</title>
@@ -415,6 +425,49 @@ export default function AdminPage() {
       </MainLayout>
     </>
   );
+
+
+
+
+      break;
+
+          case "users":
+      
+
+
+      break;
+  
+    default:
+
+  return (
+    <>
+      <Head>
+        <title>PixelsPlace</title>
+        <meta name="description" content="Participe do PixelsPlace!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <MainLayout>
+        <main className={styles.main}>
+          <fieldset className={styles.chossePage}>
+            <span className={styles.title}>Escolha a ADMIN PAGE</span>
+            <div className={styles.divButton}>
+              <button onClick={() => setChoosePage("canva")}>
+                <span>CANVA</span>
+              </button>
+              <button onClick={() => setChoosePage("users")}>
+                <span>USERS</span>
+              </button>
+            </div>
+          </fieldset>
+        </main>
+      </MainLayout>
+    </>
+  );
+  
+      break;
+  }
+
 }
 
 function removeItemFromArray(arr, index) {
