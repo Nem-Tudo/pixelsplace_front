@@ -153,7 +153,7 @@
 
 .tippy_menu a:hover {
     background-color: white;
-};
+}
 
 .tippy_menu a#tippyDisconnect:hover {
     background-color: red;
