@@ -18,7 +18,7 @@ export default function Header({ loggedUser, loading }) {
                     </Link>
                     <Link href={"/premium"}><span id={styles.premium}>Vantagens</span></Link>
                     {
-                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span>Admin</span></Link>
+                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span id={styles.admin}>Admin</span></Link>
                     }
                 </nav>
                 <nav className={styles.right}>
