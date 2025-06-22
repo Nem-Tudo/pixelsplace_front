@@ -394,14 +394,24 @@
     width: fit-content;
     max-width: 720vw;
     animation: openPopup 0.2s ease-in-out;
-
+    gap: 8px;
     max-height: 90vh;
     overflow-y: auto;
+}
+
+.popups .popup h1 {
+    font-size: large;
+    color: var(--color-accent);
 }
 
 .popups .popup footer {
     display: flex;
     justify-content: space-around;
+    margin-top: 10px;
+}
+
+.popups .popup footer > * {
+    flex-grow: 1;
 }
 
 /* talvez depois */
@@ -423,9 +433,8 @@
   box-shadow: var(--shadow);
   padding: 18px;
   border-radius: 12px;
-  transition: all ease 0.3s;
-  width: 215px;
-  font-size: 1.2rem 19.2px;
+  transition: var(--smooth-transition);
+  text-align: center;
 }
 
 .btn:hover {
@@ -457,4 +466,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: var(--shadow);
+    border: var(--outline);
 }
