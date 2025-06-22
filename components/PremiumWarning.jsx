@@ -20,6 +20,8 @@ export default function PremiumWarning({ onClose }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
+    Array.from(document.children).find(e => e.classList.toString().includes('popups')).innerHTML = <PremiumPopup onClose={() => onClose()}></PremiumPopup>
+    
     return (
         /*<div ref={divRef} className={styles.div}>
             <div
@@ -39,6 +41,6 @@ export default function PremiumWarning({ onClose }) {
                 <span className={styles.span}>Compre o Premium aqui!</span>
             </PremiumButton>
         </div>*/
-        Array.from(document.children).find(e => e.classList.toString().includes('popups')).innerHTML = <PremiumPopup onClose={() => onClose()}></PremiumPopup>
+        <p>hi</p>
     );
 }
