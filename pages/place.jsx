@@ -14,6 +14,7 @@ import useDraggable from "@/src/useDraggable";
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import { userAgent } from "next/server";
+import Tippy from "@tippyjs/react";
 
 export default function Place() {
   const { token, loggedUser } = useAuth();
@@ -43,12 +44,12 @@ export default function Place() {
 
   const [selectedPixel, setSelectedPixel] = useState(null);
 
-  const [selectedColor, setSelectedColor] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(1);
   const [showingPixelInfo, setShowingPixelInfo] = useState(null);
 
-  const [showingPixelPosition, setShowingPixelPosition] = useState(null);
-
   const [showingColors, setShowingColors] = useState(false);
+
+  const [showingPopup, setShowingPopup] = useState(null);
 
   const transform = useRef({
     scale: 1,
@@ -106,7 +107,7 @@ export default function Place() {
   const screenWidth = typeof window !== "undefined" ? window.innerWidth : 600;
 
   const initialY = screenHeight / 2 - 100;
-  const initialX = screenWidth - 280;
+  const initialX = screenWidth - 300;
 
   const { movePixelInfoRef, direction, styleDrag, iconDrag } = useDraggable(
     { x: initialX, y: initialY },
@@ -287,6 +288,13 @@ export default function Place() {
       setApiError(e);
     }
   }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      return setShowingPopup(null)
+    }
+  })
 
   //Movimento do canvas
   useEffect(() => {
@@ -570,24 +578,6 @@ export default function Place() {
     };
   }, [showingPixelInfo]);
 
-  //fecha div pixelInfo ao clicar fora
-  useEffect(() => {
-    function handleClickOutside(event) {
-      // Se o PixelPosition estiver sendo mostrado e o clique foi fora da div
-      if (
-        showingPixelPosition &&
-        canvasRef.current &&
-        !canvasRef.current.contains(event.target)
-      ) {
-        setShowingPixelPosition(null);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showingPixelPosition]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -713,12 +703,28 @@ export default function Place() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
+
+        {
+          showingPopup && <section className={styles.popups}>
+            {
+              showingPopup === "premium_color" && <div className={styles.popup}>
+                <span>[imagem ilustração brabissima]</span>
+                <h1>Você precisa ser Premium</h1>
+                <span>Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!</span>
+                <span>Consiga isso e muito mais com PixelsPlace Premium</span>
+                <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
+                <button onClick={() => setShowingPopup(null)} style={{width: "fit-content"}}>talvez dps</button>
+              </div>
+            }
+          </section>
+        }
+
         <section className={styles.overlaygui}>
           <div className={styles.top}>
-            {showingPixelPosition && (
+            {selectedPixel && (
               <div className={styles.overlayPosition}>
                 <span>
-                  ({showingPixelPosition.x},{showingPixelPosition.y}){" "}
+                  ({selectedPixel.x},{selectedPixel.y}){" "}
                   {transformarValor(transform.current.scale)}x
                 </span>
               </div>
@@ -858,10 +864,31 @@ export default function Place() {
                     </button>
                   )}
                   {showingColors && (
-                    <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onChange={(e) => {
-                      if (!loggedUser.premium) return alert("Vish isso aí é só pra premium rapaize - command ou vaca faz um css dps")
-                      setSelectedColor(hexToNumber(e.target.value))
-                    }} />
+                    <Tippy interactive={true} placement="top" animation="shift-away-subtle" content={
+                      <>
+                        <div style={{
+                          background: "linear-gradient(45deg, #fd03ff, #0097e6)",
+                          padding: "10px 20px",
+                          color: "white",
+                          borderRadius: "5px",
+                          position: "relative",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}>
+                          <span>Escolha a cor que você quiser com</span>
+                          <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
+                        </div>
+                      </>
+                    }>
+                      <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onClick={(e) => {
+                        e.preventDefault();
+                        setShowingPopup("premium_color")
+                      }} onChange={(e) => {
+                        if (!loggedUser.premium) return
+                        setSelectedColor(hexToNumber(e.target.value))
+                      }} />
+                    </Tippy>
                   )}
                 </div>
                 {showingColors && (
@@ -945,7 +972,7 @@ export default function Place() {
             overflow: "hidden",
             position: "relative",
             touchAction: "none",
-            background: "whitesmoke",
+            background: "#eaeaea",
             display: isAlready() ? "unset" : "none",
           }}
         >
@@ -990,8 +1017,6 @@ export default function Place() {
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
-
-                setShowingPixelPosition({ x, y });
 
                 setSelectedPixel({ x, y });
               }}
