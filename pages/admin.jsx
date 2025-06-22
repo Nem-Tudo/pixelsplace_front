@@ -105,6 +105,30 @@ export default function AdminPage() {
     setFreeColors(copy);
   };
 
+
+
+//   FLAGS:
+//   positiva: ADMIN -> dá bypass na verificação de flags / basicamente não é bloqueado por nenhuma flag (seja positiva ou negativa)
+
+// positiva: ADMIN_RESIZE -> pode mudar o tamanho do canvas
+// positiva: ADMIN_CHANGE_FREE_COLORS -> pode mudar as cores gratuitas
+// positiva: ADMIN_CHANGE_COOLDOWN -> pode mudar o cooldown
+// positiva: ADMIN_TIMETRAVEL : vai ser trocado dps -> pode acessar o timetravel
+// positiva: ADMIN_DISCONNECTSOCKETS -> pode desconectar todos os sockets
+// positiva: ADMIN_MESSAGE -> pode enviar um alert pra todo mundo
+// positiva: ADMIN_EVAL -> pode executar um eval no frontend de todo mundo
+// positiva: ADMIN_STATS -> pode obter estatisticas
+
+// positiva: SOCKET_WHITELISTED -> pode conectar o socket quando o canvas tá em whitelist
+
+// negativa: BANNED -> não pode acessar nenhuma rota do site
+// negativa: BANNED_DRAWN -> não pode pintar
+
+
+// front end flags: (só fazem efeito no frontend)
+// positiva: ADMIN_VIEWPAGE -> pode ver a pagina de admin
+
+
   //verifica se é admin
   if (!checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE"))
     return (
@@ -478,7 +502,10 @@ export default function AdminPage() {
 
           <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
-              <strong>Banir</strong>
+              <strong>Gerenciar</strong>
+              {/* premium
+              kickar
+              banir/desbanir */}
             </legend>
           </fieldset>
         </main>
@@ -490,6 +517,100 @@ export default function AdminPage() {
 
 
       break;
+
+
+
+
+
+
+       case "geral":
+      
+
+
+
+            return (
+    <>
+      <Head>
+        <title>PixelsPlace</title>
+        <meta name="description" content="Participe do PixelsPlace!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <MainLayout>
+        <main className={styles.main}>
+          <h1>Administração do Geral</h1>
+
+          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
+                <span>⬅ Voltar</span>
+              </button>
+
+
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <legend>
+              <strong>WhiteList</strong>
+            </legend>
+          </fieldset>
+
+
+
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <legend>
+              <strong>Premium</strong>
+            </legend>
+          </fieldset>
+
+        </main>
+      </MainLayout>
+    </>
+  );
+
+
+
+
+      break;
+
+
+
+      case "//":
+      
+
+
+
+            return (
+    <>
+      <Head>
+        <title>PixelsPlace</title>
+        <meta name="description" content="Participe do PixelsPlace!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <MainLayout>
+        <main className={styles.main}>
+          <h1>Administração do //</h1>
+
+          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
+                <span>⬅ Voltar</span>
+              </button>
+
+
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <legend>
+              <strong>Editar Flags</strong>
+            </legend>
+          </fieldset>
+
+        </main>
+      </MainLayout>
+    </>
+  );
+
+
+
+
+      break;
+
+
+
   
     default:
 
@@ -511,6 +632,9 @@ export default function AdminPage() {
               </button>
               <button onClick={() => setChoosePage("users")}>
                 <span>USERS</span>
+              </button>
+              <button onClick={() => setChoosePage("geral")}>
+                <span>GERAL</span>
               </button>
             </div>
           </fieldset>
