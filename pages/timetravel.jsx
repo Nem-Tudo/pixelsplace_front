@@ -386,14 +386,15 @@ export default function Place() {
                         <div style={{ display: "flex", justifyContent: "center"}}>
 
                             <span>Mostra todo o histórico ou só o que mudou?</span>
-                            <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
-                                setIncludeHistory(e.target.checked)
-                            }} />
+                            
                             <span>Atual: {includeHistory ? "Todo o histórico" : "Só o que mudou"}</span>
 
                         </div>
                         <div style={{ display: "flex", justifyContent: "center"}}>
 
+                            <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
+                                setIncludeHistory(e.target.checked)
+                            }} />
                             <label for={styles.timeModeCheck}>Todo o histórico</label>
                             <label for={styles.timeModeCheck}>Apenas as mudanças</label>
 

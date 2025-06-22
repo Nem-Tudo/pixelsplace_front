@@ -62,13 +62,25 @@
     color: var(--color-muted);
 }
 
-.bottom input[type="checkbox"] {
+.bottom input[type="checkbox"]:checked {
     transform: scale(1.2);
     cursor: pointer;
 }
 
 #timeModeCheck {
     background-color: red;
+}
+#timeModeCheck + label {
+    background-color: var(--color-muted);
+}
+#timeModeCheck:checked + label {
+    background-color: var(--color-accent);
+}
+#timeModeCheck + label + label {
+    background-color: var(--color-accent);
+}
+#timeModeCheck:checked + label + label {
+    background-color: var(--color-muted);
 }
 
 .bottom > div:last-child {
