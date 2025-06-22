@@ -98,12 +98,12 @@
     cursor: pointer;
 }
 
-.right .loggedUser span {
+.right .loggedUser span#userName {
     font-weight: 500;
     color: #ffffff;
     padding-right: 10px;
     /* width: 0px; */
-            max-width: min-content;
+    max-width: min-content;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -155,7 +155,7 @@
     background-color: white;
 };
 
-.tippy_menu a #tippyDisconnect:hover {
+.tippy_menu a#tippyDisconnect:hover {
     background-color: red;
     color: white;
     span {

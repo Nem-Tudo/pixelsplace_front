@@ -25,14 +25,14 @@ export default function Header({ loggedUser, loading }) {
                     {
                         !loading && loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
-                                <span className="mobilehidden_500">{loggedUser.username}</span>
+                                <span id={styles.userName} className="mobilehidden_500">{loggedUser.username}</span>
                                 <Tippy trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
                                         <Link href={"/user/" + loggedUser?.id}>
                                             <span>Perfil</span>
                                         </Link>
-                                        <Link id="D" href={"/auth/discord"}>
+                                        <Link id={styles.tippyDisconnect} href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>
                                     </div>
