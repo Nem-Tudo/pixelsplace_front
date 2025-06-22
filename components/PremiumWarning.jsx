@@ -39,6 +39,6 @@ export default function PremiumWarning({ onClose }) {
                 <span className={styles.span}>Compre o Premium aqui!</span>
             </PremiumButton>
         </div>*/
-        Array.from(document.children).find(e => e.className.includes('popups')).innerHTML = <PremiumPopup onClose={() => onClose()}></PremiumPopup>
+        Array.from(document.children).find(e => e.classList.toString().includes('popups')).innerHTML = <PremiumPopup onClose={() => onClose()}></PremiumPopup>
     );
 }
