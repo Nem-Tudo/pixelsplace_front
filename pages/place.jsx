@@ -707,14 +707,16 @@ export default function Place() {
           showingPopup && <section className={styles.popups}>
             {
               showingPopup === "premium_color" && <div className={styles.popup}>
-                <span>[imagem ilustração brabissima]</span>
-                <h1>Você precisa ser Premium</h1>
+                <h1>Você precisa ser Premium!</h1>
                 <span>Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!</span>
                 <span>Consiga isso e muito mais com PixelsPlace Premium</span>
+                <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
                 <footer>
-                  <button onClick={() => setShowingPopup(null)} style={{ width: "fit-content" }}>talvez dps</button>
+                  <button onClick={() => setShowingPopup(null)}>
+                    Talvez depois
+                  </button>
                   <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
-                      Premium
+                    Conheça o Premium!
                   </PremiumButton>
                 </footer>
               </div>

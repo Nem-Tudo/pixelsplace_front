@@ -400,8 +400,16 @@
 }
 
 .popups .popup h1 {
-    font-size: large;
+    font-size: x-large;
+    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
     color: var(--color-accent);
+    margin-bottom: 10px;
+}
+
+.popups .popup img {
+    object-fit: cover;
+    max-height: 50dvh;
+    margin-top: 10px;
 }
 
 .popups .popup footer {
@@ -416,7 +424,7 @@
 
 /* talvez depois */
 .popups .popup footer button {
-    border: none;
+    border: 1px solid transparent;
     background: none;
     color: var(--color-text);
     cursor: pointer;
@@ -424,6 +432,8 @@
 }
 .popups .popup footer button:hover {
     scale: var(--hover-scale);
+    box-shadow: var(--shadow);
+    border: var(--outline);
 }
 
 .btn {
