@@ -136,7 +136,11 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Canvas</h1>
 
-          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
+                <span>⬅ Voltar</span>
+              </button>
+
+          {/* <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
               <strong>Informações principais</strong>
             </legend>
@@ -146,7 +150,7 @@ export default function AdminPage() {
             <span>Online: {stats?.online}</span>
             <span>Usuarios: {stats?.registeredUsers}</span>
             <span>Pixels: {stats?.pixels}</span>
-          </fieldset>
+          </fieldset> */}
           {/* Redimensionar */}
           <fieldset>
             <legend>
@@ -433,6 +437,56 @@ export default function AdminPage() {
 
           case "users":
       
+
+
+
+            return (
+    <>
+      <Head>
+        <title>PixelsPlace</title>
+        <meta name="description" content="Participe do PixelsPlace!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <MainLayout>
+        <main className={styles.main}>
+          <h1>Administração do Users</h1>
+
+          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
+                <span>⬅ Voltar</span>
+              </button>
+         <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <legend>
+              <strong>Informações principais</strong>
+            </legend>
+            <button onClick={() => fetchStats()}>Atualizar</button>
+            <br />
+            <span>Update: {stats?.time}</span>
+            <span>Online: {stats?.online}</span>
+            <span>Usuarios: {stats?.registeredUsers}</span>
+            <span>Pixels: {stats?.pixels}</span>
+          </fieldset>
+
+
+
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <legend>
+              <strong>Editar Flags</strong>
+            </legend>
+          </fieldset>
+
+
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <legend>
+              <strong>Banir</strong>
+            </legend>
+          </fieldset>
+        </main>
+      </MainLayout>
+    </>
+  );
+
+
 
 
       break;

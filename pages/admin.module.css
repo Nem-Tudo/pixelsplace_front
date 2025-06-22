@@ -1,5 +1,6 @@
 .main {
   padding: 10px;
+  width: 100dvw;
 }
 
 .container {
@@ -119,4 +120,48 @@
 
 .infobutton:hover {
   background-color: rgb(129, 129, 129) !important;
+}
+
+.chossePage button {
+  background-color: var(--color-accent);
+  color: white;
+  padding: 12px 20px;
+  border: var(--outline);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--smooth-transition);
+  margin-top: 10px;
+}
+
+.chossePage {
+  border: 1px solid var(--color-mid);
+  border-radius: 28px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chossePage .divButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+.chossePage .title {
+  text-align: center;
+  color: var(--color-muted);
+  font-family: "Dogica Pixel Bold", Arial, Helvetica, sans-serif;
 }
