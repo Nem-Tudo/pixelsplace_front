@@ -385,11 +385,10 @@
 .popups .popup {
     display: flex;
     padding: 20px;
-    border-radius: 7px;
-    background-color: white;
-    -webkit-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.75);
+    border-radius: 32px;
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
     width: fit-content;
@@ -398,6 +397,40 @@
 
     max-height: 90vh;
     overflow-y: auto;
+}
+
+.popups .popup footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* talvez depois */
+.popups .popup footer button {
+    border: none;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: var(--smooth-transition);
+}
+.popups .popup footer button:hover {
+    scale: var(--hover-scale);
+}
+
+.btn {
+  background-color: var(--color-accent);
+  color: white;
+  border: var(--outline);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  border-radius: 12px;
+  transition: all ease 0.3s;
+  width: 215px;
+  font-size: 1.2rem 19.2px;
+}
+
+.btn:hover {
+  background-color: var(--color-darker);
+  scale: var(--hover-scale);
 }
 
 @keyframes openPopup {
@@ -419,7 +452,7 @@
     background: linear-gradient(45deg, #fd03ff, #0097e6);
     padding: 10px 20px;
     color: white;
-    border-radius: 5px;
+    border-radius: 12px;
     position: relative;
     display: flex;
     flex-direction: column;

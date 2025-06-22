@@ -712,8 +712,10 @@ export default function Place() {
                 <span>Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!</span>
                 <span>Consiga isso e muito mais com PixelsPlace Premium</span>
                 <footer>
-                  <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
                   <button onClick={() => setShowingPopup(null)} style={{ width: "fit-content" }}>talvez dps</button>
+                  <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
+                      Premium
+                  </PremiumButton>
                 </footer>
               </div>
             }
