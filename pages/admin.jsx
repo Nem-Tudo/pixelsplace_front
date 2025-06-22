@@ -38,14 +38,16 @@ export default function AdminPage() {
   };
 
   const fetchStats = async () => {
-    const res = await fetch(`${settings.apiURL}/admin/stats`, {
-      headers: {
-        authorization: Cookies.get("authorization")
-      }
-    }).catch(() => { })
-    if (!res.ok) return;
-    const data = await res.json();
-    setStats(data);
+    if (checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) {
+      const res = await fetch(`${settings.apiURL}/admin/stats`, {
+        headers: {
+          authorization: Cookies.get("authorization")
+        }
+      }).catch(() => { })
+      if (!res.ok) return;
+      const data = await res.json();
+      setStats(data);
+    }
   }
 
   useEffect(() => {
