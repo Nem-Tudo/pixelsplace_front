@@ -67,6 +67,10 @@
     cursor: pointer;
 }
 
+#timeModeCheck {
+    background-color: red;
+}
+
 .bottom > div:last-child {
     display: flex;
     justify-content: center;

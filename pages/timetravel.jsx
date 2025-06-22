@@ -384,13 +384,21 @@ export default function Place() {
                     </div>
                     <div className={styles.bottom}>
                         <div style={{ display: "flex", justifyContent: "center"}}>
+
                             <span>Mostra todo o histórico ou só o que mudou?</span>
-                            <input type="checkbox" checked={includeHistory} onChange={(e) => {
+                            <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
                                 setIncludeHistory(e.target.checked)
                             }} />
                             <span>Atual: {includeHistory ? "Todo o histórico" : "Só o que mudou"}</span>
+
                         </div>
-                        <div style={{ marginBottom: "15px", display: "flex", width: "100dvw", justifyContent: "center"}}>
+                        <div style={{ display: "flex", justifyContent: "center"}}>
+
+                            <label for={styles.timeModeCheck}>Todo o histórico</label>
+                            <label for={styles.timeModeCheck}>Apenas as mudanças</label>
+
+                        </div>
+                        <div style={{ display: "flex", width: "100dvw", justifyContent: "center"}}>
                             <div>
                                 <span>Marcha (m): </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
