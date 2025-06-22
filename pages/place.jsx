@@ -13,6 +13,7 @@ import Verified from "@/components/Verified";
 import useDraggable from "@/src/useDraggable";
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
+import PremiumPopup from "@/components/PremiumPopup";
 import { userAgent } from "next/server";
 import Tippy from "@tippyjs/react";
 
@@ -706,20 +707,7 @@ export default function Place() {
         {
           showingPopup && <section className={styles.popups}>
             {
-              showingPopup === "premium_color" && <div className={styles.popup}>
-                <h1>Você precisa ser Premium!</h1>
-                <span>Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!</span>
-                <span>Consiga isso e muito mais com PixelsPlace Premium</span>
-                <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
-                <footer>
-                  <button onClick={() => setShowingPopup(null)}>
-                    Talvez depois
-                  </button>
-                  <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
-                    Conheça o Premium!
-                  </PremiumButton>
-                </footer>
-              </div>
+              showingPopup === "premium_color" && <PremiumPopup />
             }
           </section>
         }
