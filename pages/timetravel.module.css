@@ -11,12 +11,6 @@
 }
 
 .overlaygui {
-    --color-text: #9dcaff;
-    --color-button-a: #0075d5;
-    --color-primaria: #141c2f;
-}
-
-.overlaygui {
     position: fixed;
     top: 0;
     left: 0;
@@ -38,9 +32,9 @@
     bottom: 0;
     left: 0;
     width: 100dvw;
-    color: var(--color-text);
-    background-color: var(--color-primaria);
-    border-top: 2px solid var(--color-button-a);
+    color: var(--color-muted);
+    background-color: var(--color-darkest);
+    border-top: 2px solid var(--color-accent);
     padding: 16px 12px;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     font-family: sans-serif;
@@ -53,7 +47,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 12px;
-    color: var(--color-text);
+    color: var(--color-muted);
 }
 
 .bottom input[type="checkbox"] {
@@ -67,14 +61,14 @@
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
-    color: var(--color-text);
+    color: var(--color-muted);
 }
 
 .bottom input[type="number"] {
     width: 60px;
     padding: 4px;
     margin-left: 4px;
-    border: 1px solid var(--color-button-a);
+    border: 1px solid var(--color-accent);
     border-radius: 4px;
 }
 
@@ -86,5 +80,5 @@
 
 .bottom span {
     font-size: 14px;
-    color: var(--color-text);
+    color: var(--color-muted);
 }

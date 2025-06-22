@@ -421,7 +421,7 @@ export default function Place() {
                         height: "calc(100dvh - 72px)",
                         overflow: "hidden",
                         position: "relative",
-                        background: "#ccc",
+                        background: "whitesmoke",
                         display: isAlready() ? "unset" : "none"
                     }}
                 >
