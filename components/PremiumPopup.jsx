@@ -26,7 +26,7 @@ export default function PremiumPopup({ onClose }) {
             <span>Consiga isso e muito mais com PixelsPlace Premium</span>
             <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
             <footer>
-                <button onClick={() => onClose()}>
+                <button onClick={onClose}>
                 Talvez depois
                 </button>
                 <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
