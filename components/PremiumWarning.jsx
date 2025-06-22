@@ -7,36 +7,36 @@ import styles from "./PremiumWarning.module.css"; // ou o mesmo 'commandbat.modu
 export default function PremiumWarning({ onClose }) {
     const divRef = useRef(null);
 
-  // Fecha se clicar fora
+    // Fecha se clicar fora
     useEffect(() => {
-    function handleClickOutside(event) {
-        if (divRef.current && !divRef.current.contains(event.target)) {
-        onClose();
+        function handleClickOutside(event) {
+            if (divRef.current && !divRef.current.contains(event.target)) {
+                onClose();
+            }
         }
-    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
     return (
-    <div ref={divRef} className={styles.div}>
-        <div
-        style={{
-            position: "absolute",
-            top: "20px",
-            right: "20px",
-            cursor: "pointer",
-            color: "#b3b3b3"
-        }}
-        onClick={onClose}
-        >
-        <MdClose />
+        <div ref={divRef} className={styles.div}>
+            <div
+                style={{
+                    position: "fixed",
+                    top: "20px",
+                    right: "20px",
+                    cursor: "pointer",
+                    color: "#b3b3b3"
+                }}
+                onClick={onClose}
+            >
+                <MdClose />
+            </div>
+            <span style={{ marginTop: "8px" }}>Essa função é apenas para Premium</span>
+            <PremiumButton setClass={styles.button} as={Link} redirect={true} href="/premium">
+                <span className={styles.span}>Compre o Premium aqui!</span>
+            </PremiumButton>
         </div>
-        <span style={{marginTop:"8px"}}>Essa função é apenas para Premium</span>
-        <PremiumButton setClass={styles.button} as={Link} redirect={true} href="/premium">
-        <span className={styles.span}>Compre o Premium aqui!</span>
-        </PremiumButton>
-    </div>
     );
 }
