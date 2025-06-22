@@ -188,3 +188,7 @@ a {
     background-position: 0% 50%;
   }
 }
+
+.link:hover{
+  text-decoration: underline;
+}
