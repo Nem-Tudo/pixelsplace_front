@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
-import PremiumPopup from "@/components/PremiumPopup";
 import styles from "./PremiumWarning.module.css"; // ou o mesmo 'commandbat.module.css'
 
 export default function PremiumWarning({ onClose }) {
@@ -20,10 +19,8 @@ export default function PremiumWarning({ onClose }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
-    Array.from(document.children).find(e => e.classList.toString().includes('popups')).innerHTML = <PremiumPopup onClose={() => onClose()}></PremiumPopup>
-    
     return (
-        /*<div ref={divRef} className={styles.div}>
+        <div ref={divRef} className={styles.div}>
             <div
                 style={{
                     position: "fixed",
@@ -40,7 +37,6 @@ export default function PremiumWarning({ onClose }) {
             <PremiumButton setClass={styles.button} as={Link} redirect={true} href="/premium">
                 <span className={styles.span}>Compre o Premium aqui!</span>
             </PremiumButton>
-        </div>*/
-        <p>hi</p>
+        </div>
     );
 }
