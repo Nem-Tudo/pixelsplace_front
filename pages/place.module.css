@@ -385,19 +385,69 @@
 .popups .popup {
     display: flex;
     padding: 20px;
-    border-radius: 7px;
-    background-color: white;
-    -webkit-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.75);
+    border-radius: 32px;
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
     width: fit-content;
     max-width: 720vw;
     animation: openPopup 0.2s ease-in-out;
-
+    gap: 8px;
     max-height: 90vh;
     overflow-y: auto;
+}
+
+.popups .popup h1 {
+    font-size: x-large;
+    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+}
+
+.popups .popup img {
+    object-fit: cover;
+    max-height: 50dvh;
+    margin-top: 10px;
+}
+
+.popups .popup footer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.popups .popup footer > * {
+    flex-grow: 1;
+}
+
+/* talvez depois */
+.popups .popup footer button {
+    border: 1px solid transparent;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: var(--smooth-transition);
+}
+.popups .popup footer button:hover {
+    scale: var(--hover-scale);
+}
+
+.btn {
+  background-color: var(--color-accent);
+  color: white;
+  border: var(--outline);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  border-radius: 12px;
+  transition: var(--smooth-transition);
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: var(--color-darker);
+  scale: var(--hover-scale);
 }
 
 @keyframes openPopup {
@@ -412,4 +462,18 @@
     100% {
         transform: scale(1);
     }
+}
+
+/* tippy escolha a cor que você quiser */
+.tippyColor {
+    background: linear-gradient(45deg, #fd03ff, #0097e6);
+    padding: 10px 20px;
+    color: white;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow);
+    border: var(--outline);
 }

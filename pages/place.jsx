@@ -13,6 +13,7 @@ import Verified from "@/components/Verified";
 import useDraggable from "@/src/useDraggable";
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
+import PremiumPopup from "@/components/PremiumPopup";
 import { userAgent } from "next/server";
 import Tippy from "@tippyjs/react";
 
@@ -706,14 +707,7 @@ export default function Place() {
         {
           showingPopup && <section className={styles.popups}>
             {
-              showingPopup === "premium_color" && <div className={styles.popup}>
-                <span>[imagem ilustração brabissima]</span>
-                <h1>Você precisa ser Premium</h1>
-                <span>Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!</span>
-                <span>Consiga isso e muito mais com PixelsPlace Premium</span>
-                <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
-                <button onClick={() => setShowingPopup(null)} style={{ width: "fit-content" }}>talvez dps</button>
-              </div>
+              showingPopup === "premium_color" && <PremiumPopup onClose={setShowingPopup(null)}></PremiumPopup>
             }
           </section>
         }
@@ -865,16 +859,7 @@ export default function Place() {
                   {showingColors && (
                     <Tippy interactive={true} placement="top" animation="shift-away-subtle" content={
                       <>
-                        <div style={{
-                          background: "linear-gradient(45deg, #fd03ff, #0097e6)",
-                          padding: "10px 20px",
-                          color: "white",
-                          borderRadius: "5px",
-                          position: "relative",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}>
+                        <div className={styles.tippyColor}>
                           <span>Escolha a cor que você quiser com</span>
                           <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
                         </div>
