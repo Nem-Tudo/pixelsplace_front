@@ -1,10 +1,16 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import settings from "@/settings";
 import { io } from "socket.io-client";
+import Cookies from 'js-cookie'; // Adicione esta importação
 
 // Variável global para controlar se já tentou criar o socket
 let socketInstance = null;
 let isCreatingSocket = false;
+
+// Função para obter o token do cookie
+const getTokenFromCookie = () => {
+    return Cookies.get('authorization') || null;
+};
 
 // Função para criar socket com configurações seguras
 const createSocket = () => {
@@ -13,7 +19,12 @@ const createSocket = () => {
     isCreatingSocket = true;
 
     try {
+        const token = getTokenFromCookie(); // Pega o token do cookie
+
         socketInstance = io(settings.socketURL, {
+            auth: {
+                token: token // Usa o token do cookie
+            },
             autoConnect: false,
             transports: ['websocket', 'polling'],
             upgrade: true,
@@ -43,6 +54,15 @@ const createSocket = () => {
 // Exporta o socket (criado sob demanda)
 export const socket = createSocket();
 
+// Função para atualizar o token do socket quando necessário
+export const updateSocketToken = () => {
+    if (socket && socket.auth) {
+        const newToken = getTokenFromCookie();
+        socket.auth.token = newToken;
+        console.log('[WebSocket] Token updated:', newToken ? 'Present' : 'Not found');
+    }
+};
+
 export function useSocketConnection() {
     const [state, setState] = useState({
         connected: false,
@@ -59,7 +79,7 @@ export function useSocketConnection() {
 
     const MAX_RECONNECT_ATTEMPTS = 5;
     const RECONNECT_DELAY = 2000;
-    const ERROR_DISPLAY_DELAY = 15 * 1000; // Só mostra erro após 8 segundos tentando
+    const ERROR_DISPLAY_DELAY = 15 * 1000;
 
     // Função para atualizar estado de forma segura
     const updateState = useCallback((updates) => {
@@ -100,6 +120,9 @@ export function useSocketConnection() {
             error: null
         });
 
+        // Atualiza o token antes de reconectar
+        updateSocketToken();
+
         // Agenda mostrar erro após um tempo tentando
         errorTimeoutRef.current = setTimeout(() => {
             if (mountedRef.current && !socket.connected) {
@@ -131,7 +154,7 @@ export function useSocketConnection() {
 
         console.log("[WebSocket] Connected successfully");
         clearTimeouts();
-        reconnectAttemptsRef.current = 0; // Reset contador
+        reconnectAttemptsRef.current = 0;
         updateState({
             connected: true,
             connecting: false,
@@ -144,7 +167,6 @@ export function useSocketConnection() {
 
         console.log("[WebSocket] Disconnected:", reason);
 
-        // Se foi desconectado intencionalmente, não tenta reconectar
         if (reason === 'io client disconnect' || reason === 'io server disconnect') {
             updateState({
                 connected: false,
@@ -155,16 +177,14 @@ export function useSocketConnection() {
             return;
         }
 
-        // Começa tentando reconectar (mostra "connecting")
         console.log("[WebSocket] Starting reconnection attempts...");
         reconnectAttemptsRef.current = 0;
         updateState({
             connected: false,
-            connecting: true, // Mostra como "tentando conectar"
+            connecting: true,
             error: null
         });
 
-        // Agenda timeout para mostrar erro se não conseguir reconectar
         errorTimeoutRef.current = setTimeout(() => {
             if (mountedRef.current && !socket.connected) {
                 console.log("[WebSocket] Reconnection taking too long, will show error soon");
@@ -175,22 +195,23 @@ export function useSocketConnection() {
             }
         }, ERROR_DISPLAY_DELAY);
 
-        // Inicia tentativas de reconexão automática
         const tryReconnect = () => {
             if (!mountedRef.current || socket.connected) return;
 
             reconnectAttemptsRef.current++;
             console.log(`[WebSocket] Reconnection attempt ${reconnectAttemptsRef.current}/${MAX_RECONNECT_ATTEMPTS}`);
 
+            // Atualiza token antes de cada tentativa de reconexão
+            updateSocketToken();
+
             if (reconnectAttemptsRef.current <= MAX_RECONNECT_ATTEMPTS) {
                 reconnectTimeoutRef.current = setTimeout(() => {
                     if (mountedRef.current && !socket.connected) {
                         socket.connect();
-                        tryReconnect(); // Agenda próxima tentativa
+                        tryReconnect();
                     }
                 }, RECONNECT_DELAY);
             } else {
-                // Esgotou tentativas, mostra erro
                 if (mountedRef.current) {
                     updateState({
                         connecting: false,
@@ -200,7 +221,6 @@ export function useSocketConnection() {
             }
         };
 
-        // Inicia o ciclo de tentativas
         tryReconnect();
     }, [updateState]);
 
@@ -209,14 +229,11 @@ export function useSocketConnection() {
 
         console.warn("[WebSocket] Connection error (handled):", error.message);
 
-        // Se já está tentando reconectar, não mostra erro imediatamente
-        // Deixa o processo de reconexão automática lidar com isso
         if (reconnectAttemptsRef.current > 0 && reconnectAttemptsRef.current <= MAX_RECONNECT_ATTEMPTS) {
             console.log("[WebSocket] Connection error during reconnect attempts, continuing...");
             return;
         }
 
-        // Se não está em processo de reconexão, mostra erro
         const errorMessage = error.message && error.message.includes('xhr poll error')
             ? 'Connection failed - server may be down'
             : `Connection failed: ${error.message || 'Unknown error'}`;
@@ -230,9 +247,7 @@ export function useSocketConnection() {
 
     const handleReconnectAttempt = useCallback((attemptNumber) => {
         if (!mountedRef.current) return;
-
         console.log(`[WebSocket] Reconnection attempt #${attemptNumber}`);
-        // Mantém o estado connecting: true durante as tentativas
     }, []);
 
     const handleReconnectFailed = useCallback(() => {
@@ -256,7 +271,6 @@ export function useSocketConnection() {
             return;
         }
 
-        // Registra os eventos
         try {
             socket.on("connect", handleConnect);
             socket.on("disconnect", handleDisconnect);
@@ -264,15 +278,15 @@ export function useSocketConnection() {
             socket.on("reconnect_attempt", handleReconnectAttempt);
             socket.on("reconnect_failed", handleReconnectFailed);
 
-            // Verifica se já está conectado
             if (socket.connected) {
                 handleConnect();
             } else {
-                // Tenta conectar se não estiver conectado
                 console.log('[WebSocket] Initial connection attempt...');
                 updateState({ connecting: true });
 
-                // Timeout para primeira conexão (mais tolerante)
+                // Garante que o token está atualizado antes da primeira conexão
+                updateSocketToken();
+
                 errorTimeoutRef.current = setTimeout(() => {
                     if (mountedRef.current && !socket.connected) {
                         console.log('[WebSocket] Initial connection taking too long');
@@ -290,7 +304,6 @@ export function useSocketConnection() {
             updateState({ error: err });
         }
 
-        // Cleanup
         return () => {
             mountedRef.current = false;
             clearTimeouts();
@@ -313,7 +326,6 @@ export function useSocketConnection() {
         updateState
     ]);
 
-    // Cleanup quando componente for desmontado
     useEffect(() => {
         return () => {
             clearTimeouts();
