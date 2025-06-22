@@ -167,6 +167,12 @@ export default function Place() {
   }
 
   useEffect(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        return setShowingPopup(null)
+      }
+    })
     initializeSockets();
   }, []);
 
@@ -288,13 +294,6 @@ export default function Place() {
       setApiError(e);
     }
   }
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      e.preventDefault();
-      return setShowingPopup(null)
-    }
-  })
 
   //Movimento do canvas
   useEffect(() => {
@@ -713,7 +712,7 @@ export default function Place() {
                 <span>Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!</span>
                 <span>Consiga isso e muito mais com PixelsPlace Premium</span>
                 <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
-                <button onClick={() => setShowingPopup(null)} style={{width: "fit-content"}}>talvez dps</button>
+                <button onClick={() => setShowingPopup(null)} style={{ width: "fit-content" }}>talvez dps</button>
               </div>
             }
           </section>
