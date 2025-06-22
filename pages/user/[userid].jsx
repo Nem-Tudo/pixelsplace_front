@@ -16,7 +16,7 @@ import PremiumButton from "@/components/PremiumButton";
 //   premium: false,
 //   display_name: "commandbat",
 //   username: "commandbat",
-//   bio: "Biografia",
+//   aboutme: "Biografia",
 //   pixelQuantity: "10000",
 //   serverFav: {
 //     name: "Casa do Nem Tudo",
@@ -69,9 +69,9 @@ export default function UserProfile() {
     }
   }, [userid]);
 
-  const [bio, setBio] = useState(userInfo?.bio);
+  const [aboutme, setAboutme] = useState(userInfo?.profile.aboutme);
   const [editStates, setEditStates] = useState({
-    bio: false,
+    aboutme: false,
     bgImg: false,
   });
   const [bgImgSrc, setBgImgSrc] = useState(null);
@@ -85,16 +85,16 @@ export default function UserProfile() {
     }));
   };
 
-  const bioRef = useRef(null);
+  const aboutmeRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
-        editStates.bio &&
-        bioRef.current &&
-        !bioRef.current.contains(e.target)
+        editStates.aboutme &&
+        aboutmeRef.current &&
+        !aboutmeRef.current.contains(e.target)
       ) {
-        switchEdit("bio");
+        switchEdit("aboutme");
       }
     };
 
@@ -102,7 +102,7 @@ export default function UserProfile() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [editStates.bio]);
+  }, [editStates.aboutme]);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -204,13 +204,13 @@ export default function UserProfile() {
                 }
               </div>
             )}
-            <div className={styles.description} ref={bioRef}>
-              {editStates.bio ? (
+            <div className={styles.description} ref={aboutmeRef}>
+              {editStates.aboutme ? (
                 <>
                   <div>
                     <textarea
-                      value={bio}
-                      onChange={(e) => setBio(e.target.value)}
+                      value={aboutme}
+                      onChange={(e) => setAboutme(e.target.value)}
                       rows={4}
                     />
                   </div>
@@ -228,13 +228,13 @@ export default function UserProfile() {
                               right: "5px",
                               cursor: "pointer",
                             }}
-                            onClick={() => switchEdit("bio")}
+                            onClick={() => switchEdit("aboutme")}
                           />
                         </>
                       ) : (
                         <></>
                       )}
-                      {bio}
+                      {aboutme}
                     </span>
                   </div>
                 </>
