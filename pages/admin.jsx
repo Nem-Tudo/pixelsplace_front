@@ -38,16 +38,14 @@ export default function AdminPage() {
   };
 
   const fetchStats = async () => {
-    if (checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) {
-      const res = await fetch(`${settings.apiURL}/admin/stats`, {
-        headers: {
-          authorization: Cookies.get("authorization")
-        }
-      }).catch(() => { })
-      if (!res.ok) return;
-      const data = await res.json();
-      setStats(data);
-    }
+    const res = await fetch(`${settings.apiURL}/admin/stats`, {
+      headers: {
+        authorization: Cookies.get("authorization")
+      }
+    }).catch(() => { })
+    if (!res.ok) return;
+    const data = await res.json();
+    setStats(data);
   }
 
   useEffect(() => {
@@ -55,7 +53,7 @@ export default function AdminPage() {
     fetchStats();
     setInterval(() => {
       fetchStats()
-    }, 10 * 1000)
+    }, 3 * 1000)
   }, []);
 
   const fetchWithAuth = async (url, method, body) => {
@@ -128,10 +126,12 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Canvas</h1>
 
-          <fieldset style={{ display: "flex", flexDirection: "column" }}>
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
               <strong>Informações principais</strong>
             </legend>
+            <button onClick={() => fetchStats()}>Atualizar</button>
+            <br />
             <span>Update: {stats?.time}</span>
             <span>Online: {stats?.online}</span>
             <span>Usuarios: {stats?.registeredUsers}</span>
