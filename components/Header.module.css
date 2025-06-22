@@ -132,7 +132,7 @@
     background-color: hsla(0deg, 0%, 100%, 75%);
     backdrop-filter: var(--frosted-glass-blur);
     border: var(--outline);
-    padding: 10px;
+    padding: 5px;
     border-radius: 10px;
     -webkit-user-select: none;
     user-select: none;
@@ -140,18 +140,13 @@
     transition: var(--smooth-transition);
 }
 
+.tippy_menu a {
+    padding: 10px;
+}
+
 .tippy_menu span {
     color: hsla(0deg, 0%, 25%, 75%) !important;
     padding: 0 !important;
-}
-
-.tippy_menu:hover {
-    background-color: red !important;
-    scale: var(--hover-scale);
-}
-
-.tippy_menu:hover span {
-    color: white !important;
 }
 
 @media (max-width: 500px) {
