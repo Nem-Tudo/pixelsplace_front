@@ -10,7 +10,7 @@
     justify-content: space-between;
     height: 72px;
     border-bottom: var(--outline);
-    z-index: 999;
+    z-index: 10;
     position: relative;
 }
 
