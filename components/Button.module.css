@@ -1,0 +1,16 @@
+.btn {
+  background-color: var(--color-accent);
+  color: white;
+  border: var(--outline);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  border-radius: 12px;
+  transition: all ease 0.3s;
+  width: 215px;
+  font-size: 1.2rem 19.2px;
+}
+
+.btn:hover {
+  background-color: var(--color-darker);
+  scale: var(--hover-scale);
+}

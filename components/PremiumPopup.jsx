@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
-import styles from "./PremiumPopup.module.css"; // ou o mesmo 'commandbat.module.css'
+import styles from "./PremiumPopup.module.css";
 
 export default function PremiumPopup({ onClose }) {
     const divRef = useRef(null);
