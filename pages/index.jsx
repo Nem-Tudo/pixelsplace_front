@@ -29,8 +29,8 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-
-            <CustomButton href={"/place"}>Começar</CustomButton>
+            <Link className={styles.btn} href="/place">Começar</Link>
+            <CustomButton href={"/place"}>Botão</CustomButton>
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Link className={styles.btn} href="/partners">Servidores</Link>
             {
