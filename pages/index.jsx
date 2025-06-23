@@ -29,15 +29,14 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            <Link className={styles.btn} href="/place">Começar</Link>
-            <Button label={'Botão novo'} href={"/place"} />
+            <Button label={'Começar'} href={"/place"} />
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
-            <Link className={styles.btn} href="/partners">Servidores</Link>
+            <Button label={'Servidores'} href={"/partners"} />
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link className={styles.btn} href="/admin">⚙ Admin</Link>
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Admin'} href={"/admin"} />
             }
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link className={styles.btn} href="/timetravel">⚙ Time Travel</Link>
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Time Travel'} href={"/timetravel"} />
             }
           </div>
         </main>
