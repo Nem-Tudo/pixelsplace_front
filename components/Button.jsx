@@ -1,7 +1,7 @@
 import styles from "./Button.module.css";
 
 export default function Button({ label = 'Botão', href = undefined, hue = 207.04, on_click = undefined, hierarchy = 1 }) {
-    let importances = ['', styles.primary, styles.secondary, styles.tertiary];
+    let importances = ['', ' '+styles.primary, ' '+styles.secondary, ' '+styles.tertiary];
 
     if(href == undefined && on_click == undefined) { // botão não tem href nem clique
         return <button className={styles.btn+importances[hierarchy]} data-hue={hue}>{label}</button>
