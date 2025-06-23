@@ -9,10 +9,6 @@
   width: 215px;
 }
 
-.btn::after {
-  content: attr(data-hue);
-}
-
 .btn:hover {
   background-color: var(--color-darker);
   scale: var(--hover-scale);
