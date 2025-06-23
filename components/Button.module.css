@@ -1,13 +1,12 @@
 .btn {
-  background-color: var(--color-accent);
+  background-color: pink;
   color: white;
   border: var(--outline);
   box-shadow: var(--shadow);
   padding: 18px;
   border-radius: 12px;
-  transition: all ease 0.3s;
+  transition: var(--smooth-transition);
   width: 215px;
-  font-size: 1.2rem 19.2px;
 }
 
 .btn:hover {
