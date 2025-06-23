@@ -427,6 +427,7 @@ export default function Place() {
                         display: isAlready() ? "unset" : "none"
                     }}
                 >
+                    {/* canvas div */}
                     <div
                         ref={wrapperRef}
                         style={{
@@ -436,6 +437,7 @@ export default function Place() {
                             left: 0,
                         }}
                     >
+                        {/* canvas overlay (select pixel, etc) */}
                         <canvas
                             ref={overlayCanvasRef}
                             width={canvasConfig.width * 10}
@@ -450,11 +452,12 @@ export default function Place() {
                                 transformOrigin: "0 0",
                                 zIndex: 10,
                                 width: "100%",
+                                aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
                                 display: Math.max(canvasConfig.width, canvasConfig.height) > 1500 ? "none" : "unset"
                             }}
                         />
 
-
+                        {/* canvas main */}
                         <canvas
                             onClick={(e) => {
                                 const canvas = canvasRef.current;
@@ -474,6 +477,9 @@ export default function Place() {
                             ref={canvasRef}
                             width={canvasConfig.width}
                             height={canvasConfig.height}
+                            style={{
+                                aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
+                            }}
                         />
                     </div>
                 </div>
