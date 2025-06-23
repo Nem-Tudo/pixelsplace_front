@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "Segoe UI Variable";
-  src: url("/fonts/SEGUIVAR.ttf");
+  src: url('/fonts/SegoeUIVariableStaticDisplay.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

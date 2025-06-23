@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import styles from "./Button.module.css";
 
-export function Button({ label, href = undefined }) {
+export default function Button({ label = 'Botão', href = undefined }) {
     if(href == undefined) {
         return <button className={styles.btn}>{label}</button>
     } else {
