@@ -30,7 +30,7 @@ export default function Home() {
           </div>
           <div className={styles.buttons}>
             <Link className={styles.btn} href="/place">Começar</Link>
-            <Button href={"/place"}>Botão novo</Button>
+            <Button label={'Botão novo'} href={"/place"} />
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Link className={styles.btn} href="/partners">Servidores</Link>
             {
