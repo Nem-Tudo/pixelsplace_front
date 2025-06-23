@@ -12,28 +12,28 @@
 
 /* cores e aspectos */
 .btn.primary {
-  background-color: var(--color-accent);
+  background-color: var(--btn-color, var(--color-accent));
   color: white;
   border: var(--outline);
 }
 .btn.primary:hover {
-  background-color: var(--color-darker);
+  background-color: var(--btn-color-hover, var(--color-darker));
 }
 
 .btn.secondary {
   background-color: transparent;
-  color: var(--color-accent);
-  border: 1px solid var(--color-accent);
+  color: var(--btn-color, var(--color-accent));
+  border: 1px solid var(--btn-color, var(--color-accent));
 }
 .btn.secondary:hover {
-  background-color: var(--color-darker);
+  background-color: var(--btn-color-hover, var(--color-darker));
   border: var(--outline);
   color: white;
 }
 
 .btn.tertiary {
   box-shadow: none;
-  color: var(--color-accent);
+  color: var(--btn-color, var(--color-accent));
   border: none;
   background: transparent;
 }

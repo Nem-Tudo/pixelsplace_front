@@ -30,13 +30,14 @@ export default function Home() {
           </div>
           <div className={styles.buttons}>
             <Button label={'Começar'} href={"/place"} hue={0}/>
+            <Button label={'Clique em mim'} on_click={() => {alert('a');alert('b')}} />
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Button label={'Servidores'} href={"/partners"} hierarchy={2} />
             {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
             }
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Time Travel'} href={"/timetravel"} />
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Time Travel'} href={"/timetravel"} hierarchy={3}/>
             }
           </div>
         </main>
