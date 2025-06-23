@@ -1,5 +1,5 @@
 .btn {
-  background-color: attr(data-cor);
+  background-color: var(--color-accent);
   color: white;
   border: var(--outline);
   box-shadow: var(--shadow);
@@ -7,6 +7,10 @@
   border-radius: 12px;
   transition: var(--smooth-transition);
   width: 215px;
+}
+
+.btn::after {
+  content: attr(data-hue);
 }
 
 .btn:hover {
