@@ -29,7 +29,7 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            <Button label={'Começar'} href={"/place"} />
+            <Button label={'Começar'} href={"/place"} hue={0}/>
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Button label={'Servidores'} href={"/partners"} />
             {
