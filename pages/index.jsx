@@ -31,9 +31,9 @@ export default function Home() {
           <div className={styles.buttons}>
             <Button label={'Começar'} href={"/place"} hue={0}/>
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
-            <Button label={'Servidores'} href={"/partners"} />
+            <Button label={'Servidores'} href={"/partners"} hierarchy={2} />
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Admin'} href={"/admin"} />
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
             }
             {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Time Travel'} href={"/timetravel"} />

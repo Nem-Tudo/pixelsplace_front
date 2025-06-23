@@ -1,15 +1,39 @@
+/* formato dos botões gerais */
 .btn {
-  background-color: var(--color-accent);
-  color: white;
-  border: var(--outline);
   box-shadow: var(--shadow);
   padding: 18px;
   border-radius: 12px;
   transition: var(--smooth-transition);
   width: 215px;
 }
-
 .btn:hover {
-  background-color: var(--color-darker);
   scale: var(--hover-scale);
+}
+
+/* cores e aspectos */
+.btn.primary {
+  background-color: var(--color-accent);
+  color: white;
+  border: var(--outline);
+}
+.btn.primary:hover {
+  background-color: var(--color-darker);
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+.btn.secondary:hover {
+  background-color: var(--color-darker);
+  border: var(--outline);
+  color: white;
+}
+
+.btn.tertiary {
+  box-shadow: none;
+  color: var(--color-accent);
+  border: none;
+  background: transparent;
 }
