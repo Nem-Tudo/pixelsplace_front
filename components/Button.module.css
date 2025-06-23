@@ -1,5 +1,5 @@
 .btn {
-  background-color: var(--color-accent);
+  background-color: attr(data-cor);
   color: white;
   border: var(--outline);
   box-shadow: var(--shadow);
