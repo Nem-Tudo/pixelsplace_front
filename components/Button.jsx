@@ -3,10 +3,10 @@ import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import styles from "./Button.module.css";
 
-export default function Button({ href = undefined }) {
+export function Button({ href = undefined, children }) {
     if(href == undefined) {
-        return <button className={styles.btn}></button>
+        return <button className={styles.btn}>{children}</button>
     } else {
-        return <a className={styles.btn} href={href}></a>
+        return <a className={styles.btn} href={href}>{children}</a>
     };
 }

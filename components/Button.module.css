@@ -1,5 +1,5 @@
 .btn {
-  background-color: pink;
+  background-color: var(--color-accent);
   color: white;
   border: var(--outline);
   box-shadow: var(--shadow);
