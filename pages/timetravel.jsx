@@ -383,7 +383,7 @@ export default function Place() {
                     <div className={styles.top}>
                     </div>
                     <div className={styles.bottom}>
-                        <div style={{ display: "flex", justifyContent: "center"}}>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
 
                             <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
                                 setIncludeHistory(e.target.checked)
@@ -392,14 +392,14 @@ export default function Place() {
                             <label for={styles.timeModeCheck}>Apenas as mudanças</label>
 
                         </div>
-                        <div style={{ display: "flex", justifyContent: "center"}}>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
                             <div>
                                 <span>Marcha (m): </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
                                     setTravelDuration(e.target.value);
                                 }} />
                             </div>
-                            <span style={{ display: "flex", justifyContent: "center"}}>
+                            <span style={{ display: "flex", justifyContent: "center" }}>
                                 <span>Multiplicador:</span>
                                 <input
                                     min={0}
@@ -409,7 +409,7 @@ export default function Place() {
                                     defaultValue={travelMultiplier}
                                     onMouseUp={(e) => setTravelMultiplier(e.target.value)}
                                     onTouchEnd={(e) => setTravelMultiplier(e.target.value)}
-                                    // onChange={(e) => setTravelMultiplier(Number(e.target.value))}
+                                // onChange={(e) => setTravelMultiplier(Number(e.target.value))}
                                 />
                                 <span>({travelMultiplier}x)</span>
                             </span>
@@ -440,6 +440,7 @@ export default function Place() {
                             ref={overlayCanvasRef}
                             width={canvasConfig.width * 10}
                             height={canvasConfig.height * 10}
+                            className="pixelate"
                             id={styles.canvas}
                             style={{
                                 position: "absolute",
@@ -468,6 +469,7 @@ export default function Place() {
 
                                 setSelectedPixel({ x, y })
                             }}
+                            className="pixelate"
                             id={styles.canvas}
                             ref={canvasRef}
                             width={canvasConfig.width}

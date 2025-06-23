@@ -118,12 +118,10 @@ a {
   font-size: 18px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(
-    to right,
-    hsl(269.291 52.697% 52.745% /1),
-    hsl(295.645 50% 51.373% /1),
-    hsl(325.385 31.707% 51.765% /1)
-  ) !important;
+  background: linear-gradient(to right,
+      hsl(269.291 52.697% 52.745% /1),
+      hsl(295.645 50% 51.373% /1),
+      hsl(325.385 31.707% 51.765% /1)) !important;
   z-index: 1;
   background-color: inherit;
 }
@@ -134,13 +132,11 @@ a {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    135deg,
-    transparent 45%,
-    rgba(255, 255, 255, 0.1) 48%,
-    rgba(255, 255, 255, 0.1) 52%,
-    transparent 55%
-  );
+  background: linear-gradient(135deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.1) 48%,
+      rgba(255, 255, 255, 0.1) 52%,
+      transparent 55%);
   animation: moveDiagonal 4s linear infinite;
   pointer-events: none;
 }
@@ -149,6 +145,7 @@ a {
   0% {
     transform: translate(-150%, -150%);
   }
+
   100% {
     transform: translate(100%, 100%);
   }
@@ -162,13 +159,11 @@ a {
   left: -50%;
   width: 300%;
   height: 250%;
-  background: linear-gradient(
-    270deg,
-    hsl(269.291 52.697% 52.745% /1),
-    hsl(295.645 50% 51.373% /1),
-    hsl(325.385 31.707% 51.765% /1),
-    hsl(207 100% 42% /1)
-  );
+  background: linear-gradient(270deg,
+      hsl(269.291 52.697% 52.745% /1),
+      hsl(295.645 50% 51.373% /1),
+      hsl(325.385 31.707% 51.765% /1),
+      hsl(207 100% 42% /1));
   background-size: 600% 600%;
   animation: premiumGradient 6s ease infinite;
   z-index: -1;
@@ -181,14 +176,38 @@ a {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
-.link:hover{
+.link:hover {
   text-decoration: underline;
+}
+
+
+.pixelate {
+  image-rendering: optimizeSpeed;
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }

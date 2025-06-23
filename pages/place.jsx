@@ -976,6 +976,7 @@ export default function Place() {
               ref={overlayCanvasRef}
               width={canvasConfig.width * 10}
               height={canvasConfig.height * 10}
+              className="pixelate"
               id={styles.canvas}
               style={{
                 position: "absolute",
@@ -1020,6 +1021,7 @@ export default function Place() {
 
                 showPixelInfo(x, y);
               }}
+              className="pixelate"
               id={styles.canvas}
               ref={canvasRef}
               width={canvasConfig.width}
