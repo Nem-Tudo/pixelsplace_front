@@ -811,7 +811,12 @@ export default function Place() {
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
-                    <Button label={timeLeft} className={styles.placepixel} id={styles.cooldown} />
+                    <Button
+                      label={timeLeft}
+                      className={styles.placepixel}
+                      id={styles.cooldown}
+                      disabled={true}
+                    />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
                     <Button

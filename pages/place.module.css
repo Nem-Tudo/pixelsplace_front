@@ -88,66 +88,6 @@
     width: fit-content;
 }
 
-.pixelplacament #cooldown {
-    background-color: rgb(120 122 135);
-    cursor: not-allowed;
-}
-
-.pixelplacament #opencolor {
-    background-color: var(--color-accent);
-    justify-self: center;
-    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
-}
-
-.pixelplacament #opencolor:hover {
-    background-color: var(--color-darker);
-    scale: var(--hover-scale);
-}
-
-.pixelplacament #pixelinfo {
-    background-color: rgb(133, 133, 133);
-}
-
-.pixelplacament #pixelinfo:hover {
-    background-color: rgb(107, 107, 107);
-}
-
-
-.pixelplacament #confirm {
-    background-color: rgb(0, 165, 82);
-    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
-    line-height: 1.5;
-}
-
-.pixelplacament #confirm:hover {
-    background-color: rgb(0, 139, 70);
-    scale: var(--hover-scale);
-}
-
-.pixelplacament #confirm:disabled {
-    background-color: rgb(64, 156, 110) !important;
-    cursor: not-allowed;
-}
-
-.pixelplacament #confirm:disabled:hover {
-    scale: none;
-}
-
-
-.pixelplacament #cancel {
-    background-color: transparent;
-    color: hsla(0deg, 0%, 25%, 75%);
-    box-shadow: none;
-    border: 1px solid transparent;
-}
-
-.pixelplacament #cancel:hover {
-    background-color: rgba(255, 255, 255, 0.516);
-    box-shadow: var(--shadow);
-    border: var(--outline);
-    scale: var(--hover-scale);
-}
-
 .pixelInfo {
     background: white;
     padding: 10px;
