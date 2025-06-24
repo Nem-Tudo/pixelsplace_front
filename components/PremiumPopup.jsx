@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
 import styles from "./PremiumPopup.module.css";
-import Button from "@components/Button";
+import Button from "@/components/Button";
 
 export default function PremiumPopup({ onClose }) {
     const divRef = useRef(null);

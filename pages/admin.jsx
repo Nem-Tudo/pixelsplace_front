@@ -282,7 +282,7 @@ export default function AdminPage() {
                 </div>
                 <Button
                   label={'Adicionar cor'}
-                  hue={120}
+                  hue={149.82}
                   style={{ marginRight: "15px" }}
                   onClick={() => {
                     const color = prompt("Código hex");

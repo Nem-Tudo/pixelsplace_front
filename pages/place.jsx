@@ -826,13 +826,16 @@ export default function Place() {
                         setShowingColors(true);
                       }}
                       hue={0}
+                      style={{
+                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
+                        lineHeight: 1.5
+                      }}
                     />
                   )}
                   {showingColors && (
                     <Button
                       label={'Cancelar'}
                       hierarchy={3}
-                      hue={-50}
                       className={styles.placepixel}
                       onClick={() => setShowingColors(false)}
                     />
