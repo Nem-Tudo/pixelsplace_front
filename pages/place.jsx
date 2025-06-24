@@ -16,6 +16,7 @@ import PremiumButton from "@/components/PremiumButton";
 import PremiumPopup from "@/components/PremiumPopup";
 import { userAgent } from "next/server";
 import Tippy from "@tippyjs/react";
+import Button from '@/components/Button';
 
 export default function Place() {
   const { token, loggedUser } = useAuth();
@@ -827,6 +828,7 @@ export default function Place() {
                     <Button
                       label={'Cancelar'}
                       hierarchy={3}
+                      hue={-25}
                       className={styles.placepixel}
                       id={styles.cancel}
                       onClick={() => setShowingColors(false)}
