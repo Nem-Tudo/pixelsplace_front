@@ -96,7 +96,7 @@
   align-items: center;
 }
 
-.chossePage button {
+.choosePage button {
   background-color: var(--color-accent);
   color: white;
   padding: 12px 20px;
@@ -108,7 +108,7 @@
   margin-top: 10px;
 }
 
-.chossePage {
+.choosePage {
   border: 1px solid var(--color-mid);
   border-radius: 28px;
   padding: 20px;
@@ -125,7 +125,7 @@
   transform: translate(-50%, -50%);
 }
 
-.chossePage .divButton {
+.choosePage .divButton {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -134,7 +134,7 @@
   gap: 5px;
 }
 
-.chossePage .title {
+.choosePage .title {
   text-align: center;
   color: var(--color-muted);
   font-family: "Dogica Pixel Bold", Arial, Helvetica, sans-serif;

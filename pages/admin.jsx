@@ -142,7 +142,7 @@ export default function AdminPage() {
 
 
     switch (choosePage) {
-    case "canva":
+    case "canvas":
       
 
 
@@ -595,10 +595,10 @@ export default function AdminPage() {
       </Head>
       <MainLayout>
         <main className={styles.main}>
-          <fieldset className={styles.chossePage}>
+          <fieldset className={styles.choosePage}>
             <span className={styles.title}>Escolha a ADMIN PAGE</span>
             <div className={styles.divButton}>
-              <Button label={'Canvas'} on_click={() => setChoosePage("canva")} />
+              <Button label={'Canvas'} on_click={() => setChoosePage("canvas")} />
               <Button label={'Users'} on_click={() => setChoosePage("users")} />
               <Button label={'Geral'} on_click={() => setChoosePage("geral")} />
             </div>
