@@ -835,6 +835,7 @@ export default function Place() {
                     <Button
                       label={'Cancelar'}
                       hierarchy={3}
+                      hue={-50}
                       className={styles.placepixel}
                       onClick={() => setShowingColors(false)}
                     />
