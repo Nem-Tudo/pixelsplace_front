@@ -79,7 +79,7 @@ export default function AdminPage() {
     }
   };
 
-  // arrastar:
+  // Arrastar:
 
   const dragItem = useRef();
   const dragOverItem = useRef();
@@ -128,7 +128,7 @@ export default function AdminPage() {
   // positiva: ADMIN_VIEWPAGE -> pode ver a pagina de admin
 
 
-  //verifica se é admin
+  // Verifica se é admin
   if (!checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE"))
     return (
       <MainLayout>
