@@ -89,6 +89,12 @@
   font-family: monospace;
 }
 
+.colorsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 
 .coloritem {
   display: flex;
@@ -138,4 +144,11 @@
   text-align: center;
   color: var(--color-muted);
   font-family: "Dogica Pixel Bold", Arial, Helvetica, sans-serif;
+}
+
+
+.buttonGroup{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
