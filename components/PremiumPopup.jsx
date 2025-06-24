@@ -3,6 +3,7 @@ import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
 import styles from "./PremiumPopup.module.css";
+import Button from "@components/Button";
 
 export default function PremiumPopup({ onClose }) {
     const divRef = useRef(null);
@@ -26,10 +27,21 @@ export default function PremiumPopup({ onClose }) {
             <span>Consiga isso e muito mais com PixelsPlace Premium</span>
             <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
             <footer>
-                <button onClick={() => onClose()}>
-                    Talvez depois
-                </button>
-                <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
+                <Button 
+                    label={'Talvez depois'}
+                    onClick={() => onClose()}
+                    hue={-50}
+                />
+                <PremiumButton
+                    setClass={styles.btn}
+                    as={Link}
+                    redirect={true}
+                    href="/premium"
+                    style={{
+                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
+                        lineHeight: 1.5
+                    }}
+                >
                     Conheça o Premium!
                 </PremiumButton>
             </footer>

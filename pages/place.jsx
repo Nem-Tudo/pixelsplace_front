@@ -827,13 +827,17 @@ export default function Place() {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
                       }}
+                      style={{
+                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
+                        lineHeight: 1.5
+                      }}
                     />
                   )}
                   {showingColors && (
                     <Button
                       label={'Cancelar'}
                       hierarchy={3}
-                      hue={-25}
+                      hue={-50}
                       className={styles.placepixel}
                       id={styles.cancel}
                       onClick={() => setShowingColors(false)}
