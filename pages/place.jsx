@@ -825,7 +825,6 @@ export default function Place() {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
                       }}
-                      hue={0}
                       style={{
                         fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
                         lineHeight: 1.5
