@@ -8,10 +8,10 @@ export default function Button({
     on_click = undefined,
     hierarchy = 1,
     disabled = false,
-    style = ''
+    ...props
 }) {
     const ref = useRef();
-    const importances = ['', ' ' + styles.primary, ' ' + styles.secondary, ' ' + styles.tertiary];
+    const importances = ['', ' '+styles.primary, ' '+styles.secondary, ' '+styles.tertiary];
 
     useEffect(() => {
         if (ref.current) {
@@ -32,16 +32,16 @@ export default function Button({
         ref,
         className,
         'data-hue': hue,
-        disabled // style
+        disabled
     };
 
     if (href === undefined && on_click === undefined) {     // sem link e sem click
-        return <button {...sharedProps}>{label}</button>;
+        return <button {...sharedProps} {...props}>{label}</button>;
     } else if (on_click === undefined) {                    // com link e sem click
-        return <a {...sharedProps} href={href}>{label}</a>;
+        return <a {...sharedProps} {...props} href={href}>{label}</a>;
     } else if (href === undefined) {                        // sem link e com click
-        return <button {...sharedProps} onClick={() => on_click()}>{label}</button>;
+        return <button {...sharedProps} {...props} onClick={() => on_click()}>{label}</button>;
     } else {                                                // com link e com click
-        return <a {...sharedProps} href={href} onClick={() => on_click()}>{label}</a>;
+        return <a {...sharedProps} {...props} href={href} onClick={() => on_click()}>{label}</a>;
     }
 }
