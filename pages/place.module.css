@@ -136,12 +136,13 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    background: var(--frosted-glass);
+    background: #202b41;
     backdrop-filter: var(--frosted-glass-blur);
     box-shadow: var(--shadow);
-    color: var(--color-text);
+    /* color: var(--color-text); */
+    color: white;
     border: var(--outline);
-    border-radius: 28px;
+    border-radius: 15px;
     max-width: 350px;
     margin: 0 auto;
     font-family: sans-serif;
