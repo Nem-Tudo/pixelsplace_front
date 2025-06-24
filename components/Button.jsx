@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./Button.module.css";
 
 export default function Button({
+    children,
     label = 'Botão',
     href = undefined,
     hue = 207.04,
@@ -41,12 +42,12 @@ export default function Button({
     };
 
     if (href === undefined && onClick === undefined) {     // sem link e sem click
-        return <button {...sharedProps} {...props} className={className}>{label}</button>;
+        return <button {...sharedProps} {...props} className={className}>{label}{children}</button>;
     } else if (onClick === undefined) {                    // com link e sem click
-        return <Link {...sharedProps} {...props} className={className} href={href}>{label}</Link>;
+        return <Link {...sharedProps} {...props} className={className} href={href}>{label}{children}</Link>;
     } else if (href === undefined) {                        // sem link e com click
-        return <button {...sharedProps} {...props} className={className} onClick={() => onClick()}>{label}</button>;
+        return <button {...sharedProps} {...props} className={className} onClick={() => onClick()}>{label}{children}</button>;
     } else {                                                // com link e com click
-        return <Link {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{label}</Link>;
+        return <Link {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{label}{children}</Link>;
     }
 }
