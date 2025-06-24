@@ -53,6 +53,8 @@ export default function Place() {
 
   const [showingPopup, setShowingPopup] = useState(null);
 
+  const [, forceUpdate] = useState(0);
+
   const transform = useRef({
     scale: 1,
     pointX: 0,
@@ -68,6 +70,8 @@ export default function Place() {
     if (!wrapper) return;
     const { pointX, pointY, scale } = transform.current;
     wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+
+    forceUpdate(Date.now()); // Força a atualização do react
 
     // const updatedQuery = {
     //   ...router.query,
@@ -683,17 +687,6 @@ export default function Place() {
     return (newR << 16) + (newG << 8) + newB;
   }
 
-  function transformarValor(x) {
-    const xMin = 6;
-    const xMax = 150;
-    const newMin = 1;
-    const newMax = 150;
-
-    return Math.round(
-      ((x - xMin) * (newMax - newMin)) / (xMax - xMin) + newMin
-    );
-  }
-
   return (
     <>
       <Head>
@@ -719,12 +712,12 @@ export default function Place() {
               <div className={styles.overlayPosition}>
                 <span>
                   ({selectedPixel.x},{selectedPixel.y}){" "}
-                  {transformarValor(transform.current.scale)}x
+                  {Math.round(transform.current.scale)}x
                 </span>
                 <Tippy content="Copiar link para o pixel" placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
-                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${transform.current.scale}&px=${transform.current.pointX}&py=${transform.current.pointY}`;
+                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
                     console.log("Link gerado:", link);
                     copyText(link);
                     alert(`Link copiado para a área de transferência! (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
