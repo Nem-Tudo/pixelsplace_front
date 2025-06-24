@@ -280,32 +280,39 @@ export default function AdminPage() {
                     </div>
                   ))}
                 </div>
-                <Button label={'Adicionar cor'} hue={120} style={{ marginRight: "15px" }} on_click={() => {
-                  const color = prompt("Código hex");
-                  if (!color) return;
-                  const number = hexToNumber(color);
+                <Button
+                  label={'Adicionar cor'}
+                  hue={120}
+                  style={{ marginRight: "15px" }}
+                  on_click={() => {
+                    const color = prompt("Código hex");
+                    if (!color) return;
+                    const number = hexToNumber(color);
 
-                  if (isNaN(number)) return alert("cor invalida: NaN");
-                  if (number < 0) return alert("cor invalida: numero menor q 0");
-                  if (number > 16777215)
-                    return alert("cor invalida: numero maior q 16777215");
+                    if (isNaN(number)) return alert("cor invalida: NaN");
+                    if (number < 0) return alert("cor invalida: numero menor q 0");
+                    if (number > 16777215)
+                      return alert("cor invalida: numero maior q 16777215");
 
-                  const newColors = [...freeColors];
-                  newColors.push(number);
-                  setFreeColors(newColors);
-                }}
+                    const newColors = [...freeColors];
+                    newColors.push(number);
+                    setFreeColors(newColors);
+                  }}
                 />
-                <Button label={'Salvar cores'} disabled={loading} on_click={async () => {
-                  await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
-                    freecolors: freeColors,
-                  });
-                  fetchCanvas();
-                }}
+                <Button 
+                  label={'Salvar cores'}
+                  style={{ marginRight: "15px" }}
+                  disabled={loading}
+                  on_click={async () => {
+                    await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
+                      freecolors: freeColors,
+                    });
+                    fetchCanvas();
+                  }}
                 />
                 <Button
                   label={showColorsArray ? "Esconder Array" : "Mostrar Array"}
                   hue={-69.41}
-                  style={{ marginRight: "15px" }}
                   on_click={() => {
                     if (!showColorsArray) {
                       setFreeColorsInput(freeColors.join(","));
