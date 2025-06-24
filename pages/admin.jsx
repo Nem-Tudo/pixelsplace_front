@@ -156,7 +156,7 @@ export default function AdminPage() {
 
               <Button
                 label={'⬅ Voltar'}
-                on_click={() => setChoosePage(null)}
+                onClick={() => setChoosePage(null)}
                 style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
               />
 
@@ -189,7 +189,7 @@ export default function AdminPage() {
                   value={height}
                   onChange={(e) => setHeight(Number(e.target.value))}
                 />
-                <Button label={'Salvar Tamanho'} disabled={loading} on_click={async () => {
+                <Button label={'Salvar Tamanho'} disabled={loading} onClick={async () => {
                   await fetchWithAuth("/canvas/admin/resize", "PATCH", {
                     width,
                     height,
@@ -272,7 +272,7 @@ export default function AdminPage() {
                           setFreeColors(newColors);
                         }}
                       />
-                      <Button label={'X'} hue={0} hierarchy={2} on_click={() => {
+                      <Button label={'X'} hue={0} hierarchy={2} onClick={() => {
                         const newColors = removeItemFromArray(freeColors, index);
                         setFreeColors(newColors);
                       }}
@@ -284,7 +284,7 @@ export default function AdminPage() {
                   label={'Adicionar cor'}
                   hue={120}
                   style={{ marginRight: "15px" }}
-                  on_click={() => {
+                  onClick={() => {
                     const color = prompt("Código hex");
                     if (!color) return;
                     const number = hexToNumber(color);
@@ -303,7 +303,7 @@ export default function AdminPage() {
                   label={'Salvar cores'}
                   style={{ marginRight: "15px" }}
                   disabled={loading}
-                  on_click={async () => {
+                  onClick={async () => {
                     await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
                       freecolors: freeColors,
                     });
@@ -313,7 +313,7 @@ export default function AdminPage() {
                 <Button
                   label={showColorsArray ? "Esconder Array" : "Mostrar Array"}
                   hue={-69.41}
-                  on_click={() => {
+                  onClick={() => {
                     if (!showColorsArray) {
                       setFreeColorsInput(freeColors.join(","));
                     }
@@ -359,7 +359,7 @@ export default function AdminPage() {
                   value={evalCode}
                   onChange={(e) => setEvalCode(e.target.value)}
                 />
-                <Button label={'Executar Eval'} disabled={loading} on_click={async () => {
+                <Button label={'Executar Eval'} disabled={loading} onClick={async () => {
                   if (!evalCode.trim()) return alert("Insira o código.");
                   if (
                     confirm(
@@ -385,7 +385,7 @@ export default function AdminPage() {
                   value={alertMessage}
                   onChange={(e) => setAlertMessage(e.target.value)}
                 />
-                <Button label={'Enviar alerta'} disabled={loading} on_click={async () => {
+                <Button label={'Enviar alerta'} disabled={loading} onClick={async () => {
                   if (!alertMessage.trim()) return alert("Insira a mensagem.");
                   if (
                     confirm("Deseja enviar essa mensagem para todos os clients?")
@@ -404,7 +404,7 @@ export default function AdminPage() {
                 <legend>
                   <strong>Desconectar Todos os Sockets</strong>
                 </legend>
-                <Button label={'Desconectar sockets'} disabled={loading} hue={0} on_click={async () => {
+                <Button label={'Desconectar sockets'} disabled={loading} hue={0} onClick={async () => {
                   if (
                     confirm("Tem certeza que deseja desconectar todos os sockets?")
                   ) {
@@ -441,7 +441,7 @@ export default function AdminPage() {
 
               <Button
                 label={'⬅ Voltar'}
-                on_click={() => setChoosePage(null)}
+                onClick={() => setChoosePage(null)}
                 style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
               />
 
@@ -449,7 +449,7 @@ export default function AdminPage() {
                 <legend>
                   <strong>Informações principais</strong>
                 </legend>
-                <Button label={'Atualizar'} on_click={() => fetchStats()} />
+                <Button label={'Atualizar'} onClick={() => fetchStats()} />
                 <br />
                 <span>Update: {stats?.time}</span>
                 <span>Online: {stats?.online}</span>
@@ -494,7 +494,7 @@ export default function AdminPage() {
 
               <Button
                 label={'⬅ Voltar'}
-                on_click={() => setChoosePage(null)}
+                onClick={() => setChoosePage(null)}
                 style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
               />
 
@@ -535,7 +535,7 @@ export default function AdminPage() {
 
               <Button
                 label={'⬅ Voltar'}
-                on_click={() => setChoosePage(null)}
+                onClick={() => setChoosePage(null)}
                 style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
               />
 
@@ -567,9 +567,9 @@ export default function AdminPage() {
               <fieldset className={styles.choosePage}>
                 <span className={styles.title}>Escolha a ADMIN PAGE</span>
                 <div className={styles.divButton}>
-                  <Button label={'Canvas'} on_click={() => setChoosePage("canvas")} />
-                  <Button label={'Users'} on_click={() => setChoosePage("users")} />
-                  <Button label={'Geral'} on_click={() => setChoosePage("geral")} />
+                  <Button label={'Canvas'} onClick={() => setChoosePage("canvas")} />
+                  <Button label={'Users'} onClick={() => setChoosePage("users")} />
+                  <Button label={'Geral'} onClick={() => setChoosePage("geral")} />
                 </div>
               </fieldset>
             </main>
