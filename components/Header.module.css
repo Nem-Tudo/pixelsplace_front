@@ -1,5 +1,5 @@
 .header {
-    background: var(--color-muted);
+    background: linear-gradient(90deg, var(--color-muted), var(--color-accent));
     padding: 1rem 2rem;
     box-shadow: var(--shadow);
     display: flex;
