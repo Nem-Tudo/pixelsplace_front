@@ -113,7 +113,7 @@ export default function Place() {
   const screenWidth = typeof window !== "undefined" ? window.innerWidth : 600;
 
   const initialY = screenHeight / 2 - 100;
-  const initialX = screenWidth - 300;
+  const initialX = screenWidth - 280;
 
   const { movePixelInfoRef, direction, styleDrag, iconDrag } = useDraggable(
     { x: initialX, y: initialY },
