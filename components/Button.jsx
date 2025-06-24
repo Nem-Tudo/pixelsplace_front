@@ -6,7 +6,8 @@ export default function Button({
     href = undefined,
     hue = 207.04,
     on_click = undefined,
-    hierarchy = 1
+    hierarchy = 1,
+    disabled = false
 }) {
     const ref = useRef();
     const importances = ['', ' ' + styles.primary, ' ' + styles.secondary, ' ' + styles.tertiary];
@@ -14,8 +15,13 @@ export default function Button({
     useEffect(() => {
         if (ref.current) {
             const el = ref.current;
-            el.style.setProperty('--btn-color', `hsl(${hue}, 100%, 41.76%)`);
-            el.style.setProperty('--btn-color-hover', `hsl(${hue}, 100%, 31.76%)`);
+            if(hue < 0) {
+                el.style.setProperty('--btn-color', `hsl(0, 0%, ${-hue}%)`);
+            el.style.setProperty('--btn-color-hover', `hsl(0, 0%, ${-hue-10}%)`);
+            } else {
+                el.style.setProperty('--btn-color', `hsl(${hue}, 100%, 41.76%)`);
+                el.style.setProperty('--btn-color-hover', `hsl(${hue}, 100%, 31.76%)`);
+            }
         }
     }, [hue]);
 
@@ -24,7 +30,8 @@ export default function Button({
     const sharedProps = {
         ref,
         className,
-        'data-hue': hue
+        'data-hue': hue,
+        disabled
     };
 
     if (href === undefined && on_click === undefined) {     // sem link e sem click

@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import Cookies from 'js-cookie'
 import Head from "next/head";
 import checkFlags from "@/src/checkFlags";
+import Button from '@/components/Button';
 
 
 export default function AdminPage() {
@@ -160,9 +161,8 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Canvas</h1>
 
-          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
-                <span>⬅ Voltar</span>
-              </button>
+          {/* position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" */}
+          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
 
           {/* <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
@@ -192,18 +192,14 @@ export default function AdminPage() {
               value={height}
               onChange={(e) => setHeight(Number(e.target.value))}
             />
-            <button
-              disabled={loading}
-              onClick={async () => {
+            <Button label={'Salvar Tamanho'} disabled={loading} on_click={async () => {
                 await fetchWithAuth("/canvas/admin/resize", "PATCH", {
                   width,
                   height,
                 });
                 fetchCanvas();
               }}
-            >
-              Salvar Tamanho
-            </button>
+            />
           </fieldset>
 
           {/* Cores gratuitas */}
@@ -279,22 +275,16 @@ export default function AdminPage() {
                       setFreeColors(newColors);
                     }}
                   />
-                  <button
-                    className={styles.remove}
-                    onClick={() => {
+                  <Button label={'X'} hue={0} hierarchy={2} on_click={() => {
                       const newColors = removeItemFromArray(freeColors, index);
                       setFreeColors(newColors);
                     }}
-                  >
-                    X
-                  </button>
+                  />
                 </div>
               ))}
             </div>
-            <button
-              className={styles.createbutton}
-              style={{ marginRight: "15px" }}
-              onClick={() => {
+            {/* style={{ marginRight: "15px" }} */}
+            <Button label={'Adicionar cor'} hue={120} on_click={() => {
                 const color = prompt("Código hex");
                 if (!color) return;
                 const number = hexToNumber(color);
@@ -308,32 +298,22 @@ export default function AdminPage() {
                 newColors.push(number);
                 setFreeColors(newColors);
               }}
-            >
-              Adicionar cor
-            </button>
-            <button
-              disabled={loading}
-              onClick={async () => {
+            />
+            <Button label={'Salvar cores'} disabled={loading} on_click={async () => {
                 await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
                   freecolors: freeColors,
                 });
                 fetchCanvas();
               }}
-            >
-              Salvar Cores
-            </button>
-            <button
-              className={styles.infobutton}
-              style={{ marginLeft: "15px" }}
-              onClick={() => {
+            />
+            {/* style={{ marginLeft: "15px" }} */}
+            <Button label={showColorsArray ? "Esconder Array" : "Mostrar Array"} hue={-69.41} on_click={() => {
                 if (!showColorsArray) {
                   setFreeColorsInput(freeColors.join(","));
                 }
                 setShowingColorsArray(!showColorsArray);
               }}
-            >
-              {showColorsArray ? "Esconder Array" : "Mostrar Array"}
-            </button>
+            />
           </fieldset>
 
           {/* Cooldowns */}
@@ -353,18 +333,14 @@ export default function AdminPage() {
               value={cooldownPremium}
               onChange={(e) => setCooldownPremium(Number(e.target.value))}
             />
-            <button
-              disabled={loading}
-              onClick={async () => {
+            <Button label={'Salvar cooldowns'} disabled={loading} onClick={async () => {
                 await fetchWithAuth("/canvas/admin/cooldown", "PATCH", {
                   cooldown_free: cooldownFree,
                   cooldown_premium: cooldownPremium,
                 });
                 fetchCanvas();
               }}
-            >
-              Salvar Cooldowns
-            </button>
+            />
           </fieldset>
 
           {/* Eval */}
@@ -377,9 +353,7 @@ export default function AdminPage() {
               value={evalCode}
               onChange={(e) => setEvalCode(e.target.value)}
             />
-            <button
-              disabled={loading}
-              onClick={async () => {
+            <Button label={'Executar Eval'} disabled={loading} on_click={async () => {
                 if (!evalCode.trim()) return alert("Insira o código.");
                 if (
                   confirm(
@@ -392,9 +366,7 @@ export default function AdminPage() {
                   res && alert(`Executado em ${res.count} clients.`);
                 }
               }}
-            >
-              Executar Eval
-            </button>
+            />
           </fieldset>
 
           {/* Alert */}
@@ -407,9 +379,7 @@ export default function AdminPage() {
               value={alertMessage}
               onChange={(e) => setAlertMessage(e.target.value)}
             />
-            <button
-              disabled={loading}
-              onClick={async () => {
+            <Button label={'Enviar alerta'} disabled={loading} on_click={async () => {
                 if (!alertMessage.trim()) return alert("Insira a mensagem.");
                 if (
                   confirm("Deseja enviar essa mensagem para todos os clients?")
@@ -420,9 +390,7 @@ export default function AdminPage() {
                   res && alert(`Mensagem enviada para ${res.count} clients.`);
                 }
               }}
-            >
-              Enviar Alerta
-            </button>
+            />
           </fieldset>
 
           {/* Desconectar sockets */}
@@ -430,10 +398,7 @@ export default function AdminPage() {
             <legend>
               <strong>Desconectar Todos os Sockets</strong>
             </legend>
-            <button
-              disabled={loading}
-              style={{ backgroundColor: "red", color: "white" }}
-              onClick={async () => {
+            <Button label={'Desconectar sockets'} disabled={loading} hue={0} on_click={async () => {
                 if (
                   confirm("Tem certeza que deseja desconectar todos os sockets?")
                 ) {
@@ -445,9 +410,7 @@ export default function AdminPage() {
                   res && alert(`Desconectados: ${res.count}`);
                 }
               }}
-            >
-              Desconectar Sockets
-            </button>
+            />
           </fieldset>
         </main>
       </MainLayout>
@@ -476,14 +439,12 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Users</h1>
 
-          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
-                <span>⬅ Voltar</span>
-              </button>
-         <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
+          <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
               <strong>Informações principais</strong>
             </legend>
-            <button onClick={() => fetchStats()}>Atualizar</button>
+            <Button label={'Atualizar'} on_click={() => fetchStats()}/>
             <br />
             <span>Update: {stats?.time}</span>
             <span>Online: {stats?.online}</span>
@@ -540,9 +501,7 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Geral</h1>
 
-          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
-                <span>⬅ Voltar</span>
-              </button>
+          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
 
 
           <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
@@ -588,9 +547,7 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do //</h1>
 
-          <button onClick={() => setChoosePage(null)} style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}>
-                <span>⬅ Voltar</span>
-              </button>
+          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
 
 
           <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
@@ -627,15 +584,9 @@ export default function AdminPage() {
           <fieldset className={styles.chossePage}>
             <span className={styles.title}>Escolha a ADMIN PAGE</span>
             <div className={styles.divButton}>
-              <button onClick={() => setChoosePage("canva")}>
-                <span>CANVA</span>
-              </button>
-              <button onClick={() => setChoosePage("users")}>
-                <span>USERS</span>
-              </button>
-              <button onClick={() => setChoosePage("geral")}>
-                <span>GERAL</span>
-              </button>
+              <Button label={'Canvas'} on_click={() => setChoosePage("canva")} />
+              <Button label={'Users'} on_click={() => setChoosePage("users")} />
+              <Button label={'Geral'} on_click={() => setChoosePage("geral")} />
             </div>
           </fieldset>
         </main>

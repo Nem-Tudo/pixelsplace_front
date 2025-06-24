@@ -96,32 +96,6 @@
   align-items: center;
 }
 
-.coloritem .remove {
-  font-size: 0.8rem;
-  background-color: rgb(255, 120, 120);
-  /* padding: 7px; */
-}
-
-.coloritem .remove:hover {
-  background-color: rgb(252, 86, 86);
-}
-
-.createbutton {
-  background-color: rgb(17, 175, 17) !important;
-}
-
-.createbutton:hover {
-  background-color: rgb(4, 148, 4) !important;
-}
-
-.infobutton {
-  background-color: rgb(177, 177, 177) !important;
-}
-
-.infobutton:hover {
-  background-color: rgb(129, 129, 129) !important;
-}
-
 .chossePage button {
   background-color: var(--color-accent);
   color: white;

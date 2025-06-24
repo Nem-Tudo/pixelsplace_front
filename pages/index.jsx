@@ -29,8 +29,7 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            <Button label={'Começar'} href={"/place"} hue={0}/>
-            <Button label={'Clique em mim'} on_click={() => {alert('a');alert('b')}} />
+            <Button label={'Começar'} href={"/place"}/>
             {/* <PremiumButton setClass={styles.btn} as={Link} href="/place">Começar</PremiumButton> */}
             <Button label={'Servidores'} href={"/partners"} hierarchy={2} />
             {

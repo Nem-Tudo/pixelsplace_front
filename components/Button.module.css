@@ -5,6 +5,7 @@
   border-radius: 12px;
   transition: var(--smooth-transition);
   width: 215px;
+  cursor: pointer;
 }
 .btn:hover {
   scale: var(--hover-scale);
