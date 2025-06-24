@@ -14,9 +14,9 @@ import useDraggable from "@/src/useDraggable";
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import PremiumPopup from "@/components/PremiumPopup";
-import { userAgent } from "next/server";
 import Tippy from "@tippyjs/react";
 import Button from '@/components/Button';
+import { FaShare } from "react-icons/fa";
 
 export default function Place() {
   const { token, loggedUser } = useAuth();
@@ -69,27 +69,27 @@ export default function Place() {
     const { pointX, pointY, scale } = transform.current;
     wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
-    const updatedQuery = {
-      ...router.query,
-      s: Math.round(scale),
-      px: Math.round(pointX),
-      py: Math.round(pointY),
-    };
+    // const updatedQuery = {
+    //   ...router.query,
+    //   s: Math.round(scale),
+    //   px: Math.round(pointX),
+    //   py: Math.round(pointY),
+    // };
 
-    const currentPixel = selectedPixelRef.current;
-    if (currentPixel) {
-      updatedQuery.x = currentPixel.x;
-      updatedQuery.y = currentPixel.y;
-    }
+    // const currentPixel = selectedPixelRef.current;
+    // if (currentPixel) {
+    //   updatedQuery.x = currentPixel.x;
+    //   updatedQuery.y = currentPixel.y;
+    // }
 
-    router.push(
-      {
-        pathname: router.pathname,
-        query: updatedQuery,
-      },
-      undefined,
-      { shallow: true }
-    );
+    // router.push(
+    //   {
+    //     pathname: router.pathname,
+    //     query: updatedQuery,
+    //   },
+    //   undefined,
+    //   { shallow: true }
+    // );
   };
 
   const centerCanvas = () => {
@@ -482,14 +482,14 @@ export default function Place() {
     );
 
     //Atualiza a query
-    router.push(
-      {
-        pathname: router.pathname,
-        query: { ...router.query, x: selectedPixel.x, y: selectedPixel.y },
-      },
-      undefined,
-      { shallow: true }
-    );
+    // router.push(
+    //   {
+    //     pathname: router.pathname,
+    //     query: { ...router.query, x: selectedPixel.x, y: selectedPixel.y },
+    //   },
+    //   undefined,
+    //   { shallow: true }
+    // );
   }, [selectedPixel]);
 
 
@@ -721,6 +721,17 @@ export default function Place() {
                   ({selectedPixel.x},{selectedPixel.y}){" "}
                   {transformarValor(transform.current.scale)}x
                 </span>
+                <Tippy content="Copiar link para o pixel" placement="bottom">
+                  <div style={{ cursor: "pointer" }} onClick={() => {
+                    const currentDomain = window.location.origin;
+                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${transform.current.scale}&px=${transform.current.pointX}&py=${transform.current.pointY}`;
+                    console.log("Link gerado:", link);
+                    copyText(link);
+                    alert(`Link copiado para a área de transferência! (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
+                  }}>
+                    <FaShare />
+                  </div>
+                </Tippy>
               </div>
             )}
             {showingPixelInfo && (
@@ -861,9 +872,9 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    <Tippy interactive={true} placement="top" animation="shift-away-subtle" content={
+                    <Tippy theme="premium" interactive={true} placement="top" animation="shift-away-subtle" content={
                       <>
-                        <div className={styles.tippyColor}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
                           <span>Escolha a cor que você quiser com</span>
                           <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
                         </div>
@@ -1051,4 +1062,21 @@ function hexToNumber(hex = "000000") {
 }
 function numberToHex(num = 0) {
   return "#" + num.toString(16).padStart(6, "0");
+}
+
+
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  } else {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+  }
 }
