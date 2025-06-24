@@ -161,8 +161,11 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Canvas</h1>
 
-          {/* position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" */}
-          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
+          <Button 
+            label={'⬅ Voltar'}
+            on_click={() => setChoosePage(null)}
+            style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}
+          />
 
           {/* <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
@@ -439,7 +442,12 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Users</h1>
 
-          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
+          <Button 
+            label={'⬅ Voltar'}
+            on_click={() => setChoosePage(null)}
+            style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}
+          />
+
           <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
               <strong>Informações principais</strong>
@@ -501,8 +509,11 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do Geral</h1>
 
-          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
-
+          <Button 
+            label={'⬅ Voltar'}
+            on_click={() => setChoosePage(null)}
+            style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}
+          />
 
           <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>
@@ -547,8 +558,11 @@ export default function AdminPage() {
         <main className={styles.main}>
           <h1>Administração do //</h1>
 
-          <Button label={'⬅ Voltar'} on_click={() => setChoosePage(null)} />
-
+          <Button 
+            label={'⬅ Voltar'}
+            on_click={() => setChoosePage(null)}
+            style={{position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px"}}
+          />
 
           <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <legend>

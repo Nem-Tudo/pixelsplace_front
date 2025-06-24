@@ -7,7 +7,8 @@ export default function Button({
     hue = 207.04,
     on_click = undefined,
     hierarchy = 1,
-    disabled = false
+    disabled = false,
+    style = ''
 }) {
     const ref = useRef();
     const importances = ['', ' ' + styles.primary, ' ' + styles.secondary, ' ' + styles.tertiary];
@@ -31,7 +32,8 @@ export default function Button({
         ref,
         className,
         'data-hue': hue,
-        disabled
+        disabled,
+        style
     };
 
     if (href === undefined && on_click === undefined) {     // sem link e sem click

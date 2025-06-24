@@ -4,7 +4,6 @@
   padding: 18px;
   border-radius: 12px;
   transition: var(--smooth-transition);
-  width: 215px;
   cursor: pointer;
 }
 .btn:hover {
