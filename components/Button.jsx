@@ -32,8 +32,7 @@ export default function Button({
         ref,
         className,
         'data-hue': hue,
-        disabled,
-        style
+        disabled // style
     };
 
     if (href === undefined && on_click === undefined) {     // sem link e sem click
