@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Link from "next/link";
 import styles from "./Button.module.css";
 
 export default function Button({
@@ -42,10 +43,10 @@ export default function Button({
     if (href === undefined && onClick === undefined) {     // sem link e sem click
         return <button {...sharedProps} {...props} className={className}>{label}</button>;
     } else if (onClick === undefined) {                    // com link e sem click
-        return <a {...sharedProps} {...props} className={className} href={href}>{label}</a>;
+        return <Link {...sharedProps} {...props} className={className} href={href}>{label}</Link>;
     } else if (href === undefined) {                        // sem link e com click
         return <button {...sharedProps} {...props} className={className} onClick={() => onClick()}>{label}</button>;
     } else {                                                // com link e com click
-        return <a {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{label}</a>;
+        return <Link {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{label}</Link>;
     }
 }
