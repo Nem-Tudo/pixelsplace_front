@@ -783,7 +783,8 @@ export default function Place() {
                     >
                       Histórico
                     </PremiumButton>
-                    <button
+                    <Button
+                      label={'Selecionar cor'}
                       onClick={() => {
                         if (
                           canvasConfig.freeColors.includes(showingPixelInfo.c)
@@ -795,9 +796,7 @@ export default function Place() {
                           );
                         }
                       }}
-                    >
-                      Selecionar cor
-                    </button>
+                    />
                   </div>
                 </div>
               </div>
@@ -811,35 +810,32 @@ export default function Place() {
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
-                    <button className={styles.placepixel} id={styles.cooldown}>
-                      {timeLeft}
-                    </button>
+                    <Button label={timeLeft} className={styles.placepixel} id={styles.cooldown} />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
-                    <button
+                    <Button
+                      label={loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}
                       className={styles.placepixel}
                       id={styles.opencolor}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
                       }}
-                    >
-                      {loggedUser
-                        ? "Colocar pixel"
-                        : "Logue para colocar pixel"}
-                    </button>
+                    />
                   )}
                   {showingColors && (
-                    <button
+                    <Button
+                      label={'Cancelar'}
+                      hierarchy={3}
                       className={styles.placepixel}
                       id={styles.cancel}
                       onClick={() => setShowingColors(false)}
-                    >
-                      Cancelar
-                    </button>
+                    />
                   )}
                   {showingColors && (
-                    <button
+                    <Button
+                      label={selectedColor ? "Colocar!" : "Selecione uma cor"}
+                      hue={149.82}
                       disabled={!selectedColor}
                       className={styles.placepixel}
                       id={styles.confirm}
@@ -851,10 +847,11 @@ export default function Place() {
                         );
                         setShowingColors(false);
                       }}
-                    >
-                      {" "}
-                      {selectedColor ? "Colocar!" : "Selecione uma cor"}{" "}
-                    </button>
+                      style={{
+                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
+                        lineHeight: 1.5
+                      }}
+                    />
                   )}
                   {showingColors && (
                     <Tippy interactive={true} placement="top" animation="shift-away-subtle" content={
@@ -915,7 +912,7 @@ export default function Place() {
         {apiError && (
           <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}>
             <span>Ocorreu um erro ao se conectar com a api principal</span>
-            <button onClick={() => location.reload()}>Recarregar</button>
+            <Button label={'Recarregar'} onClick={() => location.reload()} />
           </MessageDiv>
         )}
 
@@ -932,8 +929,8 @@ export default function Place() {
           <MessageDiv centerscreen={true} type="warn" expand={socketerror.message}>
             <span>Falha na conexão WebSocket</span>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={socketreconnect}>Tentar Novamente</button>
-              <button onClick={() => location.reload()}>Recarregar Página</button>
+              <Button label={'Tentar novamente'} onClick={socketreconnect} />
+              <Button label={'Recarregar página '} onClick={() => location.reload()} />
             </div>
           </MessageDiv>
         )}
@@ -943,7 +940,7 @@ export default function Place() {
           <MessageDiv centerscreen={true} type="warn">
             <span>WebSocket desconectado: Você foi kickado da sala</span>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => location.reload()}>Recarregar Página</button>
+              <Button label={'Recarregar página'} onClick={() => location.reload()} />
             </div>
           </MessageDiv>
         )}

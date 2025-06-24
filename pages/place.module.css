@@ -84,14 +84,7 @@
 }
 
 .pixelplacament .placepixel {
-    border-radius: 12px;
-    border: var(--outline);
-    color: white;
     margin: 7px;
-    padding: 20px;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: var(--smooth-transition);
     width: fit-content;
 }
 
@@ -429,22 +422,6 @@
 }
 .popups .popup footer button:hover {
     scale: var(--hover-scale);
-}
-
-.btn {
-  background-color: var(--color-accent);
-  color: white;
-  border: var(--outline);
-  box-shadow: var(--shadow);
-  padding: 18px;
-  border-radius: 12px;
-  transition: var(--smooth-transition);
-  text-align: center;
-}
-
-.btn:hover {
-  background-color: var(--color-darker);
-  scale: var(--hover-scale);
 }
 
 @keyframes openPopup {
