@@ -31,7 +31,7 @@ export function middleware(request) {
     const activeBranch = request.cookies.get('active-branch')?.value
 
     // Se há uma branch ativa e não é a main, faz rewrite interno
-    if (activeBranch && activeBranch !== 'main' && activeBranch !== 'master') {
+    if (activeBranch && activeBranch !== 'main') {
         // Constrói URL do preview deployment
         const previewUrl = `https://pixelsplace-front-git-${activeBranch}-nemtudos-projects.vercel.app${request.nextUrl.pathname}${request.nextUrl.search}`
 

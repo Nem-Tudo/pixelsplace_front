@@ -6,7 +6,7 @@ export default function BranchSwitcher() {
     const [currentBranch, setCurrentBranch] = useState('main')
     const [availableBranches, setAvailableBranches] = useState(['main'])
     const [isLoading, setIsLoading] = useState(false)
-    const router = useRouter()
+    // const router = useRouter()
 
     useEffect(() => {
         fetchCurrentBranch()
@@ -29,27 +29,26 @@ export default function BranchSwitcher() {
         setIsLoading(true)
 
         try {
-            // Opção 1: Usar a rota /changebranch/[branch]
-            router.push(`/changebranch/${branchName}`)
+            // // Opção 1: Usar a rota /changebranch/[branch]
+            // router.push(`/changebranch/${branchName}`)
 
             // Opção 2: Usar API diretamente
-            /*
             const response = await fetch('/api/branch/current', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ branch: branchName }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ branch: branchName }),
             })
-            
+
             if (response.ok) {
-              setCurrentBranch(branchName)
-              // Recarrega a página para aplicar o middleware
-              window.location.reload()
+                setCurrentBranch(branchName)
+                // Recarrega a página para aplicar o middleware
+                window.location.reload()
             }
-            */
         } catch (error) {
             console.error('Error switching branch:', error)
+            alert(`Erro ao trocar de branch: ${error.message}`)
         } finally {
             setIsLoading(false)
         }
@@ -58,14 +57,14 @@ export default function BranchSwitcher() {
     return (
         <div className="branch-switcher">
             <div className="current-branch">
-                <strong>Branch Ativa:</strong> {currentBranch}
+                <strong>Build Ativa:</strong> {currentBranch}
                 {currentBranch !== 'main' && (
-                    <span className="preview-indicator"> (Preview)</span>
+                    <span className="preview-indicator"> (Build Override)</span>
                 )}
             </div>
 
             <div className="branch-selector">
-                <label htmlFor="branch-select">Trocar Branch:</label>
+                <label htmlFor="branch-select">Trocar Build:</label>
                 <select
                     id="branch-select"
                     value={currentBranch}
@@ -80,7 +79,7 @@ export default function BranchSwitcher() {
                 </select>
             </div>
 
-            {isLoading && <div className="loading">Trocando branch...</div>}
+            {isLoading && <div className="loading">Trocando build...</div>}
 
             <style jsx>{`
         .branch-switcher {
