@@ -3,10 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from "react";
 import PremiumWarning from "@/components/PremiumWarning";
 import { useAuth } from "@/context/AuthContext";
-
-
-
-
+import styles from "./Button.module.css";
 
 export default function PremiumButton({ setStyle, setClass, onClick, redirect, as: Component = 'button', href, icon, children, ...props }) {
   const { loggedUser } = useAuth();
@@ -70,7 +67,7 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   // Para 'button', 'a' ou outros componentes
   if (loggedUser?.premium) return (
     <>
-      <Component className={setClass} href={href} onClick={handleClick} {...props}>
+      <Component className={styles.btn+' '+setClass} href={href} onClick={handleClick} {...props}>
         {children}
       </Component>
     </>
@@ -78,7 +75,7 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   return (
     <>
       {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />}
-      <Component className={`premiumOnly ${setClass || ""}`} href={href} onClick={handleClick} {...props}>
+      <Component className={`${styles.btn} premiumOnly ${setClass || ""}`} href={href} onClick={handleClick} {...props}>
         <div className="glassEffect" />
         {children}
       </Component>
