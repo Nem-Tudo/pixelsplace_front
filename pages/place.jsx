@@ -814,7 +814,6 @@ export default function Place() {
                     <Button
                       label={timeLeft}
                       className={styles.placepixel}
-                      id={styles.cooldown}
                       disabled={true}
                     />
                   )}
@@ -822,15 +821,11 @@ export default function Place() {
                     <Button
                       label={loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}
                       className={styles.placepixel}
-                      id={styles.opencolor}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
                       }}
-                      style={{
-                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
-                        lineHeight: 1.5
-                      }}
+                      hue={0}
                     />
                   )}
                   {showingColors && (
@@ -839,7 +834,6 @@ export default function Place() {
                       hierarchy={3}
                       hue={-50}
                       className={styles.placepixel}
-                      id={styles.cancel}
                       onClick={() => setShowingColors(false)}
                     />
                   )}
@@ -849,7 +843,6 @@ export default function Place() {
                       hue={149.82}
                       disabled={!selectedColor}
                       className={styles.placepixel}
-                      id={styles.confirm}
                       onClick={() => {
                         placePixel(
                           selectedPixel.x,

@@ -88,10 +88,6 @@
     width: fit-content;
 }
 
-.pixelplacement #cancel, #confirm, #opencolor, #pixelinfo, #cooldown {
-
-};
-
 .pixelInfo {
     background: white;
     padding: 10px;
