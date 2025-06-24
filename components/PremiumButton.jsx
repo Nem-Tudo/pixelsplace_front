@@ -35,7 +35,7 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   if (Component === Link) {
     if (loggedUser?.premium) return (
       <>
-        <Component className={setClass} href={href} onClick={handleClick} {...props}>
+        <Component className={styles.btn+' '+setClass} href={href} onClick={handleClick} {...props}>
           {children}
         </Component>
       </>
@@ -43,7 +43,7 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
     return (
       <>
         {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />}
-        <Component href={href} className={`premiumOnly ${setClass || ""}`} onClick={handleClick} {...props}>
+        <Component href={href} className={`${styles.btn} premiumOnly ${setClass || ""}`} onClick={handleClick} {...props}>
           <div className="glassEffect" />
           {children}
         </Component>
