@@ -27,21 +27,8 @@ export default function PremiumPopup({ onClose }) {
             <span>Consiga isso e muito mais com PixelsPlace Premium</span>
             <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
             <footer>
-                <Button 
-                    label={'Talvez depois'}
-                    onClick={() => onClose()}
-                    hue={-50}
-                />
-                <PremiumButton
-                    setClass={styles.btn}
-                    as={Link}
-                    redirect={true}
-                    href="/premium"
-                    style={{
-                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
-                        lineHeight: 1.5
-                    }}
-                >
+                <Button label={'Talvez depois'} onClick={() => onClose()} />
+                <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
                     Conheça o Premium!
                 </PremiumButton>
             </footer>

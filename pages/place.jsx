@@ -806,7 +806,7 @@ export default function Place() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelplacament}
+                className={styles.pixelplacement}
                 showingcolors={String(showingColors)}
               >
                 <div className={styles.confirmation}>

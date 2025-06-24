@@ -53,7 +53,7 @@
     align-items: center
 }
 
-.pixelplacament {
+.pixelplacement {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,7 +65,7 @@
     width: 99dvw;
 }
 
-.pixelplacament[showingcolors="true"] {
+.pixelplacement[showingcolors="true"] {
     background: var(--frosted-glass);
     -webkit-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
@@ -83,10 +83,14 @@
     }
 }
 
-.pixelplacament .placepixel {
+.pixelplacement .placepixel {
     margin: 7px;
     width: fit-content;
 }
+
+.pixelplacement #cancel, #confirm, #opencolor, #pixelinfo, #cooldown {
+
+};
 
 .pixelInfo {
     background: white;
