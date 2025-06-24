@@ -15,7 +15,7 @@ import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import PremiumPopup from "@/components/PremiumPopup";
 import Tippy from "@tippyjs/react";
-import Button from '@/components/Button';
+import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
 
 export default function Place() {
@@ -788,7 +788,7 @@ export default function Place() {
                     >
                       Histórico
                     </PremiumButton>
-                    <Button
+                    <CustomButton
                       label={'Selecionar cor'}
                       onClick={() => {
                         if (
@@ -815,14 +815,14 @@ export default function Place() {
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
-                    <Button
+                    <CustomButton
                       label={timeLeft}
                       className={styles.placepixel}
                       disabled={true}
                     />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
-                    <Button
+                    <CustomButton
                       label={loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}
                       className={styles.placepixel}
                       onClick={() => {
@@ -836,18 +836,18 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    <Button
+                    <CustomButton
                       label={'Cancelar'}
                       hierarchy={3}
-                      hue={-50}
+                      color={"#919191"}
                       className={styles.placepixel}
                       onClick={() => setShowingColors(false)}
                     />
                   )}
                   {showingColors && (
-                    <Button
+                    <CustomButton
                       label={selectedColor ? "Colocar!" : "Selecione uma cor"}
-                      hue={149.82}
+                      color={"#099b52"}
                       disabled={!selectedColor}
                       className={styles.placepixel}
                       onClick={() => {
@@ -923,7 +923,7 @@ export default function Place() {
         {apiError && (
           <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}>
             <span>Ocorreu um erro ao se conectar com a api principal</span>
-            <Button label={'Recarregar'} onClick={() => location.reload()} />
+            <CustomButton label={'Recarregar'} onClick={() => location.reload()} />
           </MessageDiv>
         )}
 
@@ -940,8 +940,8 @@ export default function Place() {
           <MessageDiv centerscreen={true} type="warn" expand={socketerror.message}>
             <span>Falha na conexão WebSocket</span>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <Button label={'Tentar novamente'} onClick={socketreconnect} />
-              <Button label={'Recarregar página '} onClick={() => location.reload()} />
+              <CustomButton label={'Tentar novamente'} onClick={socketreconnect} />
+              <CustomButton label={'Recarregar página '} onClick={() => location.reload()} />
             </div>
           </MessageDiv>
         )}
@@ -951,7 +951,7 @@ export default function Place() {
           <MessageDiv centerscreen={true} type="warn">
             <span>WebSocket desconectado: Você foi kickado da sala</span>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <Button label={'Recarregar página'} onClick={() => location.reload()} />
+              <CustomButton label={'Recarregar página'} onClick={() => location.reload()} />
             </div>
           </MessageDiv>
         )}

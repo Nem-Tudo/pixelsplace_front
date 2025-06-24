@@ -6,7 +6,7 @@ import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from '@/context/AuthContext';
 
 import PremiumButton from '@/components/PremiumButton';
-import Button from '@/components/Button';
+import CustomButton from '@/components/CustomButton';
 import checkFlags from "@/src/checkFlags";
 
 export default function Home() {
@@ -29,13 +29,13 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            <Button label={'Começar'} href={"/place"}/>
+            <CustomButton label={'Começar'} href={"/place"}/>
             {
               checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW") && <PremiumButton as={Link} href={"/timetravel"}>Time Travel</PremiumButton>
             }
-            <Button label={'Servidores'} href={"/partners"} hierarchy={2} />
+            <CustomButton label={'Servidores'} href={"/partners"} hierarchy={2} />
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Button label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
             }
           </div>
         </main>

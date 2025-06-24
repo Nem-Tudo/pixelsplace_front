@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from "react";
 import PremiumWarning from "@/components/PremiumWarning";
 import { useAuth } from "@/context/AuthContext";
-import styles from "./Button.module.css";
+import styles from "./CustomButton.module.css";
 
 export default function PremiumButton({ setStyle, setClass, onClick, redirect, as: Component = 'button', href, icon, children, ...props }) {
   const { loggedUser } = useAuth();

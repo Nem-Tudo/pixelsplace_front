@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import Link from "next/link";
-import styles from "./Button.module.css";
+import styles from "./CustomButton.module.css";
 
-export default function Button({
+export default function CustomButton({
     children,
     label = 'Botão',
     href = undefined,
-    hue = 207.04,
+    color = '#3b82f6', // Cor padrão em hex (azul)
     onClick = undefined,
     hierarchy = 1,
     disabled = false,
@@ -15,28 +15,47 @@ export default function Button({
     const ref = useRef();
     const importances = [styles.primary, styles.secondary, styles.tertiary];
 
+    // Função para escurecer uma cor hex
+    const darkenHex = (hex, amount = 20) => {
+        // Remove o # se presente
+        hex = hex.replace('#', '');
+
+        // Converte para RGB
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+
+        // Escurece cada componente
+        const newR = Math.max(0, r - amount);
+        const newG = Math.max(0, g - amount);
+        const newB = Math.max(0, b - amount);
+
+        // Converte de volta para hex
+        return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+    };
+
     useEffect(() => {
         if (ref.current) {
             const el = ref.current;
-            if(hue < 0) {
-                el.style.setProperty('--btn-color', `hsl(0, 0%, ${-hue}%)`);
-            el.style.setProperty('--btn-color-hover', `hsl(0, 0%, ${-hue-10}%)`);
-            } else {
-                el.style.setProperty('--btn-color', `hsl(${hue}, 100%, 41.76%)`);
-                el.style.setProperty('--btn-color-hover', `hsl(${hue}, 100%, 31.76%)`);
-            }
+
+            // Define a cor principal
+            el.style.setProperty('--btn-color', color);
+
+            // Define a cor de hover (mais escura)
+            const hoverColor = darkenHex(color, 30);
+            el.style.setProperty('--btn-color-hover', hoverColor);
         }
-    }, [hue]);
+    }, [color]);
 
     const className = [
         styles.btn,
-        importances[hierarchy-1],
+        importances[hierarchy - 1],
         props.className || ''
     ].join(' ');
 
     const sharedProps = {
         ref,
-        'data-hue': hue,
+        'data-hex': color,
         disabled,
         ...props
     };
