@@ -85,7 +85,11 @@ export default function BuildOverride({ buildtoken }) {
                     <span>Assinada por: {tokenSignedBy}</span>
                     <br />
                     <br />
-                    <button style={{ cursor: "pointer", background: "green", color: "white", padding: "10px" }} onClick={() => updateCookies(buildtoken, build)}>Utilizar</button>
+                    <button style={{ cursor: "pointer", background: "gray", color: "white", padding: "10px", marginRight: "5px" }} onClick={() => location.href = "/"}>Cancelar</button>
+                    <button style={{ cursor: "pointer", background: "green", color: "white", padding: "10px" }} onClick={() => {
+                        setPageMessage("Updating build...")
+                        updateCookies(buildtoken, build)
+                    }}>Utilizar</button>
                     <br />
                     <br />
                     <span>Caso você queira remover depois, basta clicar nas configurações do seu perfil</span>

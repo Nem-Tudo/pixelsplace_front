@@ -27,7 +27,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(`Erro ao buscar branches: ${response.message || 'Erro desconhecido'}`);
+                return alert(`Erro ao buscar branches: ${response.message || 'Erro desconhecido'}`);
             }
             setAvailableBranches(response);
         } catch (error) {
@@ -120,6 +120,7 @@ export default function BuildSwitcher() {
           margin: 10px 0;
           background: #f9f9f9;
           width: fit-content;
+          color: black;
         }
         .current-branch {
           margin-bottom: 10px;

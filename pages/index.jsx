@@ -39,7 +39,7 @@ export default function Home() {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
             }
             {
-              checkFlags(loggedUser?.flags, "CHANGE_BUILD") && <BuildSwitcher />
+              checkFlags(loggedUser?.flags, "BUILD_OVERRIDE_VIEW") && <BuildSwitcher />
             }
           </div>
         </main>
