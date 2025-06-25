@@ -9,6 +9,7 @@ import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
 import checkFlags from "@/src/checkFlags";
+import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 
 export default function Place() {
 
@@ -488,12 +489,4 @@ export default function Place() {
             </MainLayout>
         </>
     );
-}
-
-
-function hexToNumber(hex) {
-    return parseInt(hex.replace('#', ''), 16);
-}
-function numberToHex(num) {
-    return '#' + num.toString(16).padStart(6, '0');
 }

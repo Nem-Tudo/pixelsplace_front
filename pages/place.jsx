@@ -17,6 +17,7 @@ import PremiumPopup from "@/components/PremiumPopup";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
+import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 
 export default function Place() {
   const { token, loggedUser } = useAuth();
@@ -1048,13 +1049,6 @@ export default function Place() {
       </MainLayout>
     </>
   );
-}
-
-function hexToNumber(hex = "000000") {
-  return parseInt(hex.replace("#", ""), 16);
-}
-function numberToHex(num = 0) {
-  return "#" + num.toString(16).padStart(6, "0");
 }
 
 
