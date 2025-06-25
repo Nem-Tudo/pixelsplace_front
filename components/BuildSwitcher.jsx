@@ -1,21 +1,22 @@
-// components/BranchSwitcher.js
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import settings from '@/settings'
 import Cookies from 'js-cookie'
 
 export default function BuildSwitcher() {
-    const [currentBranch, setCurrentBranch] = useState({ name: "main", id: "main", token: null });
-    const [availableBranches, setAvailableBranches] = useState([])
+    const [currentBuild, setCurrentBuild] = useState({ name: "main", id: "main", token: null });
+    const [currentBranch, setCurrentBranch] = useState("main");
+    const [availableBuilds, setAvailableBuilds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     // const router = useRouter()
 
     useEffect(() => {
-        fetchAvailableBranches()
-        fetchCurrentBranch();
+        fetchAvailableBuilds()
+        fetchCurrentBuild();
+        fetchCurrentGitBranch();
     }, [])
 
-    const fetchAvailableBranches = async () => {
+    const fetchAvailableBuilds = async () => {
         try {
             const request = await fetch(`${settings.apiURL}/builds`, {
                 method: 'GET',
@@ -27,22 +28,22 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                return alert(`Erro ao buscar branches: ${response.message || 'Erro desconhecido'}`);
+                return alert(`Erro ao buscar builds: ${response.message || 'Erro desconhecido'}`);
             }
-            setAvailableBranches(response);
+            setAvailableBuilds(response);
         } catch (error) {
-            console.error('Error fetching current branch:', error)
+            console.error('Error fetching current build:', error)
         }
     }
 
-    const fetchCurrentBranch = async () => {
-        const branchtoken = Cookies.get("active-build-token");
-        if (!branchtoken || branchtoken === 'main') {
-            setCurrentBranch({ name: "main", id: "main", token: null });
+    const fetchCurrentBuild = async () => {
+        const buildtoken = Cookies.get("active-build-token");
+        if (!buildtoken || buildtoken === 'main') {
+            setCurrentBuild({ name: "main", id: "main", token: null });
             return;
         }
         try {
-            const request = await fetch(`${settings.apiURL}/builds/parsetoken/${branchtoken}`, {
+            const request = await fetch(`${settings.apiURL}/builds/parsetoken/${buildtoken}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,57 +57,81 @@ export default function BuildSwitcher() {
                 location.href = `/buildoverride?t=main`;
                 return
             }
-            setCurrentBranch(response.build);
+            setCurrentBuild(response.build);
         } catch (error) {
-            console.error('Error fetching current branch:', error)
+            console.error('Error fetching current build:', error)
         }
     }
 
-    const switchBranch = async (branchId) => {
-        if (branchId === currentBranch.id) return
+    const switchBuild = async (buildId) => {
+        if (buildId === currentBuild.id) return
 
         setIsLoading(true)
 
         try {
 
-            if (branchId === "main" || !branchId) {
+            if (buildId === "main" || !buildId) {
                 return location.href = `/buildoverride?t=main`;
             }
 
-            const build = availableBranches.find(branch => branch.id === branchId)
-            if (!build) return alert('Branch não encontrada');
+            const build = availableBuilds.find(build => build.id === buildId)
+            if (!build) return alert('Build não encontrada');
 
             location.href = `/buildoverride?t=${build.token}`;
 
         } catch (error) {
-            console.error('Error switching branch:', error)
-            alert(`Erro ao trocar de branch: ${error.message}`)
+            console.error('Error switching build:', error)
+            alert(`Erro ao trocar de build: ${error.message}`)
         } finally {
             setIsLoading(false)
         }
     }
 
+    const fetchCurrentGitBranch = async () => {
+        try {
+            const request = await fetch('/api/git-branch', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            const response = await request.json();
+            if (!request.ok) {
+                console.log(response, request);
+                return alert(`Erro ao buscar branch atual: ${response.error || 'Erro desconhecido'}`);
+            }
+
+            setCurrentBranch(response.branch);
+
+        } catch (error) {
+            console.error('Error fetching current git branch:', error)
+            return null;
+        }
+    }
+
     return (
-        <div className="branch-switcher">
-            <div className="current-branch">
-                <strong>Build Ativa:</strong> {currentBranch.name}
-                {currentBranch.id !== "main" && (
-                    <span className="preview-indicator"> (Build Override)</span>
-                )}
+        <div className="build-switcher">
+            {currentBuild.id !== "main" && (
+                <span className="preview-indicator"> (Build Override)</span>
+            )}
+            <div className="current-build">
+                {currentBranch != "main" && currentBuild.id === "main" && <><span style={{ color: "red" }}>Você está editando uma branch customizada</span><br /><br/></>}
+                <strong>Build Ativa:</strong> {currentBuild.name}
+                <br />
+                <strong>Branch Ativa:</strong> {currentBranch}
             </div>
 
-            <div className="branch-selector">
-                <label htmlFor="branch-select">Trocar Build:</label>
+            <div className="build-selector">
                 <select
-                    id="branch-select"
-                    value={currentBranch.id}
-                    onChange={(e) => switchBranch(e.target.value)}
+                    id="build-select"
+                    value={currentBuild.id}
+                    onChange={(e) => switchBuild(e.target.value)}
                     disabled={isLoading}
                 >
                     <option value={"main"}>main</option>
-                    {availableBranches.map((branch, index) => (
-                        <option key={index} value={branch.id}>
-                            {branch.name}
+                    {availableBuilds.map((build, index) => (
+                        <option key={index} value={build.id}>
+                            {build.name}
                         </option>
                     ))}
                 </select>
@@ -115,7 +140,7 @@ export default function BuildSwitcher() {
             {isLoading && <div className="loading">Trocando build...</div>}
 
             <style jsx>{`
-        .branch-switcher {
+        .build-switcher {
           padding: 10px;
           border: 1px solid #ddd;
           border-radius: 5px;
@@ -123,15 +148,16 @@ export default function BuildSwitcher() {
           background: #f9f9f9;
           width: fit-content;
           color: black;
+          margin: 0 auto;
         }
-        .current-branch {
+        .current-build {
           margin-bottom: 10px;
         }
         .preview-indicator {
           color: #ff6b35;
           font-weight: bold;
         }
-        .branch-selector {
+        .build-selector {
           display: flex;
           align-items: center;
           gap: 10px;
