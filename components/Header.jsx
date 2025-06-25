@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 
 export default function Header({ loggedUser, loading }) {
 
-    const [usingBuildOverride, setUsingBuildOverride] = useState(true);
+    const [usingBuildOverride, setUsingBuildOverride] = useState(false);
 
     useEffect(() => {
         if (Cookies.get("active-build-token")) {
