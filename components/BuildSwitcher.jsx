@@ -115,7 +115,7 @@ export default function BuildSwitcher() {
                 <span className="preview-indicator"> (Build Override)</span>
             )}
             <div className="current-build">
-                {currentBranch != "main" && currentBuild.id === "main" && <><span style={{ color: "red" }}>Você está editando uma branch customizada</span><br /><br/></>}
+                {currentBranch && currentBranch != "main" && currentBuild.id === "main" && <><span style={{ color: "red" }}>Você está editando uma branch customizada</span><br /><br/></>}
                 <strong>Build Ativa:</strong> {currentBuild.name}
                 <br />
                 <strong>Branch Ativa:</strong> {currentBranch}
