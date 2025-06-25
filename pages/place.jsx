@@ -18,7 +18,7 @@ import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
 import { hexToNumber, numberToHex } from "@/src/colorFunctions";
-import { PixelIcon } from "@/components/PixelIcon";
+import PixelIcon from "@/components/PixelIcon";
 
 export default function Place() {
   const { token, loggedUser } = useAuth();
@@ -724,7 +724,7 @@ export default function Place() {
                     copyText(link);
                     alert(`Link copiado para a área de transferência! (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
                   }}>
-                    <FaShare />
+                    <PixelIcon codename={"forward"} />
                   </div>
                 </Tippy>
               </div>

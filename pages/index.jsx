@@ -10,6 +10,7 @@ import PremiumButton from '@/components/PremiumButton';
 import CustomButton from '@/components/CustomButton';
 import checkFlags from "@/src/checkFlags";
 import BuildSwitcher from "@/components/BuildSwitcher";
+import PixelIcon from "@/components/PixelIcon";
 
 export default function Home() {
 
@@ -43,18 +44,18 @@ export default function Home() {
               </div>
             }
             <CustomButton href={"/place"}>
-              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm18 12V7H4v10h16zM8 9h2v2h2v2h-2v2H8v-2H6v-2h2V9zm6 0h2v2h-2V9zm4 4h-2v2h2v-2z" fill="currentColor" /> </svg>
+              <PixelIcon codename={"gamepad"} />
               {language.getString("PAGES.HOME.START")}
             </CustomButton>
             {
-              checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW") && <PremiumButton as={Link} href={"/timetravel"}><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M18 2H6v6h2v2h2v4H8v2H6v6h12v-6h-2v-2h-2v-4h2V8h2V2zm-2 6h-2v2h-4V8H8V4h8v4zm-2 6v2h2v4H8v-4h2v-2h4z" fill="currentColor" /> </svg>{language.getString("PAGES.HOME.TIME_TRAVEL")}</PremiumButton>
+              checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW") && <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("PAGES.HOME.TIME_TRAVEL")}</PremiumButton>
             }
             <CustomButton href={"/partners"} hierarchy={2}>
-              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M3 3h18v18H3V3zm2 2v6h14V5H5zm14 8H5v6h14v-6zM7 7h2v2H7V7zm2 8H7v2h2v-2z" fill="currentColor" /> </svg>
+              <PixelIcon codename={"server"} />
               {language.getString("PAGES.HOME.SERVERS")}
             </CustomButton>
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton href={"/admin"} hierarchy={3}><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M4 4h18v7h-4v5H4V4zm14 5h2V6h-2v3zm-2-3H6v8h10V6zm3 14H3v-2h16v2z" fill="currentColor" /> </svg>{language.getString("COMMON.ADMIN")}</CustomButton>
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton href={"/admin"} hierarchy={3}><PixelIcon codename={"coffee"} />{language.getString("COMMON.ADMIN")}</CustomButton>
             }
             {
               checkFlags(loggedUser?.flags, "BUILD_OVERRIDE_VIEW") && <BuildSwitcher />
