@@ -120,6 +120,7 @@ export default function BuildSwitcher() {
           margin: 10px 0;
           background: #f9f9f9;
           width: fit-content;
+          color: black;
         }
         .current-branch {
           margin-bottom: 10px;
