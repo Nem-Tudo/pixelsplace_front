@@ -140,34 +140,34 @@ export default function BuildSwitcher() {
             {isLoading && <div className="loading">Trocando build...</div>}
 
             <style jsx>{`
-        .build-switcher {
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          margin: 10px 0;
-          background: #f9f9f9;
-          width: fit-content;
-          color: black;
-          margin: 0 auto;
-        }
-        .current-build {
-          margin-bottom: 10px;
-        }
-        .preview-indicator {
-          color: #ff6b35;
-          font-weight: bold;
-        }
-        .build-selector {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .loading {
-          margin-top: 10px;
-          color: #666;
-          font-style: italic;
-        }
-      `}</style>
+                .build-switcher {
+                    padding: 10px;
+                    border: 1px solid hsla(0deg, 0%, 100%, 20%);
+                    border-radius: 12px;
+                    margin: 10px 0;
+                    background: whitesmoke;
+                    color: black;
+                    box-shadow: 2px 2px 7px #00000024;
+                }
+                .current-build {
+                    margin-bottom: 10px;
+                }
+                .preview-indicator {
+                    color: #ff6b35;
+                    font-weight: bold;
+                }
+                .build-selector {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .loading {
+                    margin-top: 10px;
+                    color: #666;
+                    font-style: italic;
+                }
+            `}
+            </style>
         </div>
     )
 }

@@ -79,7 +79,7 @@ export default function BuildOverride({ buildtoken }) {
             <span>{pageMessage}</span>
             {
                 build && !build.forceOnLink && <div style={{ margin: "50px" }}>
-                    <h1 style={{ fontWeight: "bold" }}>Deseja utilizar uma build customizada no PixelsPlace?</h1>
+                    <h1 style={'font-weight: bold'}>Deseja utilizar uma build customizada no PixelsPlace?</h1>
                     <br />
                     <span>Nome: <span style={{ color: "blue" }}>{build.name}</span></span>
                     <br />
@@ -88,16 +88,49 @@ export default function BuildOverride({ buildtoken }) {
                     <span>Assinada por: {tokenSignedBy}</span>
                     <br />
                     <br />
-                    <button style={{ cursor: "pointer", background: "gray", color: "white", padding: "10px", marginRight: "5px" }} onClick={() => location.href = "/"}>Cancelar</button>
-                    <button style={{ cursor: "pointer", background: "green", color: "white", padding: "10px" }} onClick={() => {
-                        setPageMessage("Updating build...")
-                        updateCookies(buildtoken, build)
-                    }}>Utilizar</button>
+                    <button
+                        style={{
+                            cursor: "pointer",
+                            background: "gray",
+                            color: "white",
+                            padding: "10px",
+                            marginRight: "5px",
+                            border: "1px solid hsla(0deg, 0%, 100%, 20%)",
+                            borderRadius: "12px",
+                            boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
+                        }}
+                        onClick={() => location.href = "/"}>
+                        Cancelar
+                    </button>
+                    <button
+                        style={{
+                            cursor: "pointer",
+                            background: "green",
+                            color: "white",
+                            padding: "10px",
+                            border: "1px solid hsla(0deg, 0%, 100%, 20%)",
+                            borderRadius: "12px",
+                            boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
+                        }}
+                        onClick={() => {
+                            setPageMessage("Updating build...")
+                            updateCookies(buildtoken, build)
+                        }}>
+                        Utilizar
+                    </button>
                     <br />
                     <br />
                     <span>Caso você queira remover depois, basta clicar nas configurações do seu perfil</span>
                     <br />
-                    <img src="/assets/removebuild.png" style={{ width: "190px" }} />
+                    <img
+                        src="/assets/removebuild.png"
+                        style={{
+                            width: "190px",
+                            marginTop: "12px",
+                            borderRadius: "12px",
+                            boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
+                        }}
+                    />
                 </div>
             }
         </>

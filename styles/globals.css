@@ -36,17 +36,17 @@
 :root {
   /* Cores */
   --color-outline: hsla(0deg, 0%, 100%, 20%);
-  --color-accent: hsl(207.04deg 100% 41.76%);
-  --color-darker: hsl(217.99deg 100% 44.9%);
+  --color-accent: hsl(207.04, 100%, 41.76%);
+  --color-darker: hsl(217.99, 100%, 44.9%);
   --color-mid: hsl(222, 26%, 22%);
   --color-input-bg: hsl(225, 36%, 17%);
   --color-darkest: hsl(222, 40%, 13%);
   --color-muted: hsl(212, 100%, 75%);
-  --color-text: hsla(0deg, 0%, 25%, 75%);
+  --color-text: hsla(0, 0%, 25%, 75%);
   /* Degradês */
   --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
   /* Atributos */
-  --shadow: 2px 2px 7px #00000024;
+  --shadow: 2px 2px 7px hsla(0, 0%, 0%, 14.1%);
   --outline: 1px solid var(--color-outline);
   --smooth-transition: all .4s ease;
   /* Valores */
@@ -60,14 +60,44 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0.274);
+  background-color: hsla(0, 0%, 0%, 27.4%);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #ffffff;
   border-radius: 3px;
-  transition: all 2s ease-in-out;
+  transition: var(--smooth-transition);
+}
+
+select, ::picker(select) {
+  appearance: base-select;
+  border: var(--outline);
+  box-shadow: var(--shadow);
+  transition: var(--smooth-transition);
+}
+select:hover, ::picker(select):hover {
+  scale: var(--hover-scale);
+}
+::picker(select) {
+  border: none;
+  box-shadow: 0px -0.5px 0px 0.2px #C5C8CB inset;
+  border-radius: 12px;
+}
+option {
+  transition: var(--smooth-transition);
+}
+option:checked {
+  font-weight: bold;
+  background-color: #ccc;
+}
+select::picker-icon {
+  color: #999;
+  content: '▼';
+  transition: 0.4s rotate;
+}
+select:open::picker-icon {
+  rotate: 180deg;
 }
 
 body {
