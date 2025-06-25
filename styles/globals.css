@@ -114,8 +114,6 @@ a {
   position: relative;
   overflow: hidden;
   color: white;
-  /* padding: 16px 32px; */
-  font-size: 18px;
   border: none;
   cursor: pointer;
   background: linear-gradient(to right,
