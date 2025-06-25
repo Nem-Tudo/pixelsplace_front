@@ -537,7 +537,7 @@ export default function AdminPage() {
                 {
                   buildsOverride.map((build, index) => (
                     <div key={index} style={{ marginBottom: "10px", display: "flex", flexDirection: "column", gap: "5px", backgroundColor: "rgb(255 255 255 / 4%)", padding: "10px", borderRadius: "22px", boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)" }}>
-                      <span style={{ fontFamily: "'Dogica Pixel', Arial, Helvetica, sans-serif" }}>{build.name}</span>
+                      <span style={{ fontWeight: "bold" }}>{build.name}</span>
                       <br />
                       <span>ID: {build.id}</span>
                       <span>branch: {build.branch}</span>
