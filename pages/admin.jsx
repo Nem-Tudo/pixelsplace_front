@@ -27,6 +27,10 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [choosePage, setChoosePage] = useState();
 
+
+  const [buildsOverride, setBuildsOverride] = useState([]);
+
+
   const [showColorsArray, setShowingColorsArray] = useState(false);
 
   const [freeColorsInput, setFreeColorsInput] = useState("");
@@ -56,10 +60,31 @@ export default function AdminPage() {
   useEffect(() => {
     fetchCanvas();
     fetchStats();
+    getBuildsOverride();
     setInterval(() => {
       fetchStats()
     }, 3 * 1000)
   }, []);
+
+  async function getBuildsOverride() {
+    try {
+      const request = await fetch(`${settings.apiURL}/builds`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: Cookies.get("authorization")
+        },
+      })
+      const response = await request.json();
+      if (!request.ok) {
+        console.log(response, request);
+        return alert(`Erro ao buscar builds: ${response.message || 'Erro desconhecido'}`);
+      }
+      setBuildsOverride(response);
+    } catch (error) {
+      console.error('Error fetching current branch:', error)
+    }
+  }
 
 
   useEffect(() => {
@@ -476,6 +501,91 @@ export default function AdminPage() {
                 <strong>Premium</strong>
               </legend>
             </fieldset>
+            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <legend>
+                <strong>Builds</strong>
+              </legend>
+              <CustomButton
+                label="Criar Build"
+                onClick={() => {
+                  //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
+                  const branch = prompt("Branch do github");
+                  if (!branch) return alert("Branch é obrigatória.");
+                  const forceOnLink = !confirm("Possui tela de confirmação?");
+
+                  const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
+                  const expiresAt = expiresAtStr ? dateToTimestamp(expiresAtStr) : null;
+
+                  const required_flags = prompt("Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]").split(",").map(flag => flag.trim()).filter(flag => flag);
+                  const devices = prompt("Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vario para todos]").split(",").map(device => device.trim()).filter(device => device);
+
+                  fetchWithAuth("/builds", "POST", {
+                    branch,
+                    forceOnLink,
+                    expiresAt: expiresAt ? new Date(Number(expiresAt)) : null,
+                    required_flags,
+                    devices,
+                  }).then((res) => {
+                    if (res) {
+                      alert("Build criada com sucesso.");
+                      getBuildsOverride();
+                    }
+                  });
+                }}
+              />
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px" }}>
+                {
+                  buildsOverride.map((build, index) => (
+                    <div key={index} style={{ marginBottom: "10px", display: "flex", flexDirection: "column", gap: "5px", backgroundColor: "rgb(255 255 255 / 4%)", padding: "10px", borderRadius: "5px" }}>
+                      <span style={{ fontWeight: "bold" }}>{build.name}</span>
+                      <br />
+                      <span>ID: {build.id}</span>
+                      <span>branch: {build.branch}</span>
+                      <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
+                      <span>Author: {build.author}</span>
+                      <span>expira: {dateToString(build.expiresAt)}</span>
+                      <span>Criada em: {dateToString(build.createdAt)}</span>
+                      <span>Usos: {Number(build.stats?.uses)}</span>
+                      <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
+                      <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
+                      <div style={{ display: "flex", gap: "10px", marginTop: "5px", marginBottom: "15px" }}>
+                        <CustomButton
+                          label={'Copiar Link'}
+                          color="#27b84d"
+                          onClick={() => {
+                            const link = `${window.location.origin}/buildoverride?t=${build.token}`;
+                            copyText(link);
+                            alert(`Link copiado e assinado!`);
+                          }}
+                        />
+                        <CustomButton
+                          label={'Aplicar'}
+                          onClick={() => {
+                            Cookies.set("active-build-token", build.token, { expires: 365, secure: true, sameSite: 'Lax' });
+                            Cookies.set("active-build-data", JSON.stringify(build), { expires: 365, secure: true, sameSite: 'Lax' });
+                            location.href = '/';
+                          }}
+                        />
+                        <CustomButton
+                          label={'Excluir'}
+                          color="#ff6c6c"
+                          hierarchy={2}
+                          onClick={async () => {
+                            if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
+                              const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
+                              if (res) {
+                                alert("Build excluída com sucesso.");
+                                getBuildsOverride();
+                              }
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </fieldset>
 
           </main>
         </MainLayout>
@@ -543,4 +653,47 @@ export default function AdminPage() {
   function hexToNumber(hex) {
     return parseInt(hex.replace("#", ""), 16);
   }
+}
+
+
+function dateToString(date) {
+  if (!date) return "N/A";
+  const d = new Date(date);
+  return d.toLocaleDateString("pt-BR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
+
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  } else {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+  }
+}
+
+function dateToTimestamp(dataStr) {
+  // Espera um formato como "24/06/25 14:30"
+  const [data, hora] = dataStr.split(" ");
+  const [dia, mes, ano] = data.split("/").map(Number);
+  const [horaStr, minutoStr] = hora.split(":").map(Number);
+
+  // Adiciona 2000 se o ano tiver só 2 dígitos
+  const anoCompleto = ano < 100 ? 2000 + ano : ano;
+
+  const date = new Date(anoCompleto, mes - 1, dia, horaStr, minutoStr);
+  return date.getTime(); // ou date.valueOf()
 }

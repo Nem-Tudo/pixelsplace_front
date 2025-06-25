@@ -52,7 +52,9 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(`Erro ao buscar branch atual: ${response.message || 'Erro desconhecido'}`);
+                alert(`Você está utilizando uma build inválida, retornando para a build principal.`);
+                location.href = `/buildoverride?t=main`;
+                return
             }
             setCurrentBranch(response.build);
         } catch (error) {

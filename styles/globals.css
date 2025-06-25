@@ -211,3 +211,7 @@ a {
   -o-user-select: none;
   user-select: none;
 }
+/* remove vercel tooltip */
+.KgfssQl8RzJGwFogbANP{
+  display: none !important;
+}
