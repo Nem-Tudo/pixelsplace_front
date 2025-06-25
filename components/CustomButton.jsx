@@ -7,10 +7,11 @@ export default function CustomButton({
     children,
     label = 'Botão',
     href = undefined,
-    color = '#3b82f6', // Cor padrão em hex (azul)
+    color = '#0076d6', // Cor padrão em hex (azul)
     onClick = undefined,
     hierarchy = 1,
     disabled = false,
+    icon = '<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm2 2v2h16V7H4zm16 4H4v2h16v-2zm0 4H4v2h16v-2z" fill="currentColor"/> </svg>',
     ...props
 }) {
     const ref = useRef();
@@ -39,12 +40,12 @@ export default function CustomButton({
     };
 
     if (href === undefined && onClick === undefined) {     // sem link e sem click
-        return <button {...sharedProps} {...props} className={className}>{label}{children}</button>;
+        return <button {...sharedProps} {...props} className={className}>{eval(icon)}{label}{children}</button>;
     } else if (onClick === undefined) {                    // com link e sem click
-        return <Link {...sharedProps} {...props} className={className} href={href}>{label}{children}</Link>;
+        return <Link {...sharedProps} {...props} className={className} href={href}>{eval(icon)}{label}{children}</Link>;
     } else if (href === undefined) {                        // sem link e com click
-        return <button {...sharedProps} {...props} className={className} onClick={() => onClick()}>{label}{children}</button>;
+        return <button {...sharedProps} {...props} className={className} onClick={() => onClick()}>{eval(icon)}{label}{children}</button>;
     } else {                                                // com link e com click
-        return <Link {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{label}{children}</Link>;
+        return <Link {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{eval(icon)}{label}{children}</Link>;
     }
 }
