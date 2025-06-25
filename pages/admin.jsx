@@ -550,7 +550,7 @@ export default function AdminPage() {
                       <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
                       <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
                         <CustomButton
-                          label={'Copiar Link'}
+                          label={'Gerar Link'}
                           color="#27b84d"
                           onClick={() => {
                             const link = `${window.location.origin}/buildoverride?t=${build.token}`;
