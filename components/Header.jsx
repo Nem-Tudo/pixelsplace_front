@@ -63,7 +63,7 @@ export default function Header() {
                                                 }
                                             }}>
                                                 <div>
-                                                    <span>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMALVIEW") : language.getString("COMPONENTS.HEADER.VIEWASUSER")}</span>
+                                                    <span>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</span>
                                                 </div>
                                             </div>
                                         }

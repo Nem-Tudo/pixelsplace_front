@@ -54,8 +54,8 @@ module.exports = {
             REMOVE_BUILD_OVERRIDE: "Remover Build Override",
             LOGIN: "Logar",
             LOGGED_OUT: "Deslogado",
-            VIEWASUSER: "Ver como usuário",
-            NORMALVIEW: "Vizualização normal"
+            VIEW_AS_USER: "Ver como usuário",
+            NORMAL_VIEW: "Visualização normal"
         },
         PREMIUMPOPUP: {
             TITLE: "Você precisa ser Premium!",
