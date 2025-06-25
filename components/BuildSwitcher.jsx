@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 
 export default function BuildSwitcher() {
     const [currentBuild, setCurrentBuild] = useState({ name: "main", id: "main", token: null });
-    const [currentBranch, setCurrentBranch] = useState("main");
+    const [currentBranch, setCurrentBranch] = useState(null);
     const [availableBuilds, setAvailableBuilds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     // const router = useRouter()
