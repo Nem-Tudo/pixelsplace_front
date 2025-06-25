@@ -54,13 +54,15 @@
     width: 100%;
 }
 
-.left #pixelPlace, .left #admin {
+.left #pixelPlace,
+.left #admin {
     text-decoration: none;
     position: relative;
     display: inline-block;
 }
 
-.left #pixelPlace::after, .left #admin::after {
+.left #pixelPlace::after,
+.left #admin::after {
     content: "";
     position: absolute;
     left: 0;
@@ -72,7 +74,8 @@
     transition: width 0.3s ease;
 }
 
-.left #pixelPlace:hover::after, .left #admin:hover::after {
+.left #pixelPlace:hover::after,
+.left #admin:hover::after {
     width: 100%;
 }
 
@@ -131,7 +134,6 @@
 .tippy_menu {
     background-color: hsla(0deg, 0%, 100%, 75%);
     backdrop-filter: var(--frosted-glass-blur);
-    border: var(--outline);
     border-radius: 10px;
     -webkit-user-select: none;
     user-select: none;
@@ -140,37 +142,48 @@
     overflow: hidden;
 }
 
-.tippy_menu a {
+.tippy_menu .item {
     padding: 10px;
     border-radius: 0px;
     background-color: rgba(255, 255, 255, 0);
     transition: var(--smooth-transition);
     color: var(--color-text);
+
     span {
         color: var(--color-text);
     }
 }
 
-.tippy_menu a:hover {
+.tippy_menu .item:hover {
     background-color: white;
 }
 
-.tippy_menu a#tippyDisconnect:hover {
+.tippy_menu .item.redstyle:hover {
     background-color: red;
     color: white;
+
     span {
         color: white;
     }
-} 
+}
+
+.tippy_menu .item.bluestyle:hover {
+    background-color: rgb(53, 164, 255);
+    color: white;
+
+    span {
+        color: white;
+    }
+}
 
 @media (max-width: 500px) {
-    .header{
+    .header {
         padding: 1rem .5rem;
     }
 }
 
 @media (max-width: 350px) {
-    .left{
+    .left {
         gap: 12px;
     }
 }
