@@ -2,8 +2,18 @@ import settings from "@/settings"
 import styles from "./Header.module.css"
 import Tippy from "@tippyjs/react"
 import Link from "next/link"
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function Header({ loggedUser, loading }) {
+
+    const [usingBuildOverride, setUsingBuildOverride] = useState(false);
+
+    useEffect(() => {
+        if (Cookies.get("active-build-token")) {
+            setUsingBuildOverride(true);
+        }
+    }, [])
 
     return (
         <>
@@ -11,7 +21,7 @@ export default function Header({ loggedUser, loading }) {
                 <nav className={styles.left}>
                     <Link href={"/"}>
                         <div className={styles.item}>
-                            <img style={{width: "40px"}} src="/logo.png" alt="" />
+                            <img style={{ width: "40px" }} src="/logo.png" alt="" />
                             <span id={styles.pixelPlace}>PixelsPlace</span>
                         </div>
                     </Link>
@@ -25,10 +35,15 @@ export default function Header({ loggedUser, loading }) {
                                 <Tippy trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
-                                        <Link href={"/user/"+loggedUser?.id}></Link>
+                                        <Link href={"/user/" + loggedUser?.id}></Link>
                                         <Link href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>
+                                        {
+                                            usingBuildOverride && <Link href={"/buildoverride?t=main"}>
+                                                <span style={{ color: "red" }}>Remover Build Override</span>
+                                            </Link>
+                                        }
                                     </div>
 
                                 </>}>
