@@ -5,10 +5,10 @@ import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
-
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Header({ loggedUser, loading }) {
-
+    const { language } = useLanguage();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
 
     useEffect(() => {
@@ -27,9 +27,9 @@ export default function Header({ loggedUser, loading }) {
                             <span id={styles.pixelPlace}>PixelsPlace</span>
                         </div>
                     </Link>
-                    <Link href={"/premium"}><span id={styles.premium}>Vantagens</span></Link>
+                    <Link href={"/premium"}><span id={styles.premium}>{language.getString("COMPONENTS.HEADER.ADVANTAGES")}</span></Link>
                     {
-                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span id={styles.admin}>Admin</span></Link>
+                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span id={styles.admin}>{language.getString("COMMON.ADMIN")}</span></Link>
                     }
                 </nav>
                 <nav className={styles.right}>
@@ -41,14 +41,14 @@ export default function Header({ loggedUser, loading }) {
 
                                     <div className={styles.tippy_menu}>
                                         <Link href={"/user/" + loggedUser?.id}>
-                                            <span>Perfil</span>
+                                            <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                         </Link>
                                         <Link id={styles.tippyDisconnect} href={"/auth/discord"}>
-                                            <span>Desconectar</span>
+                                            <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                         </Link>
                                         {
                                             usingBuildOverride && <Link href={"/buildoverride?t=main"}>
-                                                <span style={{ color: "red" }}>Remover Build Override</span>
+                                                <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
                                             </Link>
                                         }
                                     </div>
@@ -60,8 +60,8 @@ export default function Header({ loggedUser, loading }) {
                         </> : <>
                             <div className={styles.loggedUser}>
                                 <Link href={"/login"}>
-                                    <span className={styles.userName}>Logar</span>
-                                    <img className="mobilehidden_500" src="/assets/avatar.png" alt="Deslogado" />
+                                    <span className={styles.userName}>{language.getString("COMPONENTS.HEADER.LOGIN")}</span>
+                                    <img className="mobilehidden_500" src="/assets/avatar.png" alt={language.getString("COMPONENTS.HEADER.LOGGED_OUT")} />
                                 </Link>
                             </div>
                         </>

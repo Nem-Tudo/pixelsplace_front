@@ -5,6 +5,7 @@ import { MainLayout } from "@/layout/MainLayout";
 import styles from "./UserProfile.module.css";
 import Verified from "@/components/Verified";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from '@/context/LanguageContext';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 
@@ -29,6 +30,7 @@ import PremiumButton from "@/components/PremiumButton";
 export default function UserProfile() {
   const router = useRouter();
   const { loggedUser, loading, token } = useAuth();
+  const { language } = useLanguage();
   const { userid } = router.query;
   const [userAvatar, setUserAvatar] = useState(null);
 
@@ -161,7 +163,7 @@ export default function UserProfile() {
           )}
           <img
             src={bgImgSrc || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
-            alt="background do perfil"
+            alt={language.getString("PAGES.USERPROFILE.PROFILE_BACKGROUND_ALT")}
             className={styles.bgUser}
           />
         </div>
@@ -169,7 +171,7 @@ export default function UserProfile() {
         <div className={styles.divPag}>
           <div className={styles.perfil}>
             <div className={styles.avatarCircle} style={{ zIndex: "1" }}>
-              <img src={userAvatar} alt="Avatar do usuário" />
+              <img src={userAvatar} alt={language.getString("PAGES.USERPROFILE.USER_AVATAR_ALT")} />
             </div>
 
             <h1 className={styles.displayName}>
@@ -186,7 +188,7 @@ export default function UserProfile() {
                     <img
                       className={styles.guildIcon}
                       src={`https://cdn.discordapp.com/icons/${userInfo?.serverFav?.id}/${userInfo?.serverFav?.icon}.webp?size=512`}
-                      alt={`Ícone de ${userInfo?.serverFav?.name}`}
+                      alt={language.getString("PAGES.USERPROFILE.GUILD_ICON_ALT", { guildName: userInfo?.serverFav?.name })}
                     />
                     <div className={styles.guildInfo}>
                       <h2 className={styles.guildName} translate="no">
@@ -198,7 +200,7 @@ export default function UserProfile() {
                         target="_blank"
                         rel="norreferer"
                       >
-                        Entrar
+                        {language.getString("PAGES.USERPROFILE.JOIN_GUILD")}
                       </a>
                     </div>
                   </div>
@@ -243,14 +245,13 @@ export default function UserProfile() {
             </div>
             <div className={styles.pixelsInfo}>
               <p className={styles.pixelsText}>
-                {userInfo?.display_name} inseriu {userInfo?.pixelQuantity}{" "}
-                pixels
+                {language.getString("PAGES.USERPROFILE.PIXELS_PLACED", { displayName: userInfo?.display_name, pixelQuantity: userInfo?.pixelQuantity })}
               </p>
               <PremiumButton
                 setClass={styles.viewPixelsButton}
-                onClick={() => alert("não feito ainda")}
+                onClick={() => alert(language.getString("COMMON.NOT_IMPLEMENTED_YET"))}
               >
-                Ver os pixels de {userInfo?.display_name}
+                {language.getString("PAGES.USERPROFILE.VIEW_PIXELS", { displayName: userInfo?.display_name })}
               </PremiumButton>
             </div>
           </div>

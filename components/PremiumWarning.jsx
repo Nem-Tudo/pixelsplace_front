@@ -3,8 +3,10 @@ import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
 import styles from "./PremiumWarning.module.css"; // ou o mesmo 'commandbat.module.css'
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function PremiumWarning({ onClose }) {
+    const { language } = useLanguage();
     const divRef = useRef(null);
 
     // Fecha se clicar fora
@@ -33,9 +35,9 @@ export default function PremiumWarning({ onClose }) {
             >
                 <MdClose />
             </div>
-            <span style={{ marginTop: "8px" }}>Essa função é apenas para Premium</span>
+            <span style={{ marginTop: "8px" }}>{language.getString("COMPONENTS.PREMIUMWARNING.FEATURE_PREMIUM_ONLY")}</span>
             <PremiumButton setClass={styles.button} as={Link} redirect={true} href="/premium">
-                <span className={styles.span}>Compre o Premium aqui!</span>
+                <span className={styles.span}>{language.getString("COMPONENTS.PREMIUMWARNING.BUY_PREMIUM_HERE")}</span>
             </PremiumButton>
         </div>
     );

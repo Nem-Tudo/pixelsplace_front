@@ -1,6 +1,6 @@
 import { setCookie, destroyCookie } from "nookies"
 import { useEffect } from "react";
-
+import { useLanguage } from '@/context/LanguageContext';
 
 export async function getServerSideProps(context) {
     return {
@@ -12,6 +12,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function DiscordOauth2({ token, redirectURL }) {
+    const { language } = useLanguage();
 
     if (token) {
         setCookie(null, "authorization", token, {
@@ -24,8 +25,6 @@ export default function DiscordOauth2({ token, redirectURL }) {
             path: "/"
         })
     }
-
-
 
     useEffect(() => {
         if (redirectURL) {
@@ -48,7 +47,7 @@ export default function DiscordOauth2({ token, redirectURL }) {
                 color: "black",
                 fontSize: "1.5rem",
                 fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            }}>{token ? "Logado" : "Desconectado"} com sucesso. Redirecionando...</h1>
+            }}>{token ? language.getString("PAGES.DISCORDOAUTH2.LOGGED_IN") : language.getString("PAGES.DISCORDOAUTH2.DISCONNECTED")} {language.getString("PAGES.DISCORDOAUTH2.SUCCESS_REDIRECTING")}</h1>
         </div>
     )
-} ''
+}

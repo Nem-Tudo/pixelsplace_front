@@ -2,11 +2,13 @@ import Head from "next/head";
 import styles from "./premium.module.css";
 import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 
 export default function Home(props) {
 
     const { loggedUser } = useAuth();
+    const { language } = useLanguage();
 
     return (
         <>

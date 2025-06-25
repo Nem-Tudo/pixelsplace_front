@@ -1,10 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import en from '../locales/en.js';
-import pt from '../locales/pt.js';
 
-const LANG_MAP = { en, pt };
-const DEFAULT_LANG = 'en';
+import ar from '../locales/ar.js';
+import en from '../locales/en.js';
+import es from '../locales/es.js';
+import fr from '../locales/fr.js';
+import ja from '../locales/ja.js';
+import pt from '../locales/pt.js';
+import zh from '../locales/zh.js';
+
+const LANG_MAP = { ar, en, es, fr, ja, pt, zh };
+const DEFAULT_LANG = 'pt';
 
 class TranslationManager {
     constructor(currentLang, fallbackLang) {
@@ -26,6 +32,8 @@ class TranslationManager {
         // Try to get nested value first from current strings, then fallback strings
         const currentValue = this.getNestedValue(this.currentStrings, actualKey);
         const fallbackValue = this.getNestedValue(this.fallbackStrings, actualKey);
+
+        if (typeof window != "undefined" && window.TEST_STRINGS_ENABLED) return `{{${actualKey}}}`;
 
         return currentValue ?? fallbackValue ?? `{{${key}}}`;
     }

@@ -10,11 +10,13 @@ import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
 import checkFlags from "@/src/checkFlags";
 import { hexToNumber, numberToHex } from "@/src/colorFunctions";
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Place() {
 
     const { token, loggedUser } = useAuth()
     const router = useRouter()
+    const { language } = useLanguage();
 
     const canvasRef = useRef(null);
     const wrapperRef = useRef(null);
@@ -356,29 +358,29 @@ export default function Place() {
 
     const isAlready = () => !apiError && !loading && canvasConfig.width
 
-    //verifica se é admin
+    //verifica se é TIMETRAVEL_VIEW
     if (!checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW"))
         return (
             <MainLayout>
-                <span>Você não tem permissão para acessar essa página.</span>
+                <span>{language.getString("COMMON.NO_PERMISSION")}</span>
             </MainLayout>
         );
 
     return (
         <>
             <Head>
-                <title>Timetravel PixelsPlace</title>
-                <meta name="description" content="Participe do PixelsPlace!" />
+                <title>{language.getString("PAGES.TIMETRAVEL.PAGE_TITLE")}</title>
+                <meta name="description" content={language.getString("PAGES.TIMETRAVEL.PAGE_DESCRIPTION")} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="theme-color" content="#80bbff" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <MainLayout>
                 {
-                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>Carregando...</span></MessageDiv>
+                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span></MessageDiv>
                 }
                 {
-                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>Ocorreu um erro ao se conectar com a api principal</span><button onClick={() => location.reload()}>Recarregar</button></MessageDiv>
+                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>{language.getString("PAGES.TIMETRAVEL.API_ERROR")}</span><button onClick={() => location.reload()}>{language.getString("PAGES.TIMETRAVEL.RELOAD_BUTTON")}</button></MessageDiv>
                 }
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
@@ -389,19 +391,19 @@ export default function Place() {
                             <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
                                 setIncludeHistory(e.target.checked)
                             }} />
-                            <label for={styles.timeModeCheck}>Todo o histórico</label>
-                            <label for={styles.timeModeCheck}>Apenas as mudanças</label>
+                            <label for={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.FULL_HISTORY")}</label>
+                            <label for={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.CHANGES_ONLY")}</label>
 
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div>
-                                <span>Marcha (m): </span>
+                                <span>{language.getString("PAGES.TIMETRAVEL.MARCH_LABEL")} </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
                                     setTravelDuration(e.target.value);
                                 }} />
                             </div>
                             <span style={{ display: "flex", justifyContent: "center" }}>
-                                <span>Multiplicador:</span>
+                                <span>{language.getString("PAGES.TIMETRAVEL.MULTIPLIER_LABEL")}</span>
                                 <input
                                     min={0}
                                     max={100}

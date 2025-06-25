@@ -1,6 +1,7 @@
 import settings from "@/settings";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { useLanguage } from '@/context/LanguageContext';
 
 export async function getServerSideProps(context) {
     const { t } = context.query;
@@ -11,8 +12,9 @@ export async function getServerSideProps(context) {
 }
 
 export default function BuildOverride({ buildtoken }) {
+    const { language } = useLanguage();
 
-    const [pageMessage, setPageMessage] = useState("Loading build...");
+    const [pageMessage, setPageMessage] = useState(language.getString("PAGES.BUILDOVERRIDE.LOADING_BUILD"));
     const [build, setBuild] = useState(null);
     const [tokenSignedBy, setTokenSignedBy] = useState(null);
     const [extraInfo, setExtraInfo] = useState(null);
@@ -25,14 +27,14 @@ export default function BuildOverride({ buildtoken }) {
         if (buildtoken) {
             fetchBuild(buildtoken);
         } else {
-            setPageMessage("Removing builds...");
+            setPageMessage(language.getString("PAGES.BUILDOVERRIDE.REMOVING_BUILDS"));
             updateCookies(null);
         }
     }, [])
 
     async function fetchBuild(token) {
         if (!token || token === "main") {
-            setPageMessage("Removing builds...");
+            setPageMessage(language.getString("PAGES.BUILDOVERRIDE.REMOVING_BUILDS"));
             return updateCookies(null);
         }
         try {
@@ -43,10 +45,10 @@ export default function BuildOverride({ buildtoken }) {
                     authorization: Cookies.get("authorization")
                 },
             })
-            if (request.status === 404) return setPageMessage("Invalid build");
+            if (request.status === 404) return setPageMessage(language.getString("PAGES.BUILDOVERRIDE.INVALID_BUILD"));
 
             const response = await request.json();
-            if (request.status != 200) return setPageMessage(response.message || "Error fetching build");
+            if (request.status != 200) return setPageMessage(response.message || language.getString("PAGES.BUILDOVERRIDE.ERROR_FETCHING_BUILD"));
             setBuild(response.build);
             setTokenSignedBy(response.signedBy);
             setExtraInfo(response.info);
@@ -79,13 +81,13 @@ export default function BuildOverride({ buildtoken }) {
             <span>{pageMessage}</span>
             {
                 build && !build.forceOnLink && <div style={{ margin: "50px" }}>
-                    <h1 style={{ fontWeight: "bold" }}>Deseja utilizar uma build customizada no PixelsPlace?</h1>
+                    <h1 style={{ fontWeight: "bold" }}>{language.getString("PAGES.BUILDOVERRIDE.TITLE")}</h1>
                     <br />
-                    <span>Nome: <span style={{ color: "blue" }}>{build.name}</span></span>
+                    <span>{language.getString("COMMON.NAME")}: <span style={{ color: "blue" }}>{build.name}</span></span>
                     <br />
-                    <span>Autor: {build.author} ({extraInfo?.authorname})</span>
+                    <span>{language.getString("COMMON.AUTHOR")}: {build.author} ({extraInfo?.authorname})</span>
                     <br />
-                    <span>Assinada por: {tokenSignedBy} ({extraInfo?.signedByname})</span>
+                    <span>{language.getString("PAGES.BUILDOVERRIDE.SIGNED_BY")}: {tokenSignedBy} ({extraInfo?.signedByname})</span>
                     <br />
                     <br />
                     <button
@@ -100,7 +102,7 @@ export default function BuildOverride({ buildtoken }) {
                             // boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
                         }}
                         onClick={() => location.href = "/"}>
-                        Cancelar
+                        {language.getString("COMMON.CANCEL")}
                     </button>
                     <button
                         style={{
@@ -113,14 +115,14 @@ export default function BuildOverride({ buildtoken }) {
                             // boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
                         }}
                         onClick={() => {
-                            setPageMessage("Updating build...")
+                            setPageMessage(language.getString("PAGES.BUILDOVERRIDE.UPDATING_BUILD"))
                             updateCookies(buildtoken, build)
                         }}>
-                        Utilizar
+                        {language.getString("COMMON.USE")}
                     </button>
                     <br />
                     <br />
-                    <span>Caso você queira remover depois, basta clicar nas configurações do seu perfil</span>
+                    <span>{language.getString("PAGES.BUILDOVERRIDE.REMOVE_INSTRUCTION")}</span>
                     <br />
                     <img
                         src="/assets/removebuild.png"

@@ -1,4 +1,3 @@
-
 import styles from "./MainLayout.module.css";
 import Head from "next/head";
 import Header from "@/components/Header"
@@ -7,9 +6,10 @@ import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import settings from "@/settings";
+import { useLanguage } from '@/context/LanguageContext';
 
 export function MainLayout({ children }) {
-
+    const { language, lang } = useLanguage();
     const { loggedUser, loading } = useAuth();
 
     const [ip, setIp] = useState(null);
@@ -31,14 +31,14 @@ export function MainLayout({ children }) {
                 <h1 style={{
                     fontSize: "2rem",
                     fontWeight: "bold"
-                }}>Você foi banido.</h1>
+                }}>{language.getString("LAYOUTS.MAINLAYOUT.BANNED_TITLE")}</h1>
                 <br />
-                <span>Áreas afetadas: DISCORD_ID ({loggedUser.id}), USER_IP ({ip})</span>
+                <span>{language.getString("LAYOUTS.MAINLAYOUT.AFFECTED_AREAS")}: DISCORD_ID ({loggedUser.id}), USER_IP ({ip})</span>
                 <br />
-                <span>Não vai ter página bonitinha pra formulário de unban não, é basicamente isso aqui msm agora</span>
-                <span>A única coisa que você pode fazer é abrir um ticket em <a className="link" target="_blank" rel="norreferer" style={{ color: "blue" }} href="https://discord.gg/nemtudo">discord.gg/nemtudo</a> e tentar explicar o que houve</span>
-                <span>Mas saiba que os mods tem registro de tudo, então eles basicamente são onicientes... Você vai ter que inventar uma desculpa realmente muito boa se quiser algo</span>
-                <span>Bom, é isso aí mano tmj</span>
+                <span>{language.getString("LAYOUTS.MAINLAYOUT.NO_FANCY_UNBAN_PAGE")}</span>
+                <span>{language.getString("LAYOUTS.MAINLAYOUT.OPEN_TICKET_INSTRUCTION")} <a className="link" target="_blank" rel="norreferer" style={{ color: "blue" }} href="https://discord.gg/nemtudo">discord.gg/nemtudo</a> {language.getString("LAYOUTS.MAINLAYOUT.EXPLAIN_WHAT_HAPPENED")}</span>
+                <span>{language.getString("LAYOUTS.MAINLAYOUT.MODS_HAVE_RECORDS")}</span>
+                <span>{language.getString("LAYOUTS.MAINLAYOUT.FAREWELL_MESSAGE")}</span>
             </main>
 
         </>
@@ -67,7 +67,7 @@ export function MainLayout({ children }) {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(`Você está utilizando uma build inválida, retornando para a build principal.`);
+                alert(language.getString("LAYOUTS.MAINLAYOUT.INVALID_BUILD_ALERT"));
                 location.href = `/buildoverride?t=main`;
                 return
             }
@@ -76,6 +76,10 @@ export function MainLayout({ children }) {
             console.error('Error fetching current branch:', error)
         }
     }
+
+    useEffect(() => {
+        document.querySelector("html").lang = lang || "pt";
+    }, [language]);
 
     return (
         <>

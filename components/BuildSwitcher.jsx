@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import settings from '@/settings'
 import Cookies from 'js-cookie'
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function BuildSwitcher() {
+    const { language } = useLanguage();
+
     const [currentBuild, setCurrentBuild] = useState({ name: "main", id: "main", token: null });
     const [currentBranch, setCurrentBranch] = useState(null);
     const [availableBuilds, setAvailableBuilds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    // const router = useRouter()
 
     useEffect(() => {
         fetchAvailableBuilds()
@@ -28,7 +30,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                return alert(`Erro ao buscar builds: ${response.message || 'Erro desconhecido'}`);
+                return alert(`${language.getString("COMPONENTS.BUILDSWITCHER.ERROR_FETCH_BUILDS")}: ${response.message || language.getString("COMPONENTS.BUILDSWITCHER.UNKNOWN_ERROR")}`);
             }
             setAvailableBuilds(response);
         } catch (error) {
@@ -53,7 +55,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(`Você está utilizando uma build inválida, retornando para a build principal.`);
+                alert(language.getString("COMPONENTS.BUILDSWITCHER.INVALID_BUILD_MESSAGE"));
                 location.href = `/buildoverride?t=main`;
                 return
             }
@@ -69,19 +71,18 @@ export default function BuildSwitcher() {
         setIsLoading(true)
 
         try {
-
             if (buildId === "main" || !buildId) {
                 return location.href = `/buildoverride?t=main`;
             }
 
             const build = availableBuilds.find(build => build.id === buildId)
-            if (!build) return alert('Build não encontrada');
+            if (!build) return alert(language.getString("COMPONENTS.BUILDSWITCHER.BUILD_NOT_FOUND"));
 
             location.href = `/buildoverride?t=${build.token}`;
 
         } catch (error) {
             console.error('Error switching build:', error)
-            alert(`Erro ao trocar de build: ${error.message}`)
+            alert(`${language.getString("COMPONENTS.BUILDSWITCHER.ERROR_SWITCH_BUILD")}: ${error.message}`)
         } finally {
             setIsLoading(false)
         }
@@ -98,7 +99,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                return alert(`Erro ao buscar branch atual: ${response.error || 'Erro desconhecido'}`);
+                return alert(`${language.getString("COMPONENTS.BUILDSWITCHER.ERROR_FETCH_BRANCH")}: ${response.error || language.getString("COMPONENTS.BUILDSWITCHER.UNKNOWN_ERROR")}`);
             }
 
             setCurrentBranch(response.branch);
@@ -110,68 +111,74 @@ export default function BuildSwitcher() {
     }
 
     return (
-        <div className="build-switcher">
+        <div style={{
+            padding: '10px',
+            border: '1px solid hsla(0deg, 0%, 100%, 20%)',
+            borderRadius: '12px',
+            margin: '10px 0',
+            background: 'whitesmoke',
+            color: 'black',
+            boxShadow: '2px 2px 7px #00000024'
+        }}>
             {currentBuild.id !== "main" && (
-                <span className="preview-indicator"> (Build Override)</span>
+                <span style={{
+                    color: '#ff6b35',
+                    fontWeight: 'bold'
+                }}>
+                    ({language.getString("COMPONENTS.BUILDSWITCHER.BUILD_OVERRIDE")})
+                </span>
             )}
-            <div className="current-build">
-                {currentBranch && currentBranch != "main" && currentBuild.id === "main" && <><span style={{ color: "red" }}>Você está editando uma branch customizada</span><br /><br/></>}
-                <strong>Build Ativa:</strong> {currentBuild.name}
+
+            <div style={{ marginBottom: '10px' }}>
+                {currentBranch && currentBranch !== "main" && currentBuild.id === "main" && (
+                    <>
+                        <span style={{ color: "red" }}>
+                            {language.getString("COMPONENTS.BUILDSWITCHER.CUSTOM_BRANCH_WARNING")}
+                        </span>
+                        <br /><br />
+                    </>
+                )}
+                <strong>{language.getString("COMPONENTS.BUILDSWITCHER.ACTIVE_BUILD")}:</strong> {currentBuild.name}
                 <br />
-                <strong>Branch Ativa:</strong> {currentBranch}
+                <strong>{language.getString("COMPONENTS.BUILDSWITCHER.ACTIVE_BRANCH")}:</strong> {currentBranch}
             </div>
 
-            <div className="build-selector">
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+            }}>
                 <select
                     id="build-select"
                     value={currentBuild.id}
                     onChange={(e) => switchBuild(e.target.value)}
                     disabled={isLoading}
+                    style={{
+                        display: 'flex',
+                        flexGrow: 1,
+                        padding: '5px',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc'
+                    }}
                 >
-                    <option value={"main"}>main</option>
+                    <option value="main">main</option>
                     {availableBuilds.map((build, index) => (
-                        <option key={index} value={build.id}>
+                        <option key={build.id || index} value={build.id}>
                             {build.name}
                         </option>
                     ))}
                 </select>
             </div>
 
-            {isLoading && <div className="loading">Trocando build...</div>}
-
-            <style jsx>{`
-                .build-switcher {
-                    padding: 10px;
-                    border: 1px solid hsla(0deg, 0%, 100%, 20%);
-                    border-radius: 12px;
-                    margin: 10px 0;
-                    background: whitesmoke;
-                    color: black;
-                    box-shadow: 2px 2px 7px #00000024;
-                }
-                .current-build {
-                    margin-bottom: 10px;
-                }
-                .preview-indicator {
-                    color: #ff6b35;
-                    font-weight: bold;
-                }
-                .build-selector {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-                #build-select {
-                    display: flex;
-                    flex-grow: 1;
-                }
-                .loading {
-                    margin-top: 10px;
-                    color: #666;
-                    font-style: italic;
-                }
-            `}
-            </style>
+            {isLoading && (
+                <div style={{
+                    marginTop: '10px',
+                    color: '#666',
+                    fontStyle: 'italic'
+                }}>
+                    {language.getString("COMPONENTS.BUILDSWITCHER.SWITCHING_BUILD")}
+                </div>
+            )}
         </div>
     )
 }
