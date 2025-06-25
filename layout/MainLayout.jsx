@@ -4,7 +4,9 @@ import Head from "next/head";
 import Header from "@/components/Header"
 
 import { useAuth } from '../context/AuthContext';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import settings from "@/settings";
 
 export function MainLayout({ children }) {
 
@@ -25,7 +27,7 @@ export function MainLayout({ children }) {
                 justifyContent: "center",
                 height: "100vh"
             }}>
-                <img src="https://i.pinimg.com/564x/0d/ab/ba/0dabbac154edaa9bf08b9bdcbfb993a9.jpg" alt="" style={{width: "80dvw", maxWidth: "350px"}}/>
+                <img src="https://i.pinimg.com/564x/0d/ab/ba/0dabbac154edaa9bf08b9bdcbfb993a9.jpg" alt="" style={{ width: "80dvw", maxWidth: "350px" }} />
                 <h1 style={{
                     fontSize: "2rem",
                     fontWeight: "bold"
@@ -40,6 +42,39 @@ export function MainLayout({ children }) {
             </main>
 
         </>
+    }
+
+
+    let executed = false;
+    useEffect(() => {
+        if (executed) return;
+        executed = true;
+        if (Cookies.get("active-build-token")) {
+            fetchCurrentBuild()
+        }
+    }, [])
+
+    async function fetchCurrentBuild() {
+        const branchtoken = Cookies.get("active-build-token");
+        if (!branchtoken || branchtoken === 'main') return;
+        try {
+            const request = await fetch(`${settings.apiURL}/builds/parsetoken/${branchtoken}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            const response = await request.json();
+            if (!request.ok) {
+                console.log(response, request);
+                alert(`Você está utilizando uma build inválida, retornando para a build principal.`);
+                location.href = `/buildoverride?t=main`;
+                return
+            }
+            console.log(`RUNNING CUSTOM BUILD`, response);
+        } catch (error) {
+            console.error('Error fetching current branch:', error)
+        }
     }
 
     return (
