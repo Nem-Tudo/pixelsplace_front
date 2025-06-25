@@ -17,11 +17,20 @@ module.exports = {
         NAME: "Nome",
         AUTHOR: "Autor",
         USE: "Utilizar",
-        NOT_IMPLEMENTED_YET: "não feito ainda",
+        NOT_IMPLEMENTED_YET: "Não feito ainda",
         ADMIN: "Admin",
         REDIRECTING: "Redirecionando...",
         LOADING: "Carregando...",
         NO_PERMISSION: "Você não tem permissão para fazer isso",
+        NOT_SELECTED: "Não selecionado",
+        USER: "Usuário",
+        SERVER: "Servidor",
+        HISTORY: "Histórico",
+        PREMIUM: "Premium",
+        LOADING: "Carregando...",
+        TRY_AGAIN: "Tente novamente",
+        RELOAD: "Recarregar",
+        RELOAD_PAGE: "Recarregar página",
         BACK: "Voltar"
     },
     COMPONENTS: {
@@ -121,7 +130,21 @@ module.exports = {
             MULTIPLIER_LABEL: "Multiplicador:"
         },
         PLACE: {
-
+            META_DESCRIPTION: "Participe do PixelsPlace!",
+            COPY_LINK: "Copiar link para o pixel",
+            LINK_GENERATED: "Link gerado:",
+            LINK_SUCCESSFULLY_COPIED: "Link copiado para a área de transferência!",
+            PICK_COLOR: "Selecionar cor",
+            PICK_A_COLOR: "Selecione uma cor",
+            PREMIUM_ONLY_COLOR: "Essa cor está disponível apenas para Premiums! :(",
+            PLACE_PIXEL: "Colocar pixel",
+            LOG_IN_TO_PLACE_PIXEL: "Logue para colocar pixel",
+            PLACE: "Colocar!",
+            PREMIUM_ANY_COLOR: "Escolha a cor que você quiser com",
+            WEBSOCKET_KICKED: "WebSocket desconectado: Você foi kickado da sala",
+            ERROR_MAIN_API_CONNECT: "Ocorreu um erro ao se conectar com a api principal",
+            ERROR_FAILED_WEBSOCKET: "Falha na conexão WebSocket",
+            WEBSOCKET_SEARCH: "Procurando WebSocket...",
         }
     },
 }

@@ -4,6 +4,7 @@ import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
 import styles from "./place.module.css";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
 import { useRouter } from 'next/router';
 import MessageDiv from "@/components/MessageDiv";
@@ -24,6 +25,8 @@ export default function Place() {
   const { token, loggedUser } = useAuth();
   const router = useRouter();
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
+
+  const { language } = useLanguage();
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -693,7 +696,7 @@ export default function Place() {
     <>
       <Head>
         <title>PixelsPlace</title>
-        <meta name="description" content="Participe do PixelsPlace!" />
+        <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#80bbff" />
         <link rel="icon" href="/favicon.ico" />
@@ -716,13 +719,13 @@ export default function Place() {
                   ({selectedPixel.x},{selectedPixel.y}){" "}
                   {Math.round(transform.current.scale)}x
                 </span>
-                <Tippy content="Copiar link para o pixel" placement="bottom">
+                <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
-                    console.log("Link gerado:", link);
+                    console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    alert(`Link copiado para a área de transferência! (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
+                    alert(`${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>
@@ -771,36 +774,33 @@ export default function Place() {
                   {showingPixelInfo.u && (
                     <div className={styles.pixeluserinfo}>
                       <span>
-                        Usuário:{" "}
+                        {language.getString("COMMON.USER")+": "}
                         <Link href={`/user/${showingPixelInfo.u}`}>
                           {showingPixelInfo.author.username}
                         </Link>{" "}
                         <Verified verified={showingPixelInfo.author.premium} />
                       </span>
                       <span>
-                        Servidor:{" "}
-                        {showingPixelInfo.author.mainServer ||
-                          "Não selecionado"}
+                        {language.getString("COMMON.SERVER")+": "}
+                        {showingPixelInfo.author.mainServer || language.getString("COMMON.NOT_SELECTED")}
                       </span>
                     </div>
                   )}
                   <div className={styles.pixelbuttons}>
                     <PremiumButton
-                      onClick={() => alert("Ainda não foi feito :v")}
+                      onClick={() => language.getString("COMMON.NOT_IMPLEMENTED_YET")}
                     >
-                      Histórico
+                      {language.getString("COMMON.HISTORY")}
                     </PremiumButton>
                     <CustomButton
-                      label={'Selecionar cor'}
+                      label={language.getString("PAGES.PLACE.PICK_COLOR")}
                       onClick={() => {
                         if (
                           canvasConfig.freeColors.includes(showingPixelInfo.c)
                         ) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
-                          alert(
-                            "Essa cor está disponível apenas para Premiums! :("
-                          );
+                          alert(language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR"));
                         }
                       }}
                     />
@@ -825,7 +825,7 @@ export default function Place() {
                   )}
                   {!showingColors && timeLeft == "0:00" && (
                     <CustomButton
-                      label={loggedUser ? "Colocar pixel" : "Logue para colocar pixel"}
+                      label={loggedUser ? language.getString("PAGES.PLACE.PLACE_PIXEL") : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
                       className={styles.placepixel}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
@@ -839,7 +839,7 @@ export default function Place() {
                   )}
                   {showingColors && (
                     <CustomButton
-                      label={'Cancelar'}
+                      label={language.getString("COMMON.CANCEL")}
                       hierarchy={3}
                       color={"#919191"}
                       className={styles.placepixel}
@@ -848,7 +848,7 @@ export default function Place() {
                   )}
                   {showingColors && (
                     <CustomButton
-                      label={selectedColor ? "Colocar!" : "Selecione uma cor"}
+                      label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
                       disabled={!selectedColor}
                       className={styles.placepixel}
@@ -870,8 +870,8 @@ export default function Place() {
                     <Tippy theme="premium" interactive={true} placement="top" animation="shift-away-subtle" content={
                       <>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
-                          <span>Escolha a cor que você quiser com</span>
-                          <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>Premium</Link>
+                          <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
+                          <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>{language.getString("COMMON.PREMIUM")}</Link>
                         </div>
                       </>
                     }>
@@ -917,15 +917,15 @@ export default function Place() {
           <MessageDiv centerscreen={true} type="normal-white">
             {" "}
             <Loading width={"50px"} />{" "}
-            <span style={{ fontSize: "2rem" }}>Carregando...</span>
+            <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span>
           </MessageDiv>
         )}
 
         {/* API Error */}
         {apiError && (
           <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}>
-            <span>Ocorreu um erro ao se conectar com a api principal</span>
-            <CustomButton label={'Recarregar'} onClick={() => location.reload()} />
+            <span>{language.getString("PAGES.PLACE.ERROR_MAIN_API_CONNECT")}</span>
+            <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => location.reload()} />
           </MessageDiv>
         )}
 
@@ -933,17 +933,17 @@ export default function Place() {
         {socketconnecting && !apiError && canvasConfig?.width && (
           <MessageDiv centerscreen={true} type="normal-white">
             <Loading width={"50px"} />
-            <span style={{ fontSize: "2rem" }}>Procurando WebSocket...</span>
+            <span style={{ fontSize: "2rem" }}>{language.getString("PAGES.PLACE.WEBSOCKET_SEARCH")}</span>
           </MessageDiv>
         )}
 
         {/* WebSocket Error */}
         {socketerror && !socketconnected && !socketconnecting && !apiError && canvasConfig.width && (
           <MessageDiv centerscreen={true} type="warn" expand={socketerror.message}>
-            <span>Falha na conexão WebSocket</span>
+            <span>{language.getString("PAGES.PLACE.ERROR_FAILED_WEBSOCKET")}</span>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <CustomButton label={'Tentar novamente'} onClick={socketreconnect} />
-              <CustomButton label={'Recarregar página '} onClick={() => location.reload()} />
+              <CustomButton label={language.getString("COMMON.TRY_AGAIN")} onClick={socketreconnect} />
+              <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
             </div>
           </MessageDiv>
         )}
@@ -951,9 +951,9 @@ export default function Place() {
         {/* WebSocket Disconnected */}
         {socketdisconnectforced && (
           <MessageDiv centerscreen={true} type="warn">
-            <span>WebSocket desconectado: Você foi kickado da sala</span>
+            <span>{language.getString("PAGES.PLACE.WEBSOCKET_KICKED")}</span>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <CustomButton label={'Recarregar página'} onClick={() => location.reload()} />
+              <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
             </div>
           </MessageDiv>
         )}
