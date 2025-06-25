@@ -15,6 +15,7 @@ export default function BuildOverride({ buildtoken }) {
     const [pageMessage, setPageMessage] = useState("Loading build...");
     const [build, setBuild] = useState(null);
     const [tokenSignedBy, setTokenSignedBy] = useState(null);
+    const [extraInfo, setExtraInfo] = useState(null);
 
     let loaded = false;
     useEffect(() => {
@@ -48,7 +49,7 @@ export default function BuildOverride({ buildtoken }) {
             if (request.status != 200) return setPageMessage(response.message || "Error fetching build");
             setBuild(response.build);
             setTokenSignedBy(response.signedBy);
-
+            setExtraInfo(response.info);
             if (response.build.forceOnLink) return updateCookies(token, response.build);
             setPageMessage("");
 
@@ -72,7 +73,6 @@ export default function BuildOverride({ buildtoken }) {
 
 
     // ATENÇÃO!!! TODO O CSS DESSA PÁGINA DEVE SER INLINE!!!
-
     console.log(build)
     return (
         <>
@@ -83,9 +83,9 @@ export default function BuildOverride({ buildtoken }) {
                     <br />
                     <span>Nome: <span style={{ color: "blue" }}>{build.name}</span></span>
                     <br />
-                    <span>Autor: {build.author}</span>
+                    <span>Autor: {build.author} ({extraInfo?.authorname})</span>
                     <br />
-                    <span>Assinada por: {tokenSignedBy}</span>
+                    <span>Assinada por: {tokenSignedBy} ({extraInfo?.signedByname})</span>
                     <br />
                     <br />
                     <button
@@ -96,8 +96,8 @@ export default function BuildOverride({ buildtoken }) {
                             padding: "10px",
                             marginRight: "5px",
                             border: "1px solid hsla(0deg, 0%, 100%, 20%)",
-                            borderRadius: "12px",
-                            boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
+                            borderRadius: "4px",
+                            // boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
                         }}
                         onClick={() => location.href = "/"}>
                         Cancelar
@@ -109,8 +109,8 @@ export default function BuildOverride({ buildtoken }) {
                             color: "white",
                             padding: "10px",
                             border: "1px solid hsla(0deg, 0%, 100%, 20%)",
-                            borderRadius: "12px",
-                            boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
+                            borderRadius: "4px",
+                            // boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
                         }}
                         onClick={() => {
                             setPageMessage("Updating build...")
