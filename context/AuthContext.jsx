@@ -1,4 +1,5 @@
 import settings from "@/settings";
+import updateStateKey from "@/src/updateStateKey";
 import { parseCookies } from "nookies";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -30,7 +31,7 @@ export function AuthProvider({ children }) {
                 headers: {
                     authorization: token
                 }
-            }).catch(() => {});
+            }).catch(() => { });
 
             if (!res.ok) {
                 setUser(null);
@@ -47,8 +48,12 @@ export function AuthProvider({ children }) {
         }
     }
 
+    function updateUserKey(...changes) {
+        updateStateKey(setUser, user, ...changes)
+    }
+
     return (
-        <AuthContext.Provider value={{ loggedUser: user, loading, token }}>
+        <AuthContext.Provider value={{ loggedUser: user, loading, token, setUser, updateUserKey }}>
             {children}
         </AuthContext.Provider>
     );

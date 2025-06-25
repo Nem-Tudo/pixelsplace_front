@@ -22,6 +22,7 @@ module.exports = {
         REDIRECTING: "Redirecionando...",
         LOADING: "Carregando...",
         NO_PERMISSION: "Você não tem permissão para fazer isso",
+        BACK: "Voltar"
     },
     COMPONENTS: {
         BUILDSWITCHER: {
@@ -43,7 +44,9 @@ module.exports = {
             DISCONNECT: "Desconectar",
             REMOVE_BUILD_OVERRIDE: "Remover Build Override",
             LOGIN: "Logar",
-            LOGGED_OUT: "Deslogado"
+            LOGGED_OUT: "Deslogado",
+            VIEWASUSER: "Ver como usuário",
+            NORMALVIEW: "Vizualização normal"
         },
         PREMIUMPOPUP: {
             TITLE: "Você precisa ser Premium!",

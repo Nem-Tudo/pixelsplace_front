@@ -6,10 +6,13 @@ import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
 import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from "@/context/AuthContext"
 
-export default function Header({ loggedUser, loading }) {
+export default function Header() {
     const { language } = useLanguage();
+    const { loggedUser, updateUserKey } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
+    const [realUserFlags, setRealUserFlags] = useState([]);
 
     useEffect(() => {
         if (Cookies.get("active-build-token")) {
@@ -34,22 +37,42 @@ export default function Header({ loggedUser, loading }) {
                 </nav>
                 <nav className={styles.right}>
                     {
-                        !loading && loggedUser?.id ? <>
+                        loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
                                 <span className={styles.userName + " mobilehidden_500"}>{loggedUser.username}</span>
                                 <Tippy theme="transparent" trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
-                                        <Link href={"/user/" + loggedUser?.id}>
-                                            <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
-                                        </Link>
-                                        <Link id={styles.tippyDisconnect} href={"/auth/discord"}>
-                                            <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
-                                        </Link>
-                                        {
-                                            usingBuildOverride && <Link href={"/buildoverride?t=main"}>
-                                                <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
+                                        <div className={styles.item}>
+                                            <Link href={"/user/" + loggedUser?.id}>
+                                                <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                             </Link>
+                                        </div>
+                                        <div className={styles.item + " " + styles.redstyle}>
+                                            <Link href={"/auth/discord"}>
+                                                <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
+                                            </Link>
+                                        </div>
+                                        {
+                                            checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <div className={styles.item + " " + styles.bluestyle} onClick={() => {
+                                                if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
+                                                    setRealUserFlags(loggedUser.flags)
+                                                    updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
+                                                } else {
+                                                    updateUserKey(["flags", realUserFlags])
+                                                }
+                                            }}>
+                                                <div>
+                                                    <span>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMALVIEW") : language.getString("COMPONENTS.HEADER.VIEWASUSER")}</span>
+                                                </div>
+                                            </div>
+                                        }
+                                        {
+                                            usingBuildOverride && <div className={styles.item}>
+                                                <Link href={"/buildoverride?t=main"}>
+                                                    <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
+                                                </Link>
+                                            </div>
                                         }
                                     </div>
 
