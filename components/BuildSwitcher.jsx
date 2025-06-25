@@ -25,7 +25,6 @@ export default function BuildSwitcher() {
                 },
             })
             const response = await request.json();
-            console.log(response)
             if (!request.ok) {
                 console.log(response, request);
                 alert(`Erro ao buscar branches: ${response.message || 'Erro desconhecido'}`);
