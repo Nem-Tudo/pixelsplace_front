@@ -7,7 +7,7 @@ export default function CustomButton({
     children,
     label = 'Botão',
     href = undefined,
-    color = '#0076d6', // Cor padrão em hex (azul)
+    color = '#0076d6',
     onClick = undefined,
     hierarchy = 1,
     disabled = false,
