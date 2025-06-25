@@ -49,16 +49,18 @@ export default function BuildOverride({ buildtoken }) {
             setBuild(response.build);
             setTokenSignedBy(response.signedBy);
 
-            if (response.forceOnLink) return updateCookies(token, response.build);
+            if (response.build.forceOnLink) return updateCookies(token, response.build);
             setPageMessage("");
 
         } catch (error) {
-            console.error('Error fetching current branch:', error)
+            console.error('Error fetching branch:', error)
         }
     }
 
-    function updateCookies(token, data) {
+    async function updateCookies(token, data) {
+        console.log("updating build...")
         if (token) {
+            await fetch(`${settings.apiURL}/builds/${data.id}/newuse`, { method: "POST" })
             Cookies.set("active-build-token", token, { expires: 365, secure: true, sameSite: 'Lax' });
             Cookies.set("active-build-data", JSON.stringify(data), { expires: 365, secure: true, sameSite: 'Lax' });
         } else {
@@ -71,6 +73,7 @@ export default function BuildOverride({ buildtoken }) {
 
     // ATENÇÃO!!! TODO O CSS DESSA PÁGINA DEVE SER INLINE!!!
 
+    console.log(build)
     return (
         <>
             <span>{pageMessage}</span>
@@ -85,7 +88,11 @@ export default function BuildOverride({ buildtoken }) {
                     <span>Assinada por: {tokenSignedBy}</span>
                     <br />
                     <br />
-                    <button style={{ cursor: "pointer", background: "green", color: "white", padding: "10px" }} onClick={() => updateCookies(buildtoken, build)}>Utilizar</button>
+                    <button style={{ cursor: "pointer", background: "gray", color: "white", padding: "10px", marginRight: "5px" }} onClick={() => location.href = "/"}>Cancelar</button>
+                    <button style={{ cursor: "pointer", background: "green", color: "white", padding: "10px" }} onClick={() => {
+                        setPageMessage("Updating build...")
+                        updateCookies(buildtoken, build)
+                    }}>Utilizar</button>
                     <br />
                     <br />
                     <span>Caso você queira remover depois, basta clicar nas configurações do seu perfil</span>
