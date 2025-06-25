@@ -27,7 +27,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(`Erro ao buscar branches: ${response.message || 'Erro desconhecido'}`);
+                return alert(`Erro ao buscar branches: ${response.message || 'Erro desconhecido'}`);
             }
             setAvailableBranches(response);
         } catch (error) {
