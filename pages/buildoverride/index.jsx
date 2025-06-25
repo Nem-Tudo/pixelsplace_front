@@ -91,13 +91,12 @@ export default function BuildOverride({ buildtoken }) {
                     <button
                         style={{
                             cursor: "pointer",
-                            background: "gray",
-                            color: "white",
+                            background: "white",
+                            color: "gray",
                             padding: "10px",
                             marginRight: "5px",
                             border: "1px solid hsla(0deg, 0%, 100%, 20%)",
                             borderRadius: "12px",
-                            boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
                         }}
                         onClick={() => location.href = "/"}>
                         Cancelar
