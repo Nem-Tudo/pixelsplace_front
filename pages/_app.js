@@ -4,11 +4,14 @@ import 'tippy.js/dist/tippy.css';
 import "@/styles/tippy.css";
 
 import { AuthProvider } from '../context/AuthContext';
+import { LanguageProvider } from '../context/LanguageContext';
 
 export default function App({ Component, pageProps }) {
   return <>
     <AuthProvider>
-      <Component {...pageProps} />
+      <LanguageProvider>
+        <Component {...pageProps} />
+      </LanguageProvider>
     </AuthProvider>
   </>;
 }
