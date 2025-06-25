@@ -10,7 +10,7 @@ import { useLanguage } from '@/context/LanguageContext';
 
 export function MainLayout({ children }) {
     const { language, lang } = useLanguage();
-    const { loggedUser, loading } = useAuth();
+    const { loggedUser } = useAuth();
 
     const [ip, setIp] = useState(null);
 
@@ -86,7 +86,7 @@ export function MainLayout({ children }) {
             <Head>
                 <title>{`PixelsPlace`}</title>
             </Head>
-            <Header loggedUser={loggedUser} loading={loading} />
+            <Header />
             <main className={styles.main}>
                 {children}
             </main>
