@@ -724,7 +724,7 @@ export default function Place() {
                     copyText(link);
                     alert(`Link copiado para a área de transferência! (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
                   }}>
-                    <PixelIcon codename={'forward'} />
+                    <FaShare />
                   </div>
                 </Tippy>
               </div>
