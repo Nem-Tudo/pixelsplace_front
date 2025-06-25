@@ -357,7 +357,7 @@ export default function AdminPage() {
               />
               <CustomButton
                 label={showColorsArray ? "Esconder Array" : "Mostrar Array"}
-                hue={-69.41}
+                color={'#909090'}
                 onClick={() => {
                   if (!showColorsArray) {
                     setFreeColorsInput(freeColors.join(","));
@@ -536,8 +536,8 @@ export default function AdminPage() {
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px" }}>
                 {
                   buildsOverride.map((build, index) => (
-                    <div key={index} style={{ marginBottom: "10px", display: "flex", flexDirection: "column", gap: "5px", backgroundColor: "rgb(255 255 255 / 4%)", padding: "10px", borderRadius: "5px" }}>
-                      <span style={{ fontWeight: "bold" }}>{build.name}</span>
+                    <div key={index} style={{ marginBottom: "10px", display: "flex", flexDirection: "column", gap: "5px", backgroundColor: "rgb(255 255 255 / 4%)", padding: "10px", borderRadius: "22px", boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)" }}>
+                      <span style={{ fontFamily: "'Dogica Pixel', Arial, Helvetica, sans-serif" }}>{build.name}</span>
                       <br />
                       <span>ID: {build.id}</span>
                       <span>branch: {build.branch}</span>
@@ -548,7 +548,7 @@ export default function AdminPage() {
                       <span>Usos: {Number(build.stats?.uses)}</span>
                       <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
                       <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
-                      <div style={{ display: "flex", gap: "10px", marginTop: "5px", marginBottom: "15px" }}>
+                      <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
                         <CustomButton
                           label={'Copiar Link'}
                           color="#27b84d"
