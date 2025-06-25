@@ -161,6 +161,10 @@ export default function BuildSwitcher() {
                     align-items: center;
                     gap: 10px;
                 }
+                #build-select {
+                    display: flex;
+                    flex-grow: 1;
+                }
                 .loading {
                     margin-top: 10px;
                     color: #666;

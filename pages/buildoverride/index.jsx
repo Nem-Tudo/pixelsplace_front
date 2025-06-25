@@ -79,7 +79,7 @@ export default function BuildOverride({ buildtoken }) {
             <span>{pageMessage}</span>
             {
                 build && !build.forceOnLink && <div style={{ margin: "50px" }}>
-                    <h1 style={'font-weight: bold'}>Deseja utilizar uma build customizada no PixelsPlace?</h1>
+                    <h1 style={{ fontWeight: "bold" }}>Deseja utilizar uma build customizada no PixelsPlace?</h1>
                     <br />
                     <span>Nome: <span style={{ color: "blue" }}>{build.name}</span></span>
                     <br />
