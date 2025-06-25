@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import PremiumButton from '@/components/PremiumButton';
 import CustomButton from '@/components/CustomButton';
 import checkFlags from "@/src/checkFlags";
-import BranchSwitcher from "@/components/BranchSwitcher";
+import BuildSwitcher from "@/components/BuildSwitcher";
 
 export default function Home() {
 
@@ -39,7 +39,7 @@ export default function Home() {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
             }
             {
-              checkFlags(loggedUser?.flags, "CHANGE_BRANCH") && <BranchSwitcher />
+              checkFlags(loggedUser?.flags, "CHANGE_BUILD") && <BuildSwitcher />
             }
           </div>
         </main>

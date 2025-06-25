@@ -3,8 +3,19 @@ import styles from "./Header.module.css"
 import Tippy from "@tippyjs/react"
 import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react"
+
 
 export default function Header({ loggedUser, loading }) {
+
+    const [usingBuildOverride, setUsingBuildOverride] = useState(false);
+
+    useEffect(() => {
+        if (Cookies.get("active-build-token")) {
+            setUsingBuildOverride(true);
+        }
+    }, [])
 
     return (
         <>
@@ -25,8 +36,8 @@ export default function Header({ loggedUser, loading }) {
                     {
                         !loading && loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
-                                <span className={styles.userName+" mobilehidden_500"}>{loggedUser.username}</span>
-                                <Tippy trigger="click" interactive={true} content={<>
+                                <span className={styles.userName + " mobilehidden_500"}>{loggedUser.username}</span>
+                                <Tippy theme="transparent" trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
                                         <Link href={"/user/" + loggedUser?.id}>
@@ -35,6 +46,11 @@ export default function Header({ loggedUser, loading }) {
                                         <Link id={styles.tippyDisconnect} href={"/auth/discord"}>
                                             <span>Desconectar</span>
                                         </Link>
+                                        {
+                                            usingBuildOverride && <Link href={"/buildoverride?t=main"}>
+                                                <span style={{ color: "red" }}>Remover Build Override</span>
+                                            </Link>
+                                        }
                                     </div>
 
                                 </>}>
