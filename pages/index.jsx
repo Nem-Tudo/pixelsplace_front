@@ -30,20 +30,14 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            <CustomButton
-              label={'Começar'}
-              href={"/place"}
-              icon='<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm18 12V7H4v10h16zM8 9h2v2h2v2h-2v2H8v-2H6v-2h2V9zm6 0h2v2h-2V9zm4 4h-2v2h2v-2z" fill="currentColor"/> </svg>' 
-            />
+            <CustomButton label={'Começar'} href={"/place"}>
+              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm18 12V7H4v10h16zM8 9h2v2h2v2h-2v2H8v-2H6v-2h2V9zm6 0h2v2h-2V9zm4 4h-2v2h2v-2z" fill="currentColor"/> </svg>
+              Começar
+            </CustomButton>
             {
               checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW") && <PremiumButton as={Link} href={"/timetravel"}>Time Travel</PremiumButton>
             }
-            <CustomButton
-              label={'Servidores'}
-              href={"/partners"}
-              hierarchy={2}
-              icon='<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm2 2v2h16V7H4zm16 4H4v2h16v-2zm0 4H4v2h16v-2z" fill="currentColor"/> </svg>'  
-            />
+            <CustomButton label={'Servidores'} href={"/partners"} hierarchy={2} />
             {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={'⚙ Admin'} href={"/admin"} hierarchy={3}/>
             }
