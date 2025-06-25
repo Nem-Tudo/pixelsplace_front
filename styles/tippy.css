@@ -1,5 +1,5 @@
 :root {
-    --tippy-border-radius: 5px;
+    --tippy-border-radius: 12px;
     --tippy-color: rgba(0, 0, 0, 0.95);
     --tippy-text-color: #ffffff;
 }
