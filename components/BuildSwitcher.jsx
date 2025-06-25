@@ -67,6 +67,10 @@ export default function BuildSwitcher() {
 
         try {
 
+            if (branchId === "main" || !branchId) {
+                return location.href = `/buildoverride?t=main`;
+            }
+
             const build = availableBranches.find(branch => branch.id === branchId)
             if (!build) return alert('Branch não encontrada');
 
