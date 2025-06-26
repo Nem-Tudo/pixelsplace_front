@@ -257,12 +257,10 @@ export default function AdminPage() {
               {showColorsArray && (
                 <textarea
                   style={{
-                    maxWidth: "700px",
-                    width: "100%",
                     display: "block",
                     fontFamily: "monospace",
                     whiteSpace: "pre-wrap",
-                    minHeight: "100px",
+                    minHeight: "130px",
                     marginBottom: "12px",
                   }}
                   value={freeColorsInput}
@@ -329,12 +327,11 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
-              <footer style={{display: "flex"}}>
+              <footer style={{display: "flex", gap: "15px", flexWrap: "wrap"}}>
                 <CustomButton
                   label={'Adicionar cor'}
                   icon={'plus'}
                   color={"#27b84d"}
-                  style={{ marginRight: "15px" }}
                   onClick={() => {
                     const color = prompt("Código hex");
                     if (!color) return;
@@ -353,7 +350,6 @@ export default function AdminPage() {
                 <CustomButton
                   label={'Salvar cores'}
                   icon={'save'}
-                  style={{ marginRight: "15px" }}
                   disabled={loading}
                   onClick={async () => {
                     await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
