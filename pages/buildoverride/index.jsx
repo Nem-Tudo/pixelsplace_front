@@ -7,7 +7,7 @@ export async function getServerSideProps(context) {
     const { t } = context.query;
 
     return {
-        props: { buildtoken: t },
+        props: { buildtoken: t || null },
     };
 }
 
@@ -18,6 +18,7 @@ export default function BuildOverride({ buildtoken }) {
     const [build, setBuild] = useState(null);
     const [tokenSignedBy, setTokenSignedBy] = useState(null);
     const [extraInfo, setExtraInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     let loaded = false;
     useEffect(() => {
@@ -45,10 +46,22 @@ export default function BuildOverride({ buildtoken }) {
                     authorization: Cookies.get("authorization")
                 },
             })
-            if (request.status === 404) return setPageMessage(language.getString("PAGES.BUILDOVERRIDE.INVALID_BUILD"));
+            if (request.status === 404) {
+                setTimeout(() => {
+                    location.href = "/";
+                }, 2000)
+                setLoading(false);
+                return setPageMessage(language.getString("PAGES.BUILDOVERRIDE.INVALID_BUILD"))
+            };
 
             const response = await request.json();
-            if (request.status != 200) return setPageMessage(response.message || language.getString("PAGES.BUILDOVERRIDE.ERROR_FETCHING_BUILD"));
+            if (request.status != 200) {
+                setTimeout(() => {
+                    location.href = "/";
+                }, 2000)
+                setLoading(false);
+                return setPageMessage(response.message || language.getString("PAGES.BUILDOVERRIDE.ERROR_FETCHING_BUILD"));
+            }
             setBuild(response.build);
             setTokenSignedBy(response.signedBy);
             setExtraInfo(response.info);
@@ -57,11 +70,17 @@ export default function BuildOverride({ buildtoken }) {
 
         } catch (error) {
             console.error('Error fetching branch:', error)
+            setLoading(false);
+            setTimeout(() => {
+                location.href = "/";
+            }, 2000)
+            return setPageMessage(language.getString("PAGES.BUILDOVERRIDE.ERROR_FETCHING_BUILD"));
         }
     }
 
     async function updateCookies(token, data) {
         console.log("updating build...")
+        setLoading(false);
         if (token) {
             await fetch(`${settings.apiURL}/builds/${data.id}/newuse`, { method: "POST" })
             Cookies.set("active-build-token", token, { expires: 365, secure: true, sameSite: 'Lax' });
@@ -79,6 +98,9 @@ export default function BuildOverride({ buildtoken }) {
     return (
         <>
             <span>{pageMessage}</span>
+            {
+                !loading && !build && <><br /><span>{language.getString("COMMON.REDIRECTING")}</span></>
+            }
             {
                 build && !build.forceOnLink && <div style={{ margin: "50px" }}>
                     <h1 style={{ fontWeight: "bold" }}>{language.getString("PAGES.BUILDOVERRIDE.TITLE")}</h1>
