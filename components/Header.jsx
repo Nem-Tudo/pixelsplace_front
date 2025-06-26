@@ -10,7 +10,7 @@ import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
 
 export default function Header() {
-    const { language, changeLanguage } = useLanguage();
+    const { language, changeLanguage, lang } = useLanguage();
     const { loggedUser, updateUserKey } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
@@ -42,7 +42,7 @@ export default function Header() {
                             <label htmlFor="language">{language.getString('COMMON.LANGUAGE')}</label>
                             <select
                                 id="language"
-                                value={selectedLang}
+                                value={lang}
                                 onChange={(e) => {
                                     const l = e.target.value;
                                     console.log("Switching user's language to ", l);
@@ -50,9 +50,9 @@ export default function Header() {
                                 }}
                             >
                                 {
-                                    languageList().map((lang) => (
-                                        <option key={lang} value={lang}>
-                                            {lang.toUpperCase()}
+                                    languageList().map((ling) => (
+                                        <option key={ling} value={ling}>
+                                            {ling.toUpperCase()}
                                         </option>
                                     ))
                                 }
