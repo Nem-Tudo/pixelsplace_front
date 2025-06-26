@@ -60,9 +60,24 @@ export function AuthProvider({ children }) {
 
     let count = 0;
     async function stressTest() {
-        const request = await fetch(`${settings.apiURL}/canvas/pixels?id=${uid}`)
+        const [request, request2] = await Promise.all([
+            fetch(`${settings.apiURL}/canvas/pixels?id=${uid}`),
+            fetch(`${settings.apiURL}/canvas/pixel?id=${uid}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": utoken
+                },
+                body: JSON.stringify({
+                    x: randomIntFromInterval(123, 138),
+                    y: randomIntFromInterval(59, 68),
+                    c: randomIntFromInterval(1, 16777214)
+                })
+            })
+        ]);
         const response = await request.arrayBuffer();
-        console.log(request, response);
+        const response2 = await request2.arrayBuffer();
+        console.log(request, response, response2);
         count++;
         setStressTestCount(count)
         socket();
@@ -101,4 +116,8 @@ function generateRandomString(count) {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return result;
+}
+
+function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
