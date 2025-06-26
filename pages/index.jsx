@@ -43,19 +43,13 @@ export default function Home() {
                 }}>clique</button>
               </div>
             }
-            <CustomButton href={"/place"}>
-              <PixelIcon codename={"gamepad"} />
-              {language.getString("PAGES.HOME.START")}
-            </CustomButton>
+            <CustomButton label={language.getString("PAGES.HOME.START")} icon={'gamepad'} href={"/place"} />
             {
               checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW") && <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("PAGES.HOME.TIME_TRAVEL")}</PremiumButton>
             }
-            <CustomButton href={"/partners"} hierarchy={2}>
-              <PixelIcon codename={"server"} />
-              {language.getString("PAGES.HOME.SERVERS")}
-            </CustomButton>
+            <CustomButton label={language.getString("PAGES.HOME.SERVERS")} icon={'server'} href={"/partners"} hierarchy={2} />
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton href={"/admin"} hierarchy={3}><PixelIcon codename={"coffee"} />{language.getString("COMMON.ADMIN")}</CustomButton>
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={language.getString("COMMON.ADMIN")} icon={'coffee'} href={"/admin"} hierarchy={3} />
             }
             {
               checkFlags(loggedUser?.flags, "BUILD_OVERRIDE_VIEW") && <BuildSwitcher />

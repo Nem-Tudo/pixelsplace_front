@@ -8,7 +8,7 @@ import Head from "next/head";
 import checkFlags from "@/src/checkFlags";
 import CustomButton from '@/components/CustomButton';
 import { useRouter } from "next/router";
-
+import PixelIcon from "@/components/PixelIcon";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -200,7 +200,8 @@ export default function AdminPage() {
             <h1>Administração do Canvas</h1>
 
             <CustomButton
-              label={'⬅ Voltar'}
+              label={'Voltar'}
+              icon={'arrow-left'}
               onClick={() => setChoosePage(null)}
               style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
             />
@@ -483,7 +484,8 @@ export default function AdminPage() {
             <h1>Administração do Geral</h1>
 
             <CustomButton
-              label={'⬅ Voltar'}
+              label={'Voltar'}
+              icon={'arrow-left'}
               onClick={() => setChoosePage(null)}
               style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
             />
@@ -607,7 +609,8 @@ export default function AdminPage() {
             <h1>Administração do Users</h1>
 
             <CustomButton
-              label={'⬅ Voltar'}
+              label={'Voltar'}
+              icon={'arrow-left'}
               onClick={() => setChoosePage(null)}
               style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
             />
