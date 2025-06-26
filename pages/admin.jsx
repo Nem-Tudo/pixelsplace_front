@@ -639,6 +639,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Escolher user</strong>
               </legend>
+                <input type="number"/>
             </fieldset>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
