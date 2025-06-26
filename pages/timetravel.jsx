@@ -84,7 +84,7 @@ export default function Place() {
         }
     }, [router.isReady]); // Depend on router.isReady
 
-    async function fetchCanvas(duration, multiplier, history) {
+    async function fetchCanvas(duration, multiplier, history = false) {
         try {
             const MIN_SCALE_MULTIPLIER = 0.5;
             const MAX_SCALE_MULTIPLIER = 150;
@@ -108,9 +108,9 @@ export default function Place() {
             const ctx = canvasRef.current?.getContext("2d");
             if (!ctx) {
                 console.log("Main canvas context not available");
-                setTimeout(() => {
-                    fetchCanvas(10, 0)
-                }, 500)
+                // setTimeout(() => {
+                //     fetchCanvas(10, 0)
+                // }, 500)
                 return;
             }
 
