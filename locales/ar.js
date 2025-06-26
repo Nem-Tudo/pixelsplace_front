@@ -118,6 +118,21 @@ module.exports = {
             MULTIPLIER_LABEL: "المضاعف:"
         },
         PLACE: {
+            META_DESCRIPTION: "شارك في PixelsPlace!",
+            COPY_LINK: "نسخ رابط البيكسل",
+            LINK_GENERATED: "تم إنشاء الرابط:",
+            LINK_SUCCESSFULLY_COPIED: "تم نسخ الرابط إلى الحافظة!",
+            PICK_COLOR: "اختيار لون",
+            PICK_A_COLOR: "اختر لوناً",
+            PREMIUM_ONLY_COLOR: "هذا اللون متاح للأعضاء المميزين فقط! :(",
+            PLACE_PIXEL: "وضع بيكسل",
+            LOG_IN_TO_PLACE_PIXEL: "سجل دخولك لوضع بيكسل",
+            PLACE: "ضع!",
+            PREMIUM_ANY_COLOR: "اختر اللون الذي تريده مع",
+            WEBSOCKET_KICKED: "انقطع اتصال WebSocket: تم طردك من الغرفة",
+            ERROR_MAIN_API_CONNECT: "حدث خطأ في الاتصال بالـ API الرئيسي",
+            ERROR_FAILED_WEBSOCKET: "فشل في اتصال WebSocket",
+            WEBSOCKET_SEARCH: "البحث عن WebSocket..."
         }
     },
 }

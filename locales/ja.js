@@ -118,6 +118,21 @@ module.exports = {
             MULTIPLIER_LABEL: "倍率:"
         },
         PLACE: {
+            META_DESCRIPTION: "PixelsPlaceに参加しよう！",
+            COPY_LINK: "ピクセルリンクをコピー",
+            LINK_GENERATED: "リンクが生成されました：",
+            LINK_SUCCESSFULLY_COPIED: "リンクがクリップボードにコピーされました！",
+            PICK_COLOR: "色を選択",
+            PICK_A_COLOR: "色を選んでください",
+            PREMIUM_ONLY_COLOR: "この色はプレミアムユーザーのみ利用可能です！ :(",
+            PLACE_PIXEL: "ピクセルを配置",
+            LOG_IN_TO_PLACE_PIXEL: "ピクセルを配置するにはログインしてください",
+            PLACE: "配置！",
+            PREMIUM_ANY_COLOR: "お好きな色を選択できます",
+            WEBSOCKET_KICKED: "WebSocket切断：ルームからキックされました",
+            ERROR_MAIN_API_CONNECT: "メインAPIへの接続でエラーが発生しました",
+            ERROR_FAILED_WEBSOCKET: "WebSocket接続に失敗しました",
+            WEBSOCKET_SEARCH: "WebSocketを検索中..."
         }
     },
 }

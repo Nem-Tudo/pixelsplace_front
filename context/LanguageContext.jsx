@@ -1,16 +1,22 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import settings from '@/settings.js';
 
-import ar from '../locales/ar.js';
-import en from '../locales/en.js';
-import es from '../locales/es.js';
-import fr from '../locales/fr.js';
-import ja from '../locales/ja.js';
-import pt from '../locales/pt.js';
-import zh from '../locales/zh.js';
+// Importação automática síncrona usando Object.fromEntries
+const LANG_MAP = Object.fromEntries(
+    settings.availableLanguages.map(lang => {
+        try {
+            // Usando require para importação síncrona
+            const module = require(`../locales/${lang}.js`);
+            return [lang, module.default || module];
+        } catch (error) {
+            console.warn(`Arquivo de idioma não encontrado: ${lang}.js`);
+            return [lang, {}];
+        }
+    })
+);
 
-const LANG_MAP = { ar, en, es, fr, ja, pt, zh };
-const DEFAULT_LANG = 'pt';
+const DEFAULT_LANG = settings.defaultLanguage;
 
 class TranslationManager {
     constructor(currentLang, fallbackLang) {

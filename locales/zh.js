@@ -118,6 +118,21 @@ module.exports = {
             MULTIPLIER_LABEL: "倍数:"
         },
         PLACE: {
+            META_DESCRIPTION: "加入PixelsPlace！",
+            COPY_LINK: "复制像素链接",
+            LINK_GENERATED: "链接已生成：",
+            LINK_SUCCESSFULLY_COPIED: "链接已成功复制到剪贴板！",
+            PICK_COLOR: "选择颜色",
+            PICK_A_COLOR: "选择一种颜色",
+            PREMIUM_ONLY_COLOR: "这种颜色仅供高级用户使用！ :(",
+            PLACE_PIXEL: "放置像素",
+            LOG_IN_TO_PLACE_PIXEL: "登录以放置像素",
+            PLACE: "放置！",
+            PREMIUM_ANY_COLOR: "选择您想要的任何颜色",
+            WEBSOCKET_KICKED: "WebSocket已断开：您被踢出房间",
+            ERROR_MAIN_API_CONNECT: "连接主API时发生错误",
+            ERROR_FAILED_WEBSOCKET: "WebSocket连接失败",
+            WEBSOCKET_SEARCH: "正在搜索WebSocket..."
         }
     },
 }

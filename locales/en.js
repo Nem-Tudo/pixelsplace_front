@@ -118,6 +118,21 @@ module.exports = {
             MULTIPLIER_LABEL: "Multiplier:"
         },
         PLACE: {
+            META_DESCRIPTION: "Join PixelsPlace!",
+            COPY_LINK: "Copy pixel link",
+            LINK_GENERATED: "Link generated:",
+            LINK_SUCCESSFULLY_COPIED: "Link successfully copied to clipboard!",
+            PICK_COLOR: "Pick color",
+            PICK_A_COLOR: "Pick a color",
+            PREMIUM_ONLY_COLOR: "This color is only available for Premium users! :(",
+            PLACE_PIXEL: "Place pixel",
+            LOG_IN_TO_PLACE_PIXEL: "Log in to place pixel",
+            PLACE: "Place!",
+            PREMIUM_ANY_COLOR: "Choose any color you want with",
+            WEBSOCKET_KICKED: "WebSocket disconnected: You were kicked from the room",
+            ERROR_MAIN_API_CONNECT: "An error occurred while connecting to the main API",
+            ERROR_FAILED_WEBSOCKET: "WebSocket connection failed",
+            WEBSOCKET_SEARCH: "Searching for WebSocket..."
         }
     },
 }
