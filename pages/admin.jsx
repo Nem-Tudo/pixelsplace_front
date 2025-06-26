@@ -9,6 +9,7 @@ import checkFlags from "@/src/checkFlags";
 import CustomButton from '@/components/CustomButton';
 import { useRouter } from "next/router";
 import PixelIcon from "@/components/PixelIcon";
+import { hexToNumber } from "@/src/colorFunctions";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -173,9 +174,9 @@ export default function AdminPage() {
             <fieldset className={styles.choosePage}>
               <span className={styles.title}>Escolha a ADMIN PAGE</span>
               <div className={styles.divButton}>
-                <CustomButton label={'Canvas'} onClick={() => setChoosePage("canvas")} />
-                <CustomButton label={'Users'} onClick={() => setChoosePage("users")} />
-                <CustomButton label={'Geral'} onClick={() => setChoosePage("geral")} />
+                <CustomButton label={'Canvas'} icon={'frame'} onClick={() => setChoosePage("canvas")} />
+                <CustomButton label={'Users'} icon={'user'} onClick={() => setChoosePage("users")} />
+                <CustomButton label={'Geral'} icon={'bug'} onClick={() => setChoosePage("geral")} />
               </div>
             </fieldset>
           </main>
@@ -235,7 +236,7 @@ export default function AdminPage() {
                 value={height}
                 onChange={(e) => setHeight(Number(e.target.value))}
               />
-              <CustomButton label={'Salvar Tamanho'} disabled={loading} onClick={async () => {
+              <CustomButton label={'Salvar tamanho'} icon={'save'} disabled={loading} onClick={async () => {
                 await fetchWithAuth("/canvas/admin/resize", "PATCH", {
                   width,
                   height,
@@ -318,7 +319,7 @@ export default function AdminPage() {
                         setFreeColors(newColors);
                       }}
                     />
-                    <CustomButton label={'X'} color="#ff6c6c" hierarchy={2} onClick={() => {
+                    <CustomButton icon={'close'} color="#ff6c6c" hierarchy={2} onClick={() => {
                       const newColors = removeItemFromArray(freeColors, index);
                       setFreeColors(newColors);
                     }}
@@ -328,6 +329,7 @@ export default function AdminPage() {
               </div>
               <CustomButton
                 label={'Adicionar cor'}
+                icon={'plus'}
                 color={"#27b84d"}
                 style={{ marginRight: "15px" }}
                 onClick={() => {
@@ -347,6 +349,7 @@ export default function AdminPage() {
               />
               <CustomButton
                 label={'Salvar cores'}
+                icon={'save'}
                 style={{ marginRight: "15px" }}
                 disabled={loading}
                 onClick={async () => {
@@ -358,6 +361,7 @@ export default function AdminPage() {
               />
               <CustomButton
                 label={showColorsArray ? "Esconder Array" : "Mostrar Array"}
+                icon={showColorsArray ? "eye-closed" : "eye"}
                 color={'#909090'}
                 onClick={() => {
                   if (!showColorsArray) {
@@ -385,7 +389,7 @@ export default function AdminPage() {
                 value={cooldownPremium}
                 onChange={(e) => setCooldownPremium(Number(e.target.value))}
               />
-              <CustomButton label={'Salvar cooldowns'} disabled={loading} onClick={async () => {
+              <CustomButton label={'Salvar cooldowns'} icon={'save'} disabled={loading} onClick={async () => {
                 await fetchWithAuth("/canvas/admin/cooldown", "PATCH", {
                   cooldown_free: cooldownFree,
                   cooldown_premium: cooldownPremium,
@@ -405,7 +409,7 @@ export default function AdminPage() {
                 value={evalCode}
                 onChange={(e) => setEvalCode(e.target.value)}
               />
-              <CustomButton label={'Executar Eval'} disabled={loading} onClick={async () => {
+              <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
                 if (!evalCode.trim()) return alert("Insira o código.");
                 if (
                   confirm(
@@ -431,7 +435,7 @@ export default function AdminPage() {
                 value={alertMessage}
                 onChange={(e) => setAlertMessage(e.target.value)}
               />
-              <CustomButton label={'Enviar alerta'} disabled={loading} onClick={async () => {
+              <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
                 if (!alertMessage.trim()) return alert("Insira a mensagem.");
                 if (
                   confirm("Deseja enviar essa mensagem para todos os clients?")
@@ -450,7 +454,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Desconectar Todos os Sockets</strong>
               </legend>
-              <CustomButton label={'Desconectar sockets'} disabled={loading} color="#ff0000" onClick={async () => {
+              <CustomButton label={'Desconectar sockets'} icon={'close'} disabled={loading} color="#ff0000" onClick={async () => {
                 if (
                   confirm("Tem certeza que deseja desconectar todos os sockets?")
                 ) {
@@ -508,7 +512,8 @@ export default function AdminPage() {
                 <strong>Builds</strong>
               </legend>
               <CustomButton
-                label="Criar Build"
+                label={"Criar Build"}
+                icon={'plus'}
                 onClick={() => {
                   //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
                   const branch = prompt("Branch do github");
@@ -553,6 +558,7 @@ export default function AdminPage() {
                       <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
                         <CustomButton
                           label={'Gerar Link'}
+                          icon={'link'}
                           color="#27b84d"
                           onClick={() => {
                             const link = `${window.location.origin}/buildoverride?t=${build.token}`;
@@ -562,6 +568,7 @@ export default function AdminPage() {
                         />
                         <CustomButton
                           label={'Aplicar'}
+                          icon={'check'}
                           onClick={() => {
                             Cookies.set("active-build-token", build.token, { expires: 365, secure: true, sameSite: 'Lax' });
                             Cookies.set("active-build-data", JSON.stringify(build), { expires: 365, secure: true, sameSite: 'Lax' });
@@ -570,7 +577,8 @@ export default function AdminPage() {
                         />
                         <CustomButton
                           label={'Excluir'}
-                          color="#ff6c6c"
+                          icon={'close'}
+                          color={"#ff6c6c"}
                           hierarchy={2}
                           onClick={async () => {
                             if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
@@ -619,7 +627,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Informações principais</strong>
               </legend>
-              <CustomButton label={'Atualizar'} onClick={() => fetchStats()} />
+              <CustomButton label={'Atualizar'} icon={'reload'} onClick={() => fetchStats()} />
               <br />
               <span>Update: {stats?.time}</span>
               <span>Online: {stats?.online}</span>
@@ -653,9 +661,6 @@ export default function AdminPage() {
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
   }
 
-  function hexToNumber(hex) {
-    return parseInt(hex.replace("#", ""), 16);
-  }
 }
 
 
