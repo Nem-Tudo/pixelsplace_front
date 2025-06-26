@@ -10,10 +10,6 @@
   justify-content: center;
   gap: 8px;
   text-align: center;
-
-  svg {
-    max-width: 2rem;
-  }
 }
 .btn:hover {
   scale: var(--hover-scale);
