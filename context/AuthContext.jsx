@@ -76,7 +76,7 @@ export function AuthProvider({ children }) {
             })
         ]);
         const response = await request.arrayBuffer();
-        const response2 = await request2.arrayBuffer();
+        const response2 = await request2.json();
         console.log(request, response, response2);
         count++;
         setStressTestCount(count)
