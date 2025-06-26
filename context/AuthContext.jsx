@@ -80,7 +80,7 @@ export function AuthProvider({ children }) {
         console.log(request, response, response2);
         count++;
         setStressTestCount(count)
-        socket();
+        // socket();
 
         setTimeout(() => {
             stressTest()
