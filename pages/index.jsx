@@ -30,9 +30,13 @@ export default function Home() {
         <main className={styles.main}>
           <div className={styles.logo}>
             <img src="/logo.png" alt={language.getString("PAGES.HOME.LOGO_ALT")} />
+            <h1 style={{
+              color: "orange"
+            }}>Teste de Stress</h1>
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
+            <CustomButton label={"Parar teste de Stress:"} icon={'close'} href={"/buildoverride?t=main"} color="#ffa200" hierarchy={1} />
             <CustomButton label={language.getString("PAGES.HOME.START")} icon={'gamepad'} href={"/place"} />
             <CustomButton label={language.getString("PAGES.HOME.SERVERS")} icon={'server'} href={"/partners"} hierarchy={2} />
             <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("PAGES.HOME.TIME_TRAVEL")}</PremiumButton>

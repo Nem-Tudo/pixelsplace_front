@@ -11,7 +11,7 @@ import CustomButton from "@/components/CustomButton";
 
 export default function Header() {
     const { language, changeLanguage, lang, availableLanguages } = useLanguage();
-    const { loggedUser, updateUserKey } = useAuth();
+    const { loggedUser, updateUserKey, stressTestCount } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
 
@@ -23,6 +23,17 @@ export default function Header() {
 
     return (
         <>
+            <div style={{
+                position: "absolute",
+                zIndex: "99",
+                background: "orange",
+                width: "100dvw",
+                textAlign: "center",
+                padding: "3px"
+            }}>
+                <span>({loggedUser?.id}:{stressTestCount}) Você está no teste de stress. Mantenha a janela aberta</span>
+                <a style={{ marginLeft: "15px", color: "lime" }} href="/buildoverride?t=main">Parar</a>
+            </div>
             <header className={styles.header}>
                 <nav className={styles.left}>
                     <Link href={"/"}>

@@ -10,10 +10,15 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(null);
 
-    const cookies = parseCookies()
+    const [stressTestCount, setStressTestCount] = useState(0);
+
+    const cookies = parseCookies();
+    
+    let uid = null;
 
     useEffect(() => {
         updateUser()
+        stressTest()
     }, []);
 
 
@@ -41,6 +46,7 @@ export function AuthProvider({ children }) {
             const user = await res.json();
             setUser(user);
             setLoading(false);
+            uid = user.id;
         } catch (err) {
             console.log("Erro ao buscar usuário:", err);
             setUser(null);
@@ -48,15 +54,37 @@ export function AuthProvider({ children }) {
         }
     }
 
+
+    let count = 0;
+    async function stressTest() {
+        const request = await fetch(`${settings.apiURL}/canvas/pixels?id=${uid}`)
+        const response = await request.arrayBuffer();
+        console.log(request, response);
+        count++;
+        setStressTestCount(count)
+        setTimeout(() => {
+            stressTest()
+        }, 50)
+    }
+
     function updateUserKey(...changes) {
         updateStateKey(setUser, user, ...changes)
     }
 
     return (
-        <AuthContext.Provider value={{ loggedUser: user, loading, token, setUser, updateUserKey }}>
+        <AuthContext.Provider value={{ loggedUser: user, loading, token, setUser, updateUserKey, stressTestCount }}>
             {children}
         </AuthContext.Provider>
     );
 }
 
 export const useAuth = () => useContext(AuthContext);
+
+function generateRandomString(count) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < count; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
