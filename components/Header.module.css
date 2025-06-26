@@ -132,8 +132,8 @@
 }
 
 .tippy_menu {
-    background-color: hsla(0deg, 0%, 100%, 75%);
-    backdrop-filter: var(--frosted-glass-blur);
+    background-color: hsl(0, 0%, 100%);
+    /* backdrop-filter: var(--frosted-glass-blur); */
     border-radius: 10px;
     -webkit-user-select: none;
     user-select: none;
@@ -157,7 +157,7 @@
 }
 
 .tippy_menu .item:hover {
-    background-color: white;
+    background-color: rgb(228, 228, 228);
 }
 
 .tippy_menu .item.redstyle:hover {

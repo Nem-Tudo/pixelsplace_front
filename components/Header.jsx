@@ -51,10 +51,13 @@ export default function Header() {
                                         </div>
                                         {
                                             checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div className={styles.item}>
-                                                {language.getString('COMMON.LANGUAGE')}
+                                                {/* {language.getString('COMMON.LANGUAGE')} */}
+                                                {/* Dont translate */}
+                                                {"Language"}
                                                 <select
                                                     id="language"
                                                     value={lang}
+                                                    style={{ marginLeft: "15px" }}
                                                     onChange={(e) => {
                                                         const l = e.target.value;
                                                         console.log("Switching user's language to ", l);
@@ -77,18 +80,27 @@ export default function Header() {
                                             </Link>
                                         </div>
                                         {
-                                            checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <div className={styles.item + " " + styles.bluestyle} onClick={() => {
-                                                if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
-                                                    setRealUserFlags(loggedUser.flags)
-                                                    updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
-                                                } else {
-                                                    updateUserKey(["flags", realUserFlags])
-                                                }
-                                            }}>
-                                                <div>
-                                                    <span>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</span>
+                                            checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="white" content={(
+                                                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                                    <CustomButton onClick={() => {
+                                                        if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
+                                                            setRealUserFlags(loggedUser.flags)
+                                                            updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
+                                                        } else {
+                                                            updateUserKey(["flags", realUserFlags])
+                                                        }
+                                                    }}>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</CustomButton>
+                                                    <CustomButton onClick={() => {
+                                                        updateUserKey(["premium", !loggedUser?.premium])
+                                                    }}>Premium: {loggedUser?.premium ? "True" : "False"}</CustomButton>
                                                 </div>
-                                            </div>
+                                            )}>
+                                                <div className={styles.item + " " + styles.bluestyle}>
+                                                    <div>
+                                                        <span>View Settings</span>
+                                                    </div>
+                                                </div>
+                                            </Tippy>
                                         }
                                         {
                                             usingBuildOverride && <div className={styles.item}>
