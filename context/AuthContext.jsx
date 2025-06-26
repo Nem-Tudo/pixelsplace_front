@@ -69,7 +69,7 @@ export function AuthProvider({ children }) {
                     "Authorization": utoken
                 },
                 body: JSON.stringify({
-                    x: randomIntFromInterval(123, 138),
+                    x: randomIntFromInterval(100, 138),
                     y: randomIntFromInterval(59, 68),
                     c: randomIntFromInterval(1, 16777214)
                 })
