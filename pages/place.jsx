@@ -14,20 +14,24 @@ import Verified from "@/components/Verified";
 import useDraggable from "@/src/useDraggable";
 import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
-import PremiumPopup from "@/components/PremiumPopup";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
 import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
+import { usePopup } from "@/context/PopupContext";
 
 export default function Place() {
-  const { token, loggedUser } = useAuth();
   const router = useRouter();
+
+  //contexts
+  const { token, loggedUser } = useAuth();
+  const { language } = useLanguage();
+  const { openPopup } = usePopup()
+
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
 
-  const { language } = useLanguage();
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -56,8 +60,6 @@ export default function Place() {
   const [showingPixelInfo, setShowingPixelInfo] = useState(null);
 
   const [showingColors, setShowingColors] = useState(false);
-
-  const [showingPopup, setShowingPopup] = useState(null);
 
   const [, forceUpdate] = useState(0);
 
@@ -178,20 +180,14 @@ export default function Place() {
     console.log("[WebSocket] Loaded sockets");
   }
 
-  useEffect(() => {
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        return setShowingPopup(null)
-      }
-    })
-    initializeSockets();
-  }, []);
-
   //selected pixel ref
   useEffect(() => {
     selectedPixelRef.current = selectedPixel;
   }, [selectedPixel]);
+
+  useEffect(() => {
+    initializeSockets();
+  }, []);
 
   //Inicial: Da fetch no canvas
   useEffect(() => {
@@ -703,15 +699,6 @@ export default function Place() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-
-        {
-          showingPopup && <section className={styles.popups}>
-            {
-              showingPopup === "premium_color" && <PremiumPopup onClose={() => setShowingPopup(null)} />
-            }
-          </section>
-        }
-
         <section className={styles.overlaygui}>
           <div className={styles.top}>
             {selectedPixel && (
@@ -775,14 +762,14 @@ export default function Place() {
                   {showingPixelInfo.u && (
                     <div className={styles.pixeluserinfo}>
                       <span>
-                        {language.getString("COMMON.USER")+": "}
+                        {language.getString("COMMON.USER") + ": "}
                         <Link href={`/user/${showingPixelInfo.u}`}>
                           {showingPixelInfo.author.username}
                         </Link>{" "}
                         <Verified verified={showingPixelInfo.author.premium} />
                       </span>
                       <span>
-                        {language.getString("COMMON.SERVER")+": "}
+                        {language.getString("COMMON.SERVER") + ": "}
                         {showingPixelInfo.author.mainServer || language.getString("COMMON.NOT_SELECTED")}
                       </span>
                     </div>
@@ -879,7 +866,7 @@ export default function Place() {
                       <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onClick={(e) => {
                         if (!loggedUser?.premium) {
                           e.preventDefault();
-                          setShowingPopup("premium_color")
+                          openPopup("required_premium")
                         }
                       }} onChange={(e) => {
                         if (!loggedUser?.premium) return
