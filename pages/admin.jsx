@@ -637,6 +637,12 @@ export default function AdminPage() {
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
+                <strong>Escolher user</strong>
+              </legend>
+            </fieldset>
+
+            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <legend>
                 <strong>Editar Flags</strong>
               </legend>
             </fieldset>
