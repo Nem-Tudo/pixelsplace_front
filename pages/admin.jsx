@@ -329,49 +329,51 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
-              <CustomButton
-                label={'Adicionar cor'}
-                icon={'plus'}
-                color={"#27b84d"}
-                style={{ marginRight: "15px" }}
-                onClick={() => {
-                  const color = prompt("Código hex");
-                  if (!color) return;
-                  const number = hexToNumber(color);
+              <footer style={{display: "flex"}}>
+                <CustomButton
+                  label={'Adicionar cor'}
+                  icon={'plus'}
+                  color={"#27b84d"}
+                  style={{ marginRight: "15px" }}
+                  onClick={() => {
+                    const color = prompt("Código hex");
+                    if (!color) return;
+                    const number = hexToNumber(color);
 
-                  if (isNaN(number)) return alert("cor invalida: NaN");
-                  if (number < 0) return alert("cor invalida: numero menor q 0");
-                  if (number > 16777215)
-                    return alert("cor invalida: numero maior q 16777215");
+                    if (isNaN(number)) return alert("cor invalida: NaN");
+                    if (number < 0) return alert("cor invalida: numero menor q 0");
+                    if (number > 16777215)
+                      return alert("cor invalida: numero maior q 16777215");
 
-                  const newColors = [...freeColors];
-                  newColors.push(number);
-                  setFreeColors(newColors);
-                }}
-              />
-              <CustomButton
-                label={'Salvar cores'}
-                icon={'save'}
-                style={{ marginRight: "15px" }}
-                disabled={loading}
-                onClick={async () => {
-                  await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
-                    freecolors: freeColors,
-                  });
-                  fetchCanvas();
-                }}
-              />
-              <CustomButton
-                label={showColorsArray ? "Esconder Array" : "Mostrar Array"}
-                icon={showColorsArray ? "eye-closed" : "eye"}
-                color={'#909090'}
-                onClick={() => {
-                  if (!showColorsArray) {
-                    setFreeColorsInput(freeColors.join(","));
-                  }
-                  setShowingColorsArray(!showColorsArray);
-                }}
-              />
+                    const newColors = [...freeColors];
+                    newColors.push(number);
+                    setFreeColors(newColors);
+                  }}
+                />
+                <CustomButton
+                  label={'Salvar cores'}
+                  icon={'save'}
+                  style={{ marginRight: "15px" }}
+                  disabled={loading}
+                  onClick={async () => {
+                    await fetchWithAuth("/canvas/admin/freecolors", "PATCH", {
+                      freecolors: freeColors,
+                    });
+                    fetchCanvas();
+                  }}
+                />
+                <CustomButton
+                  label={showColorsArray ? "Esconder Array" : "Mostrar Array"}
+                  icon={showColorsArray ? "eye-closed" : "eye"}
+                  color={'#909090'}
+                  onClick={() => {
+                    if (!showColorsArray) {
+                      setFreeColorsInput(freeColors.join(","));
+                    }
+                    setShowingColorsArray(!showColorsArray);
+                  }}
+                />
+              </footer>
             </fieldset>
 
             {/* Cooldowns */}
@@ -549,10 +551,10 @@ export default function AdminPage() {
                       <span style={{ fontWeight: "bold" }}>{build.name}</span>
                       <br />
                       <span>ID: {build.id}</span>
-                      <span>branch: {build.branch}</span>
+                      <span>Branch: {build.branch}</span>
                       <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
                       <span>Author: {build.author}</span>
-                      <span>expira: {dateToString(build.expiresAt)}</span>
+                      <span>Expira: {dateToString(build.expiresAt)}</span>
                       <span>Criada em: {dateToString(build.createdAt)}</span>
                       <span>Usos: {Number(build.stats?.uses)}</span>
                       <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
