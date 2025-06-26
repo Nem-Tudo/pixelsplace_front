@@ -2,6 +2,7 @@ import settings from "@/settings";
 import updateStateKey from "@/src/updateStateKey";
 import { parseCookies } from "nookies";
 import { createContext, useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 const AuthContext = createContext(null);
 
@@ -13,8 +14,9 @@ export function AuthProvider({ children }) {
     const [stressTestCount, setStressTestCount] = useState(0);
 
     const cookies = parseCookies();
-    
+
     let uid = null;
+    let utoken = null;
 
     useEffect(() => {
         updateUser()
@@ -47,6 +49,7 @@ export function AuthProvider({ children }) {
             setUser(user);
             setLoading(false);
             uid = user.id;
+            utoken = token;
         } catch (err) {
             console.log("Erro ao buscar usuário:", err);
             setUser(null);
@@ -62,9 +65,20 @@ export function AuthProvider({ children }) {
         console.log(request, response);
         count++;
         setStressTestCount(count)
+        socket();
+
         setTimeout(() => {
             stressTest()
         }, 50)
+    }
+
+    async function socket() {
+        console.log("socket")
+        io(settings.socketURL, {
+            auth: {
+                token: utoken // Usa o token do cookie
+            }
+        })
     }
 
     function updateUserKey(...changes) {
