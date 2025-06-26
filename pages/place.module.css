@@ -286,7 +286,7 @@
     justify-self: center;
     background-color: #808080d6;
     color: hsla(0deg, 0%, 100%, 75%);
-    padding: 8px 10px;
+    padding: 0 8px;
     border-radius: 100vh;
     top: 87px;
     animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35);
@@ -294,9 +294,9 @@
     backdrop-filter: var(--frosted-glass-blur);
     width: fit-content;
     justify-self: center;
-
     display: flex;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 
