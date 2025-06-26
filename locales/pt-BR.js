@@ -85,7 +85,7 @@ module.exports = {
         HOME: {
             META_DESCRIPTION: "Participe do PixelsPlace!",
             LOGO_ALT: "logo",
-            TIME_TRAVEL: "Time Travel",
+            TIME_TRAVEL: "Viagem no tempo",
             SERVERS: "Servidores",
             START: "Começar",
         },
