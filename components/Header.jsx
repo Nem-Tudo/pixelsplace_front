@@ -37,6 +37,16 @@ export default function Header() {
                 </nav>
                 <nav className={styles.right}>
                     {
+                        checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div>
+                            <span>Trocar idioma (fale o código no prompt)</span>
+                            <button onClick={() => {
+                            const l = prompt("Digite o código do idioma (ex: pt, en)");
+                            console.log("Trocando idioma para", l);
+                            changeLanguage(l);
+                            }}>clique</button>
+                        </div>
+                    }
+                    {
                         loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
                                 <span className={styles.userName + " mobilehidden_500"}>{loggedUser.username}</span>
