@@ -5,12 +5,12 @@ import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage, languageList } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
 
 export default function Header() {
-    const { language, changeLanguage } = useLanguage();
+    const { language, changeLanguage, lang } = useLanguage();
     const { loggedUser, updateUserKey } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
@@ -39,16 +39,24 @@ export default function Header() {
                 <nav className={styles.right}>
                     {
                         checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div>
-                            <CustomButton
-                                label={language.getString('COMMON.LANGUAGE')}
-                                hierarchy={3}
-                                color={"#ffffff"}
-                                onClick={() => {
-                                    const l = prompt("Digite o código do idioma (ex: pt, en)");
-                                    console.log("Trocando idioma para", l);
+                            <label htmlFor="language">{language.getString('COMMON.LANGUAGE')}</label>
+                            <select
+                                id="language"
+                                value={lang}
+                                onChange={(e) => {
+                                    const l = e.target.value;
+                                    console.log("Switching user's language to ", l);
                                     changeLanguage(l);
                                 }}
-                            />
+                            >
+                                {
+                                    languageList().map((ling) => (
+                                        <option key={ling} value={ling}>
+                                            {ling.toUpperCase()}
+                                        </option>
+                                    ))
+                                }
+                            </select>
                         </div>
                     }
                     {
