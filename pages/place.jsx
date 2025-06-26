@@ -20,6 +20,7 @@ import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
 import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
+import copyText from "@/src/copyText";
 
 export default function Place() {
   const { token, loggedUser } = useAuth();
@@ -1050,21 +1051,4 @@ export default function Place() {
       </MainLayout>
     </>
   );
-}
-
-
-function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
-  } else {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-  }
 }

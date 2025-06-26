@@ -10,6 +10,8 @@ import CustomButton from '@/components/CustomButton';
 import { useRouter } from "next/router";
 import PixelIcon from "@/components/PixelIcon";
 import { hexToNumber } from "@/src/colorFunctions";
+import { dateToString, dateToTimestamp } from "@/src/dateFunctions";
+import copyText from "@/src/copyText";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -661,47 +663,4 @@ export default function AdminPage() {
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
   }
 
-}
-
-
-function dateToString(date) {
-  if (!date) return "N/A";
-  const d = new Date(date);
-  return d.toLocaleDateString("pt-BR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-}
-
-function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
-  } else {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-  }
-}
-
-function dateToTimestamp(dataStr) {
-  // Espera um formato como "24/06/25 14:30"
-  const [data, hora] = dataStr.split(" ");
-  const [dia, mes, ano] = data.split("/").map(Number);
-  const [horaStr, minutoStr] = hora.split(":").map(Number);
-
-  // Adiciona 2000 se o ano tiver só 2 dígitos
-  const anoCompleto = ano < 100 ? 2000 + ano : ano;
-
-  const date = new Date(anoCompleto, mes - 1, dia, horaStr, minutoStr);
-  return date.getTime(); // ou date.valueOf()
 }
