@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
+import CustomButton from "@/components/CustomButton";
 
 export default function Header() {
     const { language } = useLanguage();
@@ -38,12 +39,15 @@ export default function Header() {
                 <nav className={styles.right}>
                     {
                         checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div>
-                            <span>Trocar idioma (fale o código no prompt)</span>
-                            <button onClick={() => {
-                            const l = prompt("Digite o código do idioma (ex: pt, en)");
-                            console.log("Trocando idioma para", l);
-                            changeLanguage(l);
-                            }}>clique</button>
+                            <CustomButton
+                                label={'Idioma'}
+                                hierarchy={2}
+                                onClick={() => {
+                                    const l = prompt("Digite o código do idioma (ex: pt, en)");
+                                    console.log("Trocando idioma para", l);
+                                    changeLanguage(l);
+                                }}
+                            />
                         </div>
                     }
                     {
