@@ -172,10 +172,10 @@ export default function AdminPage() {
         <MainLayout>
           <main className={styles.main}>
             <fieldset className={styles.choosePage}>
-              <span className={styles.title}>Escolha a ADMIN PAGE</span>
+              <span className={styles.title}>Escolha a página</span>
               <div className={styles.divButton}>
                 <CustomButton label={'Canvas'} icon={'frame'} onClick={() => setChoosePage("canvas")} />
-                <CustomButton label={'Users'} icon={'user'} onClick={() => setChoosePage("users")} />
+                <CustomButton label={'Usuários'} icon={'user'} onClick={() => setChoosePage("users")} />
                 <CustomButton label={'Geral'} icon={'bug'} onClick={() => setChoosePage("geral")} />
               </div>
             </fieldset>
@@ -485,7 +485,7 @@ export default function AdminPage() {
         </Head>
         <MainLayout>
           <main className={styles.main}>
-            <h1>Administração do Geral</h1>
+            <h1>Administração Geral</h1>
 
             <CustomButton
               label={'Voltar'}
@@ -614,7 +614,7 @@ export default function AdminPage() {
         </Head>
         <MainLayout>
           <main className={styles.main}>
-            <h1>Administração do Users</h1>
+            <h1>Administração de Usuários</h1>
 
             <CustomButton
               label={'Voltar'}
