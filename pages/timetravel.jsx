@@ -92,7 +92,7 @@ export default function Place() {
             // Paralelize os fetches
             const [settingsRes, pixelsRes] = await Promise.all([
                 fetch(`${settings.apiURL}/canvas`),
-                fetch(`${settings.apiURL}/canvas/admin/timetravel?duration=${duration}&multiplier=${multiplier}&includeHistory=${history}`, {
+                fetch(`${settings.apiURL}/canvas/timetravel?duration=${duration}&multiplier=${multiplier}&includeHistory=${history}`, {
                     headers: {
                         authorization: Cookies.get("authorization")
                     }
@@ -391,8 +391,8 @@ export default function Place() {
                             <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
                                 setIncludeHistory(e.target.checked)
                             }} />
-                            <label for={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.FULL_HISTORY")}</label>
-                            <label for={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.CHANGES_ONLY")}</label>
+                            <label htmlFor={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.FULL_HISTORY")}</label>
+                            <label htmlFor={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.CHANGES_ONLY")}</label>
 
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
