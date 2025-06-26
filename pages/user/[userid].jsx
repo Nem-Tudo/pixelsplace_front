@@ -9,81 +9,48 @@ import { useLanguage } from '@/context/LanguageContext';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 
-// https://cdn.discordapp.com/avatars/385478022670843904/3b1a8bd0e926cab98eeef77f5fcd1c45.webp?size=512
-// const userInfo = {
-//   id: "385478022670843904",
-//   avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45",
-//   bgUser: "https://commandbat.com.br/homepage/img/projects/imgproject2.png",
-//   premium: false,
-//   display_name: "commandbat",
-//   username: "commandbat",
-//   aboutme: "Biografia",
-//   pixelQuantity: "10000",
-//   serverFav: {
-//     name: "Casa do Nem Tudo",
-//     id: "485738053663457280",
-//     icon: "b6e58c4cddd88a18ff3f96ec7f1ec54a",
-//     banner: "a2c63426357e55b341f6b6d68aa0e5ac",
-//   },
-// };
-
-export default function UserProfile() {
-  const router = useRouter();
-  const { loggedUser, loading, token } = useAuth();
-  const { language } = useLanguage();
-  const { userid } = router.query;
-  const [userAvatar, setUserAvatar] = useState(null);
-
-  const [userInfo, setUserInfo] = useState(null);
-  const [aboutme, setAboutme] = useState(null);
+import updateStateKey from "@/src/updateStateKey";
+import CustomButton from "@/components/CustomButton";
 
 
-  async function getUser(id) {
-    const res = await fetch(`${settings.apiURL}/users/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: token,
-      },
+export async function getServerSideProps({ req, query }) {
+  const cookies = req.headers.cookie || '';
+
+  function getCookie(name) {
+    const match = cookies.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+
+  try {
+    const res = await fetch(`${settings.apiURL}/users/${query.userid}?parseGuild=true`, {
+      headers: { 'Content-Type': 'application/json', Authorization: getCookie("authorization") },
     });
     const data = await res.json();
 
-    //*data
-    // avatar: "12a7a6469c355645612fcf765b03f919"
-    // createdAt: "2025-06-05T01:53:08.996Z"
-    // display_name: "Nem Tudo"
-    // flags: ['ADMIN']
-    // id: "612651439701098558"
-    // lastPaintPixel: "2025-06-25T04:16:51.842Z"
-    // premium: true
-    // profile: {banner_url: null, color_primary: null, color_secundary: null, aboutme: 'oi eu sou o nem tudo bem?'}
-    // settings: {selected_guild: null}
-    // updatedAt: "2025-06-25T04:16:51.843Z"
-    // username: "nemtudo"
+    if (res.status === 404) return { props: { user: null } }
 
-    if (res.status != 200)
-      return { error: true, status: res.status, message: data.message };
-
-    setUserInfo(data);
-    setUserAvatar(settings.avatarURL(data?.id, data?.avatar));
-    setAboutme(data.profile.aboutme);
-
-    console.log(data);
+    if (!res.ok) return { props: { error: true, errormessage: data.message } };
+    return { props: { user: data } };
+  } catch (e) {
+    return { props: { error: true, errormessage: e.message } };
   }
+}
 
-  useEffect(() => {
-    if (userid) {
-      getUser(userid);
-    }
-  }, [userid]);
+export default function UserProfile({ user: userobject, error, errormessage }) {
+  const { loggedUser, loading, token } = useAuth();
+  const { language } = useLanguage();
+
+  const [user, setUser] = useState(userobject);
+  const [savedUser, setSavedUser] = useState(userobject);
 
   const [editStates, setEditStates] = useState({
-    aboutme: false,
-    bgImg: false,
+    profile_aboutme: false,
+    profile_banner_url: false,
   });
-  const [bgImgSrc, setBgImgSrc] = useState(null);
 
   const fileInputRef = useRef(null);
+
+  const [filesToUpload, setFilesToUpload] = useState([])
 
   const switchEdit = (key) => {
     setEditStates((prev) => ({
@@ -97,11 +64,11 @@ export default function UserProfile() {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
-        editStates.aboutme &&
+        editStates.profile_aboutme &&
         aboutmeRef.current &&
         !aboutmeRef.current.contains(e.target)
       ) {
-        switchEdit("aboutme");
+        switchEdit("profile_aboutme");
       }
     };
 
@@ -109,35 +76,99 @@ export default function UserProfile() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [editStates.aboutme]);
+  }, [editStates.profile_aboutme]);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
+  useEffect(() => {
+    if (editStates.profile_banner_url) {
+      handleButtonClick();
+    }
+  }, [editStates.profile_banner_url]);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
-      setBgImgSrc(imageURL);
+      updateStateKey(setUser, user, ["profile.banner_url", imageURL])
+      setFilesToUpload([...filesToUpload, file])
       console.log("Imagem selecionada:", file);
     }
   };
 
-  useEffect(() => {
-    if (editStates.bgImg) {
-      handleButtonClick();
-    }
-  }, [editStates.bgImg]);
+  async function saveChanges() {
+    //TODO: fazer o sistema de upar arquivos pra CDN
 
+    const userprofile = user.profile;
+    userprofile.banner_url = null;
+
+    const request = await fetch(`${settings.apiURL}/users/@me/profile`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(userprofile)
+    })
+    const response = await request.json();
+    if (!request.ok) {
+      console.log(response, request)
+      return alert(`Erro ao salvar: ${response.message}`)
+    }
+    updateStateKey(setUser, user, ["profile", response.profile]);
+    updateStateKey(setSavedUser, savedUser, ["profile", response.profile]);
+  }
+
+  if (error) {
+    return (
+      <>
+        <MainLayout>
+          <div>
+            <h1>Erro ao carregar perfil de usuário!</h1>
+            <span>Mensagem: {errormessage}</span>
+          </div>
+        </MainLayout>
+      </>
+    )
+  }
+
+  if (!user) return (
+    <>
+      <MainLayout>
+        <div>
+          <h1>Usuário não encontrado</h1>
+        </div>
+      </MainLayout>
+    </>
+  )
 
   return (
     <MainLayout>
+      <div className={styles.overlay} style={{
+        display: "fixed",
+        position: "absolute",
+        width: "100dvw",
+        height: "100dvh",
+        zIndex: 3,
+        pointerEvents: "none"
+      }}>
+        {
+          JSON.stringify(user) != JSON.stringify(savedUser) && <div className={styles.saveChanges} style={{
+            bottom: "0px",
+            position: "fixed",
+            right: "0px"
+          }}>
+            <CustomButton style={{ margin: "20px", pointerEvents: "all" }} color="#33b32e" label={"Salvar"} onClick={() => saveChanges()} />
+          </div>
+        }
+      </div>
       <main className={styles.profile}>
         <div style={{ height: "100%", width: "100%", position: "relative" }}>
-          {!loading && loggedUser?.id === userInfo?.id ? (
+          {!loading && loggedUser?.id === user?.id ? (
             <>
-              {/* <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("bgImg")}/> */}
+              {/* <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("profile_banner_url")}/> */}
               <PremiumButton
                 as="icon"
                 icon={
@@ -149,7 +180,7 @@ export default function UserProfile() {
                       cursor: "pointer",
                     }}
                     className={styles.editPencil}
-                    onClick={() => switchEdit("bgImg")}
+                    onClick={() => switchEdit("profile_banner_url")}
                   />
                 }
               ></PremiumButton>
@@ -167,7 +198,7 @@ export default function UserProfile() {
             <></>
           )}
           <img
-            src={bgImgSrc || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+            src={user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
             alt={language.getString("PAGES.USERPROFILE.PROFILE_BACKGROUND_ALT")}
             className={styles.bgUser}
           />
@@ -176,32 +207,33 @@ export default function UserProfile() {
         <div className={styles.divPag}>
           <div className={styles.perfil}>
             <div className={styles.avatarCircle} style={{ zIndex: "1" }}>
-              <img src={userAvatar} alt={language.getString("PAGES.USERPROFILE.USER_AVATAR_ALT")} />
+              <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USERPROFILE.USER_AVATAR_ALT")} />
             </div>
 
             <h1 className={styles.displayName}>
-              {userInfo?.display_name} <Verified verified={userInfo?.premium} />
+              {user?.display_name} <Verified verified={user?.premium} />
             </h1>
 
-            <p className={styles.username}>@{userInfo?.username} </p>
+            <p className={styles.username}>@{user?.username} </p>
           </div>
           <div className={styles.moreInfo}>
-            {!userInfo?.serverFav && (
+            {user.settings.selected_guild && (
               <div className={styles.serverInfo}>
                 {
                   <div className={styles.guildCard}>
                     <img
                       className={styles.guildIcon}
-                      src={`https://cdn.discordapp.com/icons/${userInfo?.serverFav?.id}/${userInfo?.serverFav?.icon}.webp?size=512`}
-                      alt={language.getString("PAGES.USERPROFILE.GUILD_ICON_ALT", { guildName: userInfo?.serverFav?.name })}
+                      src={settings.guildIconURL(user.settings.selected_guild.id, user.settings.selected_guild.icon)}
+                      alt={language.getString("PAGES.USERPROFILE.GUILD_ICON_ALT", { guildName: user.settings.selected_guild.name })}
                     />
                     <div className={styles.guildInfo}>
                       <h2 className={styles.guildName} translate="no">
-                        {userInfo?.serverFav?.name}
+                        {user.settings.selected_guild.name}
+                        <Verified verified={user.settings.selected_guild.flags.includes("VERIFIED")} />
                       </h2>
                       <a
                         className={styles.guildLink}
-                        href="https://discord.gg/nemtudo"
+                        href={user.settings.selected_guild.invite}
                         target="_blank"
                         rel="norreferer"
                       >
@@ -213,12 +245,14 @@ export default function UserProfile() {
               </div>
             )}
             <div className={styles.description} ref={aboutmeRef}>
-              {editStates.aboutme ? (
+              {editStates.profile_aboutme ? (
                 <>
                   <div>
                     <textarea
-                      value={aboutme}
-                      onChange={(e) => setAboutme(e.target.value)}
+                      value={user.profile.aboutme}
+                      onChange={(e) => {
+                        updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
+                      }}
                       rows={4}
                     />
                   </div>
@@ -227,7 +261,7 @@ export default function UserProfile() {
                 <>
                   <div>
                     <span>
-                      {!loading && loggedUser?.id === userInfo?.id ? (
+                      {!loading && loggedUser?.id === user?.id ? (
                         <>
                           <MdOutlineModeEditOutline
                             style={{
@@ -236,13 +270,13 @@ export default function UserProfile() {
                               right: "5px",
                               cursor: "pointer",
                             }}
-                            onClick={() => switchEdit("aboutme")}
+                            onClick={() => switchEdit("profile_aboutme")}
                           />
                         </>
                       ) : (
                         <></>
                       )}
-                      {aboutme}
+                      {user.profile.aboutme}
                     </span>
                   </div>
                 </>
@@ -250,19 +284,16 @@ export default function UserProfile() {
             </div>
             <div className={styles.pixelsInfo}>
               <p className={styles.pixelsText}>
-                {language.getString("PAGES.USERPROFILE.PIXELS_PLACED", { displayName: userInfo?.display_name, pixelQuantity: userInfo?.pixelQuantity })}
+                {language.getString("PAGES.USERPROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
               </p>
               <PremiumButton
-                setClass={styles.viewPixelsButton}
                 onClick={() => alert(language.getString("COMMON.NOT_IMPLEMENTED_YET"))}
               >
-                {language.getString("PAGES.USERPROFILE.VIEW_PIXELS", { displayName: userInfo?.display_name })}
+                {language.getString("PAGES.USERPROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
               </PremiumButton>
             </div>
           </div>
         </div>
-
-        <div className={styles.divPag}></div>
       </main>
     </MainLayout>
   );
