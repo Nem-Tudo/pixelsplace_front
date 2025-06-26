@@ -150,6 +150,7 @@
     color: var(--color-text);
     display: flex;
     justify-content: space-between;
+    flex-grow: 1;
 
     span {
         color: var(--color-text);
