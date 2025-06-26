@@ -44,41 +44,39 @@ export default function Header() {
                                 <Tippy theme="transparent" trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
-                                        <div className={styles.item}>
-                                            <Link href={"/user/" + loggedUser?.id}>
+                                        <Link href={"/user/" + loggedUser?.id}>
+                                            <div className={styles.item}>
                                                 <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
-                                            </Link>
-                                        </div>
-                                        {
-                                            checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div className={styles.item}>
-                                                {/* {language.getString('COMMON.LANGUAGE')} */}
-                                                {/* Dont translate */}
-                                                {"Language"}
-                                                <select
-                                                    id="language"
-                                                    value={lang}
-                                                    style={{ marginLeft: "15px" }}
-                                                    onChange={(e) => {
-                                                        const l = e.target.value;
-                                                        console.log("Switching user's language to ", l);
-                                                        changeLanguage(l);
-                                                    }}
-                                                >
-                                                    {
-                                                        availableLanguages.map((ling) => (
-                                                            <option key={ling} value={ling}>
-                                                                {ling.toUpperCase()}
-                                                            </option>
-                                                        ))
-                                                    }
-                                                </select>
                                             </div>
-                                        }
-                                        <div className={styles.item + " " + styles.redstyle}>
-                                            <Link href={"/auth/discord"}>
-                                                <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
-                                            </Link>
+                                        </Link>
+                                        <div className={styles.item}>
+                                            {/* {language.getString('COMMON.LANGUAGE')} */}
+                                            {/* Dont translate */}
+                                            {"Language"}
+                                            <select
+                                                id="language"
+                                                value={lang}
+                                                style={{ marginLeft: "15px" }}
+                                                onChange={(e) => {
+                                                    const l = e.target.value;
+                                                    console.log("Switching user's language to ", l);
+                                                    changeLanguage(l);
+                                                }}
+                                            >
+                                                {
+                                                    availableLanguages.map((ling) => (
+                                                        <option key={ling} value={ling}>
+                                                            {ling.toUpperCase()}
+                                                        </option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
+                                        <Link href={"/auth/discord"}>
+                                            <div className={styles.item + " " + styles.redstyle}>
+                                                <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
+                                            </div>
+                                        </Link>
                                         {
                                             checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="white" content={(
                                                 <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
@@ -103,11 +101,11 @@ export default function Header() {
                                             </Tippy>
                                         }
                                         {
-                                            usingBuildOverride && <div className={styles.item}>
-                                                <Link href={"/buildoverride?t=main"}>
+                                            usingBuildOverride && <Link href={"/buildoverride?t=main"}>
+                                                <div className={styles.item}>
                                                     <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
-                                                </Link>
-                                            </div>
+                                                </div>
+                                            </Link>
                                         }
                                     </div>
 
