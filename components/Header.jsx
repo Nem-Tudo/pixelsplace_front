@@ -38,28 +38,6 @@ export default function Header() {
                 </nav>
                 <nav className={styles.right}>
                     {
-                        checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div>
-                            <label htmlFor="language">{language.getString('COMMON.LANGUAGE')}</label>
-                            <select
-                                id="language"
-                                value={lang}
-                                onChange={(e) => {
-                                    const l = e.target.value;
-                                    console.log("Switching user's language to ", l);
-                                    changeLanguage(l);
-                                }}
-                            >
-                                {
-                                    availableLanguages.map((ling) => (
-                                        <option key={ling} value={ling}>
-                                            {ling.toUpperCase()}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                    }
-                    {
                         loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
                                 <span className={styles.userName + " mobilehidden_500"}>{loggedUser.username}</span>
@@ -71,17 +49,28 @@ export default function Header() {
                                                 <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                             </Link>
                                         </div>
-                                        <Tippy theme="transparent" trigger="click" interactive={true} content={
-                                            <>
-                                                <div className={styles.tippy_menu}>
-                                                    oi teste
-                                                </div>
-                                            </>
-                                        }>
-                                            <div className={styles.item}>
-                                                <span>{language.getString("COMMON.LANGUAGE")}</span>
+                                        {
+                                            checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div className={styles.item}>
+                                                <label htmlFor="language">{language.getString('COMMON.LANGUAGE')}</label>
+                                                <select
+                                                    id="language"
+                                                    value={lang}
+                                                    onChange={(e) => {
+                                                        const l = e.target.value;
+                                                        console.log("Switching user's language to ", l);
+                                                        changeLanguage(l);
+                                                    }}
+                                                >
+                                                    {
+                                                        availableLanguages.map((ling) => (
+                                                            <option key={ling} value={ling}>
+                                                                {ling.toUpperCase()}
+                                                            </option>
+                                                        ))
+                                                    }
+                                                </select>
                                             </div>
-                                        </Tippy>
+                                        }
                                         <div className={styles.item + " " + styles.redstyle}>
                                             <Link href={"/auth/discord"}>
                                                 <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
