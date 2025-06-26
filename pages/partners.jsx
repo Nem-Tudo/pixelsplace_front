@@ -7,6 +7,7 @@ import checkFlags from "@/src/checkFlags";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
+import Verified from "@/components/Verified";
 
 // Nao selecionado: bs BsStar
 // Hover: bs BsStarHalf
@@ -68,7 +69,7 @@ export default function Partners({ guilds, error, errormessage }) {
                                 alt={language.getString("PAGES.PARTNERS.GUILD_ICON_ALT", { guildName: guild.name })}
                             />
                             <div className={styles.guildInfo}>
-                                <h2 className={styles.guildName} translate="no">{guild.name}</h2>
+                                <h2 className={styles.guildName} translate="no">{guild.name} <Verified verified={guild.flags.includes("VERIFIED")}/></h2>
                                 <a className={styles.guildLink} href={guild.invite} target="_blank" rel="norreferer">{language.getString("PAGES.PARTNERS.JOIN")}</a>
                                 <div
                                     onMouseEnter={() => setHovered(guild.id)}
