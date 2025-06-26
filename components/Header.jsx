@@ -5,12 +5,12 @@ import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
-import { useLanguage, languageList } from '@/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
 
 export default function Header() {
-    const { language, changeLanguage, lang } = useLanguage();
+    const { language, changeLanguage, lang, availableLanguages } = useLanguage();
     const { loggedUser, updateUserKey } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
@@ -50,7 +50,7 @@ export default function Header() {
                                 }}
                             >
                                 {
-                                    languageList().map((ling) => (
+                                    availableLanguages.map((ling) => (
                                         <option key={ling} value={ling}>
                                             {ling.toUpperCase()}
                                         </option>

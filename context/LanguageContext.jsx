@@ -89,8 +89,10 @@ export const LanguageProvider = ({ children }) => {
         setLanguage(new TranslationManager(newLang, DEFAULT_LANG));
     };
 
+    const availableLanguages = Object.keys(LANG_MAP);
+
     return (
-        <LanguageContext.Provider value={{ lang, language, changeLanguage }}>
+        <LanguageContext.Provider value={{ lang, language, changeLanguage, availableLanguages }}>
             {children}
         </LanguageContext.Provider>
     );
@@ -98,6 +100,3 @@ export const LanguageProvider = ({ children }) => {
 
 export const useLanguage = () => useContext(LanguageContext);
 
-export const languageList = () => {
-    return Object.keys(LANG_MAP);
-}
