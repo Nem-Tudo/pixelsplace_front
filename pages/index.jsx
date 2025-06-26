@@ -33,16 +33,6 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            {
-              checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div>
-                <span>Trocar idioma (fale o código no prompt)</span>
-                <button onClick={() => {
-                  const l = prompt("Digite o código do idioma (ex: pt, en)");
-                  console.log("Trocando idioma para", l);
-                  changeLanguage(l);
-                }}>clique</button>
-              </div>
-            }
             <CustomButton label={language.getString("PAGES.HOME.START")} icon={'gamepad'} href={"/place"} />
             {
               checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW") && <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("PAGES.HOME.TIME_TRAVEL")}</PremiumButton>

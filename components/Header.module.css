@@ -91,7 +91,7 @@
     width: min-content;
     margin: 0px;
     overflow: hidden;
-
+    display: flex;
 }
 
 .right .loggedUser {
