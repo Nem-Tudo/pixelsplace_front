@@ -5,7 +5,7 @@ import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage, changeLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
 
@@ -42,6 +42,7 @@ export default function Header() {
                             <CustomButton
                                 label={'Idioma'}
                                 hierarchy={2}
+                                color={"#ffffff"}
                                 onClick={() => {
                                     const l = prompt("Digite o código do idioma (ex: pt, en)");
                                     console.log("Trocando idioma para", l);
