@@ -39,7 +39,7 @@ export default function Home() {
             <CustomButton label={"Parar teste de Stress:"} icon={'close'} href={"/buildoverride?t=main"} color="#ffa200" hierarchy={1} />
             <CustomButton label={language.getString("PAGES.HOME.START")} icon={'gamepad'} href={"/place"} />
             <CustomButton label={language.getString("PAGES.HOME.SERVERS")} icon={'server'} href={"/partners"} hierarchy={2} />
-            <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("PAGES.HOME.TIME_TRAVEL")}</PremiumButton>
+            <CustomButton href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("PAGES.HOME.TIME_TRAVEL")}</CustomButton>
             {
               checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={language.getString("COMMON.ADMIN")} icon={'coffee'} href={"/admin"} hierarchy={3} />
             }
