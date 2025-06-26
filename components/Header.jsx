@@ -5,12 +5,12 @@ import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
-import { useLanguage, changeLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
 
 export default function Header() {
-    const { language } = useLanguage();
+    const { language, changeLanguage } = useLanguage();
     const { loggedUser, updateUserKey } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
@@ -40,8 +40,8 @@ export default function Header() {
                     {
                         checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div>
                             <CustomButton
-                                label={'Idioma'}
-                                hierarchy={2}
+                                label={language.getString('COMMON.LANGUAGE')}
+                                hierarchy={3}
                                 color={"#ffffff"}
                                 onClick={() => {
                                     const l = prompt("Digite o código do idioma (ex: pt, en)");

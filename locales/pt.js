@@ -27,11 +27,11 @@ module.exports = {
         SERVER: "Servidor",
         HISTORY: "Histórico",
         PREMIUM: "Premium",
-        LOADING: "Carregando...",
         TRY_AGAIN: "Tente novamente",
         RELOAD: "Recarregar",
         RELOAD_PAGE: "Recarregar página",
-        BACK: "Voltar"
+        BACK: "Voltar",
+        LANGUAGE: "Idioma"
     },
     COMPONENTS: {
         BUILDSWITCHER: {
