@@ -74,6 +74,8 @@ select {
   border: var(--outline);
   box-shadow: var(--shadow);
   transition: var(--smooth-transition);
+  background: unset;
+  border-radius: 4px;
 }
 select:hover {
   scale: var(--hover-scale);

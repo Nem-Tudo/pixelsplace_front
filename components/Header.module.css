@@ -148,6 +148,8 @@
     background-color: rgba(255, 255, 255, 0);
     transition: var(--smooth-transition);
     color: var(--color-text);
+    display: flex;
+    justify-content: space-between;
 
     span {
         color: var(--color-text);
