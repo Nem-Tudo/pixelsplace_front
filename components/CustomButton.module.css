@@ -19,7 +19,8 @@
 .btn.primary {
   background-color: var(--btn-color, var(--color-accent));
   color: white;
-  border: var(--outline);
+  /* border: var(--outline); */
+  border: none;
 }
 .btn.primary:hover {
   background-color: var(--btn-color-hover, var(--color-darker));

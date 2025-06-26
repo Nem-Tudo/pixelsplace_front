@@ -1,20 +1,21 @@
 // PremiumButton.jsx
 import Link from 'next/link';
 import React, { useEffect, useState } from "react";
-import PremiumWarning from "@/components/PremiumWarning";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./CustomButton.module.css";
+import { usePopup } from '@/context/PopupContext';
 
 export default function PremiumButton({ setStyle, setClass, onClick, redirect, as: Component = 'button', href, icon, children, ...props }) {
   const { loggedUser } = useAuth();
-  const [showWarning, setShowWarning] = useState(false);
+
+  const { openPopup } = usePopup()
 
   const handleClick = (event) => {
     if (loggedUser?.premium || redirect) {
       if (onClick) onClick(event);
     } else {
       event.preventDefault();
-      setShowWarning(true);
+      openPopup("required_premium");
     }
   };
 
@@ -42,7 +43,6 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
     );
     return (
       <>
-        {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />}
         <Component href={href} className={`${styles.btn} ${styles.primary} premiumOnly ${setClass || ""}`} onClick={handleClick} {...props}>
           <div className="glassEffect" />
           {children}
@@ -53,12 +53,11 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
 
   if (Component === "icon") {
     const clonedIcon = React.cloneElement(icon, {
-      onClick: loggedUser?.premium ? icon.props.onClick : () => setShowWarning(true),
+      onClick: loggedUser?.premium ? icon.props.onClick : () => openPopup("required_premium"),
     });
 
     return (
       <>
-        {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />}
         {clonedIcon}
       </>
     );
@@ -74,7 +73,6 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   );
   return (
     <>
-      {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />}
       <Component className={`${styles.btn} ${styles.primary} premiumOnly ${setClass || ""}`} href={href} onClick={handleClick} {...props}>
         <div className="glassEffect" />
         {children}
