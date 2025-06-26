@@ -97,3 +97,7 @@ export const LanguageProvider = ({ children }) => {
 };
 
 export const useLanguage = () => useContext(LanguageContext);
+
+export const languageList = () => {
+    return Object.keys(LANG_MAP);
+}
