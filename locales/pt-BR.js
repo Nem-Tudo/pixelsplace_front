@@ -1,6 +1,6 @@
 module.exports = {
     _LANGUAGE: {
-        NAME: "Português",
+        NAME: "Português (BR)",
         CODE: "pt-BR",
         FLAG: "🇧🇷"
     },
