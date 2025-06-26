@@ -70,40 +70,14 @@
   transition: var(--smooth-transition);
 }
 
-/* select, ::picker(select) {
-  appearance: base-select;
+select {
   border: var(--outline);
   box-shadow: var(--shadow);
   transition: var(--smooth-transition);
 }
-select:hover, ::picker(select):hover {
+select:hover {
   scale: var(--hover-scale);
 }
-::picker(select) {
-  border: none;
-  box-shadow: 0px -0.5px 0px 0.2px #C5C8CB inset;
-  border-radius: 12px;
-  overflow-x: hidden;
-}
-option {
-  transition: var(--smooth-transition);
-}
-option:hover {
-  background: whitesmoke;
-  transform: translateX(3px);
-}
-option:checked {
-  font-weight: bold;
-  border-left: 4px solid var(--color-accent);
-}
-select::picker-icon {
-  color: #999;
-  content: '▼';
-  transition: 0.4s rotate;
-}
-select:open::picker-icon {
-  rotate: 180deg;
-} */
 
 body {
   overflow-x: hidden;
