@@ -35,6 +35,8 @@ export default function UserProfile() {
   const [userAvatar, setUserAvatar] = useState(null);
 
   const [userInfo, setUserInfo] = useState(null);
+  const [aboutme, setAboutme] = useState(null);
+
 
   async function getUser(id) {
     const res = await fetch(`${settings.apiURL}/users/${id}`, {
@@ -47,20 +49,24 @@ export default function UserProfile() {
     const data = await res.json();
 
     //*data
-    // avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45"
-    // createdAt: "2025-06-05T15:55:59.953Z"
+    // avatar: "12a7a6469c355645612fcf765b03f919"
+    // createdAt: "2025-06-05T01:53:08.996Z"
+    // display_name: "Nem Tudo"
     // flags: ['ADMIN']
-    // id: "385478022670843904"
-    // lastPaintPixel: "2025-06-20T01:06:08.084Z"
+    // id: "612651439701098558"
+    // lastPaintPixel: "2025-06-25T04:16:51.842Z"
     // premium: true
-    // updatedAt: "2025-06-20T01:06:08.085Z"
-    // username: "commandbat"
+    // profile: {banner_url: null, color_primary: null, color_secundary: null, aboutme: 'oi eu sou o nem tudo bem?'}
+    // settings: {selected_guild: null}
+    // updatedAt: "2025-06-25T04:16:51.843Z"
+    // username: "nemtudo"
 
     if (res.status != 200)
       return { error: true, status: res.status, message: data.message };
 
     setUserInfo(data);
     setUserAvatar(settings.avatarURL(data?.id, data?.avatar));
+    setAboutme(data.profile.aboutme);
 
     console.log(data);
   }
@@ -71,7 +77,6 @@ export default function UserProfile() {
     }
   }, [userid]);
 
-  const [aboutme, setAboutme] = useState(userInfo?.profile.aboutme);
   const [editStates, setEditStates] = useState({
     aboutme: false,
     bgImg: false,
@@ -228,7 +233,7 @@ export default function UserProfile() {
                             style={{
                               position: "absolute",
                               top: "5px",
-                              right: "px",
+                              right: "5px",
                               cursor: "pointer",
                             }}
                             onClick={() => switchEdit("aboutme")}
