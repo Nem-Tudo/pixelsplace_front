@@ -71,6 +71,17 @@ export default function Header() {
                                                 <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                             </Link>
                                         </div>
+                                        <Tippy theme="transparent" trigger="click" interactive={true} content={
+                                            <>
+                                                <div className={styles.tippy_menu}>
+                                                    oi teste
+                                                </div>
+                                            </>
+                                        }>
+                                            <div className={styles.item}>
+                                                <span>{language.getString("COMMON.LANGUAGE")}</span>
+                                            </div>
+                                        </Tippy>
                                         <div className={styles.item + " " + styles.redstyle}>
                                             <Link href={"/auth/discord"}>
                                                 <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
