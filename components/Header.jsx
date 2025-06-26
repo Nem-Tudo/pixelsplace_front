@@ -24,7 +24,7 @@ export default function Header() {
     return (
         <>
             <div style={{
-                position: "absolute",
+                // position: "absolute",
                 zIndex: "99",
                 background: "orange",
                 width: "100dvw",
