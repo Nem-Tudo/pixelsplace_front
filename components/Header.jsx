@@ -51,7 +51,7 @@ export default function Header() {
                                         </div>
                                         {
                                             checkFlags(loggedUser?.flags, "CHANGE_LANGUAGE_TEST") && <div className={styles.item}>
-                                                <label htmlFor="language">{language.getString('COMMON.LANGUAGE')}</label>
+                                                {language.getString('COMMON.LANGUAGE')+": "}
                                                 <select
                                                     id="language"
                                                     value={lang}
