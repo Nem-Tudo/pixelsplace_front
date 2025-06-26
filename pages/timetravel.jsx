@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import MessageDiv from "@/components/MessageDiv";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
-import checkFlags from "@/src/checkFlags";
 import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -357,15 +356,6 @@ export default function Place() {
 
 
     const isAlready = () => !apiError && !loading && canvasConfig.width
-
-    //verifica se é TIMETRAVEL_VIEW
-    if (!checkFlags(loggedUser?.flags, "TIMETRAVEL_VIEW"))
-        return (
-            <MainLayout>
-                <span>{language.getString("COMMON.NO_PERMISSION")}</span>
-            </MainLayout>
-        );
-
     return (
         <>
             <Head>
