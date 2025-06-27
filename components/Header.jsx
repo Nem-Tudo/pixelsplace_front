@@ -234,12 +234,48 @@ export default function Header() {
                                 </div>
                             </Tippy>
                         </> : <>
-                            <div className={styles.loggedUser}>
-                                <Link href={"/login"}>
-                                    <span className={styles.userName}>{language.getString("COMPONENTS.HEADER.LOGIN")}</span>
-                                    <img className="mobilehidden_500" src="/assets/avatar.png" alt={language.getString("COMPONENTS.HEADER.LOGGED_OUT")} />
-                                </Link>
-                            </div>
+                            <Link href={"/login"} className={styles.loggedUser}>
+                                <span className={styles.userName}>{language.getString("COMPONENTS.HEADER.LOGIN")}</span>
+                                <img className="mobilehidden_500" src="/assets/avatar.png" alt={language.getString("COMPONENTS.HEADER.LOGGED_OUT")} />
+                            </Link>
+                             <Tippy theme="transparent" trigger="click" interactive={true} content={<>
+
+                                <div className={styles.tippy_menu}>
+                                    <div className={styles.item}>
+                                        {/* {language.getString('COMMON.LANGUAGE')} */}
+                                        {/* Dont translate */}
+                                        {"Language"}
+                                        <select
+                                            id="language"
+                                            value={lang}
+                                            style={{ marginLeft: "15px" }}
+                                            onChange={(e) => {
+                                                const l = e.target.value;
+                                                console.log("Switching user's language to ", l);
+                                                changeLanguage(l);
+                                            }}
+                                        >
+                                            {
+                                                availableLanguages.map((ling) => (
+                                                    <option key={ling} value={ling}>
+                                                        {ling.toUpperCase()}
+                                                    </option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    {
+                                        usingBuildOverride && <Link href={"/buildoverride?t=main"}>
+                                            <div className={styles.item}>
+                                                <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
+                                            </div>
+                                        </Link>
+                                    }
+                                </div>
+
+                            </>}>
+                                <PixelIcon />
+                            </Tippy>
                         </>
                     }
                 </nav>
