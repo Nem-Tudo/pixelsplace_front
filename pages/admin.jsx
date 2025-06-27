@@ -33,7 +33,6 @@ export default function AdminPage() {
 
   const [buildsOverride, setBuildsOverride] = useState([]);
 
-
   const [showColorsArray, setShowingColorsArray] = useState(false);
 
   const [freeColorsInput, setFreeColorsInput] = useState("");
@@ -48,23 +47,20 @@ export default function AdminPage() {
     });
     const data = await res.json();
 
-
-    if (res.status == 404)
-      {
-        setUser(null);
-        setFlagsUser(null);
-    }else{
-    setUser(data);
-    setFlagsUser(data.flags)
-    console.log(data);
+    if (res.status == 404) {
+      setUser(null);
+      setFlagsUser(null);
+    } else {
+      setUser(data);
+      setFlagsUser(data.flags)
+      console.log(data);
     }
 
-        if (res.status != 200)
+    if (res.status != 200)
       return { error: true, status: res.status, message: data.message };
   }
 
   const [user, setUser] = useState(null);
-
   const [flagsUser, setFlagsUser] = useState([]);
 
   const fetchCanvas = async () => {
@@ -88,6 +84,20 @@ export default function AdminPage() {
     const data = await res.json();
     setStats(data);
   }
+
+  // Inicialização da página baseada na URL
+  useEffect(() => {
+    if (router.isReady) {
+      const pageFromUrl = router.query.page;
+      const validPages = ['canvas', 'geral', 'users'];
+
+      if (pageFromUrl && validPages.includes(pageFromUrl)) {
+        setChoosePage(pageFromUrl);
+      } else {
+        setChoosePage('canvas'); // página padrão
+      }
+    }
+  }, [router.isReady, router.query.page]);
 
   useEffect(() => {
     fetchCanvas();
@@ -118,22 +128,24 @@ export default function AdminPage() {
     }
   }
 
-
+  // Atualização da URL quando a página muda
   useEffect(() => {
-    const updatedQuery = {
-      ...router.query,
-      page: choosePage || undefined,
-    };
+    if (choosePage && router.isReady) {
+      const updatedQuery = {
+        ...router.query,
+        page: choosePage,
+      };
 
-    router.push(
-      {
-        pathname: router.pathname,
-        query: updatedQuery,
-      },
-      undefined,
-      { shallow: true }
-    );
-  }, [choosePage]);
+      router.push(
+        {
+          pathname: router.pathname,
+          query: updatedQuery,
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+  }, [choosePage, router.isReady]);
 
   const fetchWithAuth = async (url, method, body) => {
     try {
@@ -157,7 +169,6 @@ export default function AdminPage() {
   };
 
   // Arrastar:
-
   const dragItem = useRef();
   const dragOverItem = useRef();
 
@@ -191,13 +202,17 @@ export default function AdminPage() {
       </MainLayout>
     );
 
+  // Aguarda inicialização da página
   if (!choosePage) {
-    setChoosePage("canvas");
+    return (
+      <MainLayout>
+        <div>Carregando...</div>
+      </MainLayout>
+    );
   }
 
   const PageSelector = (
-    <div class={styles.pageSelector}>
-
+    <div className={styles.pageSelector}>
       <input checked={choosePage === 'canvas'} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
       <label htmlFor={"pagina_canvas"}>
         <PixelIcon codename={'frame'} />
@@ -215,7 +230,6 @@ export default function AdminPage() {
         <PixelIcon codename={'user'} />
         Usuários
       </label>
-
     </div>
   )
 
@@ -233,7 +247,7 @@ export default function AdminPage() {
         <MainLayout>
           <main className={styles.main}>
             <h1>Administração do Canvas</h1>
-            
+
             {PageSelector}
 
             {/* Redimensionar */}
@@ -334,7 +348,7 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
-              <footer class={styles.footerButtons}>
+              <footer className={styles.footerButtons}>
                 <CustomButton
                   label={'Adicionar cor'}
                   icon={'plus'}
@@ -488,7 +502,7 @@ export default function AdminPage() {
       </>
     );
   }
-  
+
   else if (choosePage === "geral") {
     return (
       <>
@@ -515,7 +529,7 @@ export default function AdminPage() {
                 <strong>Premium</strong>
               </legend>
             </fieldset>
-            
+
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
                 <strong>Builds</strong>
@@ -625,7 +639,7 @@ export default function AdminPage() {
           <main className={styles.main}>
             <h1>Administração de Usuários</h1>
 
-            {PageSelector}        
+            {PageSelector}
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
@@ -643,26 +657,26 @@ export default function AdminPage() {
               <legend>
                 <strong>Escolher usuário</strong>
               </legend>
-                <input type="number" id="idUserSearch"/>
-                <footer class={styles.footerButtons}>
-                  <CustomButton
-                    label={'Consultar User'}
-                    icon={'contact'}
-                    disabled={loading}
-                    onClick={() => getUser(document.getElementById("idUserSearch").value)}
-                  />
-                </footer>
+              <input type="number" id="idUserSearch" />
+              <footer className={styles.footerButtons}>
+                <CustomButton
+                  label={'Consultar User'}
+                  icon={'contact'}
+                  disabled={loading}
+                  onClick={() => getUser(document.getElementById("idUserSearch").value)}
+                />
+              </footer>
             </fieldset>
 
             {user &&
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <legend>
-                <strong>Informações do usuário</strong>
-              </legend>
-              <span>Nome: {user?.display_name} (@{user?.username})</span>
-              <span>Criação: {dateToString(user?.createdAt)}</span>
-              <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
-            </fieldset>
+              <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                <legend>
+                  <strong>Informações do usuário</strong>
+                </legend>
+                <span>Nome: {user?.display_name} (@{user?.username})</span>
+                <span>Criação: {dateToString(user?.createdAt)}</span>
+                <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
+              </fieldset>
             }
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
@@ -672,24 +686,24 @@ export default function AdminPage() {
               <div className={styles.flagList}>
                 {user && user?.flags?.map((flag, index) => (
                   <div className={styles.flag} onClick={() => {
-                    updateStateKey(setUser,user,["flags",flagsUser]);
-                    setFlagsUser(removeItemFromArray(flagsUser,index))
+                    updateStateKey(setUser, user, ["flags", flagsUser]);
+                    setFlagsUser(removeItemFromArray(flagsUser, index))
                   }}>{flag}<PixelIcon codename={"trash"} /></div>
                 ))}
               </div>
-              <footer class={styles.footerButtons}>
+              <footer className={styles.footerButtons}>
                 <CustomButton
                   label={'Adicionar Flag'}
                   icon={'plus'}
                   color={"#27b84d"}
                   onClick={() => {
                     const flag = prompt("Escreva o nova Flag").toUpperCase();
-                    if (flag){
+                    if (flag) {
                       const newFlagsUser = [...flagsUser];
                       newFlagsUser.push(flag);
-                      updateStateKey(setUser,user,["flags",newFlagsUser]);
+                      updateStateKey(setUser, user, ["flags", newFlagsUser]);
                       setFlagsUser(newFlagsUser);
-                      
+
                     }
                   }}
                 />
@@ -699,7 +713,7 @@ export default function AdminPage() {
                   disabled={loading}
                   onClick={async () => {
                     console.log(user?.id);
-                    await fetchWithAuth("/admin/users/"+user?.id, "PATCH", {
+                    await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
                       flags: flagsUser,
                     });
                     fetchCanvas();
