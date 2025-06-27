@@ -186,8 +186,17 @@
 .flag:has(svg:hover) {
   background-color: red;
 }
+.flag:hover {
+  transform: translateY(-2px);
+}
 .flag svg{
   cursor: pointer;
+}
+
+.footerButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .pageSelector {

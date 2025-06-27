@@ -215,7 +215,7 @@ export default function AdminPage() {
         <PixelIcon codename={'user'} />
         Usuários
       </label>
-      
+
     </div>
   )
 
@@ -354,7 +354,7 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
-              <footer style={{display: "flex", gap: "15px", flexWrap: "wrap"}}>
+              <footer class={styles.footerButtons}>
                 <CustomButton
                   label={'Adicionar cor'}
                   icon={'plus'}
@@ -657,7 +657,7 @@ export default function AdminPage() {
                 <strong>Escolher user</strong>
               </legend>
                 <input type="number" id="idUserSearch"/>
-                <footer style={{display: "flex", gap: "15px", flexWrap: "wrap"}}>
+                <footer class={styles.footerButtons}>
                 <CustomButton
                   label={'Consultar User'}
                   icon={'contact'}
@@ -690,7 +690,7 @@ export default function AdminPage() {
                   }}>{flag}<PixelIcon codename={"trash"} /></div>
                 ))}
               </div>
-              <footer style={{display: "flex", gap: "15px", flexWrap: "wrap"}}>
+              <footer class={styles.footerButtons}>
                 <CustomButton
                   label={'Adicionar Flag'}
                   icon={'plus'}
