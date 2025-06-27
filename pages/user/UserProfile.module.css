@@ -25,10 +25,9 @@
 
     .editPencil {
       backdrop-filter: var(--frosted-glass-blur);
-      aspect-ratio: 1 / 1;
       padding: 5px;
       border: var(--outline);
-      border-radius: 5px;
+      border-radius: 8px;
       transition: var(--smooth-transition);
       box-shadow: var(--shadow);
       position: absolute;
