@@ -37,6 +37,11 @@ export async function getServerSideProps({ req, query }) {
   }
 }
 
+const THEME = { //Ps: não confunda! É o tema do PERFIL, por isso as cores são invertidas! Se o perfil é Dark, as cores devem ser claras
+  DARK: { backgroundItem: "#b8b8b81f", text: "white" },
+  WHITE: { backgroundItem: "#00000040", text: "black" }
+}
+
 export default function UserProfile({ user: userobject, error, errormessage }) {
   const { loggedUser, loading, token } = useAuth();
   const { language } = useLanguage();
@@ -49,7 +54,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
     profile_banner_url: false,
   });
 
-  const [profileTheme, setProfileTheme] = useState({ backgroundItem: "#b8b8b81f", text: "white" });
+  const [profileTheme, setProfileTheme] = useState(THEME.DARK);
 
   const fileInputRef = useRef(null);
 
@@ -68,9 +73,9 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
     if (user.premium) {
       const bright = getBrightness(user.profile.color_primary);
       if (bright > 0.7) { //Cor degradê MUITO clara
-        setProfileTheme({ backgroundItem: "#00000040", text: "black" });
+        setProfileTheme(THEME.WHITE);
       } else {
-        setProfileTheme({ backgroundItem: "#b8b8b81f", text: "white" });
+        setProfileTheme(THEME.DARK);
       }
     }
   }, [user])
