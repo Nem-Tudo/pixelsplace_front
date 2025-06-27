@@ -38,29 +38,6 @@ export default function AdminPage() {
 
   const [freeColorsInput, setFreeColorsInput] = useState("");
 
-  const objusertest = { avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45",
-                        createdAt: "2025-06-05T15:55:59.953Z",
-                        display_name: "commandbat",
-                        flags: ["ADMIN","TESTE","DEV","VACA"],
-                        id: "385478022670843904",
-                        lastPaintPixel: "2025-06-26T20:58:50.836Z",
-                        premium: 1,
-                        profile: {
-                          banner_url: null,
-                          color_primary: null,
-                          color_secundary: null,
-                          aboutme: "https://commandbat.com.br\n"
-                        },
-                        settings: {
-                          selected_guild: null
-                        },
-                        stats: {
-                          pixelsPlacedCount: 0
-                        },
-                        updatedAt: "2025-06-27T00:42:20.781Z",
-                        username: "commandbat"
-                      };
-
   async function getUser(id) {
     const res = await fetch(`${settings.apiURL}/users/${id}`, {
       method: "GET",
