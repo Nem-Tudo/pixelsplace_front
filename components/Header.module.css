@@ -13,6 +13,14 @@
     position: relative;
     text-shadow: 1px 1px 7px #00000026;
     color: white;
+
+    > * {
+        flex-grow: 1;
+    }
+}
+
+.burgerMenu {
+    padding: 15px;
 }
 
 .left {

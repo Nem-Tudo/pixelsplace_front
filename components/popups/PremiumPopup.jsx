@@ -16,7 +16,7 @@ export default function PremiumPopup({ closePopup }) {
             <span>{language.getString("POPUPS.PREMIUM_POPUP.DESCRIPTION2")}</span>
             <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
             <footer>
-                <CustomButton label={language.getString("POPUPS.PREMIUM_POPUP.MAYBE_LATER")} onClick={() => closePopup()} />
+                <CustomButton color={'#636363'} hierarchy={3} label={language.getString("POPUPS.PREMIUM_POPUP.MAYBE_LATER")} onClick={() => closePopup()} />
                 <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
                     {language.getString("POPUPS.PREMIUM_POPUP.DISCOVER_PREMIUM")}
                 </PremiumButton>

@@ -137,7 +137,7 @@ export default function Header() {
                         </div>
 
                     </>}>
-                        <PixelIcon codename={'menu'} className={'mobileonly'} />
+                        <PixelIcon codename={'menu'} className={'mobileonly '+styles.burgerMenu} />
                     </Tippy>
                 }
 
@@ -198,7 +198,7 @@ export default function Header() {
                                     {
                                         checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="white" content={(
                                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                                <CustomButton hierarchy={3} onClick={() => {
+                                                <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
                                                     if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
                                                         setRealUserFlags(loggedUser.flags)
                                                         updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
@@ -206,7 +206,7 @@ export default function Header() {
                                                         updateUserKey(["flags", realUserFlags])
                                                     }
                                                 }}>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</CustomButton>
-                                                <CustomButton hierarchy={3} onClick={() => {
+                                                <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
                                                     updateUserKey(["premium", !loggedUser?.premium])
                                                 }}>{language.getString("COMMON.PREMIUM")}: {loggedUser?.premium ? language.getString("COMMON.YES") : language.getString("COMMON.NO")}</CustomButton>
                                             </div>
