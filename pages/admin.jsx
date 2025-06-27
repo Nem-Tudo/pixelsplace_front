@@ -12,6 +12,7 @@ import PixelIcon from "@/components/PixelIcon";
 import { hexToNumber } from "@/src/colorFunctions";
 import { dateToString, dateToTimestamp } from "@/src/dateFunctions";
 import copyText from "@/src/copyText";
+import updateStateKey from "@/src/updateStateKey";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -30,13 +31,64 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [choosePage, setChoosePage] = useState();
 
-
   const [buildsOverride, setBuildsOverride] = useState([]);
 
 
   const [showColorsArray, setShowingColorsArray] = useState(false);
 
   const [freeColorsInput, setFreeColorsInput] = useState("");
+
+  const objusertest = { avatar: "3b1a8bd0e926cab98eeef77f5fcd1c45",
+                        createdAt: "2025-06-05T15:55:59.953Z",
+                        display_name: "commandbat",
+                        flags: ["ADMIN","TESTE","DEV","VACA"],
+                        id: "385478022670843904",
+                        lastPaintPixel: "2025-06-26T20:58:50.836Z",
+                        premium: 1,
+                        profile: {
+                          banner_url: null,
+                          color_primary: null,
+                          color_secundary: null,
+                          aboutme: "https://commandbat.com.br\n"
+                        },
+                        settings: {
+                          selected_guild: null
+                        },
+                        stats: {
+                          pixelsPlacedCount: 0
+                        },
+                        updatedAt: "2025-06-27T00:42:20.781Z",
+                        username: "commandbat"
+                      };
+
+  async function getUser(id) {
+    const res = await fetch(`${settings.apiURL}/users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    });
+    const data = await res.json();
+
+
+    if (res.status == 404)
+      {
+        setUser(null);
+        setFlagsUser(null);
+    }else{
+    setUser(data);
+    setFlagsUser(data.flags)
+    console.log(data);
+    }
+
+        if (res.status != 200)
+      return { error: true, status: res.status, message: data.message };
+  }
+
+  const [user, setUser] = useState(null);
+
+  const [flagsUser, setFlagsUser] = useState([]);
 
   const fetchCanvas = async () => {
     const res = await fetch(`${settings.apiURL}/canvas`);
@@ -639,13 +691,69 @@ export default function AdminPage() {
               <legend>
                 <strong>Escolher user</strong>
               </legend>
-                <input type="number"/>
+                <input type="number" id="idUserSearch"/>
+                <footer style={{display: "flex", gap: "15px", flexWrap: "wrap"}}>
+                <CustomButton
+                  label={'Consultar User'}
+                  icon={'contact'}
+                  disabled={loading}
+                  onClick={() => getUser(document.getElementById("idUserSearch").value)}
+                />
+                </footer>
             </fieldset>
+
+            {user &&
+            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <legend>
+                <strong>Infos user</strong>
+              </legend>
+                  <span>Nome: {user?.display_name} (@{user?.username})</span>
+                  <span>Criação: {user?.createdAt}</span>
+                  <span>Ultimo Pixel: {user?.lastPaintPixel}</span>
+            </fieldset>
+            }
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
                 <strong>Editar Flags</strong>
               </legend>
+              <div className={styles.flagList}>
+                {user && user?.flags?.map((flag, index) => (
+                  <div className={styles.flag} onClick={() => {
+                    updateStateKey(setUser,user,["flags",flagsUser]);
+                    setFlagsUser(removeItemFromArray(flagsUser,index))
+                  }}>{flag}<PixelIcon codename={"trash"} /></div>
+                ))}
+              </div>
+              <footer style={{display: "flex", gap: "15px", flexWrap: "wrap"}}>
+                <CustomButton
+                  label={'Adicionar Flag'}
+                  icon={'plus'}
+                  color={"#27b84d"}
+                  onClick={() => {
+                    const flag = prompt("Escreva o nova Flag").toUpperCase();
+                    if (flag){
+                      const newFlagsUser = [...flagsUser];
+                      newFlagsUser.push(flag);
+                      updateStateKey(setUser,user,["flags",newFlagsUser]);
+                      setFlagsUser(newFlagsUser);
+                      
+                    }
+                  }}
+                />
+                <CustomButton
+                  label={'Salvar Flags'}
+                  icon={'save'}
+                  disabled={loading}
+                  onClick={async () => {
+                    console.log(user?.id);
+                    await fetchWithAuth("/admin/users/"+user?.id, "PATCH", {
+                      flags: flagsUser,
+                    });
+                    fetchCanvas();
+                  }}
+                />
+                </footer>
             </fieldset>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>

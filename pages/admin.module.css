@@ -152,3 +152,32 @@
   flex-direction: row;
   gap: 10px;
 }
+
+.flagList{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.flag{
+  background-color: green;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 2px;
+  margin-right: 10px;
+
+}
+
+.flag:hover{
+  background-color: red;
+}
+
+.flag svg{
+  cursor: pointer;
+}
