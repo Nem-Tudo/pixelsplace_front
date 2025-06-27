@@ -166,23 +166,26 @@
 }
 
 .flag{
-  background-color: green;
+  background-color: var(--color-mid);
   width: fit-content;
   height: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
-  padding: 2px;
+  border-radius: 100vh;
+  padding: 2px 8px;
   margin-right: 10px;
-
+  color: hsla(0, 0%, 100%, 75%);
+  border: var(--outline);
+  transition: var(--smooth-transition);
+  user-select: none;
+  box-shadow: var(--shadow);
+  gap: 3px;
 }
-
-.flag:hover{
+.flag:has(svg:hover) {
   background-color: red;
 }
-
 .flag svg{
   cursor: pointer;
 }
