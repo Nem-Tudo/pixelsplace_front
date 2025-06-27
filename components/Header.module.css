@@ -158,20 +158,6 @@
     }
 }
 
-.mobileOnly {
-    display: none;
-
-    @media (max-width: 768px) {
-        display: flex;
-    }
-}
-
-@media (max-width: 768px) {
-    .left {
-        display: none;
-    }
-}
-
 @media (max-width: 500px) {
     .header {
         padding: 1rem .5rem;

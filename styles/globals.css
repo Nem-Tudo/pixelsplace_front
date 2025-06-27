@@ -97,6 +97,14 @@ a {
   cursor: pointer;
 }
 
+.mobileonly {
+  display: none;
+
+  @media (max-width: 720px) {
+    display: flex;
+  }
+}
+
 @media (max-width: 720px) {
   .mobilehidden_720 {
     display: none;

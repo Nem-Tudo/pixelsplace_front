@@ -72,11 +72,11 @@ export default function Header() {
                         </div>
 
                     </>}>
-                        <PixelIcon codename={'menu'} className={styles.mobileOnly} />
+                        <PixelIcon codename={'menu'} className={'mobileonly'} />
                     </Tippy>
                 }
 
-                <nav className={styles.left}>
+                <nav className={[styles.left, 'mobilehidden_720'].join(' ')}>
                     {
                         Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
 
@@ -96,7 +96,7 @@ export default function Header() {
                     }
                 </nav>
 
-                <p className={styles.mobileOnly}>PixelsPlace</p>
+                <p className={'mobileonly'}>PixelsPlace</p>
 
                 <nav className={styles.right}>
                     {
