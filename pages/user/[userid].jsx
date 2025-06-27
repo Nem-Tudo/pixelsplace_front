@@ -171,24 +171,17 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
         <div className={styles.wallpaper}>
           {!loading && loggedUser?.id === user?.id ? (
             <>
-              {/* <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("profile_banner_url")}/> */}
               <PremiumButton
                 as="icon"
                 icon={
-                  <MdOutlineModeEditOutline
-                    style={{
-                      position: "absolute",
-                      top: "5px",
-                      right: "10px",
-                      cursor: "pointer",
-                    }}
+                  <PixelIcon
+                    codename={'edit'}
                     className={styles.editPencil}
                     onClick={() => switchEdit("profile_banner_url")}
                   />
                 }
               ></PremiumButton>
 
-              {/* {showWarning && <PremiumWarning onClose={() => setShowWarning(false)} />} */}
               <input
                 type="file"
                 accept="image/*"

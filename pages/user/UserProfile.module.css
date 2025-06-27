@@ -17,6 +17,28 @@
       height: 150px;
       object-fit: cover;
     }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .editPencil {
+      backdrop-filter: var(--frosted-glass-blur);
+      width: 24px;
+      height: 24px;
+      padding: 5px;
+      border: var(--outline);
+      border-radius: 5px;
+      transition: var(--smooth-transition);
+      box-shadow: var(--shadow);
+      position: "absolute";
+      top: "5px";
+      right: "10px";
+      cursor: "pointer";
+    }
+    .editPencil:hover {
+      scale: var(--hover-scale);
+    }
   }
 
 
@@ -52,23 +74,6 @@
     justify-content: center;
     gap: 15px;
     width: 100vw;
-  }
-
-
-
-  .editPencil {
-    backdrop-filter: var(--frosted-glass-blur);
-    width: 24px;
-    height: 24px;
-    padding: 5px;
-    border: var(--outline);
-    border-radius: 5px;
-    transition: var(--smooth-transition);
-    box-shadow: var(--shadow);
-  }
-
-  .editPencil:hover {
-    scale: var(--hover-scale);
   }
 
   .pixelsInfo{
