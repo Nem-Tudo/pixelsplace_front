@@ -12,6 +12,7 @@ import PremiumButton from "@/components/PremiumButton";
 import updateStateKey from "@/src/updateStateKey";
 import CustomButton from "@/components/CustomButton";
 import { getBrightness } from "@/src/colorFunctions";
+import PixelIcon from "@/components/PixelIcon";
 
 
 export async function getServerSideProps({ req, query }) {
