@@ -103,7 +103,7 @@ export default function Header() {
                     }
                 </nav>
 
-                <p className={'mobileonly'}>PixelsPlace</p>
+                <p className={'mobileonly '+styles.centerTitle}>PixelsPlace</p>
 
                 <nav className={styles.right}>
                     {
