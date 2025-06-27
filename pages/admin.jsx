@@ -234,9 +234,9 @@ export default function AdminPage() {
             <h1>Administração do Canvas</h1>
             
             <div class={styles.pageSelector}>
-              <input checked={true} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={setChoosePage('canvas')} />
-              <input type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={setChoosePage('geral')} />
-              <input type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={setChoosePage('users')} />
+              <input checked={true} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
+              <input type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
+              <input type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChoosePage('users')} />
             </div>
 
             {/*
@@ -518,9 +518,9 @@ export default function AdminPage() {
             <h1>Administração Geral</h1>
 
             <div class={styles.pageSelector}>
-              <input type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={setChoosePage('canvas')} />
-              <input checked={true} type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={setChoosePage('geral')} />
-              <input type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={setChoosePage('users')} />
+              <input type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
+              <input checked={true} type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
+              <input type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChoosePage('users')} />
             </div>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
@@ -646,9 +646,9 @@ export default function AdminPage() {
             <h1>Administração de Usuários</h1>
 
             <div class={styles.pageSelector}>
-              <input type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={setChoosePage('canvas')} />
-              <input type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={setChoosePage('geral')} />
-              <input checked={true} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={setChoosePage('users')} />
+              <input type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
+              <input type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
+              <input checked={true} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChoosePage('users')} />
             </div>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
