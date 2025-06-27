@@ -42,12 +42,13 @@
 
   .page {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     width: 100dvw;
 
     @media (max-width: 768px) {
       align-items: center;
+      flex-direction: column;
     }
 
     .profile{
@@ -55,12 +56,44 @@
       flex-direction: column;
       flex-wrap: nowrap;
       align-items: flex-start;
-      margin-left: 20px;
+      margin: 0 20px;
       gap: 8px;
 
       @media (max-width: 768px) {
         align-items: center;
-        margin-left: unset;
+        margin: unset;
+      }
+
+      .avatar {
+        width: 180px;
+        height: 180px;
+        border: 5px solid var(--user-color-primary, var(--color-darkest));
+        border-radius: 50%;
+        margin-top: -90px;
+        background-color: var(--user-color-primary, var(--color-darkest));
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      .displayName {
+        font-size: 2rem;
+        font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+        display: flex;
+        align-items: center;
+        color: var(--user-color-text);
+      }
+
+      .userName {
+        font-size: 1rem;
+        color: #9dcaff;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
       }
     }
 
@@ -77,16 +110,18 @@
     .editUserColors {
       position: absolute;
       right: 3px;
-      height: 24px;
+      height: 2rem;
       border-radius: 12px;
       box-shadow: var(--shadow);
       border: var(--outline);
+      overflow: hidden;
 
       input[type="color"] {
           border: none;
           padding: 0;
-          width: 24px;
-          height: 24px;
+          width: 2rem;
+          height: 2rem;
+          cursor: pointer;
       }
       input[type="color"]::after {
           content: "";
@@ -99,6 +134,12 @@
       }
       #editSecondaryColor::after {
         background: var(--user-color-secondary);
+      }
+
+      .paintIcon {
+        position: absolute;
+        justify-self: anchor-center;
+        align-self: anchor-center;
       }
     }
   }
@@ -130,34 +171,10 @@
       text-align: center;
   }
 
-  .avatarCircle {
-    width: 180px;
-    height: 180px;
-    border: 5px solid #141c2f; /* Cor do fundo para separação */
-    border-radius: 50%;
-    margin-top: -90px;
-    background-color: #141c2f; /* Evita transparência */
-  }
 
-  .avatarCircle img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+  
 
-  .displayName {
-    font-size: 2rem;
-    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
-  }
-
-  .username {
-    font-size: 1rem;
-    color: #9dcaff;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-  }
+  
 
   .description {
     position: relative;

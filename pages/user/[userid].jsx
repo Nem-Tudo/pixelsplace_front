@@ -168,7 +168,15 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   return (
     <MainLayout>
       {/*onClick={() => saveChanges()}*/}
-      <main className={styles.main} style={user.premium ? { '--user-color-primary': `${user.profile.color_primary}`, '--user-color-secondary': `${user.profile.color_secundary}` } : {}}>
+      <main 
+        className={styles.main}
+        style={user.premium ? {
+          '--user-color-primary': `${user.profile.color_primary}`,
+          '--user-color-secondary': `${user.profile.color_secundary}`,
+          '--user-color-text': `${profileTheme.text}`,
+          '--user-color-background-item': `${profileTheme.backgroundItem}`
+        } : {}}
+      >
         <div className={styles.wallpaper}>
           {!loading && loggedUser?.id === user?.id ? (
             <>
@@ -202,11 +210,11 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
         <div className={styles.page}>
           <div className={styles.profile}>
-            <div className={styles.avatarCircle} style={{ zIndex: "1" }}>
+            <div className={styles.avatar} style={{ zIndex: "1" }}>
               <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
             </div>
-            <h1 style={{ color: profileTheme.text }} className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
-            <p className={styles.username}>@{user?.username} </p>
+            <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
+            <p className={styles.userName}>@{user?.username} </p>
           </div>
           <div className={styles.moreInfo}>
             {user.settings.selected_guild && (
@@ -294,6 +302,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <input type="color" id={styles.editSecondaryColor} value={user.profile.color_secundary} onChange={(e) => {
                 updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
               }} />
+              <PixelIcon codename={'paint-bucket'} className={styles.paintIcon} />
             </div>
           }
 
