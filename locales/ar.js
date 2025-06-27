@@ -24,7 +24,7 @@ module.exports = {
         NO_PERMISSION: "ليس لديك إذن للقيام بذلك",
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "حدث خطأ أثناء جلب الإصدارات",
             UNKNOWN_ERROR: "خطأ غير معروف",
             INVALID_BUILD_MESSAGE: "أنت تستخدم إصداراً غير صالح. سيتم الرجوع إلى الإصدار الرئيسي...",
@@ -45,20 +45,20 @@ module.exports = {
             LOGIN: "تسجيل الدخول",
             LOGGED_OUT: "تم تسجيل الخروج"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "أنت بحاجة إلى Premium!",
             DESCRIPTION1: "تخيل أنه يمكنك اختيار أي لون في الكون للرسم... يمكنك ذلك!",
             DESCRIPTION2: "احصل على ذلك والمزيد مع PixelsPlace Premium",
             MAYBE_LATER: "ربما لاحقاً",
             DISCOVER_PREMIUM: "اكتشف Premium!"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "هذه الميزة مخصصة لمستخدمي Premium فقط",
             BUY_PREMIUM_HERE: "اشترِ Premium من هنا!"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "لقد تم حظرك.",
             AFFECTED_AREAS: "المناطق المتأثرة",
             NO_FANCY_UNBAN_PAGE: "لن يكون هناك صفحة جميلة لطلب رفع الحظر، هذا هو كل شيء الآن",
@@ -77,12 +77,12 @@ module.exports = {
             SERVERS: "الخوادم",
             START: "ابدأ",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "تم تسجيل الدخول",
             DISCONNECTED: "تم فصل الاتصال",
             SUCCESS_REDIRECTING: "بنجاح. جارٍ التحويل..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "جارٍ تحميل الإصدار...",
             REMOVING_BUILDS: "جارٍ إزالة الإصدارات...",
             INVALID_BUILD: "إصدار غير صالح",
@@ -92,7 +92,7 @@ module.exports = {
             UPDATING_BUILD: "جارٍ تحديث الإصدار...",
             REMOVE_INSTRUCTION: "إذا أردت حذفه لاحقاً، فقط اذهب إلى إعدادات ملفك الشخصي"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "خلفية الملف الشخصي",
             USER_AVATAR_ALT: "صورة المستخدم",
             GUILD_ICON_ALT: "أيقونة {{guildName}}",
@@ -107,7 +107,7 @@ module.exports = {
             GUILD_ICON_ALT: "أيقونة {{guildName}}",
             JOIN: "انضمام"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "PixelsPlace - السفر عبر الزمن",
             PAGE_DESCRIPTION: "انضم إلى PixelsPlace!",
             API_ERROR: "حدث خطأ أثناء الاتصال بـ API الرئيسي",

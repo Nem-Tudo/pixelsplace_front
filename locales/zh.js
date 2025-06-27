@@ -24,7 +24,7 @@ module.exports = {
         NO_PERMISSION: "你没有权限执行此操作",
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "获取构建时出错",
             UNKNOWN_ERROR: "未知错误",
             INVALID_BUILD_MESSAGE: "你正在使用无效的构建，正在返回主构建...",
@@ -45,20 +45,20 @@ module.exports = {
             LOGIN: "登录",
             LOGGED_OUT: "已登出"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "你需要成为高级用户！",
             DESCRIPTION1: "想象你可以使用宇宙中的任何颜色来绘画...你可以！",
             DESCRIPTION2: "开通 PixelsPlace 高级版，享受更多功能",
             MAYBE_LATER: "稍后再说",
             DISCOVER_PREMIUM: "了解高级版！"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "此功能仅限高级用户",
             BUY_PREMIUM_HERE: "点击这里购买高级版！"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "你已被封禁。",
             AFFECTED_AREAS: "受影响区域",
             NO_FANCY_UNBAN_PAGE: "没有什么漂亮的解封页面了，就这样吧",
@@ -77,12 +77,12 @@ module.exports = {
             SERVERS: "服务器",
             START: "开始",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "已登录",
             DISCONNECTED: "已断开连接",
             SUCCESS_REDIRECTING: "成功。正在跳转..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "正在加载构建...",
             REMOVING_BUILDS: "正在移除构建...",
             INVALID_BUILD: "无效构建",
@@ -92,7 +92,7 @@ module.exports = {
             UPDATING_BUILD: "正在更新构建...",
             REMOVE_INSTRUCTION: "如果你想移除，只需点击你的个人资料设置"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "个人资料背景",
             USER_AVATAR_ALT: "用户头像",
             GUILD_ICON_ALT: "{{guildName}} 图标",
@@ -107,7 +107,7 @@ module.exports = {
             GUILD_ICON_ALT: "{{guildName}} 图标",
             JOIN: "加入"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "PixelsPlace 时光穿梭",
             PAGE_DESCRIPTION: "加入 PixelsPlace！",
             API_ERROR: "连接主 API 时发生错误",

@@ -34,7 +34,7 @@ module.exports = {
         BACK: "Назад"
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "Ошибка получения сборок",
             UNKNOWN_ERROR: "Неизвестная ошибка",
             INVALID_BUILD_MESSAGE: "Вы используете недействительную сборку. Возврат к основной сборке...",
@@ -57,20 +57,20 @@ module.exports = {
             VIEW_AS_USER: "Просмотр как пользователь",
             NORMAL_VIEW: "Обычный просмотр"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "Вам нужен Премиум!",
             DESCRIPTION1: "Представьте, что вы можете выбрать любой цвет во ВСЕЛЕННОЙ для рисования... Вы можете!",
             DESCRIPTION2: "Получите это и многое другое с PixelsPlace Премиум",
             MAYBE_LATER: "Может быть позже",
             DISCOVER_PREMIUM: "Узнать о Премиум!"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "Эта функция только для Премиум",
             BUY_PREMIUM_HERE: "Купить Премиум здесь!"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "Вы были забанены.",
             AFFECTED_AREAS: "Затронутые области",
             NO_FANCY_UNBAN_PAGE: "Красивой страницы для формы разбана не будет, в основном это всё что есть сейчас",
@@ -89,12 +89,12 @@ module.exports = {
             SERVERS: "Серверы",
             START: "Начать",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "Вошёл в систему",
             DISCONNECTED: "Отключён",
             SUCCESS_REDIRECTING: "успешно. Перенаправление..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "Загрузка сборки...",
             REMOVING_BUILDS: "Удаление сборок...",
             INVALID_BUILD: "Недействительная сборка",
@@ -104,7 +104,7 @@ module.exports = {
             UPDATING_BUILD: "Обновление сборки...",
             REMOVE_INSTRUCTION: "Если вы хотите удалить позже, просто нажмите на настройки вашего профиля"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "фон профиля",
             USER_AVATAR_ALT: "Аватар пользователя",
             GUILD_ICON_ALT: "Иконка {{guildName}}",
@@ -119,7 +119,7 @@ module.exports = {
             GUILD_ICON_ALT: "Иконка {{guildName}}",
             JOIN: "Присоединиться"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "Путешествие во времени PixelsPlace",
             PAGE_DESCRIPTION: "Присоединяйтесь к PixelsPlace!",
             API_ERROR: "Произошла ошибка при подключении к основному API",

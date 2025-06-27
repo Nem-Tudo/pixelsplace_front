@@ -95,7 +95,7 @@ export default function Header() {
                                             )}>
                                                 <div className={styles.item + " " + styles.bluestyle}>
                                                     <div>
-                                                        <span>View Settings</span>
+                                                        <span>{language.getString("COMPONENTS.HEADER.VIEW_SETTINGS")}</span>
                                                     </div>
                                                 </div>
                                             </Tippy>

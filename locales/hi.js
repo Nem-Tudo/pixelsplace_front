@@ -34,7 +34,7 @@ module.exports = {
         BACK: "वापस"
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "बिल्ड प्राप्त करने में त्रुटि",
             UNKNOWN_ERROR: "अज्ञात त्रुटि",
             INVALID_BUILD_MESSAGE: "आप एक अमान्य बिल्ड का उपयोग कर रहे हैं। मुख्य बिल्ड पर वापस जा रहे हैं...",
@@ -57,20 +57,20 @@ module.exports = {
             VIEW_AS_USER: "उपयोगकर्ता के रूप में देखें",
             NORMAL_VIEW: "सामान्य दृश्य"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "आपको प्रीमियम होना चाहिए!",
             DESCRIPTION1: "कल्पना करें कि आप ब्रह्मांड के किसी भी रंग को चुनकर पेंट कर सकते हैं... आप कर सकते हैं!",
             DESCRIPTION2: "PixelsPlace प्रीमियम के साथ यह और बहुत कुछ पाएं",
             MAYBE_LATER: "शायद बाद में",
             DISCOVER_PREMIUM: "प्रीमियम जानें!"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "यह सुविधा केवल प्रीमियम के लिए है",
             BUY_PREMIUM_HERE: "यहाँ प्रीमियम खरीदें!"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "आपको प्रतिबंधित कर दिया गया है।",
             AFFECTED_AREAS: "प्रभावित क्षेत्र",
             NO_FANCY_UNBAN_PAGE: "अनबैन फॉर्म के लिए कोई फैंसी पेज नहीं होगा, बस यही है अब",
@@ -89,12 +89,12 @@ module.exports = {
             SERVERS: "सर्वर",
             START: "शुरू करें",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "लॉग इन",
             DISCONNECTED: "डिस्कनेक्ट",
             SUCCESS_REDIRECTING: "सफलतापूर्वक। पुनर्निर्देशित कर रहे हैं..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "बिल्ड लोड हो रहा है...",
             REMOVING_BUILDS: "बिल्ड हटा रहे हैं...",
             INVALID_BUILD: "अमान्य बिल्ड",
@@ -104,7 +104,7 @@ module.exports = {
             UPDATING_BUILD: "बिल्ड अपडेट कर रहे हैं...",
             REMOVE_INSTRUCTION: "यदि आप बाद में हटाना चाहते हैं, तो बस अपनी प्रोफाइल सेटिंग्स पर क्लिक करें"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "प्रोफाइल बैकग्राउंड",
             USER_AVATAR_ALT: "उपयोगकर्ता अवतार",
             GUILD_ICON_ALT: "{{guildName}} का आइकन",
@@ -119,7 +119,7 @@ module.exports = {
             GUILD_ICON_ALT: "{{guildName}} का आइकन",
             JOIN: "शामिल हों"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "टाइमट्रैवल PixelsPlace",
             PAGE_DESCRIPTION: "PixelsPlace में भाग लें!",
             API_ERROR: "मुख्य API से कनेक्ट करने में त्रुटि हुई",

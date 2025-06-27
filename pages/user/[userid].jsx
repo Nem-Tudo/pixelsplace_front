@@ -214,7 +214,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           )}
           <img
             src={user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
-            alt={language.getString("PAGES.USERPROFILE.PROFILE_BACKGROUND_ALT")}
+            alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
             className={styles.bgUser}
           />
         </div>
@@ -222,7 +222,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
         <div className={styles.divPag}>
           <div className={styles.perfil}>
             <div className={styles.avatarCircle} style={{ zIndex: "1" }}>
-              <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USERPROFILE.USER_AVATAR_ALT")} />
+              <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
             </div>
             <h1 style={{ color: profileTheme.text }} className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
             <p className={styles.username}>@{user?.username} </p>
@@ -235,7 +235,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                     <img
                       className={styles.guildIcon}
                       src={settings.guildIconURL(user.settings.selected_guild.id, user.settings.selected_guild.icon)}
-                      alt={language.getString("PAGES.USERPROFILE.GUILD_ICON_ALT", { guildName: user.settings.selected_guild.name })}
+                      alt={language.getString("PAGES.USER_PROFILE.GUILD_ICON_ALT", { guildName: user.settings.selected_guild.name })}
                     />
                     <div className={styles.guildInfo}>
                       <h2 className={styles.guildName} translate="no">
@@ -248,7 +248,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                         target="_blank"
                         rel="norreferer"
                       >
-                        {language.getString("PAGES.USERPROFILE.JOIN_GUILD")}
+                        {language.getString("PAGES.USER_PROFILE.JOIN_GUILD")}
                       </a>
                     </div>
                   </div>
@@ -296,12 +296,12 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             </div>
             <div className={styles.pixelsInfo} style={{ background: profileTheme.backgroundItem }}>
               <p className={styles.pixelsText}>
-                {language.getString("PAGES.USERPROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
+                {language.getString("PAGES.USER_PROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
               </p>
               <PremiumButton
                 onClick={() => alert(language.getString("COMMON.NOT_IMPLEMENTED_YET"))}
               >
-                {language.getString("PAGES.USERPROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
+                {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
               </PremiumButton>
             </div>
           </div>

@@ -30,7 +30,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                return alert(`${language.getString("COMPONENTS.BUILDSWITCHER.ERROR_FETCH_BUILDS")}: ${response.message || language.getString("COMPONENTS.BUILDSWITCHER.UNKNOWN_ERROR")}`);
+                return alert(`${language.getString("COMPONENTS.BUILD_SWITCHER.ERROR_FETCH_BUILDS")}: ${response.message || language.getString("COMPONENTS.BUILD_SWITCHER.UNKNOWN_ERROR")}`);
             }
             setAvailableBuilds(response);
         } catch (error) {
@@ -55,7 +55,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(language.getString("COMPONENTS.BUILDSWITCHER.INVALID_BUILD_MESSAGE"));
+                alert(language.getString("COMPONENTS.BUILD_SWITCHER.INVALID_BUILD_MESSAGE"));
                 location.href = `/buildoverride?t=main`;
                 return
             }
@@ -76,13 +76,13 @@ export default function BuildSwitcher() {
             }
 
             const build = availableBuilds.find(build => build.id === buildId)
-            if (!build) return alert(language.getString("COMPONENTS.BUILDSWITCHER.BUILD_NOT_FOUND"));
+            if (!build) return alert(language.getString("COMPONENTS.BUILD_SWITCHER.BUILD_NOT_FOUND"));
 
             location.href = `/buildoverride?t=${build.token}`;
 
         } catch (error) {
             console.error('Error switching build:', error)
-            alert(`${language.getString("COMPONENTS.BUILDSWITCHER.ERROR_SWITCH_BUILD")}: ${error.message}`)
+            alert(`${language.getString("COMPONENTS.BUILD_SWITCHER.ERROR_SWITCH_BUILD")}: ${error.message}`)
         } finally {
             setIsLoading(false)
         }
@@ -99,7 +99,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                return alert(`${language.getString("COMPONENTS.BUILDSWITCHER.ERROR_FETCH_BRANCH")}: ${response.error || language.getString("COMPONENTS.BUILDSWITCHER.UNKNOWN_ERROR")}`);
+                return alert(`${language.getString("COMPONENTS.BUILD_SWITCHER.ERROR_FETCH_BRANCH")}: ${response.error || language.getString("COMPONENTS.BUILD_SWITCHER.UNKNOWN_ERROR")}`);
             }
 
             setCurrentBranch(response.branch);
@@ -125,7 +125,7 @@ export default function BuildSwitcher() {
                     color: '#ff6b35',
                     fontWeight: 'bold'
                 }}>
-                    ({language.getString("COMPONENTS.BUILDSWITCHER.BUILD_OVERRIDE")})
+                    ({language.getString("COMPONENTS.BUILD_SWITCHER.BUILD_OVERRIDE")})
                 </span>
             )}
 
@@ -133,14 +133,14 @@ export default function BuildSwitcher() {
                 {currentBranch && currentBranch !== "main" && currentBuild.id === "main" && (
                     <>
                         <span style={{ color: "red" }}>
-                            {language.getString("COMPONENTS.BUILDSWITCHER.CUSTOM_BRANCH_WARNING")}
+                            {language.getString("COMPONENTS.BUILD_SWITCHER.CUSTOM_BRANCH_WARNING")}
                         </span>
                         <br /><br />
                     </>
                 )}
-                <strong>{language.getString("COMPONENTS.BUILDSWITCHER.ACTIVE_BUILD")}:</strong> {currentBuild.name}
+                <strong>{language.getString("COMPONENTS.BUILD_SWITCHER.ACTIVE_BUILD")}:</strong> {currentBuild.name}
                 <br />
-                <strong>{language.getString("COMPONENTS.BUILDSWITCHER.ACTIVE_BRANCH")}:</strong> {currentBranch}
+                <strong>{language.getString("COMPONENTS.BUILD_SWITCHER.ACTIVE_BRANCH")}:</strong> {currentBranch}
             </div>
 
             <div style={{
@@ -176,7 +176,7 @@ export default function BuildSwitcher() {
                     color: '#666',
                     fontStyle: 'italic'
                 }}>
-                    {language.getString("COMPONENTS.BUILDSWITCHER.SWITCHING_BUILD")}
+                    {language.getString("COMPONENTS.BUILD_SWITCHER.SWITCHING_BUILD")}
                 </div>
             )}
         </div>

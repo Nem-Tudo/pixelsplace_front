@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
 export default function BuildOverride({ buildtoken }) {
     const { language } = useLanguage();
 
-    const [pageMessage, setPageMessage] = useState(language.getString("PAGES.BUILDOVERRIDE.LOADING_BUILD"));
+    const [pageMessage, setPageMessage] = useState(language.getString("PAGES.BUILD_OVERRIDE.LOADING_BUILD"));
     const [build, setBuild] = useState(null);
     const [tokenSignedBy, setTokenSignedBy] = useState(null);
     const [extraInfo, setExtraInfo] = useState(null);
@@ -28,14 +28,14 @@ export default function BuildOverride({ buildtoken }) {
         if (buildtoken) {
             fetchBuild(buildtoken);
         } else {
-            setPageMessage(language.getString("PAGES.BUILDOVERRIDE.REMOVING_BUILDS"));
+            setPageMessage(language.getString("PAGES.BUILD_OVERRIDE.REMOVING_BUILDS"));
             updateCookies(null);
         }
     }, [])
 
     async function fetchBuild(token) {
         if (!token || token === "main") {
-            setPageMessage(language.getString("PAGES.BUILDOVERRIDE.REMOVING_BUILDS"));
+            setPageMessage(language.getString("PAGES.BUILD_OVERRIDE.REMOVING_BUILDS"));
             return updateCookies(null);
         }
         try {
@@ -51,7 +51,7 @@ export default function BuildOverride({ buildtoken }) {
                     location.href = "/";
                 }, 2000)
                 setLoading(false);
-                return setPageMessage(language.getString("PAGES.BUILDOVERRIDE.INVALID_BUILD"))
+                return setPageMessage(language.getString("PAGES.BUILD_OVERRIDE.INVALID_BUILD"))
             };
 
             const response = await request.json();
@@ -60,7 +60,7 @@ export default function BuildOverride({ buildtoken }) {
                     location.href = "/";
                 }, 2000)
                 setLoading(false);
-                return setPageMessage(response.message || language.getString("PAGES.BUILDOVERRIDE.ERROR_FETCHING_BUILD"));
+                return setPageMessage(response.message || language.getString("PAGES.BUILD_OVERRIDE.ERROR_FETCHING_BUILD"));
             }
             setBuild(response.build);
             setTokenSignedBy(response.signedBy);
@@ -74,7 +74,7 @@ export default function BuildOverride({ buildtoken }) {
             setTimeout(() => {
                 location.href = "/";
             }, 2000)
-            return setPageMessage(language.getString("PAGES.BUILDOVERRIDE.ERROR_FETCHING_BUILD"));
+            return setPageMessage(language.getString("PAGES.BUILD_OVERRIDE.ERROR_FETCHING_BUILD"));
         }
     }
 
@@ -103,13 +103,13 @@ export default function BuildOverride({ buildtoken }) {
             }
             {
                 build && !build.forceOnLink && <div style={{ margin: "50px" }}>
-                    <h1 style={{ fontWeight: "bold" }}>{language.getString("PAGES.BUILDOVERRIDE.TITLE")}</h1>
+                    <h1 style={{ fontWeight: "bold" }}>{language.getString("PAGES.BUILD_OVERRIDE.TITLE")}</h1>
                     <br />
                     <span>{language.getString("COMMON.NAME")}: <span style={{ color: "blue" }}>{build.name}</span></span>
                     <br />
                     <span>{language.getString("COMMON.AUTHOR")}: {build.author} ({extraInfo?.authorname})</span>
                     <br />
-                    <span>{language.getString("PAGES.BUILDOVERRIDE.SIGNED_BY")}: {tokenSignedBy} ({extraInfo?.signedByname})</span>
+                    <span>{language.getString("PAGES.BUILD_OVERRIDE.SIGNED_BY")}: {tokenSignedBy} ({extraInfo?.signedByname})</span>
                     <br />
                     <br />
                     <button
@@ -137,14 +137,14 @@ export default function BuildOverride({ buildtoken }) {
                             // boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)"
                         }}
                         onClick={() => {
-                            setPageMessage(language.getString("PAGES.BUILDOVERRIDE.UPDATING_BUILD"))
+                            setPageMessage(language.getString("PAGES.BUILD_OVERRIDE.UPDATING_BUILD"))
                             updateCookies(buildtoken, build)
                         }}>
                         {language.getString("COMMON.USE")}
                     </button>
                     <br />
                     <br />
-                    <span>{language.getString("PAGES.BUILDOVERRIDE.REMOVE_INSTRUCTION")}</span>
+                    <span>{language.getString("PAGES.BUILD_OVERRIDE.REMOVE_INSTRUCTION")}</span>
                     <br />
                     <img
                         src="/assets/removebuild.png"

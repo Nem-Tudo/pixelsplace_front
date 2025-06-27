@@ -369,8 +369,8 @@ export default function Place() {
     return (
         <>
             <Head>
-                <title>{language.getString("PAGES.TIMETRAVEL.PAGE_TITLE")}</title>
-                <meta name="description" content={language.getString("PAGES.TIMETRAVEL.PAGE_DESCRIPTION")} />
+                <title>{language.getString("PAGES.TIME_TRAVEL.PAGE_TITLE")}</title>
+                <meta name="description" content={language.getString("PAGES.TIME_TRAVEL.PAGE_DESCRIPTION")} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="theme-color" content="#80bbff" />
                 <link rel="icon" href="/favicon.ico" />
@@ -380,7 +380,7 @@ export default function Place() {
                     !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span></MessageDiv>
                 }
                 {
-                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>{language.getString("PAGES.TIMETRAVEL.API_ERROR")}</span><button onClick={() => location.reload()}>{language.getString("PAGES.TIMETRAVEL.RELOAD_BUTTON")}</button></MessageDiv>
+                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>{language.getString("PAGES.TIME_TRAVEL.API_ERROR")}</span><button onClick={() => location.reload()}>{language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")}</button></MessageDiv>
                 }
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
@@ -391,19 +391,19 @@ export default function Place() {
                             <input id={styles.timeModeCheck} type="checkbox" checked={includeHistory} onChange={(e) => {
                                 setIncludeHistory(e.target.checked)
                             }} />
-                            <label htmlFor={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.FULL_HISTORY")}</label>
-                            <label htmlFor={styles.timeModeCheck}>{language.getString("PAGES.TIMETRAVEL.CHANGES_ONLY")}</label>
+                            <label htmlFor={styles.timeModeCheck}>{language.getString("PAGES.TIME_TRAVEL.FULL_HISTORY")}</label>
+                            <label htmlFor={styles.timeModeCheck}>{language.getString("PAGES.TIME_TRAVEL.CHANGES_ONLY")}</label>
 
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div>
-                                <span>{language.getString("PAGES.TIMETRAVEL.MARCH_LABEL")} </span>
+                                <span>{language.getString("PAGES.TIME_TRAVEL.MARCH_LABEL")} </span>
                                 <input type="number" value={travelDuration} onChange={(e) => {
                                     setTravelDuration(e.target.value);
                                 }} />
                             </div>
                             <span style={{ display: "flex", justifyContent: "center" }}>
-                                <span>{language.getString("PAGES.TIMETRAVEL.MULTIPLIER_LABEL")}</span>
+                                <span>{language.getString("PAGES.TIME_TRAVEL.MULTIPLIER_LABEL")}</span>
                                 <input
                                     min={0}
                                     max={100}

@@ -47,7 +47,7 @@ export default function DiscordOauth2({ token, redirectURL }) {
                 color: "black",
                 fontSize: "1.5rem",
                 fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            }}>{token ? language.getString("PAGES.DISCORDOAUTH2.LOGGED_IN") : language.getString("PAGES.DISCORDOAUTH2.DISCONNECTED")} {language.getString("PAGES.DISCORDOAUTH2.SUCCESS_REDIRECTING")}</h1>
+            }}>{token ? language.getString("PAGES.DISCORD_OAUTH2.LOGGED_IN") : language.getString("PAGES.DISCORD_OAUTH2.DISCONNECTED")} {language.getString("PAGES.DISCORD_OAUTH2.SUCCESS_REDIRECTING")}</h1>
         </div>
     )
 }

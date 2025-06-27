@@ -24,7 +24,7 @@ module.exports = {
         NO_PERMISSION: "これを行う権限がありません",
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "ビルドの取得エラー",
             UNKNOWN_ERROR: "不明なエラー",
             INVALID_BUILD_MESSAGE: "無効なビルドを使用しています。メインビルドに戻ります...",
@@ -45,20 +45,20 @@ module.exports = {
             LOGIN: "ログイン",
             LOGGED_OUT: "ログアウト済み"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "プレミアムが必要です！",
             DESCRIPTION1: "宇宙中のどんな色でも選べると想像してください…できます！",
             DESCRIPTION2: "PixelsPlace Premiumでそれ以上の体験を！",
             MAYBE_LATER: "後で",
             DISCOVER_PREMIUM: "Premium を確認！"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "この機能はプレミアム限定です",
             BUY_PREMIUM_HERE: "ここでプレミアムを購入！"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "あなたはBANされました。",
             AFFECTED_AREAS: "影響を受けるエリア",
             NO_FANCY_UNBAN_PAGE: "おしゃれなBAN解除ページはありません。これがすべてです。",
@@ -77,12 +77,12 @@ module.exports = {
             SERVERS: "サーバー",
             START: "始める",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "ログイン済み",
             DISCONNECTED: "切断されました",
             SUCCESS_REDIRECTING: "成功しました。リダイレクト中..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "ビルドを読み込み中...",
             REMOVING_BUILDS: "ビルドを削除中...",
             INVALID_BUILD: "無効なビルド",
@@ -92,7 +92,7 @@ module.exports = {
             UPDATING_BUILD: "ビルドを更新中...",
             REMOVE_INSTRUCTION: "後で削除したい場合は、プロフィール設定から削除できます"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "プロフィールの背景",
             USER_AVATAR_ALT: "ユーザーのアバター",
             GUILD_ICON_ALT: "{{guildName}}のアイコン",
@@ -107,7 +107,7 @@ module.exports = {
             GUILD_ICON_ALT: "{{guildName}}のアイコン",
             JOIN: "参加"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "PixelsPlace タイムトラベル",
             PAGE_DESCRIPTION: "PixelsPlaceに参加しよう！",
             API_ERROR: "メインAPIへの接続でエラーが発生しました",

@@ -31,14 +31,14 @@ export function MainLayout({ children }) {
                 <h1 style={{
                     fontSize: "2rem",
                     fontWeight: "bold"
-                }}>{language.getString("LAYOUTS.MAINLAYOUT.BANNED_TITLE")}</h1>
+                }}>{language.getString("LAYOUTS.MAIN_LAYOUT.BANNED_TITLE")}</h1>
                 <br />
-                <span>{language.getString("LAYOUTS.MAINLAYOUT.AFFECTED_AREAS")}: DISCORD_ID ({loggedUser.id}), USER_IP ({ip})</span>
+                <span>{language.getString("LAYOUTS.MAIN_LAYOUT.AFFECTED_AREAS")}: DISCORD_ID ({loggedUser.id}), USER_IP ({ip})</span>
                 <br />
-                <span>{language.getString("LAYOUTS.MAINLAYOUT.NO_FANCY_UNBAN_PAGE")}</span>
-                <span>{language.getString("LAYOUTS.MAINLAYOUT.OPEN_TICKET_INSTRUCTION")} <a className="link" target="_blank" rel="norreferer" style={{ color: "blue" }} href="https://discord.gg/nemtudo">discord.gg/nemtudo</a> {language.getString("LAYOUTS.MAINLAYOUT.EXPLAIN_WHAT_HAPPENED")}</span>
-                <span>{language.getString("LAYOUTS.MAINLAYOUT.MODS_HAVE_RECORDS")}</span>
-                <span>{language.getString("LAYOUTS.MAINLAYOUT.FAREWELL_MESSAGE")}</span>
+                <span>{language.getString("LAYOUTS.MAIN_LAYOUT.NO_FANCY_UNBAN_PAGE")}</span>
+                <span>{language.getString("LAYOUTS.MAIN_LAYOUT.OPEN_TICKET_INSTRUCTION")} <a className="link" target="_blank" rel="norreferer" style={{ color: "blue" }} href="https://discord.gg/nemtudo">discord.gg/nemtudo</a> {language.getString("LAYOUTS.MAIN_LAYOUT.EXPLAIN_WHAT_HAPPENED")}</span>
+                <span>{language.getString("LAYOUTS.MAIN_LAYOUT.MODS_HAVE_RECORDS")}</span>
+                <span>{language.getString("LAYOUTS.MAIN_LAYOUT.FAREWELL_MESSAGE")}</span>
             </main>
 
         </>
@@ -67,7 +67,7 @@ export function MainLayout({ children }) {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(language.getString("LAYOUTS.MAINLAYOUT.INVALID_BUILD_ALERT"));
+                alert(language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT"));
                 location.href = `/buildoverride?t=main`;
                 return
             }

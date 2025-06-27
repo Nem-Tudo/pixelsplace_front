@@ -34,7 +34,7 @@ module.exports = {
         LANGUAGE: "Idioma"
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "Erro ao buscar builds",
             UNKNOWN_ERROR: "Erro desconhecido",
             INVALID_BUILD_MESSAGE: "Você está utilizando uma build inválida. Retornando para a build principal...",
@@ -55,22 +55,23 @@ module.exports = {
             LOGIN: "Logar",
             LOGGED_OUT: "Deslogado",
             VIEW_AS_USER: "Ver como usuário",
-            NORMAL_VIEW: "Visualização normal"
+            NORMAL_VIEW: "Visualização normal",
+            VIEW_SETTINGS: "Opções de visualização"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "Você precisa ser Premium!",
             DESCRIPTION1: "Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!",
             DESCRIPTION2: "Consiga isso e muito mais com PixelsPlace Premium",
             MAYBE_LATER: "Talvez depois",
             DISCOVER_PREMIUM: "Conheça o Premium!"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "Essa função é apenas para Premium",
             BUY_PREMIUM_HERE: "Compre o Premium aqui!"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "Você foi banido.",
             AFFECTED_AREAS: "Áreas afetadas",
             NO_FANCY_UNBAN_PAGE: "Não vai ter página bonitinha pra formulário de unban não, é basicamente isso aqui msm agora",
@@ -89,12 +90,12 @@ module.exports = {
             SERVERS: "Servidores",
             START: "Começar",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "Logado",
             DISCONNECTED: "Desconectado",
             SUCCESS_REDIRECTING: "com sucesso. Redirecionando..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "Carregando build...",
             REMOVING_BUILDS: "Removendo builds...",
             INVALID_BUILD: "Build inválida",
@@ -104,7 +105,7 @@ module.exports = {
             UPDATING_BUILD: "Atualizando build...",
             REMOVE_INSTRUCTION: "Caso você queira remover depois, basta clicar nas configurações do seu perfil"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "background do perfil",
             USER_AVATAR_ALT: "Avatar do usuário",
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
@@ -119,7 +120,7 @@ module.exports = {
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
             JOIN: "Entrar"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "Timetravel PixelsPlace",
             PAGE_DESCRIPTION: "Participe do PixelsPlace!",
             API_ERROR: "Ocorreu um erro ao se conectar com a api principal",

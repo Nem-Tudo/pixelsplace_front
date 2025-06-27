@@ -33,7 +33,7 @@ module.exports = {
         BACK: "უკან"
     },
     COMPONENTS: {
-        BUILDSWITCHER: {
+        BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "ბილდების მიღების შეცდომა",
             UNKNOWN_ERROR: "უცნობი შეცდომა",
             INVALID_BUILD_MESSAGE: "თქვენ იყენებთ არასწორ ბილდს. ძირითად ბილდზე დაბრუნება...",
@@ -56,20 +56,20 @@ module.exports = {
             VIEW_AS_USER: "მომხმარებლის სახით ნახვა",
             NORMAL_VIEW: "ჩვეულებრივი ნახვა"
         },
-        PREMIUMPOPUP: {
+        PREMIUM_POPUP: {
             TITLE: "თქვენ გჭირდებათ პრემიუმი!",
             DESCRIPTION1: "წარმოიდგინეთ, რომ შეგიძლიათ აირჩიოთ სამყაროს ყველა ფერი ნახატისთვის... შეგიძლიათ!",
             DESCRIPTION2: "მიიღეთ ეს და კიდევ ბევრი PixelsPlace პრემიუმით",
             MAYBE_LATER: "შესაძლოა მოგვიანებით",
             DISCOVER_PREMIUM: "გაიცანით პრემიუმი!"
         },
-        PREMIUMWARNING: {
+        PREMIUM_WARNING: {
             FEATURE_PREMIUM_ONLY: "ეს ფუნქცია მხოლოდ პრემიუმისთვისაა",
             BUY_PREMIUM_HERE: "იყიდეთ პრემიუმი აქ!"
         }
     },
     LAYOUTS: {
-        MAINLAYOUT: {
+        MAIN_LAYOUT: {
             BANNED_TITLE: "თქვენ დაბლოკილი ხართ.",
             AFFECTED_AREAS: "დაზარალებული ადგილები",
             NO_FANCY_UNBAN_PAGE: "ბლოკის მოხსნის ლამაზი გვერდი არ იქნება, ძირითადად ეს არის ყველაფერი რაც არის ახლა",
@@ -88,12 +88,12 @@ module.exports = {
             SERVERS: "სერვერები",
             START: "დაწყება",
         },
-        DISCORDOAUTH2: {
+        DISCORD_OAUTH2: {
             LOGGED_IN: "შესული",
             DISCONNECTED: "გათიშული",
             SUCCESS_REDIRECTING: "წარმატებით. გადამისამართება..."
         },
-        BUILDOVERRIDE: {
+        BUILD_OVERRIDE: {
             LOADING_BUILD: "ბილდის ჩატვირთვა...",
             REMOVING_BUILDS: "ბილდების მოშორება...",
             INVALID_BUILD: "არასწორი ბილდი",
@@ -103,7 +103,7 @@ module.exports = {
             UPDATING_BUILD: "ბილდის განახლება...",
             REMOVE_INSTRUCTION: "თუ გსურთ მოგვიანებით მოშორება, უბრალოდ დააწყვეტეთ თქვენი პროფილის პარამეტრებზე"
         },
-        USERPROFILE: {
+        USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "პროფილის ფონი",
             USER_AVATAR_ALT: "მომხმარებლის ავატარი",
             GUILD_ICON_ALT: "{{guildName}}-ის ხატულა",
@@ -118,7 +118,7 @@ module.exports = {
             GUILD_ICON_ALT: "{{guildName}}-ის ხატულა",
             JOIN: "შეერთება"
         },
-        TIMETRAVEL: {
+        TIME_TRAVEL: {
             PAGE_TITLE: "PixelsPlace დროში მგზავრობა",
             PAGE_DESCRIPTION: "შეუერთდით PixelsPlace-ს!",
             API_ERROR: "მთავარ API-სთან დაკავშირებისას მოხდა შეცდომა",
