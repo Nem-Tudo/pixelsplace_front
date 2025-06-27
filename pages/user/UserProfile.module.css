@@ -3,8 +3,8 @@
   flex-direction: column;
   align-items: center;
   width: 100dvw;
-  background: #141c2f;
-  color: #fff;
+  background: linear-gradient(132deg, var(--user-color-primary), var(--user-color-secondary));
+  color: white;
   min-height: 100vh;
 
   .divPag {
