@@ -722,6 +722,7 @@ export default function AdminPage() {
               user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                 <legend>
                   <strong>Gerenciar</strong>
+                  </legend>
                   <div>
                     <span>Premium: </span>
                     <input type="checkbox" checked={user.premium} id="" onChange={e => {
@@ -751,7 +752,6 @@ export default function AdminPage() {
                   {/* premium
                   kickar
                   banir/desbanir */}
-                </legend>
               </fieldset>
             }
           </main>
