@@ -25,17 +25,16 @@
 
     .editPencil {
       backdrop-filter: var(--frosted-glass-blur);
-      width: 24px;
-      height: 24px;
+      aspect-ratio: 1 / 1;
       padding: 5px;
       border: var(--outline);
       border-radius: 5px;
       transition: var(--smooth-transition);
       box-shadow: var(--shadow);
-      position: "absolute";
-      top: "5px";
-      right: "10px";
-      cursor: "pointer";
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
     }
     .editPencil:hover {
       scale: var(--hover-scale);
