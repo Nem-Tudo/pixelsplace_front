@@ -48,33 +48,35 @@ export default function Header() {
     return (
         <>
             <header className={styles.header}>
+                {/* Mobile hamburger menu */}
+                {
+                    <Tippy theme="transparent" trigger="click" interactive={true} content={<>
+
+                        <div className={styles.tippy_menu}>
+                            {
+                                Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
+
+                                    if (!exclusive) return true;
+                                    else if (exclusive.includes('ADMIN') && checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) return true;
+                                    else if (exclusive.includes('PREMIUM') && loggedUser?.premium) return true;
+                                    else return false;
+
+                                }).map(([name, { label, href, id, exclusive }]) => (
+                                    <Link href={href}>
+                                        <div className={styles.item}>
+                                            <span>{label}</span>
+                                        </div>
+                                    </Link>
+                                ))
+                            }
+                        </div>
+
+                    </>}>
+                        <PixelIcon codename={'menu'} className={styles.mobileOnly} />
+                    </Tippy>
+                }
+
                 <nav className={styles.left}>
-                    {
-                        <Tippy theme="transparent" trigger="click" interactive={true} content={<>
-
-                            <div className={styles.tippy_menu}>
-                                {
-                                    Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
-
-                                        if (!exclusive) return true;
-                                        else if (exclusive.includes('ADMIN') && checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) return true;
-                                        else if (exclusive.includes('PREMIUM') && loggedUser?.premium) return true;
-                                        else return false;
-
-                                    }).map(([name, { label, href, id, exclusive }]) => (
-                                        <Link href={href}>
-                                            <div className={styles.item}>
-                                                <span>{label}</span>
-                                            </div>
-                                        </Link>
-                                    ))
-                                }
-                            </div>
-
-                        </>}>
-                            <PixelIcon codename={'menu'} className={styles.mobileOnly} />
-                        </Tippy>
-                    }
                     {
                         Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
 
@@ -93,7 +95,9 @@ export default function Header() {
                         ))
                     }
                 </nav>
+
                 <p className={styles.mobileOnly}>PixelsPlace</p>
+
                 <nav className={styles.right}>
                     {
                         loggedUser?.id ? <>
