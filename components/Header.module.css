@@ -22,6 +22,12 @@
 .burgerMenu {
     padding: 15px;
     height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+
+    svg {
+        width: 40px;
+    }
 }
 
 .left {
