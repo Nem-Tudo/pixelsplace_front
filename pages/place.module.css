@@ -70,6 +70,7 @@
     -webkit-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
     box-shadow: var(--shadow);
+    -webkit-backdrop-filter: var(--frosted-glass-blur);
     backdrop-filter: var(--frosted-glass-blur);
     margin: 5px;
     margin-bottom: 15px;
@@ -137,6 +138,7 @@
     flex-direction: column;
     padding: 20px;
     background: #202b41;
+    -webkit-backdrop-filter: var(--frosted-glass-blur);
     backdrop-filter: var(--frosted-glass-blur);
     box-shadow: var(--shadow);
     /* color: var(--color-text); */
@@ -291,6 +293,7 @@
     top: 87px;
     animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35);
     border: var(--outline);
+    -webkit-backdrop-filter: var(--frosted-glass-blur);
     backdrop-filter: var(--frosted-glass-blur);
     width: fit-content;
     justify-self: center;
