@@ -219,17 +219,17 @@ export default function AdminPage() {
   }
 
   const PageSelector = <div class={styles.pageSelector}>
-    <input checked={choosePage == this.value} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
+    <input checked={choosePage == 'canvas'} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
     <label htmlFor={"pagina_canvas"}>
       <PixelIcon codename={'frame'} />
       Canvas
     </label>
-    <input checked={choosePage == this.value} type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
+    <input checked={choosePage == 'geral'} type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
     <label htmlFor={"pagina_geral"}>
       <PixelIcon codename={'bug'} />
       Geral
     </label>
-    <input checked={choosePage == this.value} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChoosePage('users')} />
+    <input checked={choosePage == 'users'} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChoosePage('users')} />
     <label htmlFor={"pagina_users"}>
       <PixelIcon codename={'user'} />
       Usuários

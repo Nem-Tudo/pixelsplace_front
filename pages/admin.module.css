@@ -190,8 +190,8 @@
   input {
     display: none;
   }
-  
+
   input:checked + label {
-    background-color: red;
+    background-color: var(--color-accent);
   }
 }
