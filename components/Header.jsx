@@ -52,6 +52,14 @@ export default function Header() {
         }
     };
 
+    const userValidLinks = Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
+        if (!exclusive) return true;
+        else if (exclusive.flags && exclusive.flags.some(flag => checkFlags(loggedUser?.flags, flag))) return true;
+        else if (exclusive.key && loggedUser && (loggedUser[exclusive.key.name] === exclusive.key.value)) return true;
+        else return false;
+
+    })
+
     return (
         <>
             <header className={styles.header}>
@@ -61,14 +69,7 @@ export default function Header() {
 
                         <div className={styles.tippy_menu}>
                             {
-                                Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
-
-                                    if (!exclusive) return true;
-                                    else if (exclusive.flags && exclusive.flags.some(flag => checkFlags(loggedUser?.flags, flag))) return true;
-                                    else if (exclusive.key && loggedUser && (loggedUser[exclusive.key.name] === exclusive.key.value)) return true;
-                                    else return false;
-
-                                }).map(([name, { label, href, id, exclusive }]) => (
+                                userValidLinks.map(([name, { label, href, id, exclusive }]) => (
                                     <Link href={href}>
                                         <div className={styles.item}>
                                             <span>{label}</span>
@@ -85,14 +86,7 @@ export default function Header() {
 
                 <nav className={[styles.left, 'mobilehidden_720'].join(' ')}>
                     {
-                        Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
-
-                            if (!exclusive) return true;
-                            else if (exclusive.includes('ADMIN') && checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) return true;
-                            else if (exclusive.includes('PREMIUM') && loggedUser?.premium) return true;
-                            else return false;
-
-                        }).map(([name, { icon, label, href, id, exclusive }]) => (
+                        userValidLinks.map(([name, { icon, label, href, id, exclusive }]) => (
                             <Link className={styles.item} id={id || ''} href={href}>
                                 {
                                     icon ? <div className={styles.icon}>{icon}</div> : ''
