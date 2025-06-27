@@ -12,7 +12,7 @@
 
 .main h1 {
   font-size: min(4dvw,3rem);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-align: center;
   color: var(--color-muted);
   font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
@@ -183,8 +183,8 @@
 }
 
 .pageSelector {
-  background-color: white;
-  padding: 10px;
+  background-color: var(--color-mid);
+  border: var(--outline);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -200,9 +200,16 @@
     flex-grow: 1;
     padding: 10px;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: var(--smooth-transition);
   }
 
   input:checked + label {
     background-color: var(--color-accent);
+    color: white;
   }
 }
