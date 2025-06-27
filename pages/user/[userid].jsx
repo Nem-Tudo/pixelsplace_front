@@ -11,6 +11,7 @@ import PremiumButton from "@/components/PremiumButton";
 
 import updateStateKey from "@/src/updateStateKey";
 import CustomButton from "@/components/CustomButton";
+import { getBrightness } from "@/src/colorFunctions";
 
 
 export async function getServerSideProps({ req, query }) {
@@ -48,6 +49,8 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
     profile_banner_url: false,
   });
 
+  const [profileTheme, setProfileTheme] = useState({ backgroundItem: "#b8b8b81f", text: "white" });
+
   const fileInputRef = useRef(null);
 
   const [filesToUpload, setFilesToUpload] = useState([])
@@ -60,6 +63,18 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   };
 
   const aboutmeRef = useRef(null);
+
+  useEffect(() => {
+    if (user.premium) {
+      const bright = getBrightness(user.profile.color_primary);
+      if (bright > 0.5) {
+        setProfileTheme({ backgroundItem: "#00000040", text: "black" });
+      } else {
+        setProfileTheme({ backgroundItem: "#b8b8b81f", text: "white" });
+      }
+    }
+  }, [user])
+
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -164,7 +179,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           </div>
         }
       </div>
-      <main className={styles.profile}>
+      <main className={styles.profile} style={user.premium ? { background: `linear-gradient(32deg, ${user.profile.color_primary}, ${user.profile.color_secundary})` } : {}}>
         <div style={{ height: "100%", width: "100%", position: "relative" }}>
           {!loading && loggedUser?.id === user?.id ? (
             <>
@@ -209,18 +224,14 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <div className={styles.avatarCircle} style={{ zIndex: "1" }}>
               <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USERPROFILE.USER_AVATAR_ALT")} />
             </div>
-
-            <h1 className={styles.displayName}>
-              {user?.display_name} <Verified verified={user?.premium} />
-            </h1>
-
+            <h1 style={{ color: profileTheme.text }} className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
             <p className={styles.username}>@{user?.username} </p>
           </div>
           <div className={styles.moreInfo}>
             {user.settings.selected_guild && (
               <div className={styles.serverInfo}>
                 {
-                  <div className={styles.guildCard}>
+                  <div className={styles.guildCard} style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
                     <img
                       className={styles.guildIcon}
                       src={settings.guildIconURL(user.settings.selected_guild.id, user.settings.selected_guild.icon)}
@@ -250,6 +261,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                   <div>
                     <textarea
                       value={user.profile.aboutme}
+                      style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}
                       onChange={(e) => {
                         updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
                       }}
@@ -260,7 +272,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               ) : (
                 <>
                   <div>
-                    <span>
+                    <span style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
                       {!loading && loggedUser?.id === user?.id ? (
                         <>
                           <MdOutlineModeEditOutline
@@ -282,7 +294,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                 </>
               )}
             </div>
-            <div className={styles.pixelsInfo}>
+            <div className={styles.pixelsInfo} style={{ background: profileTheme.backgroundItem }}>
               <p className={styles.pixelsText}>
                 {language.getString("PAGES.USERPROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
               </p>
@@ -293,6 +305,17 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </PremiumButton>
             </div>
           </div>
+          {
+            loggedUser?.id === user?.id && <div>
+              <input type="color" value={user.profile.color_primary} onChange={(e) => {
+                updateStateKey(setUser, user, ["profile.color_primary", e.target.value])
+              }} />
+              <input type="color" value={user.profile.color_secundary} onChange={(e) => {
+                updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
+              }} />
+            </div>
+          }
+
         </div>
       </main>
     </MainLayout>
