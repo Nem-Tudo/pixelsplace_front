@@ -184,4 +184,14 @@
 
 .pageSelector {
   background-color: white;
+  padding: 10px;
+  border-radius: 12px;
+
+  input {
+    display: none;
+  }
+
+  input:checked + label {
+    background-color: var(--color-accent);
+  }
 }
