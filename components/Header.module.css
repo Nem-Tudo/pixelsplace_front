@@ -112,9 +112,6 @@
             /* ou um gradiente se quiser */
             transition: width 0.3s ease;
         }
-        .userName:hover::after {
-            width: 100%;
-        }
 
         img {
             width: 40px;
@@ -127,6 +124,11 @@
         a {
             display: flex;
             align-items: center;
+        }
+    }
+    .loggedUser:hover {
+        .userName::after {
+            width: 100%;
         }
     }
 }
