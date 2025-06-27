@@ -107,7 +107,7 @@ a {
 
 @media (max-width: 720px) {
   .mobilehidden_720 {
-    display: none;
+    display: none !important;
   }
 }
 

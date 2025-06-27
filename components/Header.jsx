@@ -102,7 +102,7 @@ export default function Header() {
                     {
                         loggedUser?.id ? <>
                             <div className={styles.loggedUser}>
-                                <span className={styles.userName + " mobilehidden_500"}>{loggedUser.username}</span>
+                                <span className={styles.userName + " mobilehidden_720"}>{loggedUser.username}</span>
                                 <Tippy theme="transparent" trigger="click" interactive={true} content={<>
 
                                     <div className={styles.tippy_menu}>
