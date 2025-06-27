@@ -166,26 +166,9 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
   return (
     <MainLayout>
-      {/*<div className={styles.overlay} style={{
-        display: "fixed",
-        position: "absolute",
-        width: "100dvw",
-        height: "100dvh",
-        zIndex: 3,
-        pointerEvents: "none"
-      }}>
-        {
-          JSON.stringify(user) != JSON.stringify(savedUser) && <div className={styles.saveChanges} style={{
-            bottom: "0px",
-            position: "fixed",
-            right: "0px"
-          }}>
-            <CustomButton style={{ margin: "20px", pointerEvents: "all" }} color="#33b32e" label={"Salvar"} onClick={() => saveChanges()} />
-          </div>
-        }
-      </div>*/}
+      {/*onClick={() => saveChanges()}*/}
       <main className={styles.main} style={user.premium ? { '--user-color-primary': `${user.profile.color_primary}`, '--user-color-secondary': `${user.profile.color_secundary}` } : {}}>
-        <div style={{ height: "100%", width: "100%", position: "relative" }}>
+        <div className={styles.wallpaper}>
           {!loading && loggedUser?.id === user?.id ? (
             <>
               {/* <MdOutlineModeEditOutline style={{ position: 'absolute',top: "5px", right: '5px', cursor: "pointer"}} onClick={() => switchEdit("profile_banner_url")}/> */}
@@ -220,7 +203,6 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           <img
             src={user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
             alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
-            className={styles.bgUser}
           />
         </div>
 

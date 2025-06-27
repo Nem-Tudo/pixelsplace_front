@@ -7,6 +7,20 @@
   color: white;
   flex-grow: 1;
 
+  .wallpaper {
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+  }
+
+
+
   .divPag {
     display: flex;
     flex-direction: column;
@@ -82,12 +96,6 @@
       text-overflow: ellipsis;
       height: auto;
       text-align: center;
-  }
-
-  .bgUser {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
   }
 
   .avatarCircle {
