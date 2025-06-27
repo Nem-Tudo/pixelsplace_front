@@ -23,7 +23,7 @@
   border: none;
 }
 .button.primary:hover {
-  background-color: var(--btn-color-hover, var(--color-darker));
+  background-color: var(--btn-color-hover, #0058b8);
 }
 
 .button.secondary {
@@ -32,7 +32,7 @@
   border: 1px solid var(--btn-color, var(--color-accent));
 }
 .button.secondary:hover {
-  background-color: var(--btn-color-hover, var(--color-darker));
+  background-color: var(--btn-color-hover, #0058b8);
   border: var(--outline);
   color: white;
 }
