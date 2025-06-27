@@ -26,6 +26,7 @@ export function numberToHex(num = 0) {
 }
 
 export function getBrightness(hexColor) {
+  if(!hexColor) return 0 
   // Remove o # se houver
   hexColor = hexColor.replace(/^#/, '');
 
