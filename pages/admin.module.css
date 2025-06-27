@@ -4,7 +4,7 @@
 
   h1 {
     font-size: min(4dvw,3rem);
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: center;
     color: var(--color-muted);
     font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
@@ -98,7 +98,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border-radius: 3px;
+    border-radius: 100dvh;
     padding: 2px 8px;
     margin-right: 10px;
     color: hsla(0, 0%, 100%, 75%);
