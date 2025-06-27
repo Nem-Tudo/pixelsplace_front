@@ -1,8 +1,8 @@
 /* formato dos botões gerais */
 .button {
   box-shadow: var(--shadow);
-  padding: 18px;
-  border-radius: 12px 20px;
+  padding: 12px 20px;
+  border-radius: 12px;
   transition: var(--smooth-transition);
   cursor: pointer;
   display: flex;
