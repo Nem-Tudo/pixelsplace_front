@@ -21,13 +21,24 @@ module.exports = {
         ADMIN: "Admin",
         REDIRECTING: "Redirecting...",
         LOADING: "Loading...",
-        NO_PERMISSION: "You do not have permission to do this",
+        NO_PERMISSION: "You don't have permission to do this",
+        NOT_SELECTED: "Not selected",
+        USER: "User",
+        SERVER: "Server",
+        HISTORY: "History",
+        PREMIUM: "Premium",
+        TRY_AGAIN: "Try again",
+        RELOAD: "Reload",
+        RELOAD_PAGE: "Reload page",
+        BACK: "Back",
+        LANGUAGE: "Language",
+        TIME_TRAVEL: "Time Travel"
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "Error fetching builds",
             UNKNOWN_ERROR: "Unknown error",
-            INVALID_BUILD_MESSAGE: "You are using an invalid build. Reverting to the main build...",
+            INVALID_BUILD_MESSAGE: "You are using an invalid build. Returning to the main build...",
             BUILD_NOT_FOUND: "Build not found",
             ERROR_SWITCH_BUILD: "Error switching build",
             ERROR_FETCH_BRANCH: "Error fetching current branch",
@@ -42,39 +53,38 @@ module.exports = {
             PROFILE: "Profile",
             DISCONNECT: "Disconnect",
             REMOVE_BUILD_OVERRIDE: "Remove Build Override",
-            LOGIN: "Login",
+            LOGIN: "Log in",
             LOGGED_OUT: "Logged out",
-            VIEW_SETTINGS: "View Settings"
+            VIEW_AS_USER: "View as user",
+            NORMAL_VIEW: "Normal view",
+            VIEW_SETTINGS: "View options"
         },
+    },
+    POPUPS: {
         PREMIUM_POPUP: {
             TITLE: "You need to be Premium!",
-            DESCRIPTION1: "Imagine being able to choose any color in the UNIVERSE to paint with... You can!",
+            DESCRIPTION1: "Imagine you can pick any color in the UNIVERSE to paint... You can!",
             DESCRIPTION2: "Get this and much more with PixelsPlace Premium",
             MAYBE_LATER: "Maybe later",
             DISCOVER_PREMIUM: "Discover Premium!"
         },
-        PREMIUM_WARNING: {
-            FEATURE_PREMIUM_ONLY: "This feature is Premium-only",
-            BUY_PREMIUM_HERE: "Buy Premium here!"
-        }
     },
     LAYOUTS: {
         MAIN_LAYOUT: {
             BANNED_TITLE: "You have been banned.",
             AFFECTED_AREAS: "Affected areas",
-            NO_FANCY_UNBAN_PAGE: "There won't be a fancy page for an unban form, this is pretty much it now",
+            NO_FANCY_UNBAN_PAGE: "There won't be any fancy unban form page, it's basically just this now",
             OPEN_TICKET_INSTRUCTION: "The only thing you can do is open a ticket at",
             EXPLAIN_WHAT_HAPPENED: "and try to explain what happened",
-            MODS_HAVE_RECORDS: "But be aware that the mods have records of everything, so they're basically omniscient... You'll have to come up with a *really* good excuse if you want anything",
-            FAREWELL_MESSAGE: "Well, that's it man, take care",
-            INVALID_BUILD_ALERT: "You are using an invalid build, reverting to the main build."
+            MODS_HAVE_RECORDS: "But know that the mods have records of everything, so they are basically omniscient... You'll have to come up with a really good excuse if you want anything",
+            FAREWELL_MESSAGE: "Well, that's it bro, cheers",
+            INVALID_BUILD_ALERT: "You are using an invalid build, returning to the main build."
         }
     },
     PAGES: {
         HOME: {
             META_DESCRIPTION: "Join PixelsPlace!",
             LOGO_ALT: "logo",
-            TIME_TRAVEL: "Time Travel",
             SERVERS: "Servers",
             START: "Start",
         },
@@ -88,7 +98,7 @@ module.exports = {
             REMOVING_BUILDS: "Removing builds...",
             INVALID_BUILD: "Invalid build",
             ERROR_FETCHING_BUILD: "Error fetching build",
-            TITLE: "Want to use a custom build on PixelsPlace?",
+            TITLE: "Do you want to use a custom build on PixelsPlace?",
             SIGNED_BY: "Signed by",
             UPDATING_BUILD: "Updating build...",
             REMOVE_INSTRUCTION: "If you want to remove it later, just click on your profile settings"
@@ -109,31 +119,31 @@ module.exports = {
             JOIN: "Join"
         },
         TIME_TRAVEL: {
-            PAGE_TITLE: "Timetravel PixelsPlace",
+            PAGE_TITLE: "PixelsPlace Timetravel",
             PAGE_DESCRIPTION: "Join PixelsPlace!",
-            API_ERROR: "An error occurred while connecting to the main API",
+            API_ERROR: "An error occurred connecting to the main API",
             RELOAD_BUTTON: "Reload",
             FULL_HISTORY: "Full history",
-            CHANGES_ONLY: "Only the changes",
+            CHANGES_ONLY: "Changes only",
             MARCH_LABEL: "March (m):",
             MULTIPLIER_LABEL: "Multiplier:"
         },
         PLACE: {
             META_DESCRIPTION: "Join PixelsPlace!",
-            COPY_LINK: "Copy pixel link",
+            COPY_LINK: "Copy link to pixel",
             LINK_GENERATED: "Link generated:",
-            LINK_SUCCESSFULLY_COPIED: "Link successfully copied to clipboard!",
+            LINK_SUCCESSFULLY_COPIED: "Link copied to clipboard!",
             PICK_COLOR: "Pick color",
             PICK_A_COLOR: "Pick a color",
-            PREMIUM_ONLY_COLOR: "This color is only available for Premium users! :(",
+            PREMIUM_ONLY_COLOR: "This color is available only for Premium users! :(",
             PLACE_PIXEL: "Place pixel",
-            LOG_IN_TO_PLACE_PIXEL: "Log in to place pixel",
+            LOG_IN_TO_PLACE_PIXEL: "Log in to place a pixel",
             PLACE: "Place!",
-            PREMIUM_ANY_COLOR: "Choose any color you want with",
+            PREMIUM_ANY_COLOR: "Pick any color you want with",
             WEBSOCKET_KICKED: "WebSocket disconnected: You were kicked from the room",
-            ERROR_MAIN_API_CONNECT: "An error occurred while connecting to the main API",
+            ERROR_MAIN_API_CONNECT: "An error occurred connecting to the main API",
             ERROR_FAILED_WEBSOCKET: "WebSocket connection failed",
-            WEBSOCKET_SEARCH: "Searching for WebSocket..."
+            WEBSOCKET_SEARCH: "Searching for WebSocket...",
         }
     },
 }

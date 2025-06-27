@@ -39,7 +39,7 @@ export default function Header() {
             exclusive: ['ADMIN']
         },
         timetravel: {
-            label: language.getString("COMPONENTS.HEADER.TIME_TRAVEL"),
+            label: language.getString("COMMON.TIME_TRAVEL"),
             href: '/timetravel',
             exclusive: ['PREMIUM', 'ADMIN']
         }

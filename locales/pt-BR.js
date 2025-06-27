@@ -31,7 +31,8 @@ module.exports = {
         RELOAD: "Recarregar",
         RELOAD_PAGE: "Recarregar página",
         BACK: "Voltar",
-        LANGUAGE: "Idioma"
+        LANGUAGE: "Idioma",
+        TIME_TRAVEL: "Viagem no tempo"
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
@@ -49,7 +50,6 @@ module.exports = {
         },
         HEADER: {
             ADVANTAGES: "Vantagens",
-            TIME_TRAVEL: "Viagem no tempo",
             PROFILE: "Perfil",
             DISCONNECT: "Desconectar",
             REMOVE_BUILD_OVERRIDE: "Remover Build Override",
@@ -85,7 +85,6 @@ module.exports = {
         HOME: {
             META_DESCRIPTION: "Participe do PixelsPlace!",
             LOGO_ALT: "logo",
-            TIME_TRAVEL: "Viagem no tempo",
             SERVERS: "Servidores",
             START: "Começar",
         },
