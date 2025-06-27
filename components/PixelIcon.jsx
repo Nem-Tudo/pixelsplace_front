@@ -32,5 +32,5 @@ export default function PixelIcon({ codename = 'coffee', ...props }) {
         styles.pixelIcon,
         props.className || ''
     ].join(' ');
-    return (<div className={className} {...props}>{icons[codename] ?? icons['coffee']}</div>)
+    return (<div {...props} className={className}>{icons[codename] ?? icons['coffee']}</div>)
 }
