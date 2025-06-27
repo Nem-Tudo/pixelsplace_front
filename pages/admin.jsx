@@ -49,10 +49,8 @@ export default function AdminPage() {
 
     if (res.status == 404) {
       setUser(null);
-      setFlagsUser(null);
     } else {
       setUser(data);
-      setFlagsUser(data.flags)
       console.log(data);
     }
 
@@ -61,7 +59,6 @@ export default function AdminPage() {
   }
 
   const [user, setUser] = useState(null);
-  const [flagsUser, setFlagsUser] = useState([]);
 
   const fetchCanvas = async () => {
     const res = await fetch(`${settings.apiURL}/canvas`);
@@ -673,63 +670,90 @@ export default function AdminPage() {
                 <legend>
                   <strong>Informações do usuário</strong>
                 </legend>
+                <img src={settings.avatarURL(user.id, user.avatar)} style={{ width: "50px" }} />
                 <span>Nome: {user?.display_name} (@{user?.username})</span>
                 <span>Criação: {dateToString(user?.createdAt)}</span>
                 <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
               </fieldset>
             }
 
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <legend>
-                <strong>Editar Flags</strong>
-              </legend>
-              <div className={styles.flagList}>
-                {user && user?.flags?.map((flag, index) => (
-                  <div className={styles.flag} onClick={() => {
-                    updateStateKey(setUser, user, ["flags", flagsUser]);
-                    setFlagsUser(removeItemFromArray(flagsUser, index))
-                  }}>{flag}<PixelIcon codename={"trash"} /></div>
-                ))}
-              </div>
-              <footer className={styles.footerButtons}>
-                <CustomButton
-                  label={'Adicionar Flag'}
-                  icon={'plus'}
-                  color={"#27b84d"}
-                  onClick={() => {
-                    const flag = prompt("Escreva o nova Flag").toUpperCase();
-                    if (flag) {
-                      const newFlagsUser = [...flagsUser];
-                      newFlagsUser.push(flag);
-                      updateStateKey(setUser, user, ["flags", newFlagsUser]);
-                      setFlagsUser(newFlagsUser);
+            {
+              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                <legend>
+                  <strong>Editar Flags</strong>
+                </legend>
+                <div className={styles.flagList}>
+                  {user && user?.flags?.map((flag, index) => (
+                    <div className={styles.flag}>{flag}<PixelIcon onClick={() => {
+                      updateStateKey(setUser, user, ["flags", removeItemFromArray(user.flags, index)]);
+                    }} codename={"trash"} /></div>
+                  ))}
+                </div>
+                <footer className={styles.footerButtons}>
+                  <CustomButton
+                    label={'Adicionar Flag'}
+                    icon={'plus'}
+                    color={"#27b84d"}
+                    onClick={() => {
+                      const flag = prompt("Escreva o nova Flag").toUpperCase();
+                      if (flag) {
+                        const newFlagsUser = [...user.flags];
+                        newFlagsUser.push(flag);
+                        updateStateKey(setUser, user, ["flags", newFlagsUser]);
+                      }
+                    }}
+                  />
+                  <CustomButton
+                    label={'Salvar Flags'}
+                    icon={'save'}
+                    disabled={loading}
+                    onClick={async () => {
+                      console.log(user?.id);
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        flags: user.flags,
+                      });
+                    }}
+                  />
+                </footer>
+              </fieldset>
+            }
 
-                    }
-                  }}
-                />
-                <CustomButton
-                  label={'Salvar Flags'}
-                  icon={'save'}
-                  disabled={loading}
-                  onClick={async () => {
-                    console.log(user?.id);
-                    await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                      flags: flagsUser,
-                    });
-                    fetchCanvas();
-                  }}
-                />
-              </footer>
-            </fieldset>
-
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <legend>
-                <strong>Gerenciar</strong>
-                {/* premium
+            {
+              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                <legend>
+                  <strong>Gerenciar</strong>
+                  <div>
+                    <span>Premium: </span>
+                    <input type="checkbox" checked={user.premium} id="" onChange={e => {
+                      updateStateKey(setUser, user, ["premium", e.target.checked ? 1 : 0]);
+                    }} />
+                    <button onClick={async () => {
+                      console.log(user?.id);
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        premium: user.premium,
+                      });
+                    }}>Salvar premium</button>
+                  </div>
+                  <div>
+                    <button onClick={async () => {
+                      let newFlags = user.flags;
+                      if (user.flags.includes("BANNED")) {
+                        newFlags = user.flags.filter(flag => flag != "BANNED");
+                      } else {
+                        newFlags.push("BANNED")
+                      }
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        flags: newFlags
+                      });
+                      getUser(user.id)
+                    }}>{user.flags.includes("BANNED") ? "Desbanir" : "Banir"}</button>
+                  </div>
+                  {/* premium
                   kickar
                   banir/desbanir */}
-              </legend>
-            </fieldset>
+                </legend>
+              </fieldset>
+            }
           </main>
         </MainLayout>
       </>
