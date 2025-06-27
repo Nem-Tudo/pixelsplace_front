@@ -21,6 +21,7 @@
 
 .burgerMenu {
     padding: 15px;
+    height: 100%;
 }
 
 .left {
@@ -85,6 +86,8 @@
     font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
     justify-self: center;
     justify-content: center;
+    height: 100%;
+    align-items: center;
 }
 
 .right {
