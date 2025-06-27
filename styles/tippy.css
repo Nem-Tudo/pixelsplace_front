@@ -57,3 +57,7 @@
     color: var(--tippy-color);
     height: 25px !important;
 }
+
+.tippy-content {
+    padding: 0;
+}

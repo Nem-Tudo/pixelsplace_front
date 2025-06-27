@@ -135,6 +135,10 @@
     .loggedUser:hover .userName::after {
         width: 100%;
     }
+
+    div[data-tippy-root] {
+        padding: 0;
+    }
 }
 
 .tippy_menu {
