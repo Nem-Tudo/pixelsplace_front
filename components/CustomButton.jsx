@@ -28,7 +28,7 @@ export default function CustomButton({
     }, [color]);
 
     const className = [
-        styles.btn,
+        styles.button,
         importances[hierarchy - 1],
         props.className || ''
     ].join(' ');

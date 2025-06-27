@@ -54,28 +54,6 @@
     cursor: pointer;
   }
 
-  button {
-    background-color: var(--color-accent);
-    color: white;
-    padding: 12px 20px;
-    border: var(--outline);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: var(--smooth-transition);
-    margin-top: 10px;
-  }
-
-  button:hover {
-    background-color: var(--color-darker);
-    scale: var(--hover-scale)
-  }
-
-  button[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
   textarea {
     font-family: monospace;
   }
@@ -88,12 +66,12 @@
   color: var(--color-muted);
 }
 
-.colorsContainer{
+.colorContainer{
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 
-  .coloritem {
+  .colorItem {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,12 +81,6 @@
     border: var(--outline);
     cursor: grab;
   }
-}
-
-.buttonGroup{
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
 }
 
 .flagList{
@@ -148,6 +120,7 @@
 
 .footerButtons {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -177,6 +150,11 @@
     gap: 5px;
     cursor: pointer;
     transition: var(--smooth-transition);
+  }
+
+  label:hover {
+    background-color: var(--color-mid-hover);
+    scale: var(--hover-scale);
   }
 
   input:checked + label {

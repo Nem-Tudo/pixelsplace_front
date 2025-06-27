@@ -236,18 +236,6 @@ export default function AdminPage() {
             
             {PageSelector}
 
-            {/*
-              <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                <legend>
-                  <strong>Informações principais</strong>
-                </legend>
-                <button onClick={() => fetchStats()}>Atualizar</button>
-                <br />
-                <span>Update: {stats?.time}</span>
-                <span>Online: {stats?.online}</span>
-                <span>Usuarios: {stats?.registeredUsers}</span>
-                <span>Pixels: {stats?.pixels}</span>
-              </fieldset> */}
             {/* Redimensionar */}
             <fieldset>
               <legend>
@@ -315,21 +303,11 @@ export default function AdminPage() {
                 />
               )}
 
-              <div
-                style={{
-                  display: "flex",
-                  gap: "14px",
-                  rowGap: "12px",
-                  flexWrap: "wrap",
-                  maxWidth: "1550px",
-                  overflow: "auto",
-                  padding: "10px",
-                }}
-              >
+              <div className={styles.colorContainer}>
                 {freeColors.map((color, index) => (
                   <div
                     key={index}
-                    className={styles.coloritem}
+                    className={styles.colorItem}
                     draggable
                     onDragStart={() => handleDragStart(index)}
                     onDragEnter={() => handleDragEnter(index)}

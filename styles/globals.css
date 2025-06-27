@@ -38,6 +38,7 @@
   --color-outline: hsla(0deg, 0%, 100%, 20%);
   --color-accent: hsl(207.04, 100%, 41.76%);
   --color-darker: hsl(217.99, 100%, 44.9%);
+  --color-mid-hover: hsl(223, 29%, 31%);
   --color-mid: hsl(222, 26%, 22%);
   --color-input-bg: hsl(225, 36%, 17%);
   --color-darkest: hsl(222, 40%, 13%);

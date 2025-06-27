@@ -1,5 +1,5 @@
 /* formato dos botões gerais */
-.btn {
+.button {
   box-shadow: var(--shadow);
   padding: 18px;
   border-radius: 12px;
@@ -11,35 +11,42 @@
   gap: 8px;
   text-align: center;
 }
-.btn:hover {
+.button:hover {
   scale: var(--hover-scale);
 }
 
 /* cores e aspectos */
-.btn.primary {
+.button.primary {
   background-color: var(--btn-color, var(--color-accent));
   color: white;
   /* border: var(--outline); */
   border: none;
 }
-.btn.primary:hover {
+.button.primary:hover {
   background-color: var(--btn-color-hover, var(--color-darker));
 }
 
-.btn.secondary {
+.button.secondary {
   background-color: transparent;
   color: var(--btn-color, var(--color-accent));
   border: 1px solid var(--btn-color, var(--color-accent));
 }
-.btn.secondary:hover {
+.button.secondary:hover {
   background-color: var(--btn-color-hover, var(--color-darker));
   border: var(--outline);
   color: white;
 }
 
-.btn.tertiary {
+.button.tertiary {
   box-shadow: none;
   color: var(--btn-color, var(--color-accent));
   border: none;
   background: transparent;
+}
+
+
+/* desabilitado */
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
