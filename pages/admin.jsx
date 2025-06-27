@@ -519,8 +519,8 @@ export default function AdminPage() {
       </>
     );
   }
-
-  if (choosePage === "geral") {
+  
+  else if (choosePage === "geral") {
     return (
       <>
         <Head>
@@ -644,7 +644,7 @@ export default function AdminPage() {
     );
   }
 
-  if (choosePage === "users") {
+  else if (choosePage === "users") {
     return (
       <>
         <Head>
