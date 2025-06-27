@@ -181,3 +181,7 @@
 .flag svg{
   cursor: pointer;
 }
+
+.pageSelector {
+  background-color: white;
+}
