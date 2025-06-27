@@ -166,7 +166,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
   return (
     <MainLayout>
-      <div className={styles.overlay} style={{
+      {/*<div className={styles.overlay} style={{
         display: "fixed",
         position: "absolute",
         width: "100dvw",
@@ -183,7 +183,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <CustomButton style={{ margin: "20px", pointerEvents: "all" }} color="#33b32e" label={"Salvar"} onClick={() => saveChanges()} />
           </div>
         }
-      </div>
+      </div>*/}
       <main className={styles.profile} style={user.premium ? { background: `linear-gradient(132deg, ${user.profile.color_primary}, ${user.profile.color_secundary})` } : {}}>
         <div style={{ height: "100%", width: "100%", position: "relative" }}>
           {!loading && loggedUser?.id === user?.id ? (
