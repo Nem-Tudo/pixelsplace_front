@@ -36,6 +36,7 @@
 :root {
   /* Cores */
   --color-outline: hsla(0deg, 0%, 100%, 20%);
+  --color-header-bottom: hsl(205, 76%, 57%);
   --color-accent: hsl(207.04, 100%, 41.76%);
   --color-darker: hsl(217.99, 100%, 44.9%);
   --color-mid-hover: hsl(223, 29%, 31%);

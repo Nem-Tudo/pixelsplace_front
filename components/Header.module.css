@@ -1,5 +1,5 @@
 .header {
-    background: linear-gradient(90deg, var(--color-muted), var(--color-accent));
+    background: linear-gradient(180deg, var(--color-muted), var(--color-header-bottom));
     padding: 1rem 2rem;
     box-shadow: var(--shadow);
     display: flex;
@@ -53,15 +53,17 @@
     }
 
     #premium {
-        background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        position: relative;
-        display: inline-block;
-    }
-    #premium::after {
-        background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
+        span {
+            background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+        span::after {
+            background: linear-gradient(90deg, rgba(0, 255, 225, 1) 18%, rgba(72, 232, 72, 1) 84%);
+        }
     }
 }
 
