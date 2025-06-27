@@ -27,6 +27,7 @@
 
     svg {
         width: 40px;
+        cursor: pointer;
     }
 }
 
