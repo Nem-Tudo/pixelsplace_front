@@ -646,7 +646,7 @@ export default function AdminPage() {
               <br />
               <span>Update: {stats?.time}</span>
               <span>Online: {stats?.online}</span>
-              <span>Usuarios: {stats?.registeredUsers}</span>
+              <span>Usuários: {stats?.registeredUsers}</span>
               <span>Pixels: {stats?.pixels}</span>
             </fieldset>
 
@@ -657,7 +657,7 @@ export default function AdminPage() {
               <input type="number" id="idUserSearch" />
               <footer className={styles.footerButtons}>
                 <CustomButton
-                  label={'Consultar usuário'}
+                  label={'Consultar'}
                   icon={'contact'}
                   disabled={loading}
                   onClick={() => getUser(document.getElementById("idUserSearch").value)}
@@ -719,11 +719,11 @@ export default function AdminPage() {
             }
 
             {
-              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "20px" }}>
                 <legend>
                   <strong>Gerenciar</strong>
                   </legend>
-                  <div>
+                  <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
                     <span>Premium: </span>
                     <input type="checkbox" checked={user.premium} id="" onChange={e => {
                       updateStateKey(setUser, user, ["premium", e.target.checked ? 1 : 0]);

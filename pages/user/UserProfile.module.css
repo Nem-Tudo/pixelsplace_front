@@ -5,7 +5,7 @@
   width: 100dvw;
   background: linear-gradient(132deg, var(--user-color-primary), var(--user-color-secondary));
   color: white;
-  min-height: 100vh;
+  flex-grow: 1;
 
   .divPag {
     display: flex;
