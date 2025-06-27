@@ -58,6 +58,8 @@ module.exports = {
             NORMAL_VIEW: "Visualização normal",
             VIEW_SETTINGS: "Opções de visualização"
         },
+    },
+    POPUPS: {
         PREMIUM_POPUP: {
             TITLE: "Você precisa ser Premium!",
             DESCRIPTION1: "Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!",
@@ -65,10 +67,6 @@ module.exports = {
             MAYBE_LATER: "Talvez depois",
             DISCOVER_PREMIUM: "Conheça o Premium!"
         },
-        PREMIUM_WARNING: {
-            FEATURE_PREMIUM_ONLY: "Essa função é apenas para Premium",
-            BUY_PREMIUM_HERE: "Compre o Premium aqui!"
-        }
     },
     LAYOUTS: {
         MAIN_LAYOUT: {
