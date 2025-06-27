@@ -186,9 +186,20 @@
   background-color: white;
   padding: 10px;
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  overflow: hidden;
 
   input {
     display: none;
+  }
+
+  label {
+    flex-grow: 1;
+    padding: 10px;
+    margin: 0;
   }
 
   input:checked + label {
