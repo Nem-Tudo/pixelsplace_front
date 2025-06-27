@@ -21,7 +21,7 @@ export default function Header() {
             setUsingBuildOverride(true);
         }
     }, [])
-
+    
     const HeaderLinks = {
         pixelsplace: {
             icon: (<img style={{ width: "40px" }} src="/logo.png" alt="" />),
@@ -37,28 +37,85 @@ export default function Header() {
             label: language.getString("COMMON.ADMIN"),
             href: '/admin',
             exclusive: {
-                flags: ["ADMIN_VIEWPAGE"]
+                flags: ["ADMIN_VIEWPAGE"] // Flag única (formato atual)
             }
         },
         timetravel: {
             label: language.getString("COMMON.TIME_TRAVEL"),
             href: '/timetravel',
             exclusive: {
-                key: {
-                    name: "premium",
-                    value: 1
-                }
+                keys: { name: "premium", value: 1 } // Key única (novo formato)
             }
         }
     };
 
     const userValidLinks = Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
+        // Se não tem restrições, permite acesso
         if (!exclusive) return true;
-        else if (exclusive.flags && exclusive.flags.some(flag => checkFlags(loggedUser?.flags, flag))) return true;
-        else if (exclusive.key && loggedUser && (loggedUser[exclusive.key.name] === exclusive.key.value)) return true;
-        else return false;
 
-    })
+        // Se não tem usuário logado e tem restrições, nega acesso
+        if (!loggedUser) return false;
+
+        // Função para verificar uma condição individual
+        const checkCondition = (condition) => {
+            // Verificação de flags
+            if (condition.flags) {
+                // Suporte a múltiplas flags com operadores lógicos
+                if (Array.isArray(condition.flags)) {
+                    // Por padrão usa OR - qualquer flag serve
+                    const operator = condition.flagsOperator || 'OR';
+
+                    if (operator === 'AND') {
+                        return condition.flags.every(flag => checkFlags(loggedUser?.flags, flag));
+                    } else { // OR
+                        return condition.flags.some(flag => checkFlags(loggedUser?.flags, flag));
+                    }
+                } else {
+                    // Flag única
+                    return checkFlags(loggedUser?.flags, condition.flags);
+                }
+            }
+
+            // Verificação de keys (propriedades do usuário)
+            if (condition.keys) {
+                // Suporte a múltiplas keys
+                if (Array.isArray(condition.keys)) {
+                    const operator = condition.keysOperator || 'OR';
+
+                    if (operator === 'AND') {
+                        return condition.keys.every(key =>
+                            loggedUser[key.name] === key.value
+                        );
+                    } else { // OR
+                        return condition.keys.some(key =>
+                            loggedUser[key.name] === key.value
+                        );
+                    }
+                } else {
+                    // Key única (compatibilidade com formato antigo)
+                    const key = condition.keys;
+                    return loggedUser[key.name] === key.value;
+                }
+            }
+            return false;
+        };
+
+        // Se exclusive é um array, trata como múltiplas condições
+        if (Array.isArray(exclusive)) {
+            const operator = exclusive.operator || 'OR';
+
+            if (operator === 'AND') {
+                // Todas as condições devem ser verdadeiras
+                return exclusive.every(checkCondition);
+            } else { // OR
+                // Pelo menos uma condição deve ser verdadeira
+                return exclusive.some(checkCondition);
+            }
+        } else {
+            // Condição única
+            return checkCondition(exclusive);
+        }
+    });
 
     return (
         <>
@@ -97,7 +154,7 @@ export default function Header() {
                     }
                 </nav>
 
-                <p className={'mobileonly '+styles.centerTitle}>PixelsPlace</p>
+                <p className={'mobileonly ' + styles.centerTitle}>PixelsPlace</p>
 
                 <nav className={styles.right}>
                     {
