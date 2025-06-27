@@ -36,12 +36,19 @@ export default function Header() {
         admin: {
             label: language.getString("COMMON.ADMIN"),
             href: '/admin',
-            exclusive: ['ADMIN']
+            exclusive: {
+                flags: ["ADMIN_VIEWPAGE"]
+            }
         },
         timetravel: {
             label: language.getString("COMPONENTS.HEADER.TIME_TRAVEL"),
             href: '/timetravel',
-            exclusive: ['PREMIUM', 'ADMIN']
+            exclusive: {
+                key: {
+                    name: "premium",
+                    value: 1
+                }
+            }
         }
     };
 
@@ -57,8 +64,8 @@ export default function Header() {
                                 Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
 
                                     if (!exclusive) return true;
-                                    else if (exclusive.includes('ADMIN') && checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) return true;
-                                    else if (exclusive.includes('PREMIUM') && loggedUser?.premium) return true;
+                                    else if (exclusive.flags && exclusive.flags.some(flag => checkFlags(loggedUser?.flags, flag))) return true;
+                                    else if (exclusive.key && loggedUser && (loggedUser[exclusive.key.name] === exclusive.key.value)) return true;
                                     else return false;
 
                                 }).map(([name, { label, href, id, exclusive }]) => (
