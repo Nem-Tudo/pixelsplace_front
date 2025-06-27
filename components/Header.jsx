@@ -29,7 +29,8 @@ export default function Header() {
         },
         premium: {
             label: language.getString("COMPONENTS.HEADER.ADVANTAGES"),
-            href: '/premium'
+            href: '/premium',
+            id: styles.premium
         },
         admin: {
             label: language.getString("COMMON.ADMIN"),
@@ -55,8 +56,8 @@ export default function Header() {
                             else if (exclusive.includes('PREMIUM') && loggedUser?.premium) return true;
                             else return false;
 
-                        }).map(([name, { icon, label, href, exclusive }]) => (
-                            <Link className={styles.item} id={`${name}`} href={href}>
+                        }).map(([name, { icon, label, href, id, exclusive }]) => (
+                            <Link className={styles.item} id={id || ''} href={href}>
                                 {
                                     icon ? <div className={styles.icon}>{icon}</div> : ''
                                 }
