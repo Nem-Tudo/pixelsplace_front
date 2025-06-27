@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
+import PixelIcon from "@/components/PixelIcon"
 
 export default function Header() {
     const { language, changeLanguage, lang, availableLanguages } = useLanguage();
