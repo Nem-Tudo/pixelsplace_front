@@ -21,19 +21,48 @@ export default function Header() {
         }
     }, [])
 
+    const HeaderLinks = {
+        pixelsplace: {
+            icon: (<img style={{ width: "40px" }} src="/logo.png" alt="" />),
+            label: 'PixelsPlace',
+            href: '/'
+        },
+        premium: {
+            label: language.getString("COMPONENTS.HEADER.ADVANTAGES"),
+            href: '/premium'
+        },
+        admin: {
+            label: language.getString("COMMON.ADMIN"),
+            href: '/admin',
+            exclusive: ['ADMIN']
+        },
+        timetravel: {
+            label: language.getString("COMPONENTS.HEADER.TIME_TRAVEL"),
+            href: '/timetravel',
+            exclusive: ['PREMIUM', 'ADMIN']
+        }
+    };
+
     return (
         <>
             <header className={styles.header}>
                 <nav className={styles.left}>
-                    <Link href={"/"}>
-                        <div className={styles.item}>
-                            <img style={{ width: "40px" }} src="/logo.png" alt="" />
-                            <span id={styles.pixelPlace}>PixelsPlace</span>
-                        </div>
-                    </Link>
-                    <Link href={"/premium"}><span id={styles.premium}>{language.getString("COMPONENTS.HEADER.ADVANTAGES")}</span></Link>
                     {
-                        checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <Link href={"/admin"}><span id={styles.admin}>{language.getString("COMMON.ADMIN")}</span></Link>
+                        Object.entries(HeaderLinks).filter(([_, { exclusive }]) => {
+
+                            if (!exclusive) return true;
+                            else if (exclusive.includes('ADMIN') && checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE")) return true;
+                            else if (exclusive.includes('PREMIUM') && loggedUser?.premium) return true;
+                            else return false;
+
+                        }).map(([name, { icon, label, href, exclusive }]) => (
+                            <Link className={styles.item} id={`${name}`} href={href}>
+                                {
+                                    icon ? <div className={styles.icon}>{icon}</div> : ''
+                                }
+                                <span>{label}</span>
+                            </Link>
+                        ))
                     }
                 </nav>
                 <nav className={styles.right}>

@@ -49,6 +49,7 @@ module.exports = {
         },
         HEADER: {
             ADVANTAGES: "Vantagens",
+            TIME_TRAVEL: "Viagem no tempo",
             PROFILE: "Perfil",
             DISCONNECT: "Desconectar",
             REMOVE_BUILD_OVERRIDE: "Remover Build Override",
