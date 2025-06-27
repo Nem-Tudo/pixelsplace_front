@@ -67,7 +67,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   useEffect(() => {
     if (user.premium) {
       const bright = getBrightness(user.profile.color_primary);
-      if (bright > 0.5) {
+      if (bright > 0.7) { //Cor degradê MUITO clara
         setProfileTheme({ backgroundItem: "#00000040", text: "black" });
       } else {
         setProfileTheme({ backgroundItem: "#b8b8b81f", text: "white" });
