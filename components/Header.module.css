@@ -13,6 +13,14 @@
     position: relative;
     text-shadow: 1px 1px 7px #00000026;
     color: white;
+
+    > * {
+        flex-grow: 1;
+    }
+}
+
+.burgerMenu {
+    padding: 15px;
 }
 
 .left {
@@ -20,6 +28,10 @@
     align-items: center;
     justify-content: space-between;
     height: 100%;
+
+    > * {
+        padding: 15px;
+    }
 
     span {
         color: white;
@@ -31,7 +43,6 @@
         gap: 7px;
         text-decoration: none;
         height: 100%;
-        padding: 15px;
         
         span {
             position: relative;
@@ -83,21 +94,23 @@
     overflow: hidden;
     display: flex;
     height: 100%;
-    padding: 15px;
+    
+    > * {
+        padding: 15px;
+    }
 
     .loggedUser {
         display: flex;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
+        gap: 10px;
 
         .userName {
             font-weight: 500;
             color: #ffffff;
-            padding-right: 10px;
             /* width: 0px; */
             max-width: min-content;
-            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             position: relative;
@@ -129,6 +142,10 @@
     }
     .loggedUser:hover .userName::after {
         width: 100%;
+    }
+
+    div[data-tippy-root] {
+        padding: 0;
     }
 }
 
