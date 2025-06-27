@@ -29,26 +29,27 @@
         align-items: center;
         gap: 7px;
         text-decoration: none;
-        position: relative;
-        display: inline-block;
+        
+        span {
+            position: relative;
+        }
 
-        .icon {
-            max-width: 16px;
+        span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            height: 2px;
+            width: 0%;
+            background: white;
+            /* ou um gradiente se quiser */
+            transition: width 0.3s ease;
         }
     }
-    .item::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -4px;
-        height: 2px;
-        width: 0%;
-        background: white;
-        /* ou um gradiente se quiser */
-        transition: width 0.3s ease;
-    }
-    .item:hover::after {
-        width: 100%;
+    .item:hover {
+        span::after {
+            width: 100%;
+        }
     }
 
     #premium {
