@@ -215,28 +215,7 @@ export default function AdminPage() {
     );
 
   if (!choosePage) {
-    return (
-      <>
-        <Head>
-          <title>PixelsPlace</title>
-          <meta name="description" content="Participe do PixelsPlace!" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <MainLayout>
-          <main className={styles.main}>
-            <fieldset className={styles.choosePage}>
-              <span className={styles.title}>Escolha a página</span>
-              <div className={styles.divButton}>
-                <CustomButton label={'Canvas'} icon={'frame'} onClick={() => setChoosePage("canvas")} />
-                <CustomButton label={'Usuários'} icon={'user'} onClick={() => setChoosePage("users")} />
-                <CustomButton label={'Geral'} icon={'bug'} onClick={() => setChoosePage("geral")} />
-              </div>
-            </fieldset>
-          </main>
-        </MainLayout>
-      </>
-    );
+    setChoosePage("canvas");
   }
 
   if (choosePage === "canvas") {
@@ -253,13 +232,12 @@ export default function AdminPage() {
         <MainLayout>
           <main className={styles.main}>
             <h1>Administração do Canvas</h1>
-
-            <CustomButton
-              label={'Voltar'}
-              icon={'arrow-left'}
-              onClick={() => setChoosePage(null)}
-              style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
-            />
+            
+            <div class={styles.pageSelector}>
+              <input checked={true} type="radio" name="pagina" id="pagina_canvas" value="canvas" onChange={setChoosePage(this)} />
+              <input type="radio" name="pagina" id="pagina_geral" value="geral" onChange={setChoosePage(this)} />
+              <input type="radio" name="pagina" id="pagina_users" value="users" onChange={setChoosePage(this)} />
+            </div>
 
             {/*
               <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
@@ -539,12 +517,11 @@ export default function AdminPage() {
           <main className={styles.main}>
             <h1>Administração Geral</h1>
 
-            <CustomButton
-              label={'Voltar'}
-              icon={'arrow-left'}
-              onClick={() => setChoosePage(null)}
-              style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
-            />
+            <div class={styles.pageSelector}>
+              <input type="radio" name="pagina" id="pagina_canvas" value="canvas" onChange={setChoosePage(this)} />
+              <input checked={true} type="radio" name="pagina" id="pagina_geral" value="geral" onChange={setChoosePage(this)} />
+              <input type="radio" name="pagina" id="pagina_users" value="users" onChange={setChoosePage(this)} />
+            </div>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
@@ -668,12 +645,11 @@ export default function AdminPage() {
           <main className={styles.main}>
             <h1>Administração de Usuários</h1>
 
-            <CustomButton
-              label={'Voltar'}
-              icon={'arrow-left'}
-              onClick={() => setChoosePage(null)}
-              style={{ position: "relative", right: "-50vw", transform: "translate(-50%)", marginBottom: "20px" }}
-            />
+            <div class={styles.pageSelector}>
+              <input type="radio" name="pagina" id="pagina_canvas" value="canvas" onChange={setChoosePage(this)} />
+              <input type="radio" name="pagina" id="pagina_geral" value="geral" onChange={setChoosePage(this)} />
+              <input checked={true} type="radio" name="pagina" id="pagina_users" value="users" onChange={setChoosePage(this)} />
+            </div>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
