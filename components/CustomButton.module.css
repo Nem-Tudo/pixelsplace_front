@@ -2,7 +2,7 @@
 .button {
   box-shadow: var(--shadow);
   padding: 18px;
-  border-radius: 12px;
+  border-radius: 12px 20px;
   transition: var(--smooth-transition);
   cursor: pointer;
   display: flex;
@@ -49,4 +49,5 @@
 .button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  scale: 1;
 }

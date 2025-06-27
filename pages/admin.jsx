@@ -253,14 +253,16 @@ export default function AdminPage() {
                 value={height}
                 onChange={(e) => setHeight(Number(e.target.value))}
               />
-              <CustomButton label={'Salvar tamanho'} icon={'save'} disabled={loading} onClick={async () => {
-                await fetchWithAuth("/canvas/admin/resize", "PATCH", {
-                  width,
-                  height,
-                });
-                fetchCanvas();
-              }}
-              />
+              <footer className={styles.footerButtons}>
+                <CustomButton label={'Salvar tamanho'} icon={'save'} disabled={loading} onClick={async () => {
+                  await fetchWithAuth("/canvas/admin/resize", "PATCH", {
+                    width,
+                    height,
+                  });
+                  fetchCanvas();
+                }}
+                />
+              </footer>
             </fieldset>
 
             {/* Cores gratuitas */}
@@ -394,14 +396,16 @@ export default function AdminPage() {
                 value={cooldownPremium}
                 onChange={(e) => setCooldownPremium(Number(e.target.value))}
               />
-              <CustomButton label={'Salvar cooldowns'} icon={'save'} disabled={loading} onClick={async () => {
-                await fetchWithAuth("/canvas/admin/cooldown", "PATCH", {
-                  cooldown_free: cooldownFree,
-                  cooldown_premium: cooldownPremium,
-                });
-                fetchCanvas();
-              }}
-              />
+              <footer className={styles.footerButtons}>
+                <CustomButton label={'Salvar cooldowns'} icon={'save'} disabled={loading} onClick={async () => {
+                  await fetchWithAuth("/canvas/admin/cooldown", "PATCH", {
+                    cooldown_free: cooldownFree,
+                    cooldown_premium: cooldownPremium,
+                  });
+                  fetchCanvas();
+                }}
+                />
+              </footer>
             </fieldset>
 
             {/* Eval */}
@@ -414,20 +418,22 @@ export default function AdminPage() {
                 value={evalCode}
                 onChange={(e) => setEvalCode(e.target.value)}
               />
-              <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
-                if (!evalCode.trim()) return alert("Insira o código.");
-                if (
-                  confirm(
-                    "Tem certeza que deseja executar este código em todos os clients?"
-                  )
-                ) {
-                  const res = await fetchWithAuth("/admin/eval", "POST", {
-                    content: evalCode,
-                  });
-                  res && alert(`Executado em ${res.count} clients.`);
-                }
-              }}
-              />
+              <footer className={styles.footerButtons}>
+                <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
+                  if (!evalCode.trim()) return alert("Insira o código.");
+                  if (
+                    confirm(
+                      "Tem certeza que deseja executar este código em todos os clients?"
+                    )
+                  ) {
+                    const res = await fetchWithAuth("/admin/eval", "POST", {
+                      content: evalCode,
+                    });
+                    res && alert(`Executado em ${res.count} clients.`);
+                  }
+                }}
+                />
+              </footer>
             </fieldset>
 
             {/* Alert */}
@@ -440,18 +446,20 @@ export default function AdminPage() {
                 value={alertMessage}
                 onChange={(e) => setAlertMessage(e.target.value)}
               />
-              <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
-                if (!alertMessage.trim()) return alert("Insira a mensagem.");
-                if (
-                  confirm("Deseja enviar essa mensagem para todos os clients?")
-                ) {
-                  const res = await fetchWithAuth("/admin/alertmessage", "POST", {
-                    content: alertMessage,
-                  });
-                  res && alert(`Mensagem enviada para ${res.count} clients.`);
-                }
-              }}
-              />
+              <footer className={styles.footerButtons}>
+                <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
+                  if (!alertMessage.trim()) return alert("Insira a mensagem.");
+                  if (
+                    confirm("Deseja enviar essa mensagem para todos os clients?")
+                  ) {
+                    const res = await fetchWithAuth("/admin/alertmessage", "POST", {
+                      content: alertMessage,
+                    });
+                    res && alert(`Mensagem enviada para ${res.count} clients.`);
+                  }
+                }}
+                />
+              </footer>
             </fieldset>
 
             {/* Desconectar sockets */}
@@ -459,19 +467,21 @@ export default function AdminPage() {
               <legend>
                 <strong>Desconectar Todos os Sockets</strong>
               </legend>
-              <CustomButton label={'Desconectar sockets'} icon={'close'} disabled={loading} color="#ff0000" onClick={async () => {
-                if (
-                  confirm("Tem certeza que deseja desconectar todos os sockets?")
-                ) {
-                  const res = await fetchWithAuth(
-                    "/admin/disconnectsockets",
-                    "POST",
-                    {}
-                  );
-                  res && alert(`Desconectados: ${res.count}`);
-                }
-              }}
-              />
+              <footer className={styles.footerButtons}>
+                <CustomButton label={'Desconectar sockets'} icon={'close'} disabled={loading} color="#ff0000" onClick={async () => {
+                  if (
+                    confirm("Tem certeza que deseja desconectar todos os sockets?")
+                  ) {
+                    const res = await fetchWithAuth(
+                      "/admin/disconnectsockets",
+                      "POST",
+                      {}
+                    );
+                    res && alert(`Desconectados: ${res.count}`);
+                  }
+                }}
+                />
+              </footer>
             </fieldset>
           </main>
         </MainLayout>
@@ -500,13 +510,12 @@ export default function AdminPage() {
               </legend>
             </fieldset>
 
-
-
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
                 <strong>Premium</strong>
               </legend>
             </fieldset>
+            
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
                 <strong>Builds</strong>
@@ -632,27 +641,27 @@ export default function AdminPage() {
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
-                <strong>Escolher user</strong>
+                <strong>Escolher usuário</strong>
               </legend>
                 <input type="number" id="idUserSearch"/>
                 <footer class={styles.footerButtons}>
-                <CustomButton
-                  label={'Consultar User'}
-                  icon={'contact'}
-                  disabled={loading}
-                  onClick={() => getUser(document.getElementById("idUserSearch").value)}
-                />
+                  <CustomButton
+                    label={'Consultar User'}
+                    icon={'contact'}
+                    disabled={loading}
+                    onClick={() => getUser(document.getElementById("idUserSearch").value)}
+                  />
                 </footer>
             </fieldset>
 
             {user &&
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
-                <strong>Infos user</strong>
+                <strong>Informações do usuário</strong>
               </legend>
-                  <span>Nome: {user?.display_name} (@{user?.username})</span>
-                  <span>Criação: {user?.createdAt}</span>
-                  <span>Ultimo Pixel: {user?.lastPaintPixel}</span>
+              <span>Nome: {user?.display_name} (@{user?.username})</span>
+              <span>Criação: {dateToString(user?.createdAt)}</span>
+              <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
             </fieldset>
             }
 
@@ -696,7 +705,7 @@ export default function AdminPage() {
                     fetchCanvas();
                   }}
                 />
-                </footer>
+              </footer>
             </fieldset>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>

@@ -77,9 +77,10 @@
     align-items: center;
     background: var(--color-mid);
     padding: 5px;
-    border-radius: 13px;
+    border-radius: 17px;
     border: var(--outline);
     cursor: grab;
+    gap: 10px;
   }
 }
 
@@ -123,6 +124,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 20px;
 }
 
 .pageSelector {

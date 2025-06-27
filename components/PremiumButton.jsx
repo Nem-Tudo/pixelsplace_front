@@ -36,14 +36,14 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   if (Component === Link) {
     if (loggedUser?.premium) return (
       <>
-        <Component className={[styles.btn, styles.secondary, setClass].join(' ')} href={href} onClick={handleClick} {...props}>
+        <Component className={[styles.button, styles.secondary, setClass].join(' ')} href={href} onClick={handleClick} {...props}>
           {children}
         </Component>
       </>
     );
     return (
       <>
-        <Component href={href} className={`${styles.btn} ${styles.primary} premiumOnly ${setClass || ""}`} onClick={handleClick} {...props}>
+        <Component href={href} className={`${styles.button} ${styles.primary} premiumOnly ${setClass || ""}`} onClick={handleClick} {...props}>
           <div className="glassEffect" />
           {children}
         </Component>
@@ -66,14 +66,14 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
   // Para 'button', 'a' ou outros componentes
   if (loggedUser?.premium) return (
     <>
-      <Component className={[styles.btn, styles.secondary, setClass].join(' ')} href={href} onClick={handleClick} {...props}>
+      <Component className={[styles.button, styles.secondary, setClass].join(' ')} href={href} onClick={handleClick} {...props}>
         {children}
       </Component>
     </>
   );
   return (
     <>
-      <Component className={`${styles.btn} ${styles.primary} premiumOnly ${setClass || ""}`} href={href} onClick={handleClick} {...props}>
+      <Component className={`${styles.button} ${styles.primary} premiumOnly ${setClass || ""}`} href={href} onClick={handleClick} {...props}>
         <div className="glassEffect" />
         {children}
       </Component>
