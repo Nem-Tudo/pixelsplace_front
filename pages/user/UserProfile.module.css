@@ -90,8 +90,8 @@
 
       .userName {
         font-size: 1rem;
-        color: #9dcaff;
-        margin-bottom: 1rem;
+        color: var(--user-color-text);
+        opacity: 75%;
         display: flex;
         align-items: center;
       }
@@ -100,11 +100,194 @@
     .moreInfo{
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
+      align-items: stretch;
+      justify-content: flex-start;
       gap: 15px;
       width: 100vw;
+
+      .pixelsInfo{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        /* background-color: var(--color-mid); */
+        border: var(--outline);
+        border-radius: 12px;
+        color: var(--color-muted);
+        transition: var(--smooth-transition);
+        width: 25vw;
+        height: 12vh;
+        padding: 5px;
+        gap: 1px;
+      }
+
+      .pixelsText {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #9dcaff;
+          max-width: 100%;
+          text-overflow: ellipsis;
+          height: auto;
+          text-align: center;
+      }
+
+      .description {
+        position: relative;
+      }
+
+      .description textarea {
+        width: 25vw;
+        height: 12vh;
+        border-radius: 12px;
+        padding: 0.5rem;
+        resize: none;
+        border: none;
+        font-size: 1rem;
+        color: #fff;
+        /* background-color: var(--color-mid); */
+        border: var(--outline);
+        box-shadow: var(--shadow);
+        transition: var(--smooth-transition);
+      }
+
+      .guildCard, .description span, .description textarea, .pixelsInfo{
+        min-width: 225px;
+      }
+
+      .description span {
+        display: block;
+        width: 25vw;
+        height: 12vh;
+        border-radius: 12px;
+        padding: 0.5rem;
+        font-size: 1rem;
+        color: #fff;
+        /* background-color: var(--color-mid); */
+        white-space: pre-wrap;
+        overflow-y: auto;
+        position: relative;
+        border: var(--outline);
+        box-shadow: var(--shadow);
+        transition: var(--smooth-transition);
+      }
+
+      .description span:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .pixels {
+        color: #ccc;
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .premiumIcon {
+        font-size: 1.2rem;
+      }
+
+      .guildCard {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          /* background-color: var(--color-mid);   */
+          border: 1px solid var(--color-darkest);
+          border-radius: 12px;
+          color: #d0e6ff;
+          transition: var(--smooth-transition);
+          padding: 19px;
+          width: 25vw;
+          height: 12vh;
+          border: var(--outline);
+      }
+
+      .guildCard:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .guildIcon {
+          width: 64px;
+          height: 64px;
+          border-radius: 12px;
+          object-fit: cover;
+          border: 2px solid #5599ff;
+          background-color: #1a263f;
+      }
+
+      .guildInfo {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          position: relative;
+          width: 0%;
+      }
+
+      .guildName {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #9dcaff;
+          /* white-space: nowrap;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis; */
+          text-align: start;
+      }
+
+      .guildLink {
+          align-self: flex-start;
+          background-color: var(--color-accent);
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: bold;
+          transition: var(--smooth-transition);
+          border: var(--outline);
+      }
+
+      .guildLink:hover {
+          background-color: var(--color-darker);
+          scale: var(--hover-scale);
+      }
+
+      .viewPixelsButton {
+        /* padding: 0.7rem 1.5rem; */
+        color: white;
+        border: var(--outline);
+        box-shadow: var(--shadow);
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: var(--smooth-transition);  
+        text-align: center;
+        display: flex;
+        align-items: center;
+        height: 40%;
+      }
+
+      .viewPixelsButton:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(135deg, #5599ff, #8e44ff);
+      }
+
+      .pixelsInfo{
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          transition: var(--smooth-transition);
+      }
+
+      .pixelsInfo:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
     }
 
     .editUserColors {
@@ -140,195 +323,16 @@
         position: absolute;
         justify-self: anchor-center;
         align-self: anchor-center;
+        mix-blend-mode: difference;
       }
     }
   }
 
-  .pixelsInfo{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    /* background-color: var(--color-mid); */
-    border: var(--outline);
-    border-radius: 12px;
-    color: var(--color-muted);
-    transition: var(--smooth-transition);
-    width: 25vw;
-    height: 12vh;
-    padding: 5px;
-    gap: 1px;
+  .saveChanges {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 100;
   }
 
-  .pixelsText {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #9dcaff;
-      max-width: 100%;
-      text-overflow: ellipsis;
-      height: auto;
-      text-align: center;
-  }
-
-
-  
-
-  
-
-  .description {
-    position: relative;
-  }
-
-  .description textarea {
-    width: 25vw;
-    height: 12vh;
-    border-radius: 12px;
-    padding: 0.5rem;
-    resize: none;
-    border: none;
-    font-size: 1rem;
-    color: #fff;
-    /* background-color: var(--color-mid); */
-    border: var(--outline);
-    box-shadow: var(--shadow);
-    transition: var(--smooth-transition);
-  }
-
-  .guildCard, .description span, .description textarea, .pixelsInfo{
-    min-width: 225px;
-  }
-
-  .description span {
-    display: block;
-    width: 25vw;
-    height: 12vh;
-    border-radius: 12px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    color: #fff;
-    /* background-color: var(--color-mid); */
-    white-space: pre-wrap;
-    overflow-y: auto;
-    position: relative;
-    border: var(--outline);
-    box-shadow: var(--shadow);
-    transition: var(--smooth-transition);
-  }
-
-  .description span:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
-
-  .pixels {
-    color: #ccc;
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .premiumIcon {
-    font-size: 1.2rem;
-  }
-
-
-  .guildCard {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      /* background-color: var(--color-mid);   */
-      border: 1px solid var(--color-darkest);
-      border-radius: 12px;
-      color: #d0e6ff;
-      transition: var(--smooth-transition);
-      padding: 19px;
-      width: 25vw;
-      height: 12vh;
-      border: var(--outline);
-  }
-
-  .guildCard:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
-
-  .guildIcon {
-      width: 64px;
-      height: 64px;
-      border-radius: 12px;
-      object-fit: cover;
-      border: 2px solid #5599ff;
-      background-color: #1a263f;
-  }
-
-  .guildInfo {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      position: relative;
-      width: 0%;
-  }
-
-  .guildName {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #9dcaff;
-      /* white-space: nowrap;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis; */
-      text-align: start;
-  }
-
-  .guildLink {
-      align-self: flex-start;
-      background-color: var(--color-accent);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: var(--smooth-transition);
-      border: var(--outline);
-  }
-
-  .guildLink:hover {
-      background-color: var(--color-darker);
-      scale: var(--hover-scale);
-  }
-
-  .viewPixelsButton {
-    /* padding: 0.7rem 1.5rem; */
-    color: white;
-    border: var(--outline);
-    box-shadow: var(--shadow);
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: var(--smooth-transition);  
-    text-align: center;
-    display: flex;
-    align-items: center;
-    height: 40%;
-  }
-
-  .viewPixelsButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(135deg, #5599ff, #8e44ff);
-  }
-  .pixelsInfo{
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      transition: var(--smooth-transition);
-  }
-  .pixelsInfo:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
 }

@@ -167,7 +167,6 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
   return (
     <MainLayout>
-      {/*onClick={() => saveChanges()}*/}
       <main 
         className={styles.main}
         style={user.premium ? {
@@ -177,6 +176,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           '--user-color-background-item': `${profileTheme.backgroundItem}`
         } : {}}
       >
+
         <div className={styles.wallpaper}>
           {!loading && loggedUser?.id === user?.id ? (
             <>
@@ -209,6 +209,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
         </div>
 
         <div className={styles.page}>
+
           <div className={styles.profile}>
             <div className={styles.avatar} style={{ zIndex: "1" }}>
               <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
@@ -216,33 +217,30 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
             <p className={styles.userName}>@{user?.username} </p>
           </div>
+
           <div className={styles.moreInfo}>
             {user.settings.selected_guild && (
-              <div className={styles.serverInfo}>
-                {
-                  <div className={styles.guildCard} style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
-                    <img
-                      className={styles.guildIcon}
-                      src={settings.guildIconURL(user.settings.selected_guild.id, user.settings.selected_guild.icon)}
-                      alt={language.getString("PAGES.USER_PROFILE.GUILD_ICON_ALT", { guildName: user.settings.selected_guild.name })}
-                    />
-                    <div className={styles.guildInfo}>
-                      <h2 className={styles.guildName} translate="no">
-                        {user.settings.selected_guild.name}
-                        <Verified verified={user.settings.selected_guild.flags.includes("VERIFIED")} />
-                      </h2>
-                      <a
-                        className={styles.guildLink}
-                        href={user.settings.selected_guild.invite}
-                        target="_blank"
-                        rel="norreferer"
-                      >
-                        {language.getString("PAGES.USER_PROFILE.JOIN_GUILD")}
-                      </a>
-                    </div>
+                <div className={styles.guildCard} style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
+                  <img
+                    className={styles.guildIcon}
+                    src={settings.guildIconURL(user.settings.selected_guild.id, user.settings.selected_guild.icon)}
+                    alt={language.getString("PAGES.USER_PROFILE.GUILD_ICON_ALT", { guildName: user.settings.selected_guild.name })}
+                  />
+                  <div className={styles.guildInfo}>
+                    <h2 className={styles.guildName} translate="no">
+                      {user.settings.selected_guild.name}
+                      <Verified verified={user.settings.selected_guild.flags.includes("VERIFIED")} />
+                    </h2>
+                    <a
+                      className={styles.guildLink}
+                      href={user.settings.selected_guild.invite}
+                      target="_blank"
+                      rel="norreferer"
+                    >
+                      {language.getString("PAGES.USER_PROFILE.JOIN_GUILD")}
+                    </a>
                   </div>
-                }
-              </div>
+                </div>
             )}
             <div className={styles.description} ref={aboutmeRef}>
               {editStates.profile_aboutme ? (
@@ -294,6 +292,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </PremiumButton>
             </div>
           </div>
+
           {
             loggedUser?.id === user?.id && <div className={styles.editUserColors}>
               <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
@@ -307,6 +306,19 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           }
 
         </div>
+
+        {
+          JSON.stringify(user) != JSON.stringify(savedUser) && (
+            <CustomButton
+              className={styles.saveChanges}
+              color={"#33b32e"}
+              label={"Salvar tema"}
+              icon={'save'}
+              onClick={() => saveChanges()}
+            />
+          )
+        }
+
       </main>
     </MainLayout>
   );
