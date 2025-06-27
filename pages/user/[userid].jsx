@@ -184,7 +184,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           </div>
         }
       </div>*/}
-      <main className={styles.profile} style={user.premium ? { background: `linear-gradient(132deg, ${user.profile.color_primary}, ${user.profile.color_secundary})` } : {}}>
+      <main className={styles.main} style={user.premium ? { 'background': `linear-gradient(0deg, ${user.profile.color_primary}, ${user.profile.color_secundary})` } : {}}>
         <div style={{ height: "100%", width: "100%", position: "relative" }}>
           {!loading && loggedUser?.id === user?.id ? (
             <>
