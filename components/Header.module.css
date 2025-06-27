@@ -1,5 +1,6 @@
 .header {
-    background: linear-gradient(180deg, var(--color-muted), var(--color-header-bottom));
+    /* background: linear-gradient(180deg, var(--color-muted), var(--color-header-bottom)); */
+    background: linear-gradient(88deg, hsl(212deg 60.78% 42.12%), hsl(192.18deg 80.83% 48.07%));
     padding: 1rem 2rem;
     box-shadow: var(--shadow);
     display: flex;
