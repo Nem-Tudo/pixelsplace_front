@@ -102,7 +102,7 @@
   align-items: center;
   background: var(--color-mid);
   padding: 5px;
-  border-radius: 12px;
+  border-radius: 13px;
   border: var(--outline);
   cursor: grab;
 }
