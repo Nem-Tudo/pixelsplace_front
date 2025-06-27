@@ -200,8 +200,8 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           />
         </div>
 
-        <div className={styles.divPag}>
-          <div className={styles.perfil}>
+        <div className={styles.page}>
+          <div className={styles.profile}>
             <div className={styles.avatarCircle} style={{ zIndex: "1" }}>
               <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
             </div>
@@ -287,11 +287,11 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             </div>
           </div>
           {
-            loggedUser?.id === user?.id && <div>
-              <input type="color" value={user.profile.color_primary} onChange={(e) => {
+            loggedUser?.id === user?.id && <div className={styles.editUserColors}>
+              <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
                 updateStateKey(setUser, user, ["profile.color_primary", e.target.value])
               }} />
-              <input type="color" value={user.profile.color_secundary} onChange={(e) => {
+              <input type="color" id={styles.editSecondaryColor} value={user.profile.color_secundary} onChange={(e) => {
                 updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
               }} />
             </div>

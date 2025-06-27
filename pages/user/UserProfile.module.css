@@ -40,39 +40,67 @@
     }
   }
 
-
-
-  .divPag {
+  .page {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 100vw;
+    width: 100dvw;
 
     @media (max-width: 768px) {
       align-items: center;
     }
-  }
-  .perfil{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    margin-left: 20px;
-    gap: 8px;
 
-    @media (max-width: 768px) {
-      align-items: center;
-      margin-left: unset;
+    .profile{
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      margin-left: 20px;
+      gap: 8px;
+
+      @media (max-width: 768px) {
+        align-items: center;
+        margin-left: unset;
+      }
     }
-  }
-  .moreInfo{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    width: 100vw;
+
+    .moreInfo{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      width: 100vw;
+    }
+
+    .editUserColors {
+      position: absolute;
+      right: 3px;
+      height: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: var(--outline);
+
+      input[type="color"] {
+          border: none;
+          padding: 0;
+          width: 24px;
+          height: 24px;
+      }
+      input[type="color"]::after {
+          content: "";
+          width: 100px;
+          height: 100px;
+          display: flex;
+      }
+      #editPrimaryColor::after {
+        background: var(--user-color-primary);
+      }
+      #editSecondaryColor::after {
+        background: var(--user-color-secondary);
+      }
+    }
   }
 
   .pixelsInfo{
