@@ -31,7 +31,7 @@ export default function Header() {
         premium: {
             label: language.getString("COMPONENTS.HEADER.ADVANTAGES"),
             href: '/premium',
-            id: loggedUser?.premium ? styles.premium : ''
+            id: (loggedUser?.premium ? styles.premium : '')
         },
         admin: {
             label: language.getString("COMMON.ADMIN"),
