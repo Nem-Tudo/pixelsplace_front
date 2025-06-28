@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
+import Verified from "@/components/Verified";
 
 export default function GuildCard({ guild, index }) {
     const { loggedUser } = useAuth()
