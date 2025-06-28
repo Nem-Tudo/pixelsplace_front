@@ -25,7 +25,7 @@
         animation: openPopup 0.2s ease-in-out;
         max-height: 90dvh;
         max-width: 90dvw;
-        overflow-y: auto;
+        overflow: hidden;
         border: var(--outline);
 
         .title {
