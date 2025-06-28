@@ -1,51 +1,48 @@
-.messagediv {
-    color: black;
-    padding: 10px 15px;
-    border-radius: 100dvw;
-    width: fit-content;
-    margin: 10px;
-    box-shadow: var(--shadow);
-}
-
 .centerscreen {
     width: 100dvw;
-    height: calc(100dvh - 92px);
+    flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-}
 
-.messagediv .main,
-.messagediv .content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+    .messagediv {
+        color: black;
+        padding: 10px 15px;
+        border-radius: 100dvw;
+        width: fit-content;
+        margin: 10px;
 
-.messagediv .expand {
-    cursor: pointer;
-}
+        .main, .content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.messagediv.warn {
-    background: linear-gradient(45deg, #ff5a00, #ff9600);
-}
+        .expand {
+            cursor: pointer;
+        }
 
-.messagediv.normal-white {
-    color: white;
-}
+        .warn {
+            background: linear-gradient(45deg, #ff5a00, #ff9600);
+        }
 
-.messagediv button {
-    background-color: rgba(255, 255, 255, 0.404);
-    border: var(--outline);
-    padding: 7px 15px;
-    border-radius: 100dvw;
-    cursor: pointer;
-    outline: none;
-    transition: var(--smooth-transition);
-    box-shadow: var(--shadow);
-}
+        .normal-white {
+            color: white;
+        }
 
-.messagediv button:hover {
-    background-color: rgba(255, 255, 255, 0.507);
-    scale: var(--hover-scale);
+        button {
+            background-color: rgba(255, 255, 255, 0.404);
+            border: var(--outline);
+            padding: 7px 15px;
+            border-radius: 100dvw;
+            cursor: pointer;
+            outline: none;
+            transition: var(--smooth-transition);
+            box-shadow: var(--shadow);
+        }
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.507);
+            scale: var(--hover-scale);
+        }
+    }
 }

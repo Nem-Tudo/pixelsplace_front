@@ -34,12 +34,13 @@
             font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
             color: var(--color-accent);
             padding: 20px;
+            border-bottom: 1px solid #00000012;
         }
 
         .scrollable {
             box-shadow: 0px 5px 6px hsl(0deg 0% 0% / 3%);
             padding: 20px;
-            overflow-y: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;

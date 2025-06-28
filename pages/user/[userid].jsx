@@ -15,6 +15,7 @@ import { getBrightness } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import GuildCard from "@/components/GuildCard";
 import { usePopup } from '@/context/PopupContext';
+import Badges from "@/components/Badges";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -220,6 +221,10 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             </div>
             <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
             <p className={styles.userName}>@{user?.username} </p>
+
+            <div className={styles.badges}>
+              {user && <Badges list={user?.flags?.map(flag => flag)}/>}
+            </div>
           </div>
 
           <div className={styles.moreInfo}>

@@ -35,6 +35,7 @@
         pointer-events: all;
         justify-items: center;
         align-items: center;
+        width: 100vw;
 
         .overlayPosition {
             position: absolute;
@@ -139,64 +140,59 @@
 }
 
 .pixelInfo {
-    background: white;
     padding: 10px;
-    border-radius: 7px;
+    border-radius: 22px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: fit-content;
     position: fixed;
-    color: black;
     pointer-events: all;
-    width: max-content;
     user-select: none;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
     background: var(--frosted-glass);
-    -webkit-backdrop-filter: var(--frosted-glass-blur);
     backdrop-filter: var(--frosted-glass-blur);
     box-shadow: var(--shadow);
     color: var(--color-text);
     border: var(--outline);
-    border-radius: 15px;
     max-width: 350px;
-    margin: 0 auto;
+    margin: 0 25px 0 auto;
     font-family: sans-serif;
-    gap: 10px;
-    margin-right: 25px;
+    gap: 20px;
 
-    span:first-child {
-        margin-bottom: 15px;
-        font-size: 0.9rem;
-        opacity: 0.8;
-    }
-
-    .pixelcolorinfo {
+    .pixelColorInfo {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 12px;
 
-        span {
-            margin-top: 7px;
-        }
-
-        div {
+        .pixelPickedColor {
             width: 50px;
             height: 50px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 5px;
+
+            span {
+                margin: 0px;
+                font-size: x-small;
+                user-select: all;
+            }
         }
+
     }
 
-    .pixeluserinfo {
+    .pixelUserInfo {
         display: flex;
         flex-direction: column;
-        margin-top: 15px;
         gap: 4px;
         font-size: 0.95rem;
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
         a {
             color: #9dcaff;
@@ -207,24 +203,9 @@
         }
     }
 
-    .pixelbuttons {
+    .pixelButtons {
         display: flex;
         gap: 10px;
-        margin-top: 10px;
         flex-wrap: wrap;
-
-        button {
-            background-color: var(--color-accent);
-            color: white;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--smooth-transition);
-        }
-        button:hover {
-            background-color: var(--color-darker);
-            scale: var(--hover-scale);
-        }
     }
 }

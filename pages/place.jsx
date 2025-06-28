@@ -737,30 +737,19 @@ export default function Place() {
                       iconDrag
                     )}
                   </div>
-                  <div className={styles.pixelcolorinfo}>
-                    <div
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "5px",
-                        backgroundColor: numberToHex(showingPixelInfo.c),
-                      }}
-                    />
-                    <span
-                      style={{
-                        margin: "0px",
-                        fontSize: "x-small",
-                        userSelect: "all",
-                      }}
-                    >
-                      #{showingPixelInfo.c}
-                    </span>
+                  <div className={styles.pixelColorInfo}>
+                    <div className={styles.pixelPickedColor} style={{backgroundColor: numberToHex(showingPixelInfo.c)}}>
+                      <span>
+                        #{showingPixelInfo.c}
+                      </span>
+                    </div>
+                    
                     <span>
                       {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
                     </span>
                   </div>
                   {showingPixelInfo.u && (
-                    <div className={styles.pixeluserinfo}>
+                    <div className={styles.pixelUserInfo}>
                       <span>
                         {language.getString("COMMON.USER") + ": "}
                         <Link href={`/user/${showingPixelInfo.u}`}>
@@ -774,7 +763,7 @@ export default function Place() {
                       </span>
                     </div>
                   )}
-                  <div className={styles.pixelbuttons}>
+                  <div className={styles.pixelButtons}>
                     <PremiumButton
                       onClick={() => openPopup("not_implemented_yet")}
                     >
