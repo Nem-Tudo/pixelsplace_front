@@ -14,6 +14,7 @@ import CustomButton from "@/components/CustomButton";
 import { getBrightness } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import GuildCard from "@/components/GuildCard";
+import { usePopup } from '@/context/PopupContext';
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -46,6 +47,7 @@ const THEME = { //Ps: não confunda! É o tema do PERFIL, por isso as cores são
 export default function UserProfile({ user: userobject, error, errormessage }) {
   const { loggedUser, loading, token } = useAuth();
   const { language } = useLanguage();
+  const { openPopup } = usePopup();
 
   const [user, setUser] = useState(userobject);
   const [savedUser, setSavedUser] = useState(userobject);
@@ -136,7 +138,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
     const response = await request.json();
     if (!request.ok) {
       console.log(response, request)
-      return alert(`Erro ao salvar: ${response.message}`)
+      return openPopup("error", {errorMessage: `Erro ao salvar: ${response.message}`})
     }
     updateStateKey(setUser, user, ["profile", response.profile]);
     updateStateKey(setSavedUser, savedUser, ["profile", response.profile]);
@@ -259,7 +261,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </p>
               <PremiumButton
                 color={profileTheme.text}
-                onClick={() => alert(language.getString("COMMON.NOT_IMPLEMENTED_YET"))}
+                onClick={() => openPopup("not_implemented_yet")}
               >
                 {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
               </PremiumButton>

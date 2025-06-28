@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import settings from "@/settings";
 import { useLanguage } from '@/context/LanguageContext';
+import { usePopup } from '@/context/PopupContext';
 
 export function MainLayout({ children }) {
     const { language, lang } = useLanguage();
     const { loggedUser } = useAuth();
+    const { openPopup } = usePopup()
 
     const [ip, setIp] = useState(null);
 
@@ -67,7 +69,7 @@ export function MainLayout({ children }) {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                alert(language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT"));
+                openPopup("error", {errorMessage: language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT")});
                 location.href = `/buildoverride?t=main`;
                 return
             }

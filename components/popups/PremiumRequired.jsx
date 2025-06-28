@@ -60,7 +60,7 @@ export default function PremiumRequired({ closePopup }) {
             
             <footer className={styles.footer}>
                 <CustomButton color={'#636363'} hierarchy={3} label={language.getString("POPUPS.PREMIUM_REQUIRED.MAYBE_LATER")} onClick={() => closePopup()} />
-                <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
+                <PremiumButton onClick={() => closePopup()} setClass={styles.btn} as={Link} redirect={true} href="/premium">
                     {language.getString("POPUPS.PREMIUM_REQUIRED.DISCOVER_PREMIUM")}
                 </PremiumButton>
             </footer>

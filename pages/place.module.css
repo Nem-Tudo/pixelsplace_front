@@ -1,3 +1,11 @@
+header {
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        background: linear-gradient(180deg, hsl(0deg 0% 36.23%), transparent) !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
 #main {
     width: 100dvw;
     height: calc(100dvh - 72px);
@@ -37,9 +45,9 @@
         align-items: center;
 
         .overlayPosition {
-            position: relative;
+            position: absolute;
+            justify-self: anchor-center;
             align-self: center;
-            justify-self: center;
             background-color: #808080d6;
             color: hsla(0deg, 0%, 100%, 75%);
             padding: 0 8px;
@@ -47,16 +55,15 @@
             top: 87px;
             animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35);
             border: var(--outline);
-            -webkit-backdrop-filter: var(--frosted-glass-blur);
             backdrop-filter: var(--frosted-glass-blur);
             width: fit-content;
-            justify-self: center;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: var(--shadow);
 
             @media screen and (max-height: 500px) and (orientation: landscape) {
-                top: 24px;
+                top: 36px;
             }
         }
     }
@@ -121,8 +128,6 @@
     box-shadow: var(--shadow);
     -webkit-backdrop-filter: var(--frosted-glass-blur);
     backdrop-filter: var(--frosted-glass-blur);
-    margin: 5px;
-    margin-bottom: 15px;
     border-radius: 22px;
     border: var(--outline);
 

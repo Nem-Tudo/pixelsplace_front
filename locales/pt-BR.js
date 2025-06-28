@@ -71,7 +71,14 @@ module.exports = {
             ADVANTAGE_4: "Personalizar seu perfil do seu jeitinho",
             CONCLUSION: "Agora você pode! Consiga isso e muito mais com PixelsPlace Premium",
             MAYBE_LATER: "Talvez depois",
-            DISCOVER_PREMIUM: "Conheça o Premium!"
+            DISCOVER_PREMIUM: "Conheça o Premium!",
+        },
+        ERROR: {
+            TITLE: "Ocorreu um erro!",
+        },
+        NOT_IMPLEMENTED_YET: {
+            TITLE: "Oops! Foi mal",
+            DESCRIPTION: "Essa feature ainda não foi implementada...",
         },
     },
     LAYOUTS: {
@@ -149,6 +156,8 @@ module.exports = {
             ERROR_MAIN_API_CONNECT: "Ocorreu um erro ao se conectar com a api principal",
             ERROR_FAILED_WEBSOCKET: "Falha na conexão WebSocket",
             WEBSOCKET_SEARCH: "Procurando WebSocket...",
+            ERROR_PLACING_PIXEL: "Erro ao colocar pixel",
+            ERROR_OBTAINING_PIXEL: "Erro ao obter pixel",
         },
         CREDITS: {
             TITLE: 'Time PixelsPlace',

@@ -626,7 +626,7 @@ export default function Place() {
     const data = await request.json();
     if (!request.ok) {
       if (oldpixelcolor) updatePixel(x, y, oldpixelcolor);
-      return alert(`Erro ao colocar pixel: ${data.message}`);
+      return openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
   }
@@ -650,9 +650,9 @@ export default function Place() {
       }
     ).catch((e) => {
       console.log("Erro ao obter pixel: ", e);
-      alert(`Erro ao obter pixel: `, e);
+      openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
     });
-    if (!request.ok) return alert(`[${request.status}] Erro ao obter Pixel`);
+    if (!request.ok) return openPopup("error", {errorMessage: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
 
     const data = await request.json();
     setShowingPixelInfo(data);
@@ -776,7 +776,7 @@ export default function Place() {
                   )}
                   <div className={styles.pixelbuttons}>
                     <PremiumButton
-                      onClick={() => language.getString("COMMON.NOT_IMPLEMENTED_YET")}
+                      onClick={() => openPopup("not_implemented_yet")}
                     >
                       {language.getString("COMMON.HISTORY")}
                     </PremiumButton>
@@ -788,7 +788,7 @@ export default function Place() {
                         ) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
-                          alert(language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR"));
+                          openPopup("error", {errorMessage: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
                       }}
                     />
