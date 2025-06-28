@@ -12,6 +12,7 @@
     position: relative;
     text-shadow: 1px 1px 7px #00000026;
     color: white;
+    transition: var(--smooth-transition);
 
     > * {
         flex-grow: 1;

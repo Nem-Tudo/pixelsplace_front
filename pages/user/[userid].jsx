@@ -233,13 +233,16 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               ) : (
                 <span>
                   {!loading && loggedUser?.id === user?.id ? (
-                    <>
-                      <PixelIcon
-                        codename={'edit'}
-                        className={styles.editPencil}
-                        onClick={() => switchEdit("profile_aboutme")}
-                      />
-                    </>
+                    <PremiumButton
+                      as="icon"
+                      icon={
+                        <PixelIcon
+                          codename={'edit'}
+                          className={styles.editPencil}
+                          onClick={() => switchEdit("profile_aboutme")}
+                        />
+                      }
+                    />
                   ) : (
                     <></>
                   )}
@@ -282,7 +285,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <CustomButton
               className={styles.saveChanges}
               color={"#33b32e"}
-              label={"Salvar tema"}
+              label={"Salvar alterações"}
               icon={'save'}
               onClick={() => saveChanges()}
             />

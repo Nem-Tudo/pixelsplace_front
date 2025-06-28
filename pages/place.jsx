@@ -726,7 +726,7 @@ export default function Place() {
                 style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo} ${direction === "left" ? styles.showLeft : styles.showRight
+                  className={`${styles.pixelInfo} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
                   ref={pixelInfoRef}
                 >
@@ -946,19 +946,9 @@ export default function Place() {
           </MessageDiv>
         )}
 
-
-
-
         <div
-          style={{
-            width: "100dvw",
-            height: "calc(100dvh - 72px)",
-            overflow: "hidden",
-            position: "relative",
-            touchAction: "none",
-            background: "#eaeaea",
-            display: isAlready() ? "unset" : "none",
-          }}
+          style={{display: isAlready() ? "unset" : "none"}}
+          id={styles.main}
         >
 
           {/* canvas div */}
