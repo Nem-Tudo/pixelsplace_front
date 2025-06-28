@@ -74,12 +74,14 @@ export default function Place() {
   });
 
   const applyTransform = () => {
+    
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const { pointX, pointY, scale } = transform.current;
     wrapper.style.transform = `translate(${pointX}px, ${pointY}px)`;
     wrapper.style.width = `calc(140px * ${scale})`;
     wrapper.style.height = `calc(100px * ${scale})`;
+    wrapper.style.display = 'flex';
 
     forceUpdate(Date.now()); // Força a atualização do react
 
