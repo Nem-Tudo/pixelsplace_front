@@ -11,59 +11,58 @@
     justify-content: center;
     align-items: center;
     z-index: 15;
-}
 
-.popups .popup {
-    display: flex;
-    padding: 20px;
-    border-radius: 32px;
-    background: var(--frosted-glass);
-    backdrop-filter: var(--frosted-glass-blur);
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    max-width: 720vw;
-    animation: openPopup 0.2s ease-in-out;
-    gap: 8px;
-    max-height: 90vh;
-    overflow-y: auto;
-}
+    .popup {
+        display: flex;
+        padding: 20px;
+        border-radius: 32px;
+        background: var(--frosted-glass);
+        backdrop-filter: var(--frosted-glass-blur);
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        max-width: 720vw;
+        animation: openPopup 0.2s ease-in-out;
+        gap: 8px;
+        max-height: 90dvh;
+        max-width: 90dvw;
+        overflow-y: auto;
 
-.popups .popup h1 {
-    font-size: x-large;
-    font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
-    color: var(--color-accent);
-    margin-bottom: 10px;
-}
+        h1 {
+            font-size: x-large;
+            font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+            color: var(--color-accent);
+            margin-bottom: 10px;
+        }
 
-.popups .popup img {
-    object-fit: cover;
-    max-height: 50dvh;
-    margin-top: 10px;
-}
+        img {
+            object-fit: cover;
+            max-height: 50dvh;
+            margin-top: 10px;
+        }
 
-.popups .popup footer {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-}
+        footer {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
 
-.popups .popup footer>* {
-    flex-grow: 1;
-}
+            > * {
+                flex-grow: 1;
+            }
 
-/* talvez depois */
-.popups .popup footer button {
-    border: 1px solid transparent;
-    background: none;
-    color: var(--color-text);
-    cursor: pointer;
-    transition: var(--smooth-transition);
-}
-
-.popups .popup footer button:hover {
-    scale: var(--hover-scale);
+            button {
+                border: 1px solid transparent;
+                background: none;
+                color: var(--color-text);
+                cursor: pointer;
+                transition: var(--smooth-transition);
+            }
+            button:hover {
+                scale: var(--hover-scale);
+            }
+        }
+    }
 }
 
 @keyframes openPopup {

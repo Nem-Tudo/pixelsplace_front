@@ -17,7 +17,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         <>
             {showingPopup?.popupType && (
                 <section className={styles.popups}>
-                    <div ref={popupDivRef}>
+                    <div ref={popupDivRef} className={styles.popup}>
                         {popupComponents[showingPopup.popupType] || null}
                     </div>
                 </section>
