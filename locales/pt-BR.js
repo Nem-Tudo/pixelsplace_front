@@ -64,9 +64,12 @@ module.exports = {
     POPUPS: {
         PREMIUM_REQUIRED: {
             TITLE: "Você precisa ser Premium!",
-            TITLE2: "Você já imaginou...",
-            DESCRIPTION1: "Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!",
-            DESCRIPTION2: "Consiga isso e muito mais com PixelsPlace Premium",
+            TITLE_2: "Você já imaginou...",
+            ADVANTAGE_1: "Selecionar qualquer cor do UNIVERSO pra pintar!",
+            ADVANTAGE_2: "Viajar no tempo pela evolução do PixelsPlace",
+            ADVANTAGE_3: "Colocar pixels rapidamente com um cooldown reduzido",
+            ADVANTAGE_4: "Personalizar seu perfil do seu jeitinho",
+            CONCLUSION: "Agora você pode! Consiga isso e muito mais com PixelsPlace Premium",
             MAYBE_LATER: "Talvez depois",
             DISCOVER_PREMIUM: "Conheça o Premium!"
         },

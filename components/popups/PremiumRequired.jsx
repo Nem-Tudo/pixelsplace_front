@@ -16,28 +16,44 @@ export default function PremiumRequired({ closePopup }) {
             <main className={styles.scrollable}>
                 
                 <h2 style={{alignSelf: "center", fontSize: "larger"}}>
-                    {language.getString("POPUPS.PREMIUM_REQUIRED.TITLE2")}
+                    {language.getString("POPUPS.PREMIUM_REQUIRED.TITLE_2")}
                 </h2>
 
-                <div style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(2, 1fr)", gap: "8px", width: "100%"}}>
+                <div style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(2, 1fr)", gap: "20px", width: "100%"}}>
 
                     <div>
-                        ADVANTAGE 1
+                        {language.getString("POPUPS.PREMIUM_REQUIRED.ADVANTAGE_1")}
+                        <img
+                            src={'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+                        />
                     </div>
 
                     <div>
-                        ADVANTAGE 2
+                        {language.getString("POPUPS.PREMIUM_REQUIRED.ADVANTAGE_2")}
+                        <img
+                            src={'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+                        />
                     </div>
 
                     <div>
-                        ADVANTAGE 3
+                        {language.getString("POPUPS.PREMIUM_REQUIRED.ADVANTAGE_3")}
+                        <img
+                            src={'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+                        />
                     </div>
 
                     <div>
-                        ADVANTAGE 4
+                        {language.getString("POPUPS.PREMIUM_REQUIRED.ADVANTAGE_4")}
+                        <img
+                            src={'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+                        />
                     </div>
 
                 </div>
+
+                <h2 style={{alignSelf: "center", fontSize: "larger"}}>
+                    {language.getString("POPUPS.PREMIUM_REQUIRED.CONCLUSION")}
+                </h2>
 
             </main>
             

@@ -61,7 +61,7 @@ export default function Credits() {
               ].map((staff) => (
                   <div className={styles.staff}>
                       <h2>{staff.role}</h2>
-                      <Link href={`/users/${staff.id}`}>{staff.name}</Link>
+                      <Link href={`/user/${staff.id}`}>{staff.name}</Link>
                   </div>
               ))
             }

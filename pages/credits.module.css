@@ -34,11 +34,22 @@
     text-align: center;
     width: 100%;
     justify-content: center;
+    user-select: none;
 
     .staff {
       padding: 10px;
       display: flex;
       flex-direction: column;
+      gap: 8px;
+
+      h2 {
+        font-size: large;
+        font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+      }
+
+      a {
+        opacity: 75%;
+      }
     }
   }
 
