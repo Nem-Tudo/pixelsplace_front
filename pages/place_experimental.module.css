@@ -1,0 +1,215 @@
+#main {
+    width: 100dvw;
+    height: calc(100dvh - 72px);
+    overflow: hidden;
+    position: relative;
+    touch-action: none;
+    background: #eaeaea;
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+    }
+}
+
+#canvas {
+    touch-action: none;
+    box-shadow: var(--shadow);
+}
+
+.overlaygui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+
+    .top {
+        position: relative;
+        pointer-events: all;
+        justify-items: center;
+        align-items: center;
+        width: 100vw;
+
+        .overlayPosition {
+            position: absolute;
+            justify-self: anchor-center;
+            align-self: center;
+            background-color: #808080d6;
+            color: hsla(0deg, 0%, 100%, 75%);
+            padding: 0 8px;
+            border-radius: 100vh;
+            top: 87px;
+            animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35);
+            border: var(--outline);
+            backdrop-filter: var(--frosted-glass-blur);
+            width: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+
+            @media screen and (max-height: 500px) and (orientation: landscape) {
+                top: 36px;
+            }
+        }
+    }
+
+    .bottom {
+        margin-top: auto;
+        pointer-events: all;
+        justify-items: center;
+
+        .colors {
+            overflow-x: auto;
+            display: flex;
+            max-width: 100%;
+            padding: 0 15px;
+            
+            .color, .confirmation .color {
+                width: 50px;
+                min-width: 50px;
+                height: 50px;
+                border-radius: 7px;
+                margin: 7px;
+                cursor: pointer;
+                border: var(--outline);
+                box-shadow: var(--shadow);
+                transition: var(--smooth-transition);
+            }
+
+            .color:hover, .confirmation .color:hover {
+                scale: var(--hover-scale);
+            }
+        }
+    }
+}
+
+.confirmation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    align-items: center
+}
+
+.pixelplacement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 7px;
+    justify-self: center;
+    justify-items: center;
+    max-width: fit-content;
+    width: 99dvw;
+
+    .placepixel {
+        margin: 7px;
+        width: fit-content;
+    }
+}
+.pixelplacement[showingcolors="true"] {
+    background: var(--frosted-glass);
+    -webkit-box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: var(--frosted-glass-blur);
+    backdrop-filter: var(--frosted-glass-blur);
+    border-radius: 22px;
+    border: var(--outline);
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 50dvw;
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        border-radius: 22px 0 0 0;
+    }
+}
+
+.pixelInfo {
+    padding: 10px;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    position: fixed;
+    pointer-events: all;
+    user-select: none;
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
+    box-shadow: var(--shadow);
+    color: var(--color-text);
+    border: var(--outline);
+    max-width: 350px;
+    margin: 0 25px 0 auto;
+    font-family: sans-serif;
+    gap: 20px;
+
+    .pixelColorInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+
+        .pixelPickedColor {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 5px;
+            box-shadow: var(--shadow);
+
+            span {
+                margin: 0px;
+                font-size: x-small;
+                user-select: all;
+                mix-blend-mode: luminosity;
+                color: lightgray;
+            }
+        }
+
+    }
+
+    .pixelUserInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 0.95rem;
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        a {
+            color: #9dcaff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .pixelButtons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+}

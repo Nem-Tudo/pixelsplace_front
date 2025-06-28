@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
-import styles from "./place_experimental.module.css";
+import styles from "./place.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
@@ -22,7 +22,7 @@ import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
 
-export default function PlaceExperimental() {
+export default function Place() {
   const router = useRouter();
 
   //contexts
