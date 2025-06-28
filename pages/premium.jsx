@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
 
-export default function Home(props) {
+export default function Premium(props) {
 
     const { loggedUser } = useAuth();
     const { language } = useLanguage();

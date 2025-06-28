@@ -1,0 +1,38 @@
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 50px;
+
+    img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--color-muted);
+      font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+  }
+
+  .credits {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    width: 215px;
+  }
+
+}

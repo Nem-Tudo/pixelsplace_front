@@ -85,6 +85,7 @@ export function MainLayout({ children }) {
         <>
             <Head>
                 <title>{`PixelsPlace`}</title>
+                <meta name="theme-color" content="#80bbff" />
             </Head>
             <Header />
             <main className={styles.main}>
