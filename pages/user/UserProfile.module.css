@@ -49,7 +49,7 @@
       flex-wrap: nowrap;
       align-items: flex-start;
       margin: 0 20px;
-      gap: 8px;
+      gap: 15px;
 
       @media (max-width: 768px) {
         align-items: center;
@@ -63,6 +63,7 @@
         border-radius: 50%;
         margin-top: -90px;
         background-color: var(--user-color-primary, var(--color-darkest));
+        z-index: 1;
 
         img {
           width: 100%;
@@ -72,20 +73,26 @@
         }
       }
 
-      .displayName {
-        font-size: 1.2rem;
-        font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+      .name {
+        gap: 8px;
         display: flex;
-        align-items: center;
-        color: var(--user-color-text);
-      }
+        flex-direction: column;
 
-      .userName {
-        font-size: 1rem;
-        color: var(--user-color-text);
-        opacity: 75%;
-        display: flex;
-        align-items: center;
+        .displayName {
+          font-size: 1.2rem;
+          font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+          display: flex;
+          align-items: center;
+          color: var(--user-color-text);
+        }
+
+        .userName {
+          font-size: 1rem;
+          color: var(--user-color-text);
+          opacity: 75%;
+          display: flex;
+          align-items: center;
+        }
       }
 
       .badges {
@@ -112,19 +119,6 @@
       }
 
       .infoBox {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          border-radius: 22px;
-          color: var(--user-color-text);
-          transition: var(--smooth-transition);
-          padding: 10px;
-          border: 1px solid var(--user-color-border);
-          background: var(--user-color-background-item, var(--color-mid));
-          margin: 0;
-          box-shadow: var(--shadow);
-          position: relative;
-          flex-grow: 1;
           max-width: calc(calc(100% / var(--num, 2)) - 10px);
 
           @media (max-width: 768px) {
@@ -195,6 +189,22 @@
     z-index: 100;
   }
 
+}
+
+.infoBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 22px;
+  color: var(--user-color-text);
+  transition: var(--smooth-transition);
+  padding: 10px;
+  border: 1px solid var(--user-color-border);
+  background: var(--user-color-background-item, var(--color-mid));
+  margin: 0;
+  box-shadow: var(--shadow);
+  position: relative;
+  flex-grow: 1;
 }
 
 .editPencil {

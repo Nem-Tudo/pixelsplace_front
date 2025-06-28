@@ -216,13 +216,16 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
         <div className={styles.page}>
 
           <div className={styles.profile}>
-            <div className={styles.avatar} style={{ zIndex: "1" }}>
+            <div className={styles.avatar}>
               <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
             </div>
-            <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
-            <p className={styles.userName}>@{user?.username} </p>
 
-            <div className={styles.badges}>
+            <div className={styles.name}>
+              <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
+              <p className={styles.userName}>@{user?.username} </p>
+            </div>
+
+            <div className={[styles.badges, styles.infoBox].join(" ")}>
               {user && <Badges list={user?.flags?.map(flag => flag)}/>}
             </div>
           </div>
