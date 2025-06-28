@@ -3,7 +3,7 @@ import styles from "@/components/popups/DisplayPopup.module.css"
 //import popups
 import PremiumRequired from "@/components/popups/PremiumRequired";
 import Error from "@/components/popups/Error";
-import NotImplementedYet from "@/components/popups/Error";
+import NotImplementedYet from "@/components/popups/NotImplementedYet";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
@@ -14,7 +14,6 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "not_implemented_yet": <NotImplementedYet closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
-
 
     return (
         <>
