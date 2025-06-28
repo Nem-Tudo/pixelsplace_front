@@ -7,7 +7,7 @@ export default function MessageDiv({ children, type, expand, centerscreen = fals
     const [expanded, setExpanded] = useState(false)
 
     return <div className={`${centerscreen ? styles.centerscreen : ""}`}>
-        <div className={`${styles.messagediv} ${styles[type]}`}>
+        <div className={`${styles.messageDiv} ${styles[type]}`}>
             <div className={styles.main}>
                 <div className={styles.content}>
                     {children}

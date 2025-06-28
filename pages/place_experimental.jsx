@@ -17,7 +17,7 @@ import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
-import { hexToNumber, numberToHex } from "@/src/colorFunctions";
+import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
@@ -31,7 +31,6 @@ export default function Place() {
   const { openPopup } = usePopup()
 
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
-
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -63,6 +62,9 @@ export default function Place() {
 
   const [, forceUpdate] = useState(0);
 
+  let canvWidtPix = 140;
+  let canvHeigPix = 100;
+
   const transform = useRef({
     scale: 1,
     pointX: 0,
@@ -77,31 +79,12 @@ export default function Place() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const { pointX, pointY, scale } = transform.current;
-    wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
-    forceUpdate(Date.now()); // Força a atualização do react
+    wrapper.style.transform = `translate(${pointX}px, ${pointY}px)`;
+    wrapper.style.width = `calc(${canvWidtPix}px * ${scale})`;
+    wrapper.style.height = `calc(${canvHeigPix}px * ${scale})`;
 
-    // const updatedQuery = {
-    //   ...router.query,
-    //   s: Math.round(scale),
-    //   px: Math.round(pointX),
-    //   py: Math.round(pointY),
-    // };
-
-    // const currentPixel = selectedPixelRef.current;
-    // if (currentPixel) {
-    //   updatedQuery.x = currentPixel.x;
-    //   updatedQuery.y = currentPixel.y;
-    // }
-
-    // router.push(
-    //   {
-    //     pathname: router.pathname,
-    //     query: updatedQuery,
-    //   },
-    //   undefined,
-    //   { shallow: true }
-    // );
+    forceUpdate(Date.now());
   };
 
   const centerCanvas = () => {
@@ -294,7 +277,9 @@ export default function Place() {
       }
 
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
+        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px)`;
+        wrapperRef.current.style.width = `calc(${canvWidtPix}px * ${transform.current.scale})`;
+        wrapperRef.current.style.height = `calc(${canvHeigPix}px * ${transform.current.scale})`
       } else {
         console.error("wrapperRef not available");
       }
@@ -675,20 +660,6 @@ export default function Place() {
     return (r << 16) + (g << 8) + b;
   }
 
-  function lightenColor(colorNum, amount = 0.2) {
-    const r = (colorNum >> 16) & 0xff;
-    const g = (colorNum >> 8) & 0xff;
-    const b = colorNum & 0xff;
-
-    const lighten = (c) => Math.min(255, Math.floor(c + (255 - c) * amount));
-
-    const newR = lighten(r);
-    const newG = lighten(g);
-    const newB = lighten(b);
-
-    return (newR << 16) + (newG << 8) + newB;
-  }
-
   return (
     <>
       <Head>
@@ -887,8 +858,6 @@ export default function Place() {
           </div>
         </section>
 
-
-
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
           <MessageDiv centerscreen={true} type="normal-white">
@@ -947,6 +916,7 @@ export default function Place() {
               position: "absolute",
               top: 0,
               left: 0,
+              display: 'flex'
             }}
           >
 
@@ -1011,6 +981,7 @@ export default function Place() {
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
               }}
             />
+
           </div>
         </div>
       </MainLayout>

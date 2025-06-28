@@ -5,8 +5,8 @@
     align-items: center;
     justify-content: center;
 
-    .messagediv {
-        color: black;
+    .messageDiv {
+        color: white;
         padding: 10px 15px;
         border-radius: 100dvw;
         width: fit-content;
@@ -24,6 +24,7 @@
 
         .warn {
             background: linear-gradient(45deg, #ff5a00, #ff9600);
+            color: black;
         }
 
         .normal-white {

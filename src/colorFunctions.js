@@ -16,6 +16,20 @@ export function darkenHex(hex, amount = 20) {
   return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
 }
 
+export function lightenColor(colorNum, amount = 0.2) {
+  const r = (colorNum >> 16) & 0xff;
+  const g = (colorNum >> 8) & 0xff;
+  const b = colorNum & 0xff;
+
+  const lighten = (c) => Math.min(255, Math.floor(c + (255 - c) * amount));
+
+  const newR = lighten(r);
+  const newG = lighten(g);
+  const newB = lighten(b);
+
+  return (newR << 16) + (newG << 8) + newB;
+}
+
 export function hexToNumber(hex) {
   return parseInt(hex.replace("#", ""), 16);
 }
