@@ -1,0 +1,23 @@
+@import url('./DisplayPopup.module.css');
+
+.advantageGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+
+    div {
+        display: flex;
+        flex-direction: column;
+
+        img {
+            max-width: 20dvw;
+        }
+    }
+}
+
+.billboard {
+    align-self: center;
+    font-size: larger;
+}

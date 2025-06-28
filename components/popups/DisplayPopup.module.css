@@ -40,6 +40,7 @@
             box-shadow: var(--shadow);
             padding: 20px;
             overflow-y: scroll;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             max-width: 100%;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import PremiumButton from "@/components/PremiumButton";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
-import styles from "@/components/popups/DisplayPopup.module.css";
+import styles from "@/components/popups/PremiumRequired.module.css";
 
 export default function PremiumRequired({ closePopup }) {
     const { language } = useLanguage();
@@ -15,11 +15,11 @@ export default function PremiumRequired({ closePopup }) {
 
             <main className={styles.scrollable}>
                 
-                <h2 style={{alignSelf: "center", fontSize: "larger"}}>
+                <h2 className={styles.billboard}>
                     {language.getString("POPUPS.PREMIUM_REQUIRED.TITLE_2")}
                 </h2>
 
-                <div style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(2, 1fr)", gap: "20px", width: "100%"}}>
+                <div className={styles.advantageGrid}>
 
                     <div>
                         {language.getString("POPUPS.PREMIUM_REQUIRED.ADVANTAGE_1")}
@@ -51,7 +51,7 @@ export default function PremiumRequired({ closePopup }) {
 
                 </div>
 
-                <h2 style={{alignSelf: "center", fontSize: "larger"}}>
+                <h2 className={styles.billboard}>
                     {language.getString("POPUPS.PREMIUM_REQUIRED.CONCLUSION")}
                 </h2>
 
