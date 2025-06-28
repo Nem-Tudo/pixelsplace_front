@@ -527,6 +527,13 @@ export default function AdminPage() {
               <legend>
                 <strong>Premium</strong>
               </legend>
+              <span>Pode escolher a cor</span>
+              <input type="checkbox" checked={true} id="" onChange={e => {
+                    }} />
+              <span>Pode ##########</span>
+              <input type="checkbox" checked={false} id="" onChange={e => {
+                    }} />
+                    
             </fieldset>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
