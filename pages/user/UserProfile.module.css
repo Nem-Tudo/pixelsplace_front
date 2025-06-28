@@ -114,13 +114,13 @@
           color: var(--user-color-text);
           transition: var(--smooth-transition);
           padding: 10px;
-          border: 1px solid var(--user-color-background-item);
+          border: 1px solid var(--user-color-border);
           background: var(--user-color-background-item, var(--color-mid));
           margin: 0;
           box-shadow: var(--shadow);
           position: relative;
           flex-grow: 1;
-          max-width: calc(calc(100%/3) - 10px);
+          max-width: calc(calc(100% / var(--num, 2)) - 10px);
 
           @media (max-width: 768px) {
             max-width: unset;
