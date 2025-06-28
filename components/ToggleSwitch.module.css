@@ -1,0 +1,21 @@
+.toggleSwitch {
+    display: none;
+}
+
+.toggleSwitch::before {
+    transition: var(--smooth-transition);
+    content: '';
+}
+.toggleSwitch::after {
+    transition: var(--smooth-transition);
+    content: '';
+}
+
+.toggleSwitch:checked::before {
+    transition: var(--smooth-transition);
+    content: '';
+}
+.toggleSwitch:checked::after {
+    transition: var(--smooth-transition);
+    content: '';
+}

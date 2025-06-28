@@ -15,6 +15,7 @@ import copyText from "@/src/copyText";
 import updateStateKey from "@/src/updateStateKey";
 import Verified from "@/components/Verified";
 import { usePopup } from '@/context/PopupContext';
+import ToggleSwitch from "@/components/ToggleSwitch";
 
 
 export default function AdminPage() {
@@ -531,10 +532,10 @@ export default function AdminPage() {
                 <strong>Premium</strong>
               </legend>
               <span>Pode escolher a cor</span>
-              <input type="checkbox" checked={true} id="" onChange={e => {
+              <ToggleSwitch checked={true} id="" onChange={e => {
                     }} />
               <span>Pode ##########</span>
-              <input type="checkbox" checked={false} id="" onChange={e => {
+              <ToggleSwitch checked={false} id="" onChange={e => {
                     }} />
                     
             </fieldset>

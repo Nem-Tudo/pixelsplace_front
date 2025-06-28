@@ -100,7 +100,7 @@ module.exports = {
             META_DESCRIPTION: "Join PixelsPlace!",
             LOGO_ALT: "logo",
             SERVERS: "Servers",
-            START: "Start",
+            START: "Start!",
         },
         DISCORD_OAUTH2: {
             LOGGED_IN: "Logged in",
