@@ -35,7 +35,7 @@ export default function Home() {
           <div className={styles.buttons}>
             <CustomButton label={language.getString("PAGES.HOME.START")} icon={'gamepad'} href={"/place"} />
             {
-              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={'NOVO CANVAS (EXPERIMENTAL)'} icon={'image'} href={"/place_experimental"} color={'#d6a700'} style={{fontFamily: 'Dogica Pixel', fontSize: 'small'}}/>
+              checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <CustomButton label={'PLACE NOVO (EXPERIMENTAL)'} icon={'image'} href={"/place_experimental"} color={'#d6a700'} style={{fontFamily: 'Dogica Pixel', fontSize: 'small'}}/>
             }
             <CustomButton label={language.getString("PAGES.HOME.SERVERS")} icon={'server'} href={"/partners"} hierarchy={2} />
             <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("COMMON.TIME_TRAVEL")}</PremiumButton>
