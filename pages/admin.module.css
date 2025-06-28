@@ -16,15 +16,16 @@
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: var(--shadow);
-  }
+    max-width: 95dvw;
 
-  legend {
-    color: var(--color-muted);
-    font-size: 1.2rem;
-    padding: 0 10px;
+    legend {
+      color: var(--color-muted);
+      font-size: 1.2rem;
+      padding: 0 10px;
 
-    strong {
-      font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+      strong {
+        font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
+      }
     }
   }
 

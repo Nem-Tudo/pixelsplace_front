@@ -731,130 +731,98 @@ export default function AdminPage() {
               user && <fieldset style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: "20px" }}>
                 <legend>
                   <strong>Gerenciar</strong>
-                  </legend>
-                  <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                    {/* <span>Premium: </span>
-                    <input type="checkbox" checked={user.premium} id="" onChange={e => {
-                      updateStateKey(setUser, user, ["premium", e.target.checked ? 1 : 0]);
-                    }} />
-                    <CustomButton 
-                      icon={'save'}
-                      label={'Salvar'}
-                      onClick={async () => {
-                        console.log(user?.id);
-                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                          premium: user.premium,
-                        });
-                      }}
-                    /> */}
-                    <CustomButton
-                      label={user.premium ? "Remover Premium" : "Dar Premium"}
-                      icon={"pixelarticons"}
-                      hierarchy={user.premium ? "2" : "1"}
-                      color={'#27b84d'}
-                      onClick={async () => {
-                        // console.log("Antes: "+user?.premium)
-                        let newPremim = user?.premium;
-                        if(user?.premium){
-                          newPremim = 0;
-                        } else {
-                          newPremim = 1;
-                        };
-                        // console.log("Depois: "+newPremim)
-                        updateStateKey(setUser, user, ["premium", newPremim]);
-                        // console.log(user?.id);
-                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                          premium: newPremim,
-                        });
-
-                        
-                      }} 
-                    />
-
-                    
-                  </div>
-                  <div>
-                    <CustomButton
-                      label={user.flags.includes("BANNED") ? "Desbanir" : "Banir"}
-                      icon={user.flags.includes("BANNED") ? "user-plus" : "user-minus"}
-                      hierarchy={2}
-                      color={'#ff6c6c'}
-                      onClick={async () => {
-                        let newFlags = user.flags;
-                        if (user.flags.includes("BANNED")) {
-                          newFlags = user.flags.filter(flag => flag != "BANNED");
-                        } else {
-                          newFlags.push("BANNED")
-                        }
-                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                          flags: newFlags
-                        });
-                        getUser(user.id)
-                      }} 
-                    />
-                  </div>
-
-
-                                    <div>
-                    <CustomButton
-                      label={user.flags.includes("BANNED_DRAWN") ? "Poder Desenhar" : "Proibir Desenhar"}
-                      icon={user.flags.includes("BANNED_DRAWN") ? "user-plus" : "user-minus"}
-                      hierarchy={2}
-                      color={'#ff6c6c'}
-                      onClick={async () => {
-                        let newFlags = user.flags;
-                        if (user.flags.includes("BANNED_DRAWN")) {
-                          newFlags = user.flags.filter(flag => flag != "BANNED_DRAWN");
-                        } else {
-                          newFlags.push("BANNED_DRAWN")
-                        }
-                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                          flags: newFlags
-                        });
-                        getUser(user.id)
-                      }} 
-                    />
-                  </div>
-
-                  <div>
+                </legend>
+                <footer className={styles.footerButtons}>
                   <CustomButton
-                      label={"Kick"}
-                      icon={"user-x"}
-                      hierarchy={2}
-                      onClick={async () => {
-                      const reason = prompt("Escreva o motivo: ");
+                    label={user.premium ? "Remover Premium" : "Dar Premium"}
+                    icon={"pixelarticons"}
+                    hierarchy={user.premium ? "2" : "1"}
+                    color={'#27b84d'}
+                    onClick={async () => {
+                      // console.log("Antes: "+user?.premium)
+                      let newPremim = user?.premium;
+                      if(user?.premium){
+                        newPremim = 0;
+                      } else {
+                        newPremim = 1;
+                      };
+                      // console.log("Depois: "+newPremim)
+                      updateStateKey(setUser, user, ["premium", newPremim]);
+                      // console.log(user?.id);
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        premium: newPremim,
+                      });
 
-                        await fetchWithAuth("/admin/onlineusers/" + user?.id + "/disconnect", "POST", {
-                          reason : reason
-                        });
-                      }} 
-                    />
-                  </div>
+                      
+                    }} 
+                  />
+                  <CustomButton
+                    label={user.flags.includes("BANNED") ? "Desbanir" : "Banir"}
+                    icon={user.flags.includes("BANNED") ? "user-plus" : "user-minus"}
+                    hierarchy={2}
+                    color={'#ff6c6c'}
+                    onClick={async () => {
+                      let newFlags = user.flags;
+                      if (user.flags.includes("BANNED")) {
+                        newFlags = user.flags.filter(flag => flag != "BANNED");
+                      } else {
+                        newFlags.push("BANNED")
+                      }
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        flags: newFlags
+                      });
+                      getUser(user.id)
+                    }} 
+                  />
+                  <CustomButton
+                    label={user.flags.includes("BANNED_DRAWN") ? "Poder Desenhar" : "Proibir Desenhar"}
+                    icon={user.flags.includes("BANNED_DRAWN") ? "user-plus" : "user-minus"}
+                    hierarchy={2}
+                    color={'#ff6c6c'}
+                    onClick={async () => {
+                      let newFlags = user.flags;
+                      if (user.flags.includes("BANNED_DRAWN")) {
+                        newFlags = user.flags.filter(flag => flag != "BANNED_DRAWN");
+                      } else {
+                        newFlags.push("BANNED_DRAWN")
+                      }
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        flags: newFlags
+                      });
+                      getUser(user.id)
+                    }} 
+                  />
+                  <CustomButton
+                    label={"Kick"}
+                    icon={"user-x"}
+                    hierarchy={2}
+                    onClick={async () => {
+                    const reason = prompt("Escreva o motivo: ");
 
-
-                  <div>
-                    <CustomButton
-                      label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}
-                      icon={"list"}
-                      hierarchy={2}
-                      color={'#ffffff'}
-                      onClick={async () => {
-                        let newFlags = user.flags;
-                        if (user.flags.includes("SOCKET_WHITELISTED")) {
-                          newFlags = user.flags.filter(flag => flag != "SOCKET_WHITELISTED");
-                        } else {
-                          newFlags.push("SOCKET_WHITELISTED")
-                        }
-                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                          flags: newFlags
-                        });
-                        getUser(user.id)
-                      }} 
-                    />
-                  </div>
-                  {/* premium
-                  kickar
-                  banir/desbanir */}
+                      await fetchWithAuth("/admin/onlineusers/" + user?.id + "/disconnect", "POST", {
+                        reason : reason
+                      });
+                    }} 
+                  />
+                  <CustomButton
+                    label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}
+                    icon={"list"}
+                    hierarchy={2}
+                    color={'#ffffff'}
+                    onClick={async () => {
+                      let newFlags = user.flags;
+                      if (user.flags.includes("SOCKET_WHITELISTED")) {
+                        newFlags = user.flags.filter(flag => flag != "SOCKET_WHITELISTED");
+                      } else {
+                        newFlags.push("SOCKET_WHITELISTED")
+                      }
+                      await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                        flags: newFlags
+                      });
+                      getUser(user.id)
+                    }} 
+                  />
+                </footer>
               </fieldset>
             }
           </main>
