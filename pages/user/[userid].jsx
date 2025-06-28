@@ -221,41 +221,34 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           <div className={styles.moreInfo}>
             <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
               {editStates.profile_aboutme ? (
-                <>
-                  <div>
-                    <textarea
-                      value={user.profile.aboutme}
-                      style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}
-                      onChange={(e) => {
-                        updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
-                      }}
-                      rows={4}
-                    />
-                  </div>
-                </>
+                <textarea
+                  value={user.profile.aboutme}
+                  style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}
+                  onChange={(e) => {
+                    updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
+                  }}
+                  rows={4}
+                />
               ) : (
-                <>
-                  <div>
-                    <span style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
-                      {!loading && loggedUser?.id === user?.id ? (
-                        <>
-                          <MdOutlineModeEditOutline
-                            style={{
-                              position: "absolute",
-                              top: "5px",
-                              right: "5px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => switchEdit("profile_aboutme")}
-                          />
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                      {user.profile.aboutme}
-                    </span>
-                  </div>
-                </>
+                <span style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
+                  {!loading && loggedUser?.id === user?.id ? (
+                    <>
+                      <PixelIcon
+                        codename={'edit'}
+                        style={{
+                          position: "absolute",
+                          top: "5px",
+                          right: "5px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => switchEdit("profile_aboutme")}
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {user.profile.aboutme}
+                </span>
               )}
             </div>
             {user.settings.selected_guild && (
