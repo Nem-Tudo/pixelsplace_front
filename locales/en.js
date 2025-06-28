@@ -64,6 +64,7 @@ module.exports = {
     POPUPS: {
         PREMIUM_REQUIRED: {
             TITLE: "You need to be Premium!",
+            TITLE2: "Have you ever thought of...",
             DESCRIPTION1: "Imagine you can pick any color in the UNIVERSE to paint... You can!",
             DESCRIPTION2: "Get this and much more with PixelsPlace Premium",
             MAYBE_LATER: "Maybe later",

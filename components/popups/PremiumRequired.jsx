@@ -16,8 +16,28 @@ export default function PremiumRequired({ closePopup }) {
             <main className={styles.scrollable}>
                 
                 <h2 style={{alignSelf: "center", fontSize: "larger"}}>
-                    {language.getString("POPUPS.PREMIUM_REQUIRED")}
+                    {language.getString("POPUPS.PREMIUM_REQUIRED.TITLE2")}
                 </h2>
+
+                <div style={{display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(2, 1fr)", gap: "8px", width: "100%"}}>
+
+                    <div>
+                        ADVANTAGE 1
+                    </div>
+
+                    <div>
+                        ADVANTAGE 2
+                    </div>
+
+                    <div>
+                        ADVANTAGE 3
+                    </div>
+
+                    <div>
+                        ADVANTAGE 4
+                    </div>
+
+                </div>
 
             </main>
             
