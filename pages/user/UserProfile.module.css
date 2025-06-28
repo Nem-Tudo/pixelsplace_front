@@ -103,7 +103,15 @@
       align-items: stretch;
       justify-content: flex-start;
       gap: 15px;
-      width: 100vw;
+      width: 100dvw;
+      padding-top: 10px;
+      padding-right: 10px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        margin-top: 10px;
+        padding: 20px;
+      }
 
       .infoBox {
           display: flex;
@@ -113,10 +121,10 @@
           color: var(--user-color-text);
           transition: var(--smooth-transition);
           padding: 19px;
-          width: 25vw;
-          height: 12vh;
           border: var(--outline);
           background: var(--user-color-background-item);
+          margin: 0;
+          box-shadow: var(--shadow);
       }
 
       /*
