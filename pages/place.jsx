@@ -726,7 +726,7 @@ export default function Place() {
                 style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo} ${direction === "left" ? styles.showLeft : styles.showRight
+                  className={`${styles.pixelInfo} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
                   ref={pixelInfoRef}
                 >
@@ -945,9 +945,6 @@ export default function Place() {
             </div>
           </MessageDiv>
         )}
-
-
-
 
         <div
           style={{display: isAlready() ? "unset" : "none"}}
