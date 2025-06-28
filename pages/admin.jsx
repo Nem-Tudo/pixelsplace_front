@@ -794,6 +794,29 @@ export default function AdminPage() {
                     />
                   </div>
 
+
+                                    <div>
+                    <CustomButton
+                      label={user.flags.includes("BANNED_DRAWN") ? "Poder Desenhar" : "Proibir Desenhar"}
+                      icon={user.flags.includes("BANNED_DRAWN") ? "user-plus" : "user-minus"}
+                      hierarchy={2}
+                      color={'#ff6c6c'}
+                      onClick={async () => {
+                        let newFlags = user.flags;
+                        if (user.flags.includes("BANNED_DRAWN")) {
+                          newFlags = user.flags.filter(flag => flag != "BANNED_DRAWN");
+                        } else {
+                          newFlags.push("BANNED_DRAWN")
+                        }
+                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                          flags: newFlags
+                        });
+                        getUser(user.id)
+                      }} 
+                    />
+                  </div>
+
+
                   <div>
                     <CustomButton
                       label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}
