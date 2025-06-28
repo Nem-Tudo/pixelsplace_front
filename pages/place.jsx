@@ -866,7 +866,7 @@ export default function Place() {
                       <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onClick={(e) => {
                         if (!loggedUser?.premium) {
                           e.preventDefault();
-                          openPopup("required_premium")
+                          openPopup("premium_required")
                         }
                       }} onChange={(e) => {
                         if (!loggedUser?.premium) return

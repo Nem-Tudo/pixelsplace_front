@@ -45,7 +45,7 @@ module.exports = {
             LOGIN: "Iniciar sesión",
             LOGGED_OUT: "Sesión cerrada"
         },
-        PREMIUM_POPUP: {
+        PREMIUM_REQUIRED: {
             TITLE: "¡Necesitas ser Premium!",
             DESCRIPTION1: "Imagina poder elegir cualquier color del UNIVERSO para pintar... ¡Puedes!",
             DESCRIPTION2: "Obtén esto y mucho más con PixelsPlace Premium",

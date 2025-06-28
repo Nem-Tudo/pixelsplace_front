@@ -27,7 +27,7 @@ export default function PremiumButton({
       if (onClick) onClick(event);
     } else {
       event.preventDefault();
-      openPopup("required_premium");
+      openPopup("premium_required");
     }
   };
 
@@ -65,7 +65,7 @@ export default function PremiumButton({
 
   if (Component === "icon") {
     const clonedIcon = React.cloneElement(icon, {
-      onClick: loggedUser?.premium ? icon.props.onClick : () => openPopup("required_premium"),
+      onClick: loggedUser?.premium ? icon.props.onClick : () => openPopup("premium_required"),
     });
 
     return (

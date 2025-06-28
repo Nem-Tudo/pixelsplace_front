@@ -57,7 +57,7 @@ module.exports = {
             VIEW_AS_USER: "Просмотр как пользователь",
             NORMAL_VIEW: "Обычный просмотр"
         },
-        PREMIUM_POPUP: {
+        PREMIUM_REQUIRED: {
             TITLE: "Вам нужен Премиум!",
             DESCRIPTION1: "Представьте, что вы можете выбрать любой цвет во ВСЕЛЕННОЙ для рисования... Вы можете!",
             DESCRIPTION2: "Получите это и многое другое с PixelsPlace Премиум",

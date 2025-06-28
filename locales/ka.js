@@ -56,7 +56,7 @@ module.exports = {
             VIEW_AS_USER: "მომხმარებლის სახით ნახვა",
             NORMAL_VIEW: "ჩვეულებრივი ნახვა"
         },
-        PREMIUM_POPUP: {
+        PREMIUM_REQUIRED: {
             TITLE: "თქვენ გჭირდებათ პრემიუმი!",
             DESCRIPTION1: "წარმოიდგინეთ, რომ შეგიძლიათ აირჩიოთ სამყაროს ყველა ფერი ნახატისთვის... შეგიძლიათ!",
             DESCRIPTION2: "მიიღეთ ეს და კიდევ ბევრი PixelsPlace პრემიუმით",

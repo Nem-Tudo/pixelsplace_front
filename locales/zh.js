@@ -45,7 +45,7 @@ module.exports = {
             LOGIN: "登录",
             LOGGED_OUT: "已登出"
         },
-        PREMIUM_POPUP: {
+        PREMIUM_REQUIRED: {
             TITLE: "你需要成为高级用户！",
             DESCRIPTION1: "想象你可以使用宇宙中的任何颜色来绘画...你可以！",
             DESCRIPTION2: "开通 PixelsPlace 高级版，享受更多功能",

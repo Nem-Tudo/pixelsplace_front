@@ -1,14 +1,14 @@
-import styles from "./DisplayPopup.module.css"
+import styles from "@/components/popups/DisplayPopup.module.css"
 
 //import popups
-import PremiumPopup from "@/components/popups/PremiumPopup";
+import PremiumRequired from "@/components/popups/PremiumRequired";
 
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
     // Mapeamento de popups para componentes
     const popupComponents = {
-        "required_premium": <PremiumPopup closePopup={closePopup} {...showingPopup?.settings} />,
+        "premium_required": <PremiumRequired closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
 

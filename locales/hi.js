@@ -57,7 +57,7 @@ module.exports = {
             VIEW_AS_USER: "उपयोगकर्ता के रूप में देखें",
             NORMAL_VIEW: "सामान्य दृश्य"
         },
-        PREMIUM_POPUP: {
+        PREMIUM_REQUIRED: {
             TITLE: "आपको प्रीमियम होना चाहिए!",
             DESCRIPTION1: "कल्पना करें कि आप ब्रह्मांड के किसी भी रंग को चुनकर पेंट कर सकते हैं... आप कर सकते हैं!",
             DESCRIPTION2: "PixelsPlace प्रीमियम के साथ यह और बहुत कुछ पाएं",

@@ -62,7 +62,7 @@ module.exports = {
         },
     },
     POPUPS: {
-        PREMIUM_POPUP: {
+        PREMIUM_REQUIRED: {
             TITLE: "Você precisa ser Premium!",
             DESCRIPTION1: "Imagine que você pode selecionar qualquer cor do UNIVERSO pra pintar... Você pode!",
             DESCRIPTION2: "Consiga isso e muito mais com PixelsPlace Premium",
