@@ -5,17 +5,21 @@
 .toggleSwitch::before {
     transition: var(--smooth-transition);
     content: '';
+    background-color: red;
 }
 .toggleSwitch::after {
     transition: var(--smooth-transition);
     content: '';
+    background-color: blue;
 }
 
 .toggleSwitch:checked::before {
     transition: var(--smooth-transition);
     content: '';
+    background-color: white;
 }
 .toggleSwitch:checked::after {
     transition: var(--smooth-transition);
     content: '';
+    background-color: black;
 }

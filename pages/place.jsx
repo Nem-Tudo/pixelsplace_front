@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
-import styles from "./place_experimental.module.css";
+import styles from "./place.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
@@ -16,13 +16,12 @@ import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
-import { FaShare } from "react-icons/fa";
-import { hexToNumber, numberToHex } from "@/src/colorFunctions";
+import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
 
-export default function PlaceExperimental() {
+export default function Place() {
   const router = useRouter();
 
   //contexts
@@ -31,7 +30,6 @@ export default function PlaceExperimental() {
   const { openPopup } = usePopup()
 
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
-
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -63,6 +61,9 @@ export default function PlaceExperimental() {
 
   const [, forceUpdate] = useState(0);
 
+  let canvWidtPix = 140;
+  let canvHeigPix = 100;
+
   const transform = useRef({
     scale: 1,
     pointX: 0,
@@ -77,31 +78,12 @@ export default function PlaceExperimental() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const { pointX, pointY, scale } = transform.current;
-    wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
-    forceUpdate(Date.now()); // Força a atualização do react
+    wrapper.style.transform = `translate(${pointX}px, ${pointY}px)`;
+    wrapper.style.width = `calc(${canvWidtPix}px * ${scale})`;
+    wrapper.style.height = `calc(${canvHeigPix}px * ${scale})`;
 
-    // const updatedQuery = {
-    //   ...router.query,
-    //   s: Math.round(scale),
-    //   px: Math.round(pointX),
-    //   py: Math.round(pointY),
-    // };
-
-    // const currentPixel = selectedPixelRef.current;
-    // if (currentPixel) {
-    //   updatedQuery.x = currentPixel.x;
-    //   updatedQuery.y = currentPixel.y;
-    // }
-
-    // router.push(
-    //   {
-    //     pathname: router.pathname,
-    //     query: updatedQuery,
-    //   },
-    //   undefined,
-    //   { shallow: true }
-    // );
+    forceUpdate(Date.now());
   };
 
   const centerCanvas = () => {
@@ -294,7 +276,9 @@ export default function PlaceExperimental() {
       }
 
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
+        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px)`;
+        wrapperRef.current.style.width = `calc(${canvWidtPix}px * ${transform.current.scale})`;
+        wrapperRef.current.style.height = `calc(${canvHeigPix}px * ${transform.current.scale})`
       } else {
         console.error("wrapperRef not available");
       }
@@ -675,20 +659,6 @@ export default function PlaceExperimental() {
     return (r << 16) + (g << 8) + b;
   }
 
-  function lightenColor(colorNum, amount = 0.2) {
-    const r = (colorNum >> 16) & 0xff;
-    const g = (colorNum >> 8) & 0xff;
-    const b = colorNum & 0xff;
-
-    const lighten = (c) => Math.min(255, Math.floor(c + (255 - c) * amount));
-
-    const newR = lighten(r);
-    const newG = lighten(g);
-    const newB = lighten(b);
-
-    return (newR << 16) + (newG << 8) + newB;
-  }
-
   return (
     <>
       <Head>
@@ -789,21 +759,21 @@ export default function PlaceExperimental() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelplacement}
-                showingcolors={String(showingColors)}
+                className={styles.pixelPlacement}
+                data-showing-colors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
                     <CustomButton
                       label={timeLeft}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       disabled={true}
                     />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
                     <CustomButton
                       label={loggedUser ? language.getString("PAGES.PLACE.PLACE_PIXEL") : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
@@ -819,7 +789,7 @@ export default function PlaceExperimental() {
                       label={language.getString("COMMON.CANCEL")}
                       hierarchy={3}
                       color={"#919191"}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => setShowingColors(false)}
                     />
                   )}
@@ -828,7 +798,7 @@ export default function PlaceExperimental() {
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
                       disabled={!selectedColor}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => {
                         placePixel(
                           selectedPixel.x,
@@ -852,7 +822,7 @@ export default function PlaceExperimental() {
                         </div>
                       </>
                     }>
-                      <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onClick={(e) => {
+                      <input type="color" id="" value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
                         if (!loggedUser?.premium) {
                           e.preventDefault();
                           openPopup("premium_required")
@@ -886,8 +856,6 @@ export default function PlaceExperimental() {
             )}
           </div>
         </section>
-
-
 
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
@@ -947,6 +915,7 @@ export default function PlaceExperimental() {
               position: "absolute",
               top: 0,
               left: 0,
+              display: 'flex'
             }}
           >
 
@@ -965,6 +934,7 @@ export default function PlaceExperimental() {
                 transformOrigin: "0 0",
                 zIndex: 10,
                 width: "100%",
+                flexGrow: 1,
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
                 display:
                   Math.max(canvasConfig.width, canvasConfig.height) > 1500
@@ -1009,8 +979,10 @@ export default function PlaceExperimental() {
               height={canvasConfig.height}
               style={{
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
+                flexGrow: 1
               }}
             />
+
           </div>
         </div>
       </MainLayout>
