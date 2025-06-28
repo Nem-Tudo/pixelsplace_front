@@ -13,7 +13,7 @@ import updateStateKey from "@/src/updateStateKey";
 import CustomButton from "@/components/CustomButton";
 import { getBrightness } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
-
+import GuildCard from "@/components/GuildCard";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -220,27 +220,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
           <div className={styles.moreInfo}>
             {user.settings.selected_guild && (
-                <div className={styles.guildCard} style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
-                  <img
-                    className={styles.guildIcon}
-                    src={settings.guildIconURL(user.settings.selected_guild.id, user.settings.selected_guild.icon)}
-                    alt={language.getString("PAGES.USER_PROFILE.GUILD_ICON_ALT", { guildName: user.settings.selected_guild.name })}
-                  />
-                  <div className={styles.guildInfo}>
-                    <h2 className={styles.guildName} translate="no">
-                      {user.settings.selected_guild.name}
-                      <Verified verified={user.settings.selected_guild.flags.includes("VERIFIED")} />
-                    </h2>
-                    <a
-                      className={styles.guildLink}
-                      href={user.settings.selected_guild.invite}
-                      target="_blank"
-                      rel="norreferer"
-                    >
-                      {language.getString("PAGES.USER_PROFILE.JOIN_GUILD")}
-                    </a>
-                  </div>
-                </div>
+              <GuildCard guild={user.settings.selected_guild} />
             )}
             <div className={styles.description} ref={aboutmeRef}>
               {editStates.profile_aboutme ? (

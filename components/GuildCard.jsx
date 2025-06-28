@@ -19,7 +19,7 @@ export default function GuildCard({ guild, index }) {
     }, [loggedUser])
 
     return (
-        <div key={index} className={styles.guildCard} style={userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
+        <div key={index || {}} className={styles.guildCard} style={index && userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
             <img
                 className={styles.guildIcon}
                 src={settings.guildIconURL(guild.id, guild.icon)}
