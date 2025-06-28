@@ -3,9 +3,8 @@
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
-    -webkit-user-select: none;
     user-select: none;
-    width: 100vw;
+    width: 100dvw;
     justify-content: space-between;
     height: 72px;
     border-bottom: var(--outline);
