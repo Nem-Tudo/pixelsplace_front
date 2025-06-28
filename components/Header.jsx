@@ -128,7 +128,6 @@ export default function Header() {
     useEffect(() => {
         const isMobileLandscape = () => {
             return (
-                typeof window !== "undefined" &&
                 window.innerWidth <= 1024 &&
                 window.innerWidth > window.innerHeight
             );
