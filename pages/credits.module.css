@@ -32,7 +32,14 @@
     flex-direction: column;
     gap: 10px;
     text-align: center;
-    width: 215px;
+    width: 100%;
+    justify-content: center;
+
+    .staff {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
 }

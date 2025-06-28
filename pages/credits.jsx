@@ -33,7 +33,39 @@ export default function Credits() {
             <h1>{language.getString("PAGES.CREDITS.TITLE")}</h1>
           </div>
           <div className={styles.credits}>
-            <p>oi</p>
+
+            {
+              [
+
+                {
+                  name: 'Nem Tudo',
+                  id: '612651439701098558',
+                  role: language.getString("PAGES.CREDITS.CHIEF_COW")
+                },
+                {
+                  name: 'Commandbat',
+                  id: '385478022670843904',
+                  role: language.getString("PAGES.CREDITS.CHIEF_DRAGGABLE")
+                },
+                {
+                  name: 'Renato',
+                  id: '427257953503019017',
+                  role: language.getString("PAGES.CREDITS.GOAT")
+                },
+                {
+                  name: 'Kuriel',
+                  id: '354233941550694400',
+                  role: language.getString("PAGES.CREDITS.CHIEF_EVIL_LINUX")
+                }
+
+              ].map((staff) => (
+                  <div className={styles.staff}>
+                      <h2>{staff.role}</h2>
+                      <Link href={`/users/${staff.id}`}>{staff.name}</Link>
+                  </div>
+              ))
+            }
+
           </div>
         </main>
       </MainLayout>

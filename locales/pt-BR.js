@@ -147,7 +147,11 @@ module.exports = {
             WEBSOCKET_SEARCH: "Procurando WebSocket...",
         },
         CREDITS: {
-            TITLE: 'Time PixelsPlace'
+            TITLE: 'Time PixelsPlace',
+            CHIEF_COW: 'Chief Vaca',
+            CHIEF_DRAGGABLE: 'Chief Arrastáveis',
+            GOAT: 'O Melhor de Todos',
+            CHIEF_EVIL_LINUX: 'Chief Backend e Forças do Mal (Linux)'
         }
     },
 }

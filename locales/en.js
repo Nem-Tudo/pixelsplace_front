@@ -147,7 +147,11 @@ module.exports = {
             WEBSOCKET_SEARCH: "Searching for WebSocket...",
         },
         CREDITS: {
-            TITLE: 'PixelsPlace Team'
+            TITLE: 'PixelsPlace Team',
+            CHIEF_COW: 'Chief Cow',
+            CHIEF_DRAGGABLE: 'Chief Draggables',
+            GOAT: 'Greatest Of All Times',
+            CHIEF_EVIL_LINUX: 'Chief Backend and Evil Forces (Linux)'
         }
     },
 }
