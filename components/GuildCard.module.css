@@ -1,0 +1,65 @@
+
+.guildCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--color-mid);
+    border: var(--outline);
+    border-radius: 23px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #d0e6ff;
+    transition: var(--smooth-transition);
+    padding: 15px;
+    width: min(450px, 90dvw);
+    margin: 15px;
+    box-shadow: var(--shadow);
+
+    .guildIcon {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 2px solid #5599ff;
+        background-color: #1a263f;
+    }
+
+    .guildInfo {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        position: relative;
+        width: 0%;
+
+        .guildName {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-muted);
+            white-space: nowrap;
+            max-width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .guildLink {
+            align-self: flex-start;
+            background-color: var(--color-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--smooth-transition);
+            border: var(--outline);
+        }
+        .guildLink:hover {
+            background-color: var(--color-darker);
+            scale: var(--hover-scale);
+        }
+    }
+
+}
+.guildCard:hover {
+    transform: translateY(-4px);
+}

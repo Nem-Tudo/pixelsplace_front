@@ -105,13 +105,28 @@
       gap: 15px;
       width: 100vw;
 
+      div {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          border-radius: 12px;
+          color: var(--user-color-text);
+          transition: var(--smooth-transition);
+          padding: 19px;
+          width: 25vw;
+          height: 12vh;
+          border: var(--outline);
+          background: var(--user-color-background-item);
+      }
+
+      /*
       .pixelsInfo{
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 1rem;
-        /* background-color: var(--color-mid); */
+        background-color: var(--color-mid);
         border: var(--outline);
         border-radius: 12px;
         color: var(--color-muted);
@@ -145,7 +160,7 @@
         border: none;
         font-size: 1rem;
         color: #fff;
-        /* background-color: var(--color-mid); */
+        background-color: var(--color-mid);
         border: var(--outline);
         box-shadow: var(--shadow);
         transition: var(--smooth-transition);
@@ -163,7 +178,7 @@
         padding: 0.5rem;
         font-size: 1rem;
         color: #fff;
-        /* background-color: var(--color-mid); */
+        background-color: var(--color-mid);
         white-space: pre-wrap;
         overflow-y: auto;
         position: relative;
@@ -187,26 +202,7 @@
         font-size: 1.2rem;
       }
 
-      .guildCard {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          /* background-color: var(--color-mid);   */
-          border: 1px solid var(--color-darkest);
-          border-radius: 12px;
-          color: #d0e6ff;
-          transition: var(--smooth-transition);
-          padding: 19px;
-          width: 25vw;
-          height: 12vh;
-          border: var(--outline);
-      }
-
-      .guildCard:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      }
-
+      
       .guildIcon {
           width: 64px;
           height: 64px;
@@ -229,10 +225,10 @@
           font-size: 1.25rem;
           font-weight: 600;
           color: #9dcaff;
-          /* white-space: nowrap;
+          white-space: nowrap;
           max-width: 100%;
           overflow: hidden;
-          text-overflow: ellipsis; */
+          text-overflow: ellipsis;
           text-align: start;
       }
 
@@ -254,7 +250,7 @@
       }
 
       .viewPixelsButton {
-        /* padding: 0.7rem 1.5rem; */
+        padding: 0.7rem 1.5rem;
         color: white;
         border: var(--outline);
         box-shadow: var(--shadow);
@@ -287,7 +283,7 @@
       .pixelsInfo:hover {
         transform: translateY(-4px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      }
+      }*/
     }
 
     .editUserColors {

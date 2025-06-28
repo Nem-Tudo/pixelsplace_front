@@ -218,7 +218,7 @@ export default function AdminPage() {
 
       <input checked={choosePage === 'geral'} type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
       <label htmlFor={"pagina_geral"}>
-        <PixelIcon codename={'bug'} />
+        <PixelIcon codename={'sliders-2'} />
         Geral
       </label>
 
