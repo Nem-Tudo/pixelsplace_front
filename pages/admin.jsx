@@ -33,6 +33,7 @@ export default function AdminPage() {
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [choosePage, setChoosePage] = useState();
+  const [canvaSettings, setCanvaSettings] = useState();
 
   const [buildsOverride, setBuildsOverride] = useState([]);
 
@@ -68,12 +69,14 @@ export default function AdminPage() {
   const fetchCanvas = async () => {
     const res = await fetch(`${settings.apiURL}/canvas`);
     const data = await res.json();
+    console.log(data);
     setCanvas(data);
     setWidth(data.width);
     setHeight(data.height);
     setFreeColors(data.freeColors);
     setCooldownFree(data.cooldown_free);
     setCooldownPremium(data.cooldown_premium);
+    setCanvaSettings(data.settings);
   };
 
   const fetchStats = async () => {
@@ -524,18 +527,48 @@ export default function AdminPage() {
               <legend>
                 <strong>WhiteList</strong>
               </legend>
+
+                  <CustomButton
+                    label={setCanvaSettings?.whitelisted ? "OFF Whitelist" : "ON Whitelist"}
+                    icon={"list"}
+                    hierarchy={2}
+                    color={'#ffffff'}
+                    onClick={async () => {
+                      let newWhitelisted = setCanvaSettings?.whitelisted ;
+                      if (setCanvaSettings?.whitelisted ) {
+                        newWhitelisted = 0
+                      } else {
+                        newWhitelisted = 1
+                      }
+                      await fetchWithAuth("/canva/admin/settings", "PATCH", {
+                        whitelisted: newWhitelisted
+                      });
+                    }} 
+                  />
+
             </fieldset>
 
             <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <legend>
                 <strong>Premium</strong>
               </legend>
-              <span>Pode escolher a cor</span>
-              <input type="checkbox" checked={true} id="" onChange={e => {
-                    }} />
-              <span>Pode ##########</span>
-              <input type="checkbox" checked={false} id="" onChange={e => {
-                    }} />
+                  <CustomButton
+                    label={setCanvaSettings?.onlyFreeColors ? "Liberar Todas as cores" : "Apenas Cores Gratis"}
+                    icon={"paint-bucket"}
+                    hierarchy={2}
+                    color={'#d6a700'}
+                    onClick={async () => {
+                      let newOnlyFreeColors = setCanvaSettings?.onlyFreeColors ;
+                      if (setCanvaSettings?.onlyFreeColors ) {
+                        newOnlyFreeColors = 0
+                      } else {
+                        newOnlyFreeColors = 1
+                      }
+                      await fetchWithAuth("/canva/admin/settings", "PATCH", {
+                        onlyFreeColors: newOnlyFreeColors
+                      });
+                    }} 
+                  />
                     
             </fieldset>
 
