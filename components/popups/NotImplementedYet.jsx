@@ -6,7 +6,7 @@ import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 
-export default function Error({ closePopup, errorMessage = "Unknown error" }) {
+export default function NotImplementedYet({ closePopup }) {
     const { language } = useLanguage();
 
     return (
@@ -15,9 +15,7 @@ export default function Error({ closePopup, errorMessage = "Unknown error" }) {
 
             <main className={styles.scrollable}>
                 
-                <h2 style={{fontSize: 'larger'}}>
-                    {errorMessage}
-                </h2>
+                <h2 style={{fontSize: 'larger'}}>{language.getString("POPUPS.NOT_IMPLEMENTED_YET.DESCRIPTION")}</h2>
 
             </main>
             

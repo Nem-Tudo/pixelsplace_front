@@ -75,6 +75,7 @@ module.exports = {
         },
         ERROR: {
             TITLE: "Ocorreu um erro!",
+            UNKNOWN: "Erro desconhecido",
         },
         NOT_IMPLEMENTED_YET: {
             TITLE: "Oops! Foi mal",

@@ -6,8 +6,10 @@ import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 
-export default function Error({ closePopup, errorMessage = "Unknown error" }) {
+export default function Error({ closePopup, errorMessage }) {
     const { language } = useLanguage();
+
+    if(!errorMessage) errorMessage = language.getString("POPUPS.ERROR.UNKNOWN");
 
     return (
         <>

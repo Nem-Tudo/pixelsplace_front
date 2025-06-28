@@ -23,6 +23,7 @@
         background: linear-gradient(180deg, hsl(0deg 0% 36.23%), transparent);
         box-shadow: none;
         border: none;
+        position: absolute;
     }
 
     > * {

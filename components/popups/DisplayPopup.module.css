@@ -37,7 +37,7 @@
         }
 
         .scrollable {
-            box-shadow: var(--shadow);
+            box-shadow: 0px 5px 6px hsl(0deg 0% 0% / 3%);
             padding: 20px;
             overflow-y: scroll;
             overflow-x: hidden;
@@ -50,22 +50,11 @@
         .footer {
             display: flex;
             justify-content: space-around;
-            background: hsla(0, 0%, 0%, 10%);
+            background: hsla(0, 0%, 0%, 2%);
             padding: 10px;
 
             > * {
                 flex-grow: 1;
-            }
-
-            button {
-                border: 1px solid transparent;
-                background: none;
-                color: var(--color-text);
-                cursor: pointer;
-                transition: var(--smooth-transition);
-            }
-            button:hover {
-                scale: var(--hover-scale);
             }
         }
 
