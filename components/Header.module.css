@@ -14,6 +14,10 @@
     color: white;
     transition: var(--smooth-transition);
 
+    @media (max-width: 500px) {
+        padding: 1rem .5rem;
+    }
+
     > * {
         flex-grow: 1;
     }
@@ -25,9 +29,17 @@
     justify-content: flex-start;
     align-items: center;
 
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        display: flex;
+    }
+
     svg {
         width: 40px;
         cursor: pointer;
+
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            display: 20px;
+        }
     }
 }
 
@@ -36,6 +48,14 @@
     align-items: center;
     justify-content: flex-start;
     height: 100%;
+
+    @media (max-width: 350px) {
+        gap: 12px;
+    }
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        display: none;
+    }
 
     > * {
         padding: 15px;
@@ -95,6 +115,10 @@
     justify-content: center;
     height: 100%;
     align-items: center;
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        display: flex;
+    }
 }
 
 .right {
@@ -126,6 +150,10 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             position: relative;
+
+            @media screen and (max-height: 500px) and (orientation: landscape) {
+                display: none;
+            }
         }
         .userName::after {
             content: "";
@@ -206,17 +234,5 @@
         span {
             color: white;
         }
-    }
-}
-
-@media (max-width: 500px) {
-    .header {
-        padding: 1rem .5rem;
-    }
-}
-
-@media (max-width: 350px) {
-    .left {
-        gap: 12px;
     }
 }

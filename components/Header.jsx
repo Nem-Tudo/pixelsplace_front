@@ -121,44 +121,9 @@ export default function Header() {
         }
     });
 
-    // collapsable header on small devices
-    const [hidden, setHidden] = useState(false);
-    let lastScrollY = useRef(0);
-
-    useEffect(() => {
-        const isMobileLandscape = () => {
-            return (
-                window.innerWidth <= 1024 &&
-                window.innerWidth > window.innerHeight
-            );
-        };
-
-        const handleScroll = () => {
-            if(!isMobileLandscape()) return;
-
-            const currentScrollY = window.scrollY;
-
-            if(currentScrollY > lastScrollY && currentScrollY > 72) {
-                setHidden(true);
-            } else {
-                setHidden(false);
-            }
-
-            lastScrollY = currentScrollY;
-        };
-
-        window.addEventListener("scroll", () => handleScroll());
-        window.addEventListener("resize", () => handleScroll());
-
-        return () => {
-            window.removeEventListener("scroll", () => handleScroll());
-            window.removeEventListener("resize", () => handleScroll());
-        };
-    }, []);
-
     return (
         <>
-            <header className={styles.header} style={{transform: hidden ? "translateY(-72px)" : "translateY(0px)"}}>
+            <header className={styles.header}>
                 {/* Mobile hamburger menu */}
                 {
                     <Tippy theme="transparent" trigger="click" interactive={true} content={<>
