@@ -13,6 +13,7 @@ module.exports = {
         DELETE: "Excluir",
         EDIT: "Editar",
         SAVE: "Salvar",
+        SAVE_CHANGES: "Salvar alterações",
         CLOSE: "Fechar",
         NAME: "Nome",
         AUTHOR: "Autor",

@@ -225,7 +225,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <p className={styles.userName}>@{user?.username} </p>
             </div>
 
-            {user && user.flags && user.flags.map(flag => flag) &&
+            {user && user.flags && user.flags.map(flag => flag) && Badges({list: user?.flags?.map(flag => flag)}) != [] &&
               <div className={[styles.badges, styles.infoBox].join(" ")}>
                 <Badges list={user?.flags?.map(flag => flag)}/>
               </div>
@@ -299,7 +299,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <CustomButton
               className={styles.saveChanges}
               color={"#33b32e"}
-              label={"Salvar alterações"}
+              label={language.getString("COMMON.SAVE_CHANGES")}
               icon={'save'}
               onClick={() => saveChanges()}
             />
