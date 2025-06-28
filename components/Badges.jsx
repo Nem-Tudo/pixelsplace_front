@@ -1,4 +1,5 @@
 import PixelIcon from "@/components/PixelIcon";
+import Tippy from "@tippyjs/react";
 
 const BADGE_LIST = {
     'ADMIN': (<PixelIcon codename={'sliders-2'} />),
@@ -9,7 +10,11 @@ const BADGE_LIST = {
 export default function Badges({ list = [""] }) {
     return (
         <>
-            {Object.entries(BADGE_LIST).filter(([key, value]) => list.includes(key)).map(([key, value]) => value)}
+            {Object.entries(BADGE_LIST).filter(([key, value]) => list.includes(key)).map(([key, value]) => (
+                <Tippy content={`${key}`.replace('_', '')} placement="top">
+                    {value}
+                </Tippy>
+            ))}
         </>
     )
 }

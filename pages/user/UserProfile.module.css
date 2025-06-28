@@ -87,6 +87,11 @@
         display: flex;
         align-items: center;
       }
+
+      .badges {
+        display: flex;
+        gap: 4px;
+      }
     }
 
     .moreInfo{
