@@ -946,9 +946,8 @@ export default function Place() {
           </MessageDiv>
         )}
 
-        <div
+        <div id={styles.main}
           style={{display: isAlready() ? "unset" : "none"}}
-          id={styles.main}
         >
 
           {/* canvas div */}

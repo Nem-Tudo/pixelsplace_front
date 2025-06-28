@@ -18,6 +18,13 @@
         padding: 1rem .5rem;
     }
 
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        height: 40px;
+        background: linear-gradient(180deg, hsl(0deg 0% 36.23%), transparent);
+        box-shadow: none;
+        border: none;
+    }
+
     > * {
         flex-grow: 1;
     }
