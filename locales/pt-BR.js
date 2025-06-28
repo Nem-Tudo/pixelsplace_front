@@ -50,6 +50,7 @@ module.exports = {
         },
         HEADER: {
             ADVANTAGES: "Vantagens",
+            CREDITS: "Créditos",
             PROFILE: "Perfil",
             DISCONNECT: "Desconectar",
             REMOVE_BUILD_OVERRIDE: "Remover Build Override",
@@ -144,6 +145,9 @@ module.exports = {
             ERROR_MAIN_API_CONNECT: "Ocorreu um erro ao se conectar com a api principal",
             ERROR_FAILED_WEBSOCKET: "Falha na conexão WebSocket",
             WEBSOCKET_SEARCH: "Procurando WebSocket...",
+        },
+        CREDITS: {
+            TITLE: 'Time PixelsPlace'
         }
     },
 }

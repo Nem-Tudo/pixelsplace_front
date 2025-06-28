@@ -31,7 +31,7 @@ export default function Header() {
         premium: {
             label: language.getString("COMPONENTS.HEADER.ADVANTAGES"),
             href: '/premium',
-            id: styles.premium
+            id: loggedUser?.premium ? styles.premium : ''
         },
         admin: {
             label: language.getString("COMMON.ADMIN"),
@@ -46,6 +46,10 @@ export default function Header() {
             exclusive: {
                 keys: { name: "premium", value: 1 } // Key única (novo formato)
             }
+        },
+        credits: {
+            label: language.getString("COMPONENTS.HEADER.CREDITS"),
+            href: '/credits'
         }
     };
 

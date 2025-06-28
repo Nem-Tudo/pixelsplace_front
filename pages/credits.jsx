@@ -30,7 +30,7 @@ export default function Credits() {
         <main className={styles.main}>
           <div className={styles.logo}>
             <img src="/logo.png" alt={language.getString("PAGES.HOME.LOGO_ALT")} />
-            <h1>Pixels Place</h1>
+            <h1>{language.getString("PAGES.CREDITS.TITLE")}</h1>
           </div>
           <div className={styles.credits}>
             <p>oi</p>
