@@ -4,7 +4,7 @@ import Tippy from "@tippyjs/react"
 import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
@@ -123,7 +123,7 @@ export default function Header() {
 
     // collapsable header on small devices
     const [hidden, setHidden] = useState(false);
-    let lastScrollY = 0;
+    let lastScrollY = useRef(0);
 
     useEffect(() => {
         const isMobileLandscape = () => {
