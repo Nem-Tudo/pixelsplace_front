@@ -11,6 +11,7 @@
     align-items: center;
     flex-direction: column;
     margin-bottom: 50px;
+    max-width: 100dvw;
 
     img {
       width: 100px;
@@ -19,7 +20,7 @@
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: bold;
       color: var(--color-muted);
       font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
@@ -32,7 +33,7 @@
     flex-direction: column;
     gap: 10px;
     text-align: center;
-    width: 100%;
+    width: 100dvw;
     justify-content: center;
     user-select: none;
 

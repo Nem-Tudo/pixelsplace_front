@@ -1,5 +1,3 @@
-@import url('./DisplayPopup.module.css');
-
 .advantageGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
