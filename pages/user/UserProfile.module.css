@@ -196,19 +196,19 @@
 }
 
 .infoBox {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border-radius: 22px;
-  color: var(--user-color-text);
-  transition: var(--smooth-transition);
-  padding: 10px;
-  border: 1px solid var(--user-color-border, var(--color-outline));
-  background: var(--user-color-background-item, var(--color-mid));
-  margin: 0;
-  box-shadow: var(--shadow);
-  position: relative;
-  flex-grow: 1;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  border-radius: 22px !important;
+  color: var(--user-color-text) !important;
+  transition: var(--smooth-transition) !important;
+  padding: 10px !important;
+  border: 1px solid var(--user-color-border, var(--color-outline)) !important;
+  background: var(--user-color-background-item, var(--color-mid)) !important;
+  margin: 0 !important;
+  box-shadow: var(--shadow) !important;
+  position: relative !important;
+  flex-grow: 1 !important;
 }
 
 .editPencil {

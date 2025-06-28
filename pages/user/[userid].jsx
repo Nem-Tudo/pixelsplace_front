@@ -208,7 +208,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <></>
           )}
           <img
-            src={user.profile.banner_url || ''}
+            src={user?.premium ? (user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg') : ''}
             alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
           />
         </div>
