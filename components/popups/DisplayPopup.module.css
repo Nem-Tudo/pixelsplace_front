@@ -11,10 +11,11 @@
     justify-content: center;
     align-items: center;
     z-index: 15;
+    overflow: hidden;
 
     .popup {
         display: flex;
-        border-radius: 32px;
+        border-radius: 22px;
         background: var(--frosted-glass);
         backdrop-filter: var(--frosted-glass-blur);
         box-shadow: var(--shadow);
@@ -39,12 +40,16 @@
             box-shadow: var(--shadow);
             padding: 20px;
             overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
         }
 
         .footer {
             display: flex;
             justify-content: space-around;
             background: hsla(0, 0%, 0%, 10%);
+            padding: 10px;
 
             > * {
                 flex-grow: 1;
