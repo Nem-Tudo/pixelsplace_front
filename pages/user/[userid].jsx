@@ -225,41 +225,45 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <p className={styles.userName}>@{user?.username} </p>
             </div>
 
-            <div className={[styles.badges, styles.infoBox].join(" ")}>
-              {user && <Badges list={user?.flags?.map(flag => flag)}/>}
-            </div>
+            {user && user.flags && user.flags.map(flag => flag) &&
+              <div className={[styles.badges, styles.infoBox].join(" ")}>
+                <Badges list={user?.flags?.map(flag => flag)}/>
+              </div>
+            }
           </div>
 
           <div className={styles.moreInfo}>
-            <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
-              {editStates.profile_aboutme ? (
-                <textarea
-                  value={user.profile.aboutme}
-                  onChange={(e) => {
-                    updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
-                  }}
-                  rows={4}
-                />
-              ) : (
-                <span>
-                  {!loading && loggedUser?.id === user?.id ? (
-                    <PremiumButton
-                      as="icon"
-                      icon={
-                        <PixelIcon
-                          codename={'edit'}
-                          className={styles.editPencil}
-                          onClick={() => switchEdit("profile_aboutme")}
-                        />
-                      }
-                    />
-                  ) : (
-                    <></>
-                  )}
-                  {user.profile.aboutme}
-                </span>
-              )}
-            </div>
+            {user && user.profile && user.profile.aboutme &&
+              <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
+                {editStates.profile_aboutme ? (
+                  <textarea
+                    value={user.profile.aboutme}
+                    onChange={(e) => {
+                      updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
+                    }}
+                    rows={4}
+                  />
+                ) : (
+                  <span>
+                    {!loading && loggedUser?.id === user?.id ? (
+                      <PremiumButton
+                        as="icon"
+                        icon={
+                          <PixelIcon
+                            codename={'edit'}
+                            className={styles.editPencil}
+                            onClick={() => switchEdit("profile_aboutme")}
+                          />
+                        }
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {user.profile.aboutme}
+                  </span>
+                )}
+              </div>
+            }
             {user.settings.selected_guild && (
               <GuildCard guild={user.settings.selected_guild} id={styles.guildCard} className={styles.infoBox} />
             )}
