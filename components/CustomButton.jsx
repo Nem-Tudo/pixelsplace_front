@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import Link from "next/link";
-import styles from "./CustomButton.module.css";
+import styles from "@/components/CustomButton.module.css";
 import { darkenHex } from "@/src/colorFunctions";
 import PixelIcon from '@/components/PixelIcon';
 
@@ -34,10 +34,10 @@ export default function CustomButton({
     ].join(' ');
 
     const sharedProps = {
+        ...props,
         ref,
         disabled,
-        className,
-        ...props
+        className
     };
 
     if (href === undefined && onClick === undefined) {     // sem link e sem click

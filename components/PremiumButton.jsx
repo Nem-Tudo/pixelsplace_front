@@ -35,10 +35,8 @@ export default function PremiumButton({
 
   useEffect(() => {
       if (ref.current) {
-          const el = ref.current;
-
-          el.style.setProperty('--btn-color', color);
-          el.style.setProperty('--btn-color-hover', darkenHex(color, 30));
+          ref.current.style.setProperty('--btn-color', color);
+          ref.current.style.setProperty('--btn-color-hover', darkenHex(color, 30));
       }
   }, [color]);
 
