@@ -1,11 +1,23 @@
 // PremiumButton.jsx
 import Link from 'next/link';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./CustomButton.module.css";
 import { usePopup } from '@/context/PopupContext';
+import { darkenHex } from "@/src/colorFunctions";
 
-export default function PremiumButton({ setStyle, setClass, onClick, redirect, as: Component = 'button', href, icon, children, ...props }) {
+export default function PremiumButton({ 
+  setStyle, 
+  setClass, 
+  onClick, 
+  redirect, 
+  as: Component = 'button', 
+  href, 
+  icon, 
+  color = '#0076d6', 
+  children, 
+  ...props 
+}) {
   const { loggedUser } = useAuth();
 
   const { openPopup } = usePopup()
@@ -18,6 +30,17 @@ export default function PremiumButton({ setStyle, setClass, onClick, redirect, a
       openPopup("required_premium");
     }
   };
+
+  const ref = useRef();
+
+  useEffect(() => {
+      if (ref.current) {
+          const el = ref.current;
+
+          el.style.setProperty('--btn-color', color);
+          el.style.setProperty('--btn-color-hover', darkenHex(color, 30));
+      }
+  }, [color]);
 
   // useEffect(() => {
   //   console.log(loggedUser);

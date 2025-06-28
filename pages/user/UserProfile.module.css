@@ -25,18 +25,9 @@
 
     .editPencil {
       backdrop-filter: var(--frosted-glass-blur);
-      padding: 5px;
       border: var(--outline);
       border-radius: 8px;
-      transition: var(--smooth-transition);
       box-shadow: var(--shadow);
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      cursor: pointer;
-    }
-    .editPencil:hover {
-      scale: var(--hover-scale);
     }
   }
 
@@ -127,12 +118,21 @@
           margin: 0;
           box-shadow: var(--shadow);
           position: relative;
+          flex-grow: 1;
       }
 
       #description {
         span, textarea {
-          background: transparent;
+          color: var(--user-color-text);
+          background: none;
+          border: none;
+          flex-grow: 1;
         }
+      }
+
+      #pixelsInfo {
+        justify-content: space-between;
+        align-items: center;
       }
 
     }
@@ -183,4 +183,16 @@
     z-index: 100;
   }
 
+}
+
+.editPencil {
+  padding: 5px;
+  transition: var(--smooth-transition);
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+.editPencil:hover {
+  scale: var(--hover-scale);
 }

@@ -35,18 +35,18 @@ export default function CustomButton({
 
     const sharedProps = {
         ref,
-        'data-hex': color,
         disabled,
+        className,
         ...props
     };
 
     if (href === undefined && onClick === undefined) {     // sem link e sem click
-        return <button {...sharedProps} {...props} className={className}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</button>;
+        return <button {...sharedProps}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</button>;
     } else if (onClick === undefined) {                    // com link e sem click
-        return <Link {...sharedProps} {...props} className={className} href={href}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</Link>;
+        return <Link {...sharedProps} href={href}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</Link>;
     } else if (href === undefined) {                        // sem link e com click
-        return <button {...sharedProps} {...props} className={className} onClick={() => onClick()}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</button>;
+        return <button {...sharedProps} onClick={() => onClick()}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</button>;
     } else {                                                // com link e com click
-        return <Link {...sharedProps} {...props} className={className} href={href} onClick={() => onClick()}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</Link>;
+        return <Link {...sharedProps} href={href} onClick={() => onClick()}>{icon ? <PixelIcon codename={icon}/> : ''}{label}{children}</Link>;
     }
 }
