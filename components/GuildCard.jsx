@@ -7,7 +7,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
 import Verified from "@/components/Verified";
 
-export default function GuildCard({ guild, index }) {
+export default function GuildCard({ guild, index, ...props }) {
     const { loggedUser } = useAuth()
     const { language } = useLanguage();
 
@@ -18,8 +18,13 @@ export default function GuildCard({ guild, index }) {
         setUserServer(loggedUser?.settings.selected_guild)
     }, [loggedUser])
 
+    const className = [
+        styles.guildCard,
+        props.className || ''
+    ].join(' ');
+    
     return (
-        <div key={index || {}} className={styles.guildCard} style={index && userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
+        <div {...props} key={index || {}} className={className} style={index && userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
             <img
                 className={styles.guildIcon}
                 src={settings.guildIconURL(guild.id, guild.icon)}

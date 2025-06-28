@@ -220,9 +220,9 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
           <div className={styles.moreInfo}>
             {user.settings.selected_guild && (
-              <GuildCard guild={user.settings.selected_guild} />
+              <GuildCard guild={user.settings.selected_guild} id={styles.guildCard} className={styles.infoBox} />
             )}
-            <div className={styles.description} ref={aboutmeRef}>
+            <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
               {editStates.profile_aboutme ? (
                 <>
                   <div>
@@ -261,7 +261,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                 </>
               )}
             </div>
-            <div className={styles.pixelsInfo} style={{ background: profileTheme.backgroundItem }}>
+            <div className={styles.infoBox} id={styles.pixelsInfo} style={{ background: profileTheme.backgroundItem }}>
               <p className={styles.pixelsText}>
                 {language.getString("PAGES.USER_PROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
               </p>
