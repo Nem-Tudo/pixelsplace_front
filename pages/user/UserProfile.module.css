@@ -91,6 +91,7 @@
 
     .moreInfo{
       display: flex;
+      flex-wrap: wrap;
       flex-direction: row;
       align-items: stretch;
       justify-content: flex-start;
@@ -119,6 +120,12 @@
           box-shadow: var(--shadow);
           position: relative;
           flex-grow: 1;
+          max-width: calc(calc(100%/3) - 10px);
+
+          @media (max-width: 768px) {
+            max-width: unset;
+            min-height: 50px;
+          }
       }
 
       #description {
