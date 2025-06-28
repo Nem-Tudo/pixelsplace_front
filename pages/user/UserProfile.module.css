@@ -114,6 +114,7 @@
           transition: var(--smooth-transition);
           padding: 10px;
           border: 1px solid var(--user-color-background-item);
+          background: var(--user-color-background-item, var(--color-mid));
           margin: 0;
           box-shadow: var(--shadow);
           position: relative;

@@ -39,8 +39,8 @@ export async function getServerSideProps({ req, query }) {
 }
 
 const THEME = { //Ps: não confunda! É o tema do PERFIL, por isso as cores são invertidas! Se o perfil é Dark, as cores devem ser claras
-  DARK: { backgroundItem: "#b8b8b82e", border: "#b8b8b82e", text: "#ffffff" },
-  WHITE: { backgroundItem: "#00000040", border: "#00000040", text: "#000000ba" }
+  DARK: { backgroundItem: "#b8b8b81c", border: "#b8b8b82e", text: "#ffffff" },
+  WHITE: { backgroundItem: "#ffffff40", border: "#00000040", text: "#000000ba" }
 }
 
 export default function UserProfile({ user: userobject, error, errormessage }) {
