@@ -4,6 +4,7 @@ import { BsArrowLeft, BsStar, BsStarHalf, BsFillStarFill } from "react-icons/bs"
 import React, { useEffect, useState } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
+import settings from "@/settings";
 
 export default function GuildCard({ guild, index }) {
     const { loggedUser } = useAuth()
