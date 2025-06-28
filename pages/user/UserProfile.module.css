@@ -129,6 +129,12 @@
           position: relative;
       }
 
+      #description {
+        span, textarea {
+          background: transparent;
+        }
+      }
+
     }
 
     .editUserColors {

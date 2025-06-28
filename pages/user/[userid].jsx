@@ -223,14 +223,13 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               {editStates.profile_aboutme ? (
                 <textarea
                   value={user.profile.aboutme}
-                  style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}
                   onChange={(e) => {
                     updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
                   }}
                   rows={4}
                 />
               ) : (
-                <span style={{ background: profileTheme.backgroundItem, color: profileTheme.text }}>
+                <span>
                   {!loading && loggedUser?.id === user?.id ? (
                     <>
                       <PixelIcon
