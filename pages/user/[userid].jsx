@@ -208,7 +208,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <></>
           )}
           <img
-            src={user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+            src={user.profile.banner_url || ''}
             alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
           />
         </div>
@@ -225,7 +225,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <p className={styles.userName}>@{user?.username} </p>
             </div>
 
-            {user && Badges({list: user?.flags?.map(flag => flag)}) != (<></>) &&
+            {user && Badges({list: user?.flags?.map(flag => flag)}) != null &&
               <div className={[styles.badges, styles.infoBox].join(" ")}>
                 <Badges list={user?.flags?.map(flag => flag)}/>
               </div>

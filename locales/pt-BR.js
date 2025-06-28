@@ -118,7 +118,7 @@ module.exports = {
             REMOVE_INSTRUCTION: "Caso você queira remover depois, basta clicar nas configurações do seu perfil"
         },
         USER_PROFILE: {
-            PROFILE_BACKGROUND_ALT: "background do perfil",
+            PROFILE_BACKGROUND_ALT: "Papel de parede do usuário",
             USER_AVATAR_ALT: "Avatar do usuário",
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
             JOIN_GUILD: "Entrar",

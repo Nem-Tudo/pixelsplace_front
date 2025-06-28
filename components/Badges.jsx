@@ -9,13 +9,13 @@ const BADGE_LIST = {
 
 // não precisa mexer
 export default function Badges({ list = [""] }) {
+    let returnValue = Object.entries(BADGE_LIST).filter(([key, value]) => list.includes(key)).map(([key, value]) => (
+        <Tippy content={`${key}`.replace('_', ' ')} placement="top">
+            {value}
+        </Tippy>
+    ));
+
     return (
-        <>
-            {Object.entries(BADGE_LIST).filter(([key, value]) => list.includes(key)).map(([key, value]) => (
-                <Tippy content={`${key}`.replace('_', ' ')} placement="top">
-                    {value}
-                </Tippy>
-            ))}
-        </>
+        returnValue.length == 0 ? null : <>{returnValue}</>
     )
 }
