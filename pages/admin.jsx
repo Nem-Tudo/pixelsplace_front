@@ -816,6 +816,21 @@ export default function AdminPage() {
                     />
                   </div>
 
+                  <div>
+                  <CustomButton
+                      label={"Kick"}
+                      icon={"user-x"}
+                      hierarchy={2}
+                      onClick={async () => {
+                      const reason = prompt("Escreva o motivo: ");
+
+                        await fetchWithAuth("/admin/onlineusers/" + user?.id + "/disconnect", "POST", {
+                          reason : reason
+                        });
+                      }} 
+                    />
+                  </div>
+
 
                   <div>
                     <CustomButton
