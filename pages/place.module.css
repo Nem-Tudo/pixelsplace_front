@@ -7,7 +7,6 @@
     background: #eaeaea;
 
     @media screen and (max-height: 500px) and (orientation: landscape) {
-        height: 100dvh;
         width: 100vw;
     }
 }
