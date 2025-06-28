@@ -760,21 +760,21 @@ export default function Place() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelplacement}
-                showingcolors={String(showingColors)}
+                className={styles.pixelPlacement}
+                data-showing-colors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
                     <CustomButton
                       label={timeLeft}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       disabled={true}
                     />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
                     <CustomButton
                       label={loggedUser ? language.getString("PAGES.PLACE.PLACE_PIXEL") : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
@@ -790,7 +790,7 @@ export default function Place() {
                       label={language.getString("COMMON.CANCEL")}
                       hierarchy={3}
                       color={"#919191"}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => setShowingColors(false)}
                     />
                   )}
@@ -799,7 +799,7 @@ export default function Place() {
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
                       disabled={!selectedColor}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => {
                         placePixel(
                           selectedPixel.x,
@@ -935,6 +935,7 @@ export default function Place() {
                 transformOrigin: "0 0",
                 zIndex: 10,
                 width: "100%",
+                flexGrow: 1,
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
                 display:
                   Math.max(canvasConfig.width, canvasConfig.height) > 1500
@@ -979,6 +980,7 @@ export default function Place() {
               height={canvasConfig.height}
               style={{
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
+                flexGrow: 1
               }}
             />
 
