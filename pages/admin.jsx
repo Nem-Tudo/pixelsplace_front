@@ -719,12 +719,12 @@ export default function AdminPage() {
             }
 
             {
-              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "20px" }}>
+              user && <fieldset style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: "20px" }}>
                 <legend>
                   <strong>Gerenciar</strong>
                   </legend>
                   <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                    <span>Premium: </span>
+                    {/* <span>Premium: </span>
                     <input type="checkbox" checked={user.premium} id="" onChange={e => {
                       updateStateKey(setUser, user, ["premium", e.target.checked ? 1 : 0]);
                     }} />
@@ -737,7 +737,23 @@ export default function AdminPage() {
                           premium: user.premium,
                         });
                       }}
+                    /> */}
+                    <CustomButton
+                      label={user.premium ? "Dar Premium" : "Remover Premium"}
+                      icon={user.premium ? "user-plus" : "user-minus"}
+                      hierarchy={user.premium ? "1" : "2"}
+                      color={'#27b84d'}
+                      onClick={async () => {
+                        updateStateKey(setUser, user, ["premium", !user.premium ? 1 : 0]);
+                        // console.log(user?.premium)
+                        // console.log(user?.id);
+                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                          premium: user.premium,
+                        });
+                      }} 
                     />
+
+                    
                   </div>
                   <div>
                     <CustomButton
