@@ -7,6 +7,9 @@ const BADGE_LIST = {
 };
 
 export default function Badges({ list = [""] }) {
-    let filteredBadges = Object.entries(BADGE_LIST).filter(badge => {list.includes(badge)}).map(badge => badge);
-    return filteredBadges;
+    return (
+        <>
+            {Object.entries(BADGE_LIST).filter(([key, value]) => list.includes(key)).map(([key, value]) => value)}
+        </>
+    )
 }

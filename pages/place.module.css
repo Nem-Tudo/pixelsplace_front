@@ -171,12 +171,16 @@
             border-radius: 12px;
             display: flex;
             align-items: flex-end;
+            justify-content: center;
             padding-bottom: 5px;
+            box-shadow: var(--shadow);
 
             span {
                 margin: 0px;
                 font-size: x-small;
                 user-select: all;
+                mix-blend-mode: luminosity;
+                color: lightgray;
             }
         }
 

@@ -88,6 +88,9 @@
 .flagList{
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 

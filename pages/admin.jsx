@@ -731,11 +731,11 @@ export default function AdminPage() {
             }
 
             {
-              user && <fieldset style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: "20px" }}>
+              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "20px" }}>
                 <legend>
-                  <strong>Gerenciar</strong>
+                  <strong>Ações</strong>
                 </legend>
-                <footer className={styles.footerButtons}>
+                <footer className={styles.footerButtons} style={{margin:"0"}}>
                   <CustomButton
                     label={user.premium ? "Remover Premium" : "Dar Premium"}
                     icon={"pixelarticons"}
