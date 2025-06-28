@@ -2,7 +2,7 @@ import styles from "./admin.module.css";
 import settings from "@/settings.js";
 import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, use } from "react";
 import Cookies from 'js-cookie'
 import Head from "next/head";
 import checkFlags from "@/src/checkFlags";
@@ -13,6 +13,8 @@ import { hexToNumber } from "@/src/colorFunctions";
 import { dateToString, dateToTimestamp } from "@/src/dateFunctions";
 import copyText from "@/src/copyText";
 import updateStateKey from "@/src/updateStateKey";
+import Verified from "@/components/Verified";
+
 
 export default function AdminPage() {
   const router = useRouter();
@@ -671,7 +673,7 @@ export default function AdminPage() {
                   <strong>Informações do usuário</strong>
                 </legend>
                 <img src={settings.avatarURL(user.id, user.avatar)} style={{ width: "50px", marginBottom: "10px", borderRadius: "12px" }} />
-                <span>Nome: {user?.display_name} (@{user?.username})</span>
+                <span>Nome: {user?.display_name} (@{user?.username}) <Verified verified={user?.premium} /></span>
                 <span>Criação: {dateToString(user?.createdAt)}</span>
                 <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
               </fieldset>
@@ -739,17 +741,26 @@ export default function AdminPage() {
                       }}
                     /> */}
                     <CustomButton
-                      label={user.premium ? "Dar Premium" : "Remover Premium"}
-                      icon={user.premium ? "user-plus" : "user-minus"}
-                      hierarchy={user.premium ? "1" : "2"}
+                      label={user.premium ? "Remover Premium" : "Dar Premium"}
+                      icon={"pixelarticons"}
+                      hierarchy={user.premium ? "2" : "1"}
                       color={'#27b84d'}
                       onClick={async () => {
-                        updateStateKey(setUser, user, ["premium", !user.premium ? 1 : 0]);
-                        // console.log(user?.premium)
+                        // console.log("Antes: "+user?.premium)
+                        let newPremim = user?.premium;
+                        if(user?.premium){
+                          newPremim = 0;
+                        } else {
+                          newPremim = 1;
+                        };
+                        // console.log("Depois: "+newPremim)
+                        updateStateKey(setUser, user, ["premium", newPremim]);
                         // console.log(user?.id);
                         await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
-                          premium: user.premium,
+                          premium: newPremim,
                         });
+
+                        
                       }} 
                     />
 
@@ -767,6 +778,27 @@ export default function AdminPage() {
                           newFlags = user.flags.filter(flag => flag != "BANNED");
                         } else {
                           newFlags.push("BANNED")
+                        }
+                        await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
+                          flags: newFlags
+                        });
+                        getUser(user.id)
+                      }} 
+                    />
+                  </div>
+
+                  <div>
+                    <CustomButton
+                      label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}
+                      icon={"list"}
+                      hierarchy={2}
+                      color={'#ffffff'}
+                      onClick={async () => {
+                        let newFlags = user.flags;
+                        if (user.flags.includes("SOCKET_WHITELISTED")) {
+                          newFlags = user.flags.filter(flag => flag != "SOCKET_WHITELISTED");
+                        } else {
+                          newFlags.push("SOCKET_WHITELISTED")
                         }
                         await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
                           flags: newFlags
