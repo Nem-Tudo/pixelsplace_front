@@ -12,9 +12,11 @@ export default function PremiumPopup({ closePopup }) {
     return (
         <>
             <h1 className={styles.title}>{language.getString("POPUPS.PREMIUM_POPUP.TITLE")}</h1>
-            <span>{language.getString("POPUPS.PREMIUM_POPUP.DESCRIPTION1")}</span>
-            <span>{language.getString("POPUPS.PREMIUM_POPUP.DESCRIPTION2")}</span>
-            <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
+            <main className={styles.scrollable}>
+                <span>{language.getString("POPUPS.PREMIUM_POPUP.DESCRIPTION1")}</span>
+                <span>{language.getString("POPUPS.PREMIUM_POPUP.DESCRIPTION2")}</span>
+                <img src='https://images2.alphacoders.com/941/thumb-1920-941898.jpg'></img>
+            </main>
             <footer className={styles.footer}>
                 <CustomButton color={'#636363'} hierarchy={3} label={language.getString("POPUPS.PREMIUM_POPUP.MAYBE_LATER")} onClick={() => closePopup()} />
                 <PremiumButton setClass={styles.btn} as={Link} redirect={true} href="/premium">
