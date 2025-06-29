@@ -82,9 +82,9 @@
             justify-items: center;
             max-width: fit-content;
             width: 99dvw;
+            margin-bottom: 5px;
 
             .placePixel {
-                margin: 7px;
                 width: fit-content;
             }
 
@@ -93,6 +93,10 @@
                 flex-wrap: wrap;
                 justify-items: center;
                 align-items: center;
+                gap: 8px;
+                padding-top: 4px;
+                width: 100vw;
+                justify-content: center;
 
                 input[type="color"] {
                     width: 50px;
@@ -100,13 +104,14 @@
                     height: 50px;
                     border-radius: 7px;
                     background-color: var(--selected-color, red);
-                }
-                input[type="color"]::after {
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    z-index: 1;
-                    background-color: var(--selected-color, red);
+
+                    ::after {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        z-index: 1;
+                        background-color: var(--selected-color, red);
+                    }
                 }
             }
         }
@@ -116,6 +121,7 @@
             backdrop-filter: var(--frosted-glass-blur);
             border-radius: 22px;
             border: var(--outline);
+            overflow: hidden;
 
             @media screen and (max-height: 500px) and (orientation: landscape) {
                 width: 50dvw;
