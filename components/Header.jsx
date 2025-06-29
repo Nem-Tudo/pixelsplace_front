@@ -128,7 +128,7 @@ export default function Header() {
         <>
             <header className={styles.header}>
                 {/* Mobile hamburger menu */}
-                {
+                <div className={[styles.left, 'mobileonly'].join(' ')}>
                     <Tippy theme="pixelsplace_dropdown" arrow={false} animation="scale-extreme" trigger="click" interactive={true} content={<>
 
                         {
@@ -140,9 +140,9 @@ export default function Header() {
                         }
 
                     </>}>
-                        <PixelIcon codename={'menu'} className={'mobileonly '+styles.burgerMenu} />
+                        <PixelIcon codename={'menu'} className={styles.burgerMenu} />
                     </Tippy>
-                }
+                </div>
 
                 <nav className={[styles.left, 'mobilehidden_720'].join(' ')}>
                     {

@@ -91,8 +91,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
 
   .flag{
     background-color: var(--color-mid);
@@ -104,7 +103,6 @@
     justify-content: center;
     border-radius: 100dvh;
     padding: 2px 8px;
-    margin-right: 10px;
     color: hsla(0, 0%, 100%, 75%);
     border: var(--outline);
     transition: var(--smooth-transition);

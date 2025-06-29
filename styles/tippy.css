@@ -84,6 +84,7 @@
             flex-grow: 1;
             align-items: center;
             flex-direction: row;
+            gap: 8px;
 
             span {
                 color: var(--color-text);
