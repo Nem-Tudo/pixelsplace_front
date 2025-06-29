@@ -862,7 +862,6 @@ export default function Place() {
           <MessageDiv centerscreen={true} type="normal-white">
             {" "}
             <Loading width={"50px"} />{" "}
-            <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span>
           </MessageDiv>
         )}
 

@@ -377,7 +377,7 @@ export default function Place() {
             </Head>
             <MainLayout>
                 {
-                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /> <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span></MessageDiv>
+                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /></MessageDiv>
                 }
                 {
                     apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>{language.getString("PAGES.TIME_TRAVEL.API_ERROR")}</span><button onClick={() => location.reload()}>{language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")}</button></MessageDiv>

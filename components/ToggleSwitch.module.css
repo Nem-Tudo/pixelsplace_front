@@ -4,22 +4,22 @@
 
 .toggleSwitch::before {
     transition: var(--smooth-transition);
-    content: '';
+    content: 'a';
     background-color: red;
 }
 .toggleSwitch::after {
     transition: var(--smooth-transition);
-    content: '';
+    content: 'b';
     background-color: blue;
 }
 
 .toggleSwitch:checked::before {
     transition: var(--smooth-transition);
-    content: '';
+    content: 'c';
     background-color: white;
 }
 .toggleSwitch:checked::after {
     transition: var(--smooth-transition);
-    content: '';
+    content: 'd';
     background-color: black;
 }
