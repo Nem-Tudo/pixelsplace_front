@@ -20,6 +20,7 @@ import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
+import { formatDate } from "@/src/dateFunctions";
 
 export default function Place() {
   const router = useRouter();
@@ -287,136 +288,6 @@ export default function Place() {
     }
   }
 
-  //Movimento do canvas
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    const zoom = transform.current;
-
-    let lastTouchDistance = null;
-
-    const getTouchCenter = (touches) => {
-      const x = (touches[0].clientX + touches[1].clientX) / 2;
-      const y = (touches[0].clientY + touches[1].clientY) / 2;
-      return { x, y };
-    };
-
-    const getTouchDistance = (touches) => {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    };
-
-    const onMouseDown = (e) => {
-      e.preventDefault();
-      zoom.startX = e.clientX - zoom.pointX;
-      zoom.startY = e.clientY - zoom.pointY;
-
-      const onMouseMove = (e) => {
-        zoom.pointX = e.clientX - zoom.startX;
-        zoom.pointY = e.clientY - zoom.startY;
-        applyTransform();
-      };
-
-      const onMouseUp = () => {
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("mouseup", onMouseUp);
-      };
-
-      window.addEventListener("mousemove", onMouseMove);
-      window.addEventListener("mouseup", onMouseUp);
-    };
-
-    const onTouchStart = (e) => {
-      if (e.touches.length === 1) {
-        zoom.startX = e.touches[0].clientX - zoom.pointX;
-        zoom.startY = e.touches[0].clientY - zoom.pointY;
-      } else if (e.touches.length === 2) {
-        lastTouchDistance = getTouchDistance(e.touches);
-      }
-    };
-
-    const onTouchMove = (e) => {
-      e.preventDefault();
-
-      if (e.touches.length === 1) {
-        zoom.pointX = e.touches[0].clientX - zoom.startX;
-        zoom.pointY = e.touches[0].clientY - zoom.startY;
-        applyTransform();
-      } else if (e.touches.length === 2) {
-        const newDistance = getTouchDistance(e.touches);
-        const center = getTouchCenter(e.touches);
-
-        if (lastTouchDistance) {
-          const delta = newDistance / lastTouchDistance;
-          let newScale = zoom.scale * delta;
-          newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
-
-          const xs = (center.x - zoom.pointX) / zoom.scale;
-          const ys = (center.y - zoom.pointY) / zoom.scale;
-
-          zoom.scale = newScale;
-          zoom.pointX = center.x - xs * newScale;
-          zoom.pointY = center.y - ys * newScale;
-
-          applyTransform();
-        }
-
-        lastTouchDistance = newDistance;
-      }
-    };
-
-    const onTouchEnd = (e) => {
-      if (e.touches.length < 2) {
-        lastTouchDistance = null;
-      }
-    };
-
-    const onWheel = (e) => {
-      e.preventDefault();
-      const { pointX, pointY, scale, minScale, maxScale } = zoom;
-
-      const xs = (e.clientX - pointX) / scale;
-      const ys = (e.clientY - pointY) / scale;
-      const delta = e.wheelDelta ? e.wheelDelta : -e.deltaY;
-
-      let newScale = scale * (delta > 0 ? 1.2 : 1 / 1.2);
-      newScale = Math.max(minScale, Math.min(maxScale, newScale));
-
-      zoom.scale = newScale;
-      zoom.pointX = e.clientX - xs * newScale;
-      zoom.pointY = e.clientY - ys * newScale;
-
-      applyTransform();
-    };
-
-    const onKeyPress = (e) => {
-      if (e.key.toLowerCase() === "r") {
-        zoom.scale = zoom.minScale;
-        centerCanvas();
-      }
-    };
-
-    wrapper?.addEventListener("mousedown", onMouseDown);
-    wrapper?.addEventListener("wheel", onWheel, { passive: false });
-
-    wrapper?.addEventListener("touchstart", onTouchStart, { passive: false });
-    wrapper?.addEventListener("touchmove", onTouchMove, { passive: false });
-    wrapper?.addEventListener("touchend", onTouchEnd);
-
-    window?.addEventListener("keypress", onKeyPress);
-
-    return () => {
-      wrapper?.removeEventListener("mousedown", onMouseDown);
-      wrapper?.removeEventListener("wheel", onWheel);
-
-      wrapper?.removeEventListener("touchstart", onTouchStart);
-      wrapper?.removeEventListener("touchmove", onTouchMove);
-      wrapper?.removeEventListener("touchend", onTouchEnd);
-
-      window?.removeEventListener("keypress", onKeyPress);
-    };
-  }, [canvasConfig.width, canvasConfig.height]);
-
   //Ao atualizar o selectedPixel
   useEffect(() => {
     //Atualiza o overlay
@@ -481,7 +352,6 @@ export default function Place() {
     //   { shallow: true }
     // );
   }, [selectedPixel]);
-
 
   //Mover o selected Pixel
   useEffect(() => {
@@ -569,7 +439,6 @@ export default function Place() {
     };
   }, [showingPixelInfo]);
 
-
   useEffect(() => {
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -580,16 +449,6 @@ export default function Place() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  //comverte o tempo
-  function formatDate(isoString) {
-    const date = new Date(isoString);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // mês começa em 0
-    return `${hours}:${minutes} ${day}/${month}`;
-  }
 
   async function placePixel(x, y, color) {
     const oldpixelcolor = getPixelColor(x, y);
