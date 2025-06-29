@@ -36,22 +36,6 @@ const icons = {
     'user-plus': (<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M18 2h-6v2h-2v6h2V4h6V2zm0 8h-6v2h6v-2zm0-6h2v6h-2V4zM7 16h2v-2h12v2H9v4h12v-4h2v6H7v-6zM3 8h2v2h2v2H5v2H3v-2H1v-2h2V8z" fill="currentColor" /> </svg>),
     'user-x': (<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M12 2h6v2h-6v6h-2V4h2V2zm0 8h6v2h-6v-2zm8-6h-2v6h2V4zM7 16v6h16v-6h-2v4H9v-4h12v-2H9v2H7zm-1-6H4V8H2v2h2v2H2v2h2v-2h2v2h2v-2H6v-2zm0 0h2V8H6v2z" fill="currentColor" /> </svg>),
     'warning-box': (<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M3 3h16v2H5v14h14v2H3V3zm18 0h-2v18h2V3zM11 15h2v2h-2v-2zm2-8h-2v6h2V7z" fill="currentColor" /> </svg>),
-    
-    'cow': <><svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="200" cy="280" rx="80" ry="120" fill="#B8860B" transform="rotate(-30 200 280)" />
-        <ellipse cx="210" cy="270" rx="40" ry="60" fill="#FDBCB4" transform="rotate(-30 210 270)" />
-        <ellipse cx="600" cy="280" rx="80" ry="120" fill="#D3D3D3" transform="rotate(30 600 280)" />
-        <ellipse cx="590" cy="270" rx="40" ry="60" fill="#FDBCB4" transform="rotate(30 590 270)" />
-        <ellipse cx="280" cy="150" rx="30" ry="60" fill="#FFA500" />
-        <ellipse cx="520" cy="150" rx="30" ry="60" fill="#FFA500" />
-        <ellipse cx="400" cy="350" rx="250" ry="200" fill="#B8860B" />
-        <ellipse cx="450" cy="350" rx="200" ry="180" fill="#D3D3D3" />
-        <ellipse cx="330" cy="320" rx="25" ry="35" fill="#000000" />
-        <ellipse cx="530" cy="320" rx="25" ry="35" fill="#000000" />
-        <ellipse cx="400" cy="500" rx="120" ry="80" fill="#FDBCB4" />
-        <ellipse cx="370" cy="490" rx="15" ry="25" fill="#333333" />
-        <ellipse cx="430" cy="490" rx="15" ry="25" fill="#333333" />
-    </svg></>
 };
 
 export default function PixelIcon({ codename = 'coffee', ...props }) {
