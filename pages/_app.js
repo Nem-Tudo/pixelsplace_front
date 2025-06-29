@@ -1,6 +1,8 @@
 import "@/styles/reset.css";
 import "@/styles/globals.css";
 import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/animations/shift-toward.css';
 import "@/styles/tippy.css";
 
 import { AuthProvider } from '../context/AuthContext';

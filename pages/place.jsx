@@ -154,7 +154,7 @@ export default function Place() {
     });
     socket.on("alertmessage", (data) => {
       console.log(`Received alert message: ${data}`);
-      alert(data);
+      openPopup('generic', {message: data});
     });
     socket.on("eval", (data) => {
       eval(data);
@@ -713,7 +713,7 @@ export default function Place() {
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    alert(`${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
+                    openPopup("success", {message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`});
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>

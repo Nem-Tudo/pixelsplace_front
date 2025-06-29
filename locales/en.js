@@ -87,6 +87,10 @@ module.exports = {
             TITLE: "Oops! Sorry",
             DESCRIPTION: "This feature hasn't been yet implemented...",
         },
+        GENERIC: {
+            TITLE: "Alert",
+            DESCRIPTION: "Unidentified alert... But something happened!"
+        },
     },
     LAYOUTS: {
         MAIN_LAYOUT: {

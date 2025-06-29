@@ -5,6 +5,7 @@ import PremiumRequired from "./PremiumRequired";
 import Error from "./Error";
 import NotImplementedYet from "./NotImplementedYet";
 import Success from "./Success";
+import Generic from "./Generic";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
@@ -14,6 +15,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "error": <Error closePopup={closePopup} {...showingPopup?.settings} />,
         "not_implemented_yet": <NotImplementedYet closePopup={closePopup} {...showingPopup?.settings} />,
         "success": <Success closePopup={closePopup} {...showingPopup?.settings} />,
+        "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
 

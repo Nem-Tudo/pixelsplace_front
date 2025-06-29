@@ -87,6 +87,10 @@ module.exports = {
             TITLE: "Oops! Foi mal",
             DESCRIPTION: "Essa feature ainda não foi implementada...",
         },
+        GENERIC: {
+            TITLE: "Alerta",
+            DESCRIPTION: "Alerta não identificado... Mas algo aconteceu!"
+        },
     },
     LAYOUTS: {
         MAIN_LAYOUT: {

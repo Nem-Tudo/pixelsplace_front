@@ -449,7 +449,7 @@ export default function AdminPage() {
                     const res = await fetchWithAuth("/admin/eval", "POST", {
                       content: evalCode,
                     });
-                    res && alert(`Executado em ${res.count} clients.`);
+                    res && openPopup("success", {message: `Executado em ${res.count} clients.`});
                   }
                 }}
                 />
@@ -475,7 +475,7 @@ export default function AdminPage() {
                     const res = await fetchWithAuth("/admin/alertmessage", "POST", {
                       content: alertMessage,
                     });
-                    res && alert(`Mensagem enviada para ${res.count} clients.`);
+                    res && openPopup('success', {message: `Mensagem enviada para ${res.count} clients.`});
                   }
                 }}
                 />
@@ -497,7 +497,7 @@ export default function AdminPage() {
                       "POST",
                       {}
                     );
-                    res && alert(`Desconectados: ${res.count}`);
+                    res && openPopup('success', {message: `Desconectados: ${res.count}`});
                   }
                 }}
                 />
@@ -600,7 +600,7 @@ export default function AdminPage() {
                     devices,
                   }).then((res) => {
                     if (res) {
-                      alert("Build criada com sucesso.");
+                      openPopup('success', {message: "Build criada com sucesso."});
                       getBuildsOverride();
                     }
                   });
@@ -629,7 +629,7 @@ export default function AdminPage() {
                           onClick={() => {
                             const link = `${window.location.origin}/buildoverride?t=${build.token}`;
                             copyText(link);
-                            alert(`Link copiado e assinado!`);
+                            openPopup('success', {message: `Link copiado e assinado!`});
                           }}
                         />
                         <CustomButton
@@ -650,7 +650,7 @@ export default function AdminPage() {
                             if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
                               const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
                               if (res) {
-                                alert("Build excluída com sucesso.");
+                                openPopup('success', {message: "Build excluída com sucesso."});
                                 getBuildsOverride();
                               }
                             }
