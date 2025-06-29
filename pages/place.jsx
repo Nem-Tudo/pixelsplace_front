@@ -844,24 +844,32 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    <Tippy theme="premium" arrow={false} interactive={true} placement="bottom" animation="scale-extreme" content={
+                    loggedUser?.premium ? 
                       <>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
-                          <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
-                          <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>{language.getString("COMMON.PREMIUM")}</Link>
-                        </div>
-                      </>
-                    }>
-                      <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
-                        if (!loggedUser?.premium) {
+                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
+                          if (!loggedUser?.premium) {
+                            e.preventDefault();
+                            openPopup("premium_required")
+                          }
+                        }} onChange={(e) => {
+                          if (!loggedUser?.premium) return
+                          setSelectedColor(hexToNumber(e.target.value))
+                        }} />
+                      </> 
+                    : 
+                      <Tippy theme="premium" appendTo={document.body} arrow="round" interactive={true} placement="top" animation="scale-extreme" content={
+                        <>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
+                            <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
+                            <Link style={{ color: "rgb(0 255 184)" }} className="link" href={"/premium"}>{language.getString("COMMON.PREMIUM")}</Link>
+                          </div>
+                        </>
+                      }>
+                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
                           e.preventDefault();
-                          openPopup("premium_required")
-                        }
-                      }} onChange={(e) => {
-                        if (!loggedUser?.premium) return
-                        setSelectedColor(hexToNumber(e.target.value))
-                      }} />
-                    </Tippy>
+                          openPopup("premium_required");
+                        }} />
+                      </Tippy>
                   )}
                 </div>
                 {showingColors && (
