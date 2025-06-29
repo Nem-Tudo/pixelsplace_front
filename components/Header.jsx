@@ -146,7 +146,7 @@ export default function Header() {
                         userValidLinks.map(([name, { icon, label, href, id, exclusive }]) => (
                             <Link id={id || ''} className={styles.item} href={href}>
                                 {
-                                    icon ? <div className={styles.icon}>{icon}</div> : ''
+                                    icon && <div className={styles.icon}>{icon}</div>
                                 }
                                 <span>{label}</span>
                             </Link>
@@ -186,26 +186,34 @@ export default function Header() {
                                         }
                                     </select>
                                 </div>
-                                <Link href={"/auth/discord"} className={styles.redstyle}>
+                                <Link href={"/auth/discord"} style={{'--hover-color': '#ff0000', '--hover-color-text': '#ffffff'}}>
                                     <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} animation="scale-extreme" content={(
                                         <>
-                                            <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
+                                            <div onClick={() => {
                                                 if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
                                                     setRealUserFlags(loggedUser.flags)
                                                     updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
                                                 } else {
                                                     updateUserKey(["flags", realUserFlags])
                                                 }
-                                            }}>{loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</CustomButton>
-                                            <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
+                                            }}>
+                                                <span>
+                                                    {loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}
+                                                </span>
+                                            </div>
+                                            <div onClick={() => {
                                                 updateUserKey(["premium", !loggedUser?.premium])
-                                            }}>{language.getString("COMMON.PREMIUM")}: {loggedUser?.premium ? language.getString("COMMON.YES") : language.getString("COMMON.NO")}</CustomButton>
+                                            }}>
+                                                <span>
+                                                    {language.getString("COMMON.PREMIUM")}: {loggedUser?.premium ? language.getString("COMMON.YES") : language.getString("COMMON.NO")}
+                                                </span>
+                                            </div>
                                         </>
                                     )}>
-                                        <div className={styles.bluestyle}>
+                                        <div style={{'--hover-color': '#35a4ff', '--hover-color-text': '#ffffff'}}>
                                             <span>{language.getString("COMPONENTS.HEADER.VIEW_SETTINGS")}</span>
                                         </div>
                                     </Tippy>

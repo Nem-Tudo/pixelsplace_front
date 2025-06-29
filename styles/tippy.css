@@ -8,7 +8,8 @@
     background-color: var(--tippy-color);
     border-radius: var(--tippy-border-radius);
     backdrop-filter: var(--frosted-glass-blur);
-    padding: 1px 5px;
+    padding: 8px;
+    border: var(--outline);
 }
 
 .tippy-box[data-theme="white"] {
@@ -88,7 +89,10 @@
         }
 
         > :hover {
-            background-color: rgb(228, 228, 228);
+            background-color: var(--hover-color, rgb(228, 228, 228));
+            span {
+                color: var(--hover-color-text, var(--color-text));
+            }
         }
     }
 }
@@ -96,6 +100,7 @@
 .tippy-arrow {
     color: var(--tippy-color);
     height: 25px !important;
+    backdrop-filter: var(--frosted-glass-blur);
 }
 
 .tippy-content {
