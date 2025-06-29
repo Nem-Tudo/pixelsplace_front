@@ -65,14 +65,15 @@
     transition: var(--smooth-transition);
     box-shadow: var(--shadow);
     padding: 0;
-    overflow: hidden;
 
     .tippy-content > * {
         display: flex;
         flex-direction: column;
         align-items: stretch;
+        overflow: hidden;
+        border-radius: 12px;
 
-        > * {
+        > *:not(div[data-tippy-root]) {
             padding: 8px;
             border-radius: 0px;
             background-color: rgba(255, 255, 255, 0);
@@ -89,7 +90,7 @@
             }
         }
 
-        > :hover {
+        > :not(div[data-tippy-root]):hover {
             background-color: var(--hover-color, rgb(228, 228, 228));
             span {
                 color: var(--hover-color-text, var(--color-text));
