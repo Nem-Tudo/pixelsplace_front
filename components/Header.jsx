@@ -171,7 +171,6 @@ export default function Header() {
                                     <select
                                         id="language"
                                         value={lang}
-                                        style={{ marginLeft: "15px" }}
                                         onChange={(e) => {
                                             const l = e.target.value;
                                             console.log("Switching user's language to ", l);
@@ -192,7 +191,7 @@ export default function Header() {
                                 </Link>
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} animation="scale-extreme" content={(
-                                        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                        <>
                                             <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
                                                 if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
                                                     setRealUserFlags(loggedUser.flags)
@@ -204,7 +203,7 @@ export default function Header() {
                                             <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
                                                 updateUserKey(["premium", !loggedUser?.premium])
                                             }}>{language.getString("COMMON.PREMIUM")}: {loggedUser?.premium ? language.getString("COMMON.YES") : language.getString("COMMON.NO")}</CustomButton>
-                                        </div>
+                                        </>
                                     )}>
                                         <div className={styles.bluestyle}>
                                             <span>{language.getString("COMPONENTS.HEADER.VIEW_SETTINGS")}</span>

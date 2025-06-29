@@ -65,7 +65,7 @@
     box-shadow: var(--shadow);
     padding: 0;
 
-    .tippy-content div {
+    .tippy-content > * {
         display: flex;
         flex-direction: column;
         align-items: stretch;
