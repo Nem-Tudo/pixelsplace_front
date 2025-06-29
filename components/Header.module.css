@@ -198,19 +198,19 @@
 }
 
 .redstyle:hover {
-    background-color: red;
-    color: white;
+    background-color: red !important;
+    color: white !important;
 
     span {
-        color: white;
+        color: white !important;
     }
 }
 
 .bluestyle:hover {
-    background-color: rgb(53, 164, 255);
-    color: white;
+    background-color: rgb(53, 164, 255) !important;
+    color: white !important;
 
     span {
-        color: white;
+        color: white !important;
     }
 }

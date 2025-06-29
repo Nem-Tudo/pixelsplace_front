@@ -171,7 +171,7 @@ export default function Header() {
                                 <div>
                                     {/* {language.getString('COMMON.LANGUAGE')} */}
                                     {/* Dont translate */}
-                                    {"Language"}
+                                    <span>Language</span>
                                     <select
                                         id="language"
                                         value={lang}
@@ -191,10 +191,8 @@ export default function Header() {
                                         }
                                     </select>
                                 </div>
-                                <Link href={"/auth/discord"}>
-                                    <div className={styles.redstyle}>
-                                        <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
-                                    </div>
+                                <Link href={"/auth/discord"} className={styles.redstyle}>
+                                    <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} animation="scale-extreme" content={(
@@ -219,9 +217,7 @@ export default function Header() {
                                 }
                                 {
                                     usingBuildOverride && <Link href={"/buildoverride?t=main"}>
-                                        <div>
-                                            <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
-                                        </div>
+                                        <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
                                     </Link>
                                 }
 

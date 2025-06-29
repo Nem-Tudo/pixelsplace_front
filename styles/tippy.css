@@ -80,6 +80,7 @@
             justify-content: space-between;
             flex-grow: 1;
             align-items: center;
+            flex-direction: row;
 
             span {
                 color: var(--color-text);
