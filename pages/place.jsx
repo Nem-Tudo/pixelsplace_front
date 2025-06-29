@@ -852,7 +852,7 @@ export default function Place() {
                         </div>
                       </>
                     }>
-                      <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--picker-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
+                      <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
                         if (!loggedUser?.premium) {
                           e.preventDefault();
                           openPopup("premium_required")
