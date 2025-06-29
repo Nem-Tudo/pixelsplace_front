@@ -37,10 +37,10 @@
   /* Cores */
   --color-outline: hsla(0deg, 0%, 100%, 20%);
   --color-header-bottom: hsl(205, 76%, 57%);
-  --color-experimental-accent: hsl(207.04, 100%, 41.76%);
-  --color-experimental-accent-hover: hsl(211, 100%, 36%);
-  --color-accent: hsl(47, 100%, 42%);
-  --color-accent-hover: hsl(47, 100%, 36%);
+  --color-accent: hsl(207.04, 100%, 41.76%);
+  --color-accent-hover: hsl(211, 100%, 36%);
+  --color-experimental-accent: hsl(47, 100%, 42%);
+  --color-experimental-accent-hover: hsl(47, 100%, 36%);
   --color-darker: hsl(217.99, 100%, 44.9%);
   --color-mid-hover: hsl(223, 29%, 31%);
   --color-mid: hsl(222, 26%, 22%);

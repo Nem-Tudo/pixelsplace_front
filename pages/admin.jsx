@@ -554,7 +554,7 @@ export default function AdminPage() {
                 <strong>Premium</strong>
               </legend>
                   <CustomButton
-                    label={setCanvaSettings?.onlyFreeColors ? "Liberar Todas as cores" : "Apenas Cores Gratis"}
+                    label={setCanvaSettings?.onlyFreeColors ? "Liberar todas as cores" : "Apenas cores gratuitas"}
                     icon={"paint-bucket"}
                     hierarchy={2}
                     color={'#d6a700'}
@@ -570,6 +570,7 @@ export default function AdminPage() {
                       });
                     }} 
                   />
+                  <ToggleSwitch />
 
             </fieldset>
 
@@ -578,7 +579,7 @@ export default function AdminPage() {
                 <strong>Builds</strong>
               </legend>
               <CustomButton
-                label={"Criar Build"}
+                label={"Criar"}
                 icon={'plus'}
                 onClick={() => {
                   //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
