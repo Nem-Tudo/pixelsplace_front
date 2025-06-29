@@ -21,6 +21,7 @@ import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
+import { roundArrow } from "tippy.js";
 
 export default function Place() {
   const router = useRouter();
@@ -857,7 +858,7 @@ export default function Place() {
                         }} />
                       </> 
                     : 
-                      <Tippy theme="premium" appendTo={document.body} arrow="round" interactive={true} placement="top" animation="scale-extreme" content={
+                      <Tippy theme="premium" appendTo={document.body} arrow={roundArrow} interactive={true} placement="top" animation="scale-extreme" content={
                         <>
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
                             <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
