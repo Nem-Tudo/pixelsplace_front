@@ -4,46 +4,48 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
-    .messageDiv {
-        color: white;
-        padding: 10px 15px;
-        border-radius: 100dvw;
-        width: fit-content;
-        margin: 10px;
+.messageDiv {
+    color: white;
+    padding: 10px 15px;
+    border-radius: 100dvw;
+    width: fit-content;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
 
-        .main, .content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .expand {
-            cursor: pointer;
-        }
-
-        .warn {
-            background: linear-gradient(45deg, #ff5a00, #ff9600);
-            color: black;
-        }
-
-        .normal-white {
-            color: white;
-        }
-
-        button {
-            background-color: rgba(255, 255, 255, 0.404);
-            border: var(--outline);
-            padding: 7px 15px;
-            border-radius: 100dvw;
-            cursor: pointer;
-            outline: none;
-            transition: var(--smooth-transition);
-            box-shadow: var(--shadow);
-        }
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.507);
-            scale: var(--hover-scale);
-        }
+    .main, .content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
+
+    .expand {
+        cursor: pointer;
+    }
+
+    button {
+        background-color: rgba(255, 255, 255, 0.404);
+        border: var(--outline);
+        padding: 7px 15px;
+        border-radius: 100dvw;
+        cursor: pointer;
+        outline: none;
+        transition: var(--smooth-transition);
+        box-shadow: var(--shadow);
+    }
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.507);
+        scale: var(--hover-scale);
+    }
+}
+
+.warn {
+    background: linear-gradient(45deg, #ff5a00, #ff9600);
+    color: black;
+}
+
+.normal-white {
+    color: white;
 }

@@ -7,16 +7,16 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
-export default function Error({ closePopup, message }) {
+export default function Success({ closePopup, message }) {
     const { language } = useLanguage();
 
-    if(!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
+    if(!message) message = language.getString("POPUPS.SUCCESS.GENERIC");
 
     return (
         <>
             <h1 className={styles.title}>
-                <PixelIcon codename={'close'} />
-                {language.getString("POPUPS.ERROR.TITLE")}
+                <PixelIcon codename={'check'} />
+                {language.getString("POPUPS.SUCCESS.TITLE")}
             </h1>
 
             <main className={styles.scrollable}>

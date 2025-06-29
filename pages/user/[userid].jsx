@@ -139,7 +139,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
     const response = await request.json();
     if (!request.ok) {
       console.log(response, request)
-      return openPopup("error", {errorMessage: `Erro ao salvar: ${response.message}`})
+      return openPopup("error", {message: `Erro ao salvar: ${response.message}`})
     }
     updateStateKey(setUser, user, ["profile", response.profile]);
     updateStateKey(setSavedUser, savedUser, ["profile", response.profile]);

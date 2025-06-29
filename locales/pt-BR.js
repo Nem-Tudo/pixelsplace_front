@@ -33,7 +33,8 @@ module.exports = {
         RELOAD_PAGE: "Recarregar página",
         BACK: "Voltar",
         LANGUAGE: "Idioma",
-        TIME_TRAVEL: "Viagem no tempo"
+        TIME_TRAVEL: "Viagem no tempo",
+        VERIFIED: "Verificado(a)",
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
@@ -47,7 +48,7 @@ module.exports = {
             CUSTOM_BRANCH_WARNING: "Você está editando uma branch customizada",
             ACTIVE_BUILD: "Build Ativa",
             ACTIVE_BRANCH: "Branch Ativa",
-            SWITCHING_BUILD: "Trocando build..."
+            SWITCHING_BUILD: "Trocando build...",
         },
         HEADER: {
             ADVANTAGES: "Vantagens",
@@ -59,7 +60,7 @@ module.exports = {
             LOGGED_OUT: "Deslogado",
             VIEW_AS_USER: "Ver como usuário",
             NORMAL_VIEW: "Visualização normal",
-            VIEW_SETTINGS: "Opções de visualização"
+            VIEW_SETTINGS: "Opções de visualização",
         },
     },
     POPUPS: {
@@ -78,6 +79,10 @@ module.exports = {
             TITLE: "Ocorreu um erro!",
             UNKNOWN: "Erro desconhecido",
         },
+        SUCCESS: {
+            TITLE: "Sucesso!",
+            GENERIC: "A ação foi executada com êxito.",
+        },
         NOT_IMPLEMENTED_YET: {
             TITLE: "Oops! Foi mal",
             DESCRIPTION: "Essa feature ainda não foi implementada...",
@@ -92,20 +97,20 @@ module.exports = {
             EXPLAIN_WHAT_HAPPENED: "e tentar explicar o que houve",
             MODS_HAVE_RECORDS: "Mas saiba que os mods tem registro de tudo, então eles basicamente são onicientes... Você vai ter que inventar uma desculpa realmente muito boa se quiser algo",
             FAREWELL_MESSAGE: "Bom, é isso aí mano tmj",
-            INVALID_BUILD_ALERT: "Você está utilizando uma build inválida, retornando para a build principal."
-        }
+            INVALID_BUILD_ALERT: "Você está utilizando uma build inválida, retornando para a build principal.",
+        },
     },
     PAGES: {
         HOME: {
             META_DESCRIPTION: "Participe do PixelsPlace!",
             LOGO_ALT: "logo",
             SERVERS: "Servidores",
-            START: "Começar",
+            START: "Começar!",
         },
         DISCORD_OAUTH2: {
             LOGGED_IN: "Logado",
             DISCONNECTED: "Desconectado",
-            SUCCESS_REDIRECTING: "com sucesso. Redirecionando..."
+            SUCCESS_REDIRECTING: "com sucesso. Redirecionando...",
         },
         BUILD_OVERRIDE: {
             LOADING_BUILD: "Carregando build...",
@@ -115,7 +120,7 @@ module.exports = {
             TITLE: "Deseja utilizar uma build customizada no PixelsPlace?",
             SIGNED_BY: "Assinada por",
             UPDATING_BUILD: "Atualizando build...",
-            REMOVE_INSTRUCTION: "Caso você queira remover depois, basta clicar nas configurações do seu perfil"
+            REMOVE_INSTRUCTION: "Caso você queira remover depois, basta clicar nas configurações do seu perfil",
         },
         USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "Papel de parede do usuário",
@@ -123,14 +128,14 @@ module.exports = {
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
             JOIN_GUILD: "Entrar",
             PIXELS_PLACED: "{{displayName}} inseriu {{pixelQuantity}} pixels",
-            VIEW_PIXELS: "Ver os pixels de {{displayName}}"
+            VIEW_PIXELS: "Ver os pixels de {{displayName}}",
         },
         PARTNERS: {
             SERVERS: "SERVIDORES",
             PARTICIPATING_SERVERS: "Servidores participando",
             SECRET: "Segredo...",
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
-            JOIN: "Entrar"
+            JOIN: "Entrar",
         },
         TIME_TRAVEL: {
             PAGE_TITLE: "Timetravel PixelsPlace",
@@ -140,7 +145,7 @@ module.exports = {
             FULL_HISTORY: "Todo o histórico",
             CHANGES_ONLY: "Apenas as mudanças",
             MARCH_LABEL: "Marcha (m):",
-            MULTIPLIER_LABEL: "Multiplicador:"
+            MULTIPLIER_LABEL: "Multiplicador:",
         },
         PLACE: {
             META_DESCRIPTION: "Participe do PixelsPlace!",
@@ -166,7 +171,7 @@ module.exports = {
             CHIEF_COW: 'Chief Vaca',
             CHIEF_DRAGGABLE: 'Chief Arrastáveis',
             GOAT: 'O Melhor de Todos',
-            CHIEF_EVIL_LINUX: 'Chief Backend e Forças do Mal (Linux)'
-        }
+            CHIEF_EVIL_LINUX: 'Chief Backend e Forças do Mal (Linux)',
+        },
     },
 }

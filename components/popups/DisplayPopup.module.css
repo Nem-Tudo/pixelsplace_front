@@ -35,6 +35,8 @@
             color: var(--color-accent);
             padding: 20px;
             border-bottom: 1px solid #00000012;
+            display: flex;
+            gap: 8px;
         }
 
         .scrollable {

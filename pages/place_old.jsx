@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
-import styles from "./place.module.css";
+import styles from "./place_old.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
@@ -16,13 +16,13 @@ import { MdDragIndicator, MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
-import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
+import { FaShare } from "react-icons/fa";
+import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
-import { formatDate } from "@/src/dateFunctions";
 
-export default function Place() {
+export default function PlaceOld() {
   const router = useRouter();
 
   //contexts
@@ -31,6 +31,7 @@ export default function Place() {
   const { openPopup } = usePopup()
 
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
+
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -62,9 +63,6 @@ export default function Place() {
 
   const [, forceUpdate] = useState(0);
 
-  let canvWidtPix = 140;
-  let canvHeigPix = 100;
-
   const transform = useRef({
     scale: 1,
     pointX: 0,
@@ -79,12 +77,31 @@ export default function Place() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const { pointX, pointY, scale } = transform.current;
+    wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
-    wrapper.style.transform = `translate(${pointX}px, ${pointY}px)`;
-    wrapper.style.width = `calc(${canvWidtPix}px * ${scale})`;
-    wrapper.style.height = `calc(${canvHeigPix}px * ${scale})`;
+    forceUpdate(Date.now()); // Força a atualização do react
 
-    forceUpdate(Date.now());
+    // const updatedQuery = {
+    //   ...router.query,
+    //   s: Math.round(scale),
+    //   px: Math.round(pointX),
+    //   py: Math.round(pointY),
+    // };
+
+    // const currentPixel = selectedPixelRef.current;
+    // if (currentPixel) {
+    //   updatedQuery.x = currentPixel.x;
+    //   updatedQuery.y = currentPixel.y;
+    // }
+
+    // router.push(
+    //   {
+    //     pathname: router.pathname,
+    //     query: updatedQuery,
+    //   },
+    //   undefined,
+    //   { shallow: true }
+    // );
   };
 
   const centerCanvas = () => {
@@ -277,9 +294,7 @@ export default function Place() {
       }
 
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px)`;
-        wrapperRef.current.style.width = `calc(${canvWidtPix}px * ${transform.current.scale})`;
-        wrapperRef.current.style.height = `calc(${canvHeigPix}px * ${transform.current.scale})`
+        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
       } else {
         console.error("wrapperRef not available");
       }
@@ -287,6 +302,136 @@ export default function Place() {
       setApiError(e);
     }
   }
+
+  //Movimento do canvas
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const zoom = transform.current;
+
+    let lastTouchDistance = null;
+
+    const getTouchCenter = (touches) => {
+      const x = (touches[0].clientX + touches[1].clientX) / 2;
+      const y = (touches[0].clientY + touches[1].clientY) / 2;
+      return { x, y };
+    };
+
+    const getTouchDistance = (touches) => {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    const onMouseDown = (e) => {
+      e.preventDefault();
+      zoom.startX = e.clientX - zoom.pointX;
+      zoom.startY = e.clientY - zoom.pointY;
+
+      const onMouseMove = (e) => {
+        zoom.pointX = e.clientX - zoom.startX;
+        zoom.pointY = e.clientY - zoom.startY;
+        applyTransform();
+      };
+
+      const onMouseUp = () => {
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      };
+
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
+    };
+
+    const onTouchStart = (e) => {
+      if (e.touches.length === 1) {
+        zoom.startX = e.touches[0].clientX - zoom.pointX;
+        zoom.startY = e.touches[0].clientY - zoom.pointY;
+      } else if (e.touches.length === 2) {
+        lastTouchDistance = getTouchDistance(e.touches);
+      }
+    };
+
+    const onTouchMove = (e) => {
+      e.preventDefault();
+
+      if (e.touches.length === 1) {
+        zoom.pointX = e.touches[0].clientX - zoom.startX;
+        zoom.pointY = e.touches[0].clientY - zoom.startY;
+        applyTransform();
+      } else if (e.touches.length === 2) {
+        const newDistance = getTouchDistance(e.touches);
+        const center = getTouchCenter(e.touches);
+
+        if (lastTouchDistance) {
+          const delta = newDistance / lastTouchDistance;
+          let newScale = zoom.scale * delta;
+          newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
+
+          const xs = (center.x - zoom.pointX) / zoom.scale;
+          const ys = (center.y - zoom.pointY) / zoom.scale;
+
+          zoom.scale = newScale;
+          zoom.pointX = center.x - xs * newScale;
+          zoom.pointY = center.y - ys * newScale;
+
+          applyTransform();
+        }
+
+        lastTouchDistance = newDistance;
+      }
+    };
+
+    const onTouchEnd = (e) => {
+      if (e.touches.length < 2) {
+        lastTouchDistance = null;
+      }
+    };
+
+    const onWheel = (e) => {
+      e.preventDefault();
+      const { pointX, pointY, scale, minScale, maxScale } = zoom;
+
+      const xs = (e.clientX - pointX) / scale;
+      const ys = (e.clientY - pointY) / scale;
+      const delta = e.wheelDelta ? e.wheelDelta : -e.deltaY;
+
+      let newScale = scale * (delta > 0 ? 1.2 : 1 / 1.2);
+      newScale = Math.max(minScale, Math.min(maxScale, newScale));
+
+      zoom.scale = newScale;
+      zoom.pointX = e.clientX - xs * newScale;
+      zoom.pointY = e.clientY - ys * newScale;
+
+      applyTransform();
+    };
+
+    const onKeyPress = (e) => {
+      if (e.key.toLowerCase() === "r") {
+        zoom.scale = zoom.minScale;
+        centerCanvas();
+      }
+    };
+
+    wrapper?.addEventListener("mousedown", onMouseDown);
+    wrapper?.addEventListener("wheel", onWheel, { passive: false });
+
+    wrapper?.addEventListener("touchstart", onTouchStart, { passive: false });
+    wrapper?.addEventListener("touchmove", onTouchMove, { passive: false });
+    wrapper?.addEventListener("touchend", onTouchEnd);
+
+    window?.addEventListener("keypress", onKeyPress);
+
+    return () => {
+      wrapper?.removeEventListener("mousedown", onMouseDown);
+      wrapper?.removeEventListener("wheel", onWheel);
+
+      wrapper?.removeEventListener("touchstart", onTouchStart);
+      wrapper?.removeEventListener("touchmove", onTouchMove);
+      wrapper?.removeEventListener("touchend", onTouchEnd);
+
+      window?.removeEventListener("keypress", onKeyPress);
+    };
+  }, [canvasConfig.width, canvasConfig.height]);
 
   //Ao atualizar o selectedPixel
   useEffect(() => {
@@ -352,6 +497,7 @@ export default function Place() {
     //   { shallow: true }
     // );
   }, [selectedPixel]);
+
 
   //Mover o selected Pixel
   useEffect(() => {
@@ -439,6 +585,7 @@ export default function Place() {
     };
   }, [showingPixelInfo]);
 
+
   useEffect(() => {
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -449,6 +596,16 @@ export default function Place() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  //comverte o tempo
+  function formatDate(isoString) {
+    const date = new Date(isoString);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // mês começa em 0
+    return `${hours}:${minutes} ${day}/${month}`;
+  }
 
   async function placePixel(x, y, color) {
     const oldpixelcolor = getPixelColor(x, y);
@@ -469,7 +626,7 @@ export default function Place() {
     const data = await request.json();
     if (!request.ok) {
       if (oldpixelcolor) updatePixel(x, y, oldpixelcolor);
-      return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
+      return openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
   }
@@ -493,9 +650,9 @@ export default function Place() {
       }
     ).catch((e) => {
       console.log("Erro ao obter pixel: ", e);
-      openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
+      openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
     });
-    if (!request.ok) return openPopup("error", {message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
+    if (!request.ok) return openPopup("error", {errorMessage: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
 
     const data = await request.json();
     setShowingPixelInfo(data);
@@ -516,6 +673,20 @@ export default function Place() {
     const b = pixel[2];
 
     return (r << 16) + (g << 8) + b;
+  }
+
+  function lightenColor(colorNum, amount = 0.2) {
+    const r = (colorNum >> 16) & 0xff;
+    const g = (colorNum >> 8) & 0xff;
+    const b = colorNum & 0xff;
+
+    const lighten = (c) => Math.min(255, Math.floor(c + (255 - c) * amount));
+
+    const newR = lighten(r);
+    const newG = lighten(g);
+    const newB = lighten(b);
+
+    return (newR << 16) + (newG << 8) + newB;
   }
 
   return (
@@ -542,7 +713,7 @@ export default function Place() {
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    openPopup("success", {message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`});
+                    alert(`${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>
@@ -606,7 +777,7 @@ export default function Place() {
                         ) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
-                          openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
+                          openPopup("error", {errorMessage: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
                       }}
                     />
@@ -618,21 +789,21 @@ export default function Place() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelPlacement}
-                data-showing-colors={String(showingColors)}
+                className={styles.pixelplacement}
+                showingcolors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
                     <CustomButton
                       label={timeLeft}
-                      className={styles.placePixel}
+                      className={styles.placepixel}
                       disabled={true}
                     />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
                     <CustomButton
                       label={loggedUser ? language.getString("PAGES.PLACE.PLACE_PIXEL") : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
-                      className={styles.placePixel}
+                      className={styles.placepixel}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
@@ -648,7 +819,7 @@ export default function Place() {
                       label={language.getString("COMMON.CANCEL")}
                       hierarchy={3}
                       color={"#919191"}
-                      className={styles.placePixel}
+                      className={styles.placepixel}
                       onClick={() => setShowingColors(false)}
                     />
                   )}
@@ -657,7 +828,7 @@ export default function Place() {
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
                       disabled={!selectedColor}
-                      className={styles.placePixel}
+                      className={styles.placepixel}
                       onClick={() => {
                         placePixel(
                           selectedPixel.x,
@@ -673,7 +844,7 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    <Tippy theme="premium" interactive={true} placement="bottom" animation="scale-extreme" arrow={false} content={
+                    <Tippy theme="premium" interactive={true} placement="top" animation="shift-away-subtle" content={
                       <>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
                           <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
@@ -681,7 +852,7 @@ export default function Place() {
                         </div>
                       </>
                     }>
-                      <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
+                      <input className={styles.color} type="color" id="" value={numberToHex(selectedColor)} onClick={(e) => {
                         if (!loggedUser?.premium) {
                           e.preventDefault();
                           openPopup("premium_required")
@@ -716,11 +887,14 @@ export default function Place() {
           </div>
         </section>
 
+
+
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
           <MessageDiv centerscreen={true} type="normal-white">
             {" "}
             <Loading width={"50px"} />{" "}
+            <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span>
           </MessageDiv>
         )}
 
@@ -773,7 +947,6 @@ export default function Place() {
               position: "absolute",
               top: 0,
               left: 0,
-              display: 'flex'
             }}
           >
 
@@ -792,7 +965,6 @@ export default function Place() {
                 transformOrigin: "0 0",
                 zIndex: 10,
                 width: "100%",
-                flexGrow: 1,
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
                 display:
                   Math.max(canvasConfig.width, canvasConfig.height) > 1500
@@ -837,10 +1009,8 @@ export default function Place() {
               height={canvasConfig.height}
               style={{
                 aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
-                flexGrow: 1
               }}
             />
-
           </div>
         </div>
       </MainLayout>

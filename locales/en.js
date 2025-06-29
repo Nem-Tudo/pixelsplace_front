@@ -33,7 +33,8 @@ module.exports = {
         RELOAD_PAGE: "Reload page",
         BACK: "Back",
         LANGUAGE: "Language",
-        TIME_TRAVEL: "Time Travel"
+        TIME_TRAVEL: "Time Travel",
+        VERIFIED: "Verified",
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
@@ -47,7 +48,7 @@ module.exports = {
             CUSTOM_BRANCH_WARNING: "You are editing a custom branch",
             ACTIVE_BUILD: "Active Build",
             ACTIVE_BRANCH: "Active Branch",
-            SWITCHING_BUILD: "Switching build..."
+            SWITCHING_BUILD: "Switching build...",
         },
         HEADER: {
             ADVANTAGES: "Advantages",
@@ -59,7 +60,7 @@ module.exports = {
             LOGGED_OUT: "Logged out",
             VIEW_AS_USER: "View as user",
             NORMAL_VIEW: "Normal view",
-            VIEW_SETTINGS: "View options"
+            VIEW_SETTINGS: "View options",
         },
     },
     POPUPS: {
@@ -78,6 +79,10 @@ module.exports = {
             TITLE: "An error has ocurred!",
             UNKNOWN: "Unknown error",
         },
+        SUCCESS: {
+            TITLE: "Success!",
+            GENERIC: "Action executed successfully.",
+        },
         NOT_IMPLEMENTED_YET: {
             TITLE: "Oops! Sorry",
             DESCRIPTION: "This feature hasn't been yet implemented...",
@@ -92,20 +97,20 @@ module.exports = {
             EXPLAIN_WHAT_HAPPENED: "and try to explain what happened",
             MODS_HAVE_RECORDS: "But know that the mods have records of everything, so they are basically omniscient... You'll have to come up with a really good excuse if you want anything",
             FAREWELL_MESSAGE: "Well, that's it bro, cheers",
-            INVALID_BUILD_ALERT: "You are using an invalid build, returning to the main build."
-        }
+            INVALID_BUILD_ALERT: "You are using an invalid build, returning to the main build.",
+        },
     },
     PAGES: {
         HOME: {
             META_DESCRIPTION: "Join PixelsPlace!",
             LOGO_ALT: "logo",
             SERVERS: "Servers",
-            START: "Start",
+            START: "Start!",
         },
         DISCORD_OAUTH2: {
             LOGGED_IN: "Logged in",
             DISCONNECTED: "Disconnected",
-            SUCCESS_REDIRECTING: "successfully. Redirecting..."
+            SUCCESS_REDIRECTING: "successfully. Redirecting...",
         },
         BUILD_OVERRIDE: {
             LOADING_BUILD: "Loading build...",
@@ -115,7 +120,7 @@ module.exports = {
             TITLE: "Do you want to use a custom build on PixelsPlace?",
             SIGNED_BY: "Signed by",
             UPDATING_BUILD: "Updating build...",
-            REMOVE_INSTRUCTION: "If you want to remove it later, just click on your profile settings"
+            REMOVE_INSTRUCTION: "If you want to remove it later, just click on your profile settings",
         },
         USER_PROFILE: {
             PROFILE_BACKGROUND_ALT: "profile background",
@@ -123,14 +128,14 @@ module.exports = {
             GUILD_ICON_ALT: "{{guildName}} icon",
             JOIN_GUILD: "Join",
             PIXELS_PLACED: "{{displayName}} placed {{pixelQuantity}} pixels",
-            VIEW_PIXELS: "View {{displayName}}'s pixels"
+            VIEW_PIXELS: "View {{displayName}}'s pixels",
         },
         PARTNERS: {
             SERVERS: "SERVERS",
             PARTICIPATING_SERVERS: "Participating servers",
             SECRET: "Secret...",
             GUILD_ICON_ALT: "{{guildName}} icon",
-            JOIN: "Join"
+            JOIN: "Join",
         },
         TIME_TRAVEL: {
             PAGE_TITLE: "PixelsPlace Timetravel",
@@ -140,7 +145,7 @@ module.exports = {
             FULL_HISTORY: "Full history",
             CHANGES_ONLY: "Changes only",
             MARCH_LABEL: "March (m):",
-            MULTIPLIER_LABEL: "Multiplier:"
+            MULTIPLIER_LABEL: "Multiplier:",
         },
         PLACE: {
             META_DESCRIPTION: "Join PixelsPlace!",
@@ -166,7 +171,7 @@ module.exports = {
             CHIEF_COW: 'Chief Cow',
             CHIEF_DRAGGABLE: 'Chief Draggables',
             GOAT: 'Greatest Of All Times',
-            CHIEF_EVIL_LINUX: 'Chief Backend and Evil Forces (Linux)'
-        }
+            CHIEF_EVIL_LINUX: 'Chief Backend and Evil Forces (Linux)',
+        },
     },
 }

@@ -5,7 +5,6 @@
     position: relative;
     touch-action: none;
     background: #eaeaea;
-    user-select: none;
 
     @media screen and (max-height: 500px) and (orientation: landscape) {
         width: 100vw;
@@ -13,13 +12,11 @@
         position: absolute;
         top: 0;
     }
+}
 
-    #canvas {
-        touch-action: none;
-        box-shadow: var(--shadow);
-        flex-grow: 1;
-        user-select: none;
-    }
+#canvas {
+    touch-action: none;
+    box-shadow: var(--shadow);
 }
 
 .overlaygui {
@@ -36,14 +33,14 @@
     .top {
         position: relative;
         pointer-events: all;
-        position: fixed;
-        top: 0px;
+        justify-items: center;
+        align-items: center;
         width: 100vw;
-        display: flex;
-        justify-content: center;
 
         .overlayPosition {
-            position: fixed;
+            position: absolute;
+            justify-self: anchor-center;
+            align-self: center;
             background-color: #808080d6;
             color: hsla(0deg, 0%, 100%, 75%);
             padding: 0 8px;
@@ -68,89 +65,77 @@
         margin-top: auto;
         pointer-events: all;
         justify-items: center;
-        position: fixed;
-        bottom: 0px;
-        width: 100vw;
-        display: flex;
-        justify-content: center;
 
-        .pixelPlacement {
+        .colors {
+            overflow-x: auto;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-self: center;
-            justify-items: center;
-            max-width: fit-content;
-            width: 99dvw;
-            margin-bottom: 5px;
-
-            .placePixel {
-                width: fit-content;
+            max-width: 100%;
+            padding: 0 15px;
+            
+            .color, .confirmation .color {
+                width: 50px;
+                min-width: 50px;
+                height: 50px;
+                border-radius: 7px;
+                margin: 7px;
+                cursor: pointer;
+                border: var(--outline);
+                box-shadow: var(--shadow);
+                transition: var(--smooth-transition);
             }
 
-            .confirmation {
-                display: flex;
-                flex-wrap: wrap;
-                justify-items: center;
-                align-items: center;
-                gap: 8px;
-                padding-top: 4px;
-                width: 100vw;
-                justify-content: center;
-
-                #premiumPicker {
-                    width: 50px;
-                    min-width: 50px;
-                    height: 50px;
-                    border-radius: 12px;
-                    background-color: var(--selected-color, red);
-                    border: none;
-                    margin: 0;
-                    padding: 0;
-                    box-shadow: var(--shadow);
-                }
+            .color:hover, .confirmation .color:hover {
+                scale: var(--hover-scale);
             }
         }
-        .pixelPlacement[data-showing-colors="true"] {
-            background: var(--frosted-glass);
-            box-shadow: var(--shadow);
-            backdrop-filter: var(--frosted-glass-blur);
-            border-radius: 22px;
-            border: var(--outline);
-            overflow-x: hidden;
+    }
+}
 
-            @media screen and (max-height: 500px) and (orientation: landscape) {
-                width: 50dvw;
-                position: absolute;
-                right: 0px;
-                bottom: 0px;
-                border-radius: 22px 0 0 0;
-            }
+.confirmation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    align-items: center
+}
 
-            .colors {
-                overflow-x: auto;
-                display: flex;
-                max-width: 100%;
-                padding: 0 15px;
-                
-                .color, .confirmation .color {
-                    width: 50px;
-                    min-width: 50px;
-                    height: 50px;
-                    border-radius: 7px;
-                    margin: 7px;
-                    cursor: pointer;
-                    border: var(--outline);
-                    box-shadow: var(--shadow);
-                    transition: var(--smooth-transition);
-                }
+.pixelplacement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 7px;
+    justify-self: center;
+    justify-items: center;
+    max-width: fit-content;
+    width: 99dvw;
 
-                .color:hover, .confirmation .color:hover {
-                    scale: var(--hover-scale);
-                }
-            }
-        }
+    .placepixel {
+        margin: 7px;
+        width: fit-content;
+    }
+}
+.pixelplacement[showingcolors="true"] {
+    background: var(--frosted-glass);
+    -webkit-box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: var(--frosted-glass-blur);
+    backdrop-filter: var(--frosted-glass-blur);
+    border-radius: 22px;
+    border: var(--outline);
 
+    @media (max-width: 768px) {
+        border-radius: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 50dvw;
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        border-radius: 22px 0 0 0;
     }
 }
 
