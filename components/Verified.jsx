@@ -8,7 +8,7 @@ export default function Verified({ verified }) {
 
     return verified ? 
         <Tippy content={language.getString("COMMON.VERIFIED")} placement="top">
-            <PixelIcon codename={'check'} className={styles.verified} /> 
+            <PixelIcon codename={'verificado'} className={styles.verified} /> 
         </Tippy>
     : <></>
 }
