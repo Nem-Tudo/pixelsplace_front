@@ -21,7 +21,6 @@ import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
-import { roundArrow } from "tippy.js";
 
 export default function Place() {
   const router = useRouter();
@@ -695,7 +694,7 @@ export default function Place() {
       <Head>
         <title>PixelsPlace</title>
         <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="theme-color" content="#80bbff" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -858,7 +857,7 @@ export default function Place() {
                         }} />
                       </> 
                     : 
-                      <Tippy theme="premium" appendTo={document.body} arrow={roundArrow} interactive={true} placement="top" animation="scale-extreme" content={
+                      <Tippy theme="premium" appendTo={document.body} interactive={true} placement="top" animation="scale-extreme" content={
                         <>
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
                             <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
