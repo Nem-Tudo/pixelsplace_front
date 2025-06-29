@@ -33,7 +33,7 @@ export default function Home() {
             <h1>Pixels Place</h1>
           </div>
           <div className={styles.buttons}>
-            <CustomButton label={language.getString("PAGES.HOME.START")} icon={'image'} href={"/place"} style={{fontFamily: 'Dogica Pixel', fontSize: 'small'}} />
+            <CustomButton label={language.getString("PAGES.HOME.START")} icon={'gamepad'} href={"/place"} />
             <CustomButton label={language.getString("PAGES.HOME.SERVERS")} icon={'server'} href={"/partners"} hierarchy={2} />
             <PremiumButton as={Link} href={"/timetravel"}><PixelIcon codename={"hourglass"} />{language.getString("COMMON.TIME_TRAVEL")}</PremiumButton>
             {
