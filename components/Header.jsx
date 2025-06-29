@@ -192,7 +192,8 @@ export default function Header() {
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} animation="scale-extreme" content={(
                                         <>
-                                            <div onClick={() => {
+                                            <div onClick={(e) => {
+                                                e.preventDefault();
                                                 if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
                                                     setRealUserFlags(loggedUser.flags)
                                                     updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
@@ -204,7 +205,8 @@ export default function Header() {
                                                     {loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}
                                                 </span>
                                             </div>
-                                            <div onClick={() => {
+                                            <div onClick={(e) => {
+                                                e.preventDefault();
                                                 updateUserKey(["premium", !loggedUser?.premium])
                                             }}>
                                                 <span>

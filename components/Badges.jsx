@@ -15,7 +15,7 @@ const BADGE_LIST = {
 // não precisa mexer
 export default function Badges({ list = [""] }) {
     let returnValue = Object.entries(BADGE_LIST).filter(([key, value]) => list.includes(key)).map(([flag, badge]) => (
-        badge.label ? <Tippy content={`${badge.label}`} placement="top">
+        badge.label ? <Tippy arrow={false} content={`${badge.label}`} placement="top">
             {badge.component}
         </Tippy> : badge.component
 

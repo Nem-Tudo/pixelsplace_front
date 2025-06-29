@@ -7,7 +7,7 @@ export default function Verified({ verified }) {
     const { language } = useLanguage();
 
     return verified ? 
-        <Tippy content={language.getString("COMMON.VERIFIED")} placement="top">
+        <Tippy content={language.getString("COMMON.VERIFIED")} arrow={false} placement="top">
             <PixelIcon codename={'check'} className={styles.verified} /> 
         </Tippy>
     : <></>

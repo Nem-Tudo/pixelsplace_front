@@ -8,8 +8,9 @@
     background-color: var(--tippy-color);
     border-radius: var(--tippy-border-radius);
     backdrop-filter: var(--frosted-glass-blur);
-    padding: 8px;
+    padding: 4px 8px;
     border: var(--outline);
+    box-shadow: var(--shadow);
 }
 
 .tippy-box[data-theme="white"] {

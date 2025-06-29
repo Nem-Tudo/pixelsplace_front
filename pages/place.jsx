@@ -707,7 +707,7 @@ export default function Place() {
                   ({selectedPixel.x},{selectedPixel.y}){" "}
                   {Math.round(transform.current.scale)}x
                 </span>
-                <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} placement="bottom">
+                <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} arrow={false} placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
