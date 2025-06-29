@@ -159,6 +159,7 @@
 
       input[type="color"] {
           border: none;
+          border-radius: 0;
           padding: 0;
           width: 2rem;
           height: 2rem;
@@ -182,6 +183,7 @@
         justify-self: anchor-center;
         align-self: anchor-center;
         mix-blend-mode: difference;
+        z-index: 1;
       }
     }
   }

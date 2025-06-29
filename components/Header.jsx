@@ -190,7 +190,7 @@ export default function Header() {
                                     <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
-                                    checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} animation="scale-extreme" content={(
+                                    checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                         <>
                                             <div onClick={(e) => {
                                                 e.preventDefault();
