@@ -9,6 +9,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import CustomButton from "@/components/CustomButton";
 import PixelIcon from "@/components/PixelIcon"
+import ToggleSwitch from "@/components/ToggleSwitch";
 
 export default function Header() {
     const { language, changeLanguage, lang, availableLanguages } = useLanguage();
@@ -192,26 +193,20 @@ export default function Header() {
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                         <>
-                                            <div onClick={(e) => {
-                                                e.preventDefault();
-                                                if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
-                                                    setRealUserFlags(loggedUser.flags)
-                                                    updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
-                                                } else {
-                                                    updateUserKey(["flags", realUserFlags])
-                                                }
-                                            }}>
-                                                <span>
-                                                    {loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER") ? language.getString("COMPONENTS.HEADER.NORMAL_VIEW") : language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}
-                                                </span>
+                                            <div>
+                                                <span>{language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</span>
+                                                <ToggleSwitch checked={loggedUser?.flags?.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")} onChange={() => {
+                                                    if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
+                                                        setRealUserFlags(loggedUser.flags)
+                                                        updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
+                                                    } else {
+                                                        updateUserKey(["flags", realUserFlags])
+                                                    }
+                                                }} />
                                             </div>
-                                            <div onClick={(e) => {
-                                                e.preventDefault();
-                                                updateUserKey(["premium", !loggedUser?.premium])
-                                            }}>
-                                                <span>
-                                                    {language.getString("COMMON.PREMIUM")}: {loggedUser?.premium ? language.getString("COMMON.YES") : language.getString("COMMON.NO")}
-                                                </span>
+                                            <div>
+                                                <span>{language.getString("COMMON.PREMIUM")}</span>
+                                                <ToggleSwitch onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium}/>
                                             </div>
                                         </>
                                     )}>
