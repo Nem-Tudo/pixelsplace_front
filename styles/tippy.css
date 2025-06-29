@@ -58,29 +58,37 @@
     background: var(--frosted-glass);
     backdrop-filter: var(--frosted-glass-blur);
     border-radius: 10px;
-    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     transition: var(--smooth-transition);
     overflow: hidden;
     box-shadow: var(--shadow);
+    padding: 0;
 
-    .tippy-content div > * {
-        padding: 10px;
-        border-radius: 0px;
-        background-color: rgba(255, 255, 255, 0);
-        transition: var(--smooth-transition);
-        color: var(--color-text);
+    .tippy-content div {
         display: flex;
-        justify-content: space-between;
-        flex-grow: 1;
+        flex-direction: column;
+        align-items: stretch;
 
-        span {
+        > * {
+            padding: 8px;
+            border-radius: 0px;
+            background-color: rgba(255, 255, 255, 0);
+            transition: var(--smooth-transition);
             color: var(--color-text);
+            display: flex;
+            justify-content: space-between;
+            flex-grow: 1;
+            align-items: center;
+
+            span {
+                color: var(--color-text);
+            }
         }
-    }
-    .tippy-content div > *:hover {
-        background-color: rgb(228, 228, 228);
+
+        > *:hover {
+            background-color: rgb(228, 228, 228);
+        }
     }
 }
 
