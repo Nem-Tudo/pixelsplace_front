@@ -790,7 +790,7 @@ export default function Place() {
             {selectedPixel && isAlready() && (
               <div
                 className={styles.pixelPlacement}
-                showingcolors={String(showingColors)}
+                data-showing-colors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
