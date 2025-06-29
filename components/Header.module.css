@@ -36,6 +36,7 @@
     height: 100%;
     justify-content: flex-start;
     align-items: center;
+    display: flex;
 
     @media screen and (max-height: 500px) and (orientation: landscape) {
         display: flex;

@@ -119,34 +119,38 @@ input[type="color"]::-moz-color-swatch {
   border: none;
 }
 
-.mobileonly {
-  display: none;
+.mobileOnly {
+  display: none !important;
 
   @media (max-width: 720px) {
-    display: flex;
+    display: flex !important;
+  }
+
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+    display: flex !important;
   }
 }
 
 @media (max-width: 720px) {
-  .mobilehidden_720 {
+  .mobileHidden_720 {
     display: none !important;
   }
 }
 
 @media (max-width: 500px) {
-  .mobilehidden_500 {
+  .mobileHidden_500 {
     display: none;
   }
 }
 
 @media (max-width: 420px) {
-  .mobilehidden_420 {
+  .mobileHidden_420 {
     display: none;
   }
 }
 
 @media (max-width: 320px) {
-  .mobilehidden_320 {
+  .mobileHidden_320 {
     display: none;
   }
 }

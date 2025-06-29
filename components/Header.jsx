@@ -128,7 +128,7 @@ export default function Header() {
         <>
             <header className={styles.header}>
                 {/* Mobile hamburger menu */}
-                <div className={[styles.left, 'mobileonly'].join(' ')}>
+                <div className={[styles.left, 'mobileOnly'].join(' ')}>
                     <Tippy theme="pixelsplace_dropdown" arrow={false} animation="scale-extreme" trigger="click" interactive={true} content={<>
 
                         {
@@ -144,7 +144,7 @@ export default function Header() {
                     </Tippy>
                 </div>
 
-                <nav className={[styles.left, 'mobilehidden_720'].join(' ')}>
+                <nav className={[styles.left, 'mobileHidden_720'].join(' ')}>
                     {
                         userValidLinks.map(([name, { icon, label, href, id, exclusive }]) => (
                             <Link id={id || ''} className={styles.item} href={href}>
@@ -157,7 +157,7 @@ export default function Header() {
                     }
                 </nav>
 
-                <p className={'mobileonly ' + styles.centerTitle}>PixelsPlace</p>
+                <p className={'mobileOnly ' + styles.centerTitle}>PixelsPlace</p>
 
                 <nav className={styles.right}>
                     {
@@ -225,14 +225,14 @@ export default function Header() {
 
                             </>}>
                                 <div className={styles.loggedUser}>
-                                    <span className={styles.userName + " mobilehidden_720"}>{loggedUser.username}</span>
+                                    <span className={styles.userName + " mobileHidden_720"}>{loggedUser.username}</span>
                                         <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
                                 </div>
                             </Tippy>
                         </> : <>
                             <Link href={"/login"} className={styles.loggedUser}>
                                 <span className={styles.userName}>{language.getString("COMPONENTS.HEADER.LOGIN")}</span>
-                                <img className="mobilehidden_500" src="/assets/avatar.png" alt={language.getString("COMPONENTS.HEADER.LOGGED_OUT")} />
+                                <img className="mobileHidden_500" src="/assets/avatar.png" alt={language.getString("COMPONENTS.HEADER.LOGGED_OUT")} />
                             </Link>
                         </>
                     }
