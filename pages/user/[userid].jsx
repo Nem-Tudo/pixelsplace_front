@@ -236,13 +236,24 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             {user && user.profile && user.profile.aboutme &&
               <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
                 {editStates.profile_aboutme ? (
-                  <textarea
+                  <><textarea
                     value={user.profile.aboutme}
                     onChange={(e) => {
                       updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
                     }}
                     rows={4}
                   />
+                  <PremiumButton
+                        as="icon"
+                        icon={
+                          <PixelIcon
+                            codename={'save'}
+                            className={styles.editPencil}
+                            onClick={() => {saveChanges(); switchEdit("profile_aboutme");}}
+                          />
+                        }
+                      />
+                      </>
                 ) : (
                   <span>
                     {!loading && loggedUser?.id === user?.id ? (
