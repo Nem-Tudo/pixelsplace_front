@@ -162,7 +162,7 @@ export default function Header() {
                 <nav className={styles.right}>
                     {
                         loggedUser?.id ? <>
-                            <Tippy theme="pixelsplace_dropdown" ref={ref} arrow={false} trigger="click" animation="scale-extreme" interactive={true} content={<>
+                            <Tippy theme="pixelsplace_dropdown" arrow={false} trigger="click" animation="scale-extreme" interactive={true} content={<>
 
                                 <Link href={"/user/" + loggedUser?.id}>
                                     <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
@@ -193,7 +193,7 @@ export default function Header() {
                                     <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
-                                    checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy appendTo={ref?.current} theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
+                                    checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                         <>
                                             <div>
                                                 <span>{language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</span>
