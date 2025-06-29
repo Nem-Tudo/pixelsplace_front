@@ -844,7 +844,7 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    <Tippy theme="premium" interactive={true} placement="top" animation="shift-away-subtle" content={
+                    <Tippy theme="premium" arrow={false} interactive={true} placement="bottom" animation="scale-extreme" content={
                       <>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
                           <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>
@@ -852,7 +852,7 @@ export default function Place() {
                         </div>
                       </>
                     }>
-                      <input className={styles.color} type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} onClick={(e) => {
+                      <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--picker-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
                         if (!loggedUser?.premium) {
                           e.preventDefault();
                           openPopup("premium_required")
