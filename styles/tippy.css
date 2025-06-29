@@ -1,12 +1,13 @@
 :root {
     --tippy-border-radius: 12px;
-    --tippy-color: rgba(0, 0, 0, 0.95);
+    --tippy-color: rgba(0, 0, 0, 0.553);
     --tippy-text-color: #ffffff;
 }
 
 .tippy-box {
     background-color: var(--tippy-color);
     border-radius: var(--tippy-border-radius);
+    backdrop-filter: var(--frosted-glass-blur);
     padding: 1px 5px;
 }
 
@@ -51,6 +52,36 @@
 
 .tippy-box[data-theme="premium"] .tippy-arrow {
     color: #8C45F4;
+}
+
+.tippy-box[data-theme="pixelsplace_dropdown"] {
+    background: var(--frosted-glass);
+    backdrop-filter: var(--frosted-glass-blur);
+    border-radius: 10px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    transition: var(--smooth-transition);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+
+    > * {
+        padding: 10px;
+        border-radius: 0px;
+        background-color: rgba(255, 255, 255, 0);
+        transition: var(--smooth-transition);
+        color: var(--color-text);
+        display: flex;
+        justify-content: space-between;
+        flex-grow: 1;
+
+        span {
+            color: var(--color-text);
+        }
+    }
+    > *:hover {
+        background-color: rgb(228, 228, 228);
+    }
 }
 
 .tippy-arrow {
