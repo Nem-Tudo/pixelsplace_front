@@ -200,7 +200,7 @@ export default function Header() {
                                         </div>
                                     </Link>
                                     {
-                                        checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="white" animation="shift-toward-extreme" content={(
+                                        checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy className={styles.tippy_menu} arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="transparent" animation="shift-toward-extreme" content={(
                                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                                 <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
                                                     if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
