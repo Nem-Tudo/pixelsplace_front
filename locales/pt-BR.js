@@ -78,6 +78,10 @@ module.exports = {
             TITLE: "Ocorreu um erro!",
             UNKNOWN: "Erro desconhecido",
         },
+        SUCCESS: {
+            TITLE: "Sucesso!",
+            GENERIC: "A ação foi executada com êxito.",
+        },
         NOT_IMPLEMENTED_YET: {
             TITLE: "Oops! Foi mal",
             DESCRIPTION: "Essa feature ainda não foi implementada...",

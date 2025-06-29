@@ -1,9 +1,10 @@
 import styles from "@/components/popups/DisplayPopup.module.css"
 
 //import popups
-import PremiumRequired from "@/components/popups/PremiumRequired";
-import Error from "@/components/popups/Error";
-import NotImplementedYet from "@/components/popups/NotImplementedYet";
+import PremiumRequired from "./PremiumRequired";
+import Error from "./Error";
+import NotImplementedYet from "./NotImplementedYet";
+import Success from "./Success";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
@@ -12,6 +13,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "premium_required": <PremiumRequired closePopup={closePopup} {...showingPopup?.settings} />,
         "error": <Error closePopup={closePopup} {...showingPopup?.settings} />,
         "not_implemented_yet": <NotImplementedYet closePopup={closePopup} {...showingPopup?.settings} />,
+        "success": <Success closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
 

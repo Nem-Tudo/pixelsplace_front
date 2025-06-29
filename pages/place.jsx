@@ -469,7 +469,7 @@ export default function Place() {
     const data = await request.json();
     if (!request.ok) {
       if (oldpixelcolor) updatePixel(x, y, oldpixelcolor);
-      return openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
+      return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
   }
@@ -493,9 +493,9 @@ export default function Place() {
       }
     ).catch((e) => {
       console.log("Erro ao obter pixel: ", e);
-      openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
+      openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
     });
-    if (!request.ok) return openPopup("error", {errorMessage: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
+    if (!request.ok) return openPopup("error", {message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
 
     const data = await request.json();
     setShowingPixelInfo(data);
@@ -542,7 +542,7 @@ export default function Place() {
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    alert(`${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`);
+                    openPopup("success", {message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`});
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>
@@ -606,7 +606,7 @@ export default function Place() {
                         ) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
-                          openPopup("error", {errorMessage: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
+                          openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
                       }}
                     />

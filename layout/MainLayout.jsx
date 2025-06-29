@@ -69,7 +69,7 @@ export function MainLayout({ children }) {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                openPopup("error", {errorMessage: language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT")});
+                openPopup("error", {message: language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT")});
                 location.href = `/buildoverride?t=main`;
                 return
             }

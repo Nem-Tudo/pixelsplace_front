@@ -126,7 +126,7 @@ export default function AdminPage() {
       const response = await request.json();
       if (!request.ok) {
         console.log(response, request);
-        return openPopup("error", {errorMessage: `Erro ao buscar builds: ${response.message || 'Erro desconhecido'}`});
+        return openPopup("error", {message: `Erro ao buscar builds: ${response.message || 'Erro desconhecido'}`});
       }
       setBuildsOverride(response);
     } catch (error) {
@@ -168,7 +168,7 @@ export default function AdminPage() {
       if (!res.ok) throw new Error(data.message || "Erro na requisição.");
       return data;
     } catch (err) {
-      openPopup("error", {errorMessage: `${err.message}`});
+      openPopup("error", {message: `${err.message}`});
     } finally {
       setLoading(false);
     }
@@ -364,10 +364,10 @@ export default function AdminPage() {
                     if (!color) return;
                     const number = hexToNumber(color);
 
-                    if (isNaN(number)) return openPopup("error", {errorMessage: "cor invalida: NaN"});
-                    if (number < 0) return openPopup("error", {errorMessage: "cor invalida: numero menor q 0"});
+                    if (isNaN(number)) return openPopup("error", {message: "cor invalida: NaN"});
+                    if (number < 0) return openPopup("error", {message: "cor invalida: numero menor q 0"});
                     if (number > 16777215)
-                      return openPopup("error", {errorMessage: "cor invalida: numero maior q 16777215"});
+                      return openPopup("error", {message: "cor invalida: numero maior q 16777215"});
 
                     const newColors = [...freeColors];
                     newColors.push(number);
@@ -440,7 +440,7 @@ export default function AdminPage() {
               />
               <footer className={styles.footerButtons}>
                 <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
-                  if (!evalCode.trim()) return openPopup("error", {errorMessage: "Insira o código."});
+                  if (!evalCode.trim()) return openPopup("error", {message: "Insira o código."});
                   if (
                     confirm(
                       "Tem certeza que deseja executar este código em todos os clients?"
@@ -468,7 +468,7 @@ export default function AdminPage() {
               />
               <footer className={styles.footerButtons}>
                 <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
-                  if (!alertMessage.trim()) return openPopup("error", {errorMessage: "Insira a mensagem."});
+                  if (!alertMessage.trim()) return openPopup("error", {message: "Insira a mensagem."});
                   if (
                     confirm("Deseja enviar essa mensagem para todos os clients?")
                   ) {
@@ -583,7 +583,7 @@ export default function AdminPage() {
                 onClick={() => {
                   //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
                   const branch = prompt("Branch do github");
-                  if (!branch) return openPopup("error", {errorMessage: "Branch é obrigatória."});
+                  if (!branch) return openPopup("error", {message: "Branch é obrigatória."});
                   const forceOnLink = !confirm("Possui tela de confirmação?");
 
                   const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
