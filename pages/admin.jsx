@@ -570,7 +570,6 @@ export default function AdminPage() {
                       });
                     }} 
                   />
-                  <ToggleSwitch />
 
             </fieldset>
 
