@@ -102,13 +102,7 @@
                     width: 50px;
                     min-width: 50px;
                     height: 50px;
-                    border-radius: 12px;
                     background-color: var(--selected-color, red);
-                    border: none;
-                    margin: 0;
-                    padding: 0;
-                    box-shadow: var(--shadow);
-                    appearance: none;
                 }
             }
         }
