@@ -128,17 +128,15 @@ export default function Header() {
                 {
                     <Tippy theme="pixelsplace_dropdown" arrow={false} animation="scale-extreme" trigger="click" interactive={true} content={<>
 
-                        <div className={styles.tippy_menu}>
-                            {
-                                userValidLinks.map(([name, { label, href, id, exclusive }]) => (
-                                    <Link href={href}>
-                                        <div>
-                                            <span>{label}</span>
-                                        </div>
-                                    </Link>
-                                ))
-                            }
-                        </div>
+                        {
+                            userValidLinks.map(([name, { label, href, id, exclusive }]) => (
+                                <Link href={href}>
+                                    <div>
+                                        <span>{label}</span>
+                                    </div>
+                                </Link>
+                            ))
+                        }
 
                     </>}>
                         <PixelIcon codename={'menu'} className={'mobileonly '+styles.burgerMenu} />
