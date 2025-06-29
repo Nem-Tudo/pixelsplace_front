@@ -699,7 +699,7 @@ export default function Place() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-        <section className={styles.overlaygui}>
+        <section className={styles.overlayGui}>
           <div className={styles.top}>
             {selectedPixel && (
               <div className={styles.overlayPosition}>
@@ -789,21 +789,21 @@ export default function Place() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelplacement}
+                className={styles.pixelPlacement}
                 showingcolors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
                   {!showingColors && timeLeft != "0:00" && (
                     <CustomButton
                       label={timeLeft}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       disabled={true}
                     />
                   )}
                   {!showingColors && timeLeft == "0:00" && (
                     <CustomButton
                       label={loggedUser ? language.getString("PAGES.PLACE.PLACE_PIXEL") : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => {
                         if (!loggedUser) return (location.href = "/login");
                         setShowingColors(true);
@@ -819,7 +819,7 @@ export default function Place() {
                       label={language.getString("COMMON.CANCEL")}
                       hierarchy={3}
                       color={"#919191"}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => setShowingColors(false)}
                     />
                   )}
@@ -828,7 +828,7 @@ export default function Place() {
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
                       disabled={!selectedColor}
-                      className={styles.placepixel}
+                      className={styles.placePixel}
                       onClick={() => {
                         placePixel(
                           selectedPixel.x,
