@@ -131,9 +131,7 @@ export default function Header() {
                         {
                             userValidLinks.map(([name, { label, href, id, exclusive }]) => (
                                 <Link href={href}>
-                                    <div>
-                                        <span>{label}</span>
-                                    </div>
+                                    <span>{label}</span>
                                 </Link>
                             ))
                         }
@@ -164,9 +162,7 @@ export default function Header() {
                             <Tippy theme="pixelsplace_dropdown" arrow={false} trigger="click" animation="scale-extreme" interactive={true} content={<>
 
                                 <Link href={"/user/" + loggedUser?.id}>
-                                    <div>
-                                        <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
-                                    </div>
+                                    <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                 </Link>
                                 <div>
                                     {/* {language.getString('COMMON.LANGUAGE')} */}
