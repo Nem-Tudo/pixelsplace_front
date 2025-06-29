@@ -245,7 +245,7 @@ export default function AdminPage() {
         <Head>
           <title>PixelsPlace</title>
           <meta name="description" content="Participe do PixelsPlace!" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
           <meta name="theme-color" content="#80bbff" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -515,7 +515,7 @@ export default function AdminPage() {
         <Head>
           <title>PixelsPlace</title>
           <meta name="description" content="Participe do PixelsPlace!" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <MainLayout>
@@ -675,7 +675,7 @@ export default function AdminPage() {
         <Head>
           <title>PixelsPlace</title>
           <meta name="description" content="Participe do PixelsPlace!" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <MainLayout>

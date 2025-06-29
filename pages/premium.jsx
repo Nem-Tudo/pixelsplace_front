@@ -15,7 +15,7 @@ export default function Premium(props) {
             <Head>
                 <title>PixelsPlace Premium</title>
                 <meta name="description" content="Seja Premium no PixelsPlace!" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
                 <meta name="theme-color" content="#80bbff" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
