@@ -23,6 +23,8 @@ export default function Header() {
         }
     }, [])
     
+    const ref = useRef();
+    
     const HeaderLinks = {
         pixelsplace: {
             icon: (<img style={{ width: "40px" }} src="/logo.png" alt="" />),
@@ -191,7 +193,7 @@ export default function Header() {
                                     <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
-                                    checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
+                                    checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy appendTo={el => el?.parentNode} theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                         <>
                                             <div>
                                                 <span>{language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</span>
