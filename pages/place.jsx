@@ -673,7 +673,7 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    <Tippy theme="premium" interactive={true} placement="top" animation="shift-away-subtle" content={
+                    <Tippy theme="premium" interactive={true} placement="bottom" animation="scale-extreme" arrow="round" content={
                       <>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
                           <span>{language.getString("PAGES.PLACE.PREMIUM_ANY_COLOR")}</span>

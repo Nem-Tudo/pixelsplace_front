@@ -126,7 +126,7 @@ export default function Header() {
             <header className={styles.header}>
                 {/* Mobile hamburger menu */}
                 {
-                    <Tippy theme="transparent" trigger="click" interactive={true} content={<>
+                    <Tippy theme="transparent" animation="shift-toward-extreme" trigger="click" interactive={true} content={<>
 
                         <div className={styles.tippy_menu}>
                             {
@@ -163,7 +163,7 @@ export default function Header() {
                 <nav className={styles.right}>
                     {
                         loggedUser?.id ? <>
-                            <Tippy theme="transparent" trigger="click" interactive={true} content={<>
+                            <Tippy theme="transparent" trigger="click" animation="shift-toward-extreme" interactive={true} content={<>
 
                                 <div className={styles.tippy_menu}>
                                     <Link href={"/user/" + loggedUser?.id}>
@@ -200,7 +200,7 @@ export default function Header() {
                                         </div>
                                     </Link>
                                     {
-                                        checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="white" content={(
+                                        checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy arrow={false} placement="left" trigger="click" appendTo={() => document.body} interactive={true} theme="white" animation="shift-toward-extreme" content={(
                                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                                 <CustomButton color={'#636363'} hierarchy={3} onClick={() => {
                                                     if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
