@@ -8,7 +8,7 @@ export default function CustomButton({
     children,
     label = '',
     href = undefined,
-    color = '#d6a800',
+    color = '#0075d5',
     onClick = undefined,
     hierarchy = 1,
     disabled = false,

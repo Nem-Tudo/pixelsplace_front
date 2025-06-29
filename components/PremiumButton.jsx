@@ -14,7 +14,7 @@ export default function PremiumButton({
   as: Component = 'button', 
   href, 
   icon, 
-  color = '#d6a800', 
+  color = '#0075d5', 
   children, 
   ...props 
 }) {
