@@ -49,6 +49,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   const { loggedUser, loading, token } = useAuth();
   const { language } = useLanguage();
   const { openPopup } = usePopup();
+  const router = useRouter();
 
   const [user, setUser] = useState(userobject);
   const [savedUser, setSavedUser] = useState(userobject);
@@ -63,6 +64,18 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   const fileInputRef = useRef(null);
 
   const [filesToUpload, setFilesToUpload] = useState([])
+
+  useEffect(() => {
+    if (router.query.userid && userobject) {
+      setUser(userobject);
+      setSavedUser(userobject);
+      // Reset edit states quando mudar de usuário
+      setEditStates({
+        profile_aboutme: false,
+        profile_banner_url: false,
+      });
+    }
+  }, [router.query.userid, userobject]);
 
   const switchEdit = (key) => {
     setEditStates((prev) => ({
@@ -139,7 +152,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
     const response = await request.json();
     if (!request.ok) {
       console.log(response, request)
-      return openPopup("error", {message: `Erro ao salvar: ${response.message}`})
+      return openPopup("error", { message: `Erro ao salvar: ${response.message}` })
     }
     updateStateKey(setUser, user, ["profile", response.profile]);
     updateStateKey(setSavedUser, savedUser, ["profile", response.profile]);
@@ -170,7 +183,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
   return (
     <MainLayout>
-      <main 
+      <main
         className={styles.main}
         style={user.premium ? {
           '--user-color-primary': `${user.profile.color_primary}`,
@@ -224,9 +237,9 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <p className={styles.userName}>@{user?.username} </p>
             </div>
 
-            {user && Badges({list: user?.flags?.map(flag => flag)}) != null &&
+            {user && Badges({ list: user?.flags?.map(flag => flag) }) != null &&
               <div className={[styles.badges, styles.infoBox].join(" ")}>
-                <Badges list={user?.flags?.map(flag => flag)}/>
+                <Badges list={user?.flags?.map(flag => flag)} />
               </div>
             }
           </div>
@@ -242,17 +255,17 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                     }}
                     rows={4}
                   />
-                  <PremiumButton
-                        as="icon"
-                        icon={
-                          <PixelIcon
-                            codename={'save'}
-                            className={styles.editPencil}
-                            onClick={() => {saveChanges(); switchEdit("profile_aboutme");}}
-                          />
-                        }
-                      />
-                      </>
+                    <PremiumButton
+                      as="icon"
+                      icon={
+                        <PixelIcon
+                          codename={'save'}
+                          className={styles.editPencil}
+                          onClick={() => { saveChanges(); switchEdit("profile_aboutme"); }}
+                        />
+                      }
+                    />
+                  </>
                 ) : (
                   <span>
                     {!loading && loggedUser?.id === user?.id ? (

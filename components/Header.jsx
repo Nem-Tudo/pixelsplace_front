@@ -164,7 +164,7 @@ export default function Header() {
                         loggedUser?.id ? <>
                             <Tippy theme="pixelsplace_dropdown" arrow={false} trigger="click" animation="scale-extreme" interactive={true} content={<>
 
-                                <Link href={"/user/" + loggedUser?.id}>
+                                <Link href={`/user/${loggedUser?.id}`}>
                                     <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                 </Link>
                                 <div>
