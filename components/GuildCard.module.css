@@ -37,29 +37,34 @@
             font-weight: 600;
             color: var(--color-muted);
             white-space: nowrap;
-            max-width: 70%;
-            overflow: hidden;
-            text-overflow: ellipsis;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: flex-start;
+
+            span {
+                max-width: 85%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
         }
 
-        .guildLink {
-            align-self: flex-start;
-            background-color: var(--color-accent);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: var(--smooth-transition);
-            border: var(--outline);
+        .buttonsContainer {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            height: min-content;
+            overflow-y: hidden;
         }
-        .guildLink:hover {
-            background-color: var(--color-darker);
-            scale: var(--hover-scale);
+    }
+
+    .guildStar {
+        display: flex;
+        align-self: start;
+        
+        svg {
+            width: 1.5rem;
+            height: 1.5rem;
         }
     }
 

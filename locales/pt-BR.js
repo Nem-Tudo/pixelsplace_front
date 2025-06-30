@@ -66,6 +66,11 @@ module.exports = {
             ADMIN: "Administrador",
             VACA: "Vaca",
         },
+        GUILD_CARD: {
+            GUILD_ICON_ALT: "Ícone de {{guildName}}",
+            JOIN: "Entrar",
+            VISIT: "Visitar",
+        },
     },
     POPUPS: {
         PREMIUM_REQUIRED: {
@@ -142,8 +147,6 @@ module.exports = {
             SERVERS: "SERVIDORES",
             PARTICIPATING_SERVERS: "Servidores participando",
             SECRET: "Segredo...",
-            GUILD_ICON_ALT: "Ícone de {{guildName}}",
-            JOIN: "Entrar",
         },
         TIME_TRAVEL: {
             PAGE_TITLE: "Timetravel PixelsPlace",

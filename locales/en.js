@@ -66,6 +66,11 @@ module.exports = {
             ADMIN: "Admin",
             VACA: "Cow",
         },
+        GUILD_CARD: {
+            GUILD_ICON_ALT: "{{guildName}}'s icon",
+            JOIN: "Join",
+            VISIT: "Visit",
+        },
     },
     POPUPS: {
         PREMIUM_REQUIRED: {
@@ -142,8 +147,6 @@ module.exports = {
             SERVERS: "SERVERS",
             PARTICIPATING_SERVERS: "Participating servers",
             SECRET: "Secret...",
-            GUILD_ICON_ALT: "{{guildName}} icon",
-            JOIN: "Join",
         },
         TIME_TRAVEL: {
             PAGE_TITLE: "PixelsPlace Timetravel",
