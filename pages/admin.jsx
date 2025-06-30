@@ -262,22 +262,22 @@ export default function AdminPage() {
                 <strong>Redimensionar Canvas</strong>
               </legend>
               <main>
-                <div>
+                <section>
                   <label>Largura:</label>
                   <input
                     type="number"
                     value={width}
                     onChange={(e) => setWidth(Number(e.target.value))}
                   />
-                </div>
-                <div>
+                </section>
+                <section>
                   <label>Altura:</label>
                   <input
                     type="number"
                     value={height}
                     onChange={(e) => setHeight(Number(e.target.value))}
                   />
-                </div>
+                </section>
               </main>
               <footer className={styles.footerButtons}>
                 <CustomButton label={'Salvar tamanho'} icon={'save'} disabled={loading} onClick={async () => {
@@ -404,18 +404,24 @@ export default function AdminPage() {
               <legend>
                 <strong>Cooldowns</strong>
               </legend>
-              <label>Grátis (s):</label>
-              <input
-                type="number"
-                value={cooldownFree}
-                onChange={(e) => setCooldownFree(Number(e.target.value))}
-              />
-              <label>Premium (s):</label>
-              <input
-                type="number"
-                value={cooldownPremium}
-                onChange={(e) => setCooldownPremium(Number(e.target.value))}
-              />
+              <main>
+                <section>
+                  <label>Grátis (s):</label>
+                  <input
+                    type="number"
+                    value={cooldownFree}
+                    onChange={(e) => setCooldownFree(Number(e.target.value))}
+                  />
+                </section>
+                <section>
+                  <label>Premium (s):</label>
+                  <input
+                    type="number"
+                    value={cooldownPremium}
+                    onChange={(e) => setCooldownPremium(Number(e.target.value))}
+                  />
+                </section>
+              </main>
               <footer className={styles.footerButtons}>
                 <CustomButton label={'Salvar cooldowns'} icon={'save'} disabled={loading} onClick={async () => {
                   await fetchWithAuth("/canvas/admin/cooldown", "PATCH", {
