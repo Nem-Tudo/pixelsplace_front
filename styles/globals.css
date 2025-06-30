@@ -327,7 +327,7 @@ input[type="color"]::-moz-color-swatch {
     }
 }
 
-@keyframes showButtom {
+@keyframes showBottom {
     0% {
         transform: translateY(100px);
         opacity: 0;

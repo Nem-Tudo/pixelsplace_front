@@ -49,7 +49,6 @@
             padding: 0 8px;
             border-radius: 100vh;
             top: 87px;
-            animation: showTop 0.3s cubic-bezier(0.31, 0.42, 0.51, 1.35);
             border: var(--outline);
             backdrop-filter: var(--frosted-glass-blur);
             width: fit-content;
