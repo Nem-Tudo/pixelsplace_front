@@ -43,6 +43,22 @@
       }
     }
 
+    .horizontalMain {
+      flex-direction: row;
+
+      section {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-grow: 1;
+      }
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+
   }
 
   label {

@@ -534,26 +534,25 @@ export default function AdminPage() {
               <legend>
                 <strong>Whitelist</strong>
               </legend>
-
-                  <main>
-                    <span>Whitelist</span>
-                    <ToggleSwitch
-                      checked={setCanvaSettings?.whitelisted}
-                      onChange={async () => {
-                        let newWhitelisted = setCanvaSettings?.whitelisted ;
-                        if (setCanvaSettings?.whitelisted ) {
-                          newWhitelisted = 0
-                        } else {
-                          newWhitelisted = 1
-                        }
-                        await fetchWithAuth("/canva/admin/settings", "PATCH", {
-                          whitelisted: newWhitelisted
-                        });
-                      }} 
-                    />
-                  
-                  </main>
-
+              <main class={styles.horizontalMain}>
+                <section>
+                  <span>Whitelist</span>
+                  <ToggleSwitch
+                    checked={setCanvaSettings?.whitelisted}
+                    onChange={async () => {
+                      let newWhitelisted = setCanvaSettings?.whitelisted ;
+                      if (setCanvaSettings?.whitelisted ) {
+                        newWhitelisted = 0
+                      } else {
+                        newWhitelisted = 1
+                      }
+                      await fetchWithAuth("/canva/admin/settings", "PATCH", {
+                        whitelisted: newWhitelisted
+                      });
+                    }} 
+                  />
+                </section>
+              </main>
             </fieldset>
 
             <fieldset>
@@ -700,12 +699,17 @@ export default function AdminPage() {
               <legend>
                 <strong>Informações principais</strong>
               </legend>
-              <CustomButton label={'Atualizar'} icon={'reload'} onClick={() => fetchStats()} />
-              <br />
-              <span>Update: {stats?.time}</span>
-              <span>Online: {stats?.online}</span>
-              <span>Usuários: {stats?.registeredUsers}</span>
-              <span>Pixels: {stats?.pixels}</span>
+              <main>
+                <section>
+                  <span>Update: {stats?.time}</span>
+                  <span>Online: {stats?.online}</span>
+                  <span>Usuários: {stats?.registeredUsers}</span>
+                  <span>Pixels: {stats?.pixels}</span>
+                </section>
+              </main>
+              <footer className={styles.footerButtons}>
+                <CustomButton label={'Atualizar'} icon={'reload'} onClick={() => fetchStats()} />
+              </footer>
             </fieldset>
 
             <fieldset>
@@ -728,10 +732,14 @@ export default function AdminPage() {
                 <legend>
                   <strong>Informações do usuário</strong>
                 </legend>
-                <img src={settings.avatarURL(user.id, user.avatar)} style={{ width: "50px", marginBottom: "10px", borderRadius: "12px" }} />
-                <span>Nome: {user?.display_name} (@{user?.username}) <Verified verified={user?.premium} /></span>
-                <span>Criação: {dateToString(user?.createdAt)}</span>
-                <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
+                <main>
+                  <img src={settings.avatarURL(user.id, user.avatar)} style={{ width: "50px", borderRadius: "12px" }} />
+                  <section>
+                    <span>Nome: {user?.display_name} (@{user?.username}) <Verified verified={user?.premium} /></span>
+                    <span>Criação: {dateToString(user?.createdAt)}</span>
+                    <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
+                  </section>
+                </main>
               </fieldset>
             }
 
