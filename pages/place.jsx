@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
 import { useRouter } from 'next/router';
-import MessageDiv from "@/components/MessageDiv";
+import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
@@ -899,48 +899,46 @@ export default function Place() {
 
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
-          <MessageDiv centerscreen={true} type="normal-white">
+          <BillboardContent centerscreen={true} type="normal-white">
             {" "}
             <Loading width={"50px"} />{" "}
-            <span style={{ fontSize: "2rem" }}>{language.getString("COMMON.LOADING")}</span>
-          </MessageDiv>
+          </BillboardContent>
         )}
 
         {/* API Error */}
         {apiError && (
-          <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}>
+          <BillboardContent centerscreen={true} type="warn" expand={String(apiError)}>
             <span>{language.getString("PAGES.PLACE.ERROR_MAIN_API_CONNECT")}</span>
             <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => location.reload()} />
-          </MessageDiv>
+          </BillboardContent>
         )}
 
         {/* WebSocket Connecting */}
         {socketconnecting && !apiError && canvasConfig?.width && (
-          <MessageDiv centerscreen={true} type="normal-white">
+          <BillboardContent centerscreen={true} type="normal-white">
             <Loading width={"50px"} />
-            <span style={{ fontSize: "2rem" }}>{language.getString("PAGES.PLACE.WEBSOCKET_SEARCH")}</span>
-          </MessageDiv>
+          </BillboardContent>
         )}
 
         {/* WebSocket Error */}
         {socketerror && !socketconnected && !socketconnecting && !apiError && canvasConfig.width && (
-          <MessageDiv centerscreen={true} type="warn" expand={socketerror.message}>
+          <BillboardContent centerscreen={true} type="warn" expand={socketerror.message}>
             <span>{language.getString("PAGES.PLACE.ERROR_FAILED_WEBSOCKET")}</span>
             <div style={{ display: 'flex', gap: '10px' }}>
               <CustomButton label={language.getString("COMMON.TRY_AGAIN")} onClick={socketreconnect} />
               <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
             </div>
-          </MessageDiv>
+          </BillboardContent>
         )}
 
         {/* WebSocket Disconnected */}
         {socketdisconnectforced && (
-          <MessageDiv centerscreen={true} type="warn">
+          <BillboardContent centerscreen={true} type="warn">
             <span>{language.getString("PAGES.PLACE.WEBSOCKET_KICKED")}</span>
             <div style={{ display: 'flex', gap: '10px' }}>
               <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
             </div>
-          </MessageDiv>
+          </BillboardContent>
         )}
 
         <div id={styles.main}

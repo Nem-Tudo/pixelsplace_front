@@ -628,7 +628,7 @@ export default function AdminPage() {
                       <span>Criada em: {dateToString(build.createdAt)}</span>
                       <span>Usos: {Number(build.stats?.uses)}</span>
                       <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
-                      <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
+                      <h3>A assinatura é feita ao gerar um link</h3>
                       <footer className={styles.buttonsContainer}>
                         <CustomButton
                           label={'Gerar link'}

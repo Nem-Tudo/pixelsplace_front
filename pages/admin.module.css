@@ -122,16 +122,22 @@
   .build {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    background-color: rgb(255 255 255 / 4%);
+    gap: 8px;
+    background: var(--color-mid);
     padding: 10px;
     border-radius: 22px;
-    box-shadow: 2px 2px 7px hsla(0, 0%, 0%, 14.1%);
+    box-shadow: var(--shadow);
+    border: var(--outline);
 
     h2 {
       font-weight: bold;
       font-size: larger;
       line-height: 1.6;
+    }
+    
+    h3 {
+      line-height: 1.6;
+      opacity: 50%;
     }
   }
 }

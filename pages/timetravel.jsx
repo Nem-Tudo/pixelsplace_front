@@ -5,7 +5,7 @@ import settings from "@/settings";
 import styles from "./timetravel.module.css";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/router'
-import MessageDiv from "@/components/MessageDiv";
+import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
 import checkFlags from "@/src/checkFlags";
@@ -377,10 +377,10 @@ export default function Place() {
             </Head>
             <MainLayout>
                 {
-                    !canvasConfig.width && !apiError && <MessageDiv centerscreen={true} type="normal-white"> <Loading width={"50px"} /></MessageDiv>
+                    !canvasConfig.width && !apiError && <BillboardContent centerscreen={true} type="normal-white"> <Loading width={"50px"} /></BillboardContent>
                 }
                 {
-                    apiError && <MessageDiv centerscreen={true} type="warn" expand={String(apiError)}><span>{language.getString("PAGES.TIME_TRAVEL.API_ERROR")}</span><button onClick={() => location.reload()}>{language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")}</button></MessageDiv>
+                    apiError && <BillboardContent centerscreen={true} type="warn" expand={String(apiError)}><span>{language.getString("PAGES.TIME_TRAVEL.API_ERROR")}</span><button onClick={() => location.reload()}>{language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")}</button></BillboardContent>
                 }
                 <section className={styles.overlaygui}>
                     <div className={styles.top}>
