@@ -618,9 +618,8 @@ export default function AdminPage() {
               <main className={[styles.buildsContainer, styles.horizontalMain].join(' ')}>
                 {
                   buildsOverride.map((build, index) => (
-                    <section key={index} className={styles.build}>
+                    <div key={index} className={styles.build}>
                       <h2>{build.name}</h2>
-                      <br />
                       <span>ID: {build.id}</span>
                       <span>Branch: {build.branch}</span>
                       <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
@@ -666,7 +665,7 @@ export default function AdminPage() {
                           }}
                         />
                       </footer>
-                    </section>
+                    </div>
                   ))
                 }
               </main>
