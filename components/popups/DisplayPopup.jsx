@@ -6,7 +6,6 @@ import Error from "./Error";
 import NotImplementedYet from "./NotImplementedYet";
 import Success from "./Success";
 import Generic from "./Generic";
-import Temporary from "./Temporary";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
