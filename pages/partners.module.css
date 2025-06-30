@@ -1,56 +1,65 @@
-.main .title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 50px;
-  height: -webkit-fill-available;
-  margin: 15px;
-  gap: 15px;
-}
-
-.main .title h1 {
-  font-size: min(9dvw,3rem);
-  font-weight: bold;
-  font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
-  color: var(--color-muted);
-}
-
-.main .title h5 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--color-muted);
-  opacity: 0.5;
-}
-
-.main .title a {
+.main {
+  .title {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-direction: column;
+    margin-bottom: 50px;
+    height: -webkit-fill-available;
+    margin: 15px;
+    gap: 15px;
 
-    background-color: var(--color-accent);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: var(--smooth-transition);
-    gap: 8px;
-    box-shadow: var(--shadow);
-    border: var(--outline);
-}
+    h1 {
+      font-size: min(9dvw,3rem);
+      font-weight: bold;
+      font-family: 'Dogica Pixel Bold', Arial, Helvetica, sans-serif;
+      color: var(--color-muted);
+    }
 
-.main .title a:hover {
-    scale: var(--hover-scale);
-    background-color: var(--color-darker);
+    h5 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--color-muted);
+      opacity: 0.5;
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      background-color: var(--color-accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: var(--smooth-transition);
+      gap: 8px;
+      box-shadow: var(--shadow);
+      border: var(--outline);
+    }
+
+    a:hover {
+      scale: var(--hover-scale);
+      background-color: var(--color-darker);
+    }
+  }
 }
 
 .servers {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
 }
