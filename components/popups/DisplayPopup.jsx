@@ -17,7 +17,6 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "not_implemented_yet": <NotImplementedYet closePopup={closePopup} {...showingPopup?.settings} />,
         "success": <Success closePopup={closePopup} {...showingPopup?.settings} />,
         "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
-        "temporary": <Temporary closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
 

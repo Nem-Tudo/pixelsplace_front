@@ -1,33 +1,14 @@
 import Head from "next/head";
-import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
-import settings from "@/settings";
-import styles from "./place.module.css";
-import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { socket, useSocketConnection } from "@/src/socket";
-import { useRouter } from 'next/router';
 import BillboardContent from "@/components/BillboardContent";
-import Loading from "@/components/Loading";
-import Link from "next/link";
-import Verified from "@/components/Verified";
-import useDraggable from "@/src/useDraggable";
-import { MdDragIndicator, MdClose } from "react-icons/md";
-import PremiumButton from "@/components/PremiumButton";
-import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
-import { FaShare } from "react-icons/fa";
-import { hexToNumber, numberToHex } from "@/src/colorFunctions";
-import PixelIcon from "@/components/PixelIcon";
-import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
 import Failure from "@/components/Failure";
 
 export default function TestScreen() {
-  const router = useRouter();
 
   //contexts
-  const { token, loggedUser } = useAuth();
   const { language } = useLanguage();
   const { openPopup } = usePopup()
 
@@ -52,7 +33,7 @@ export default function TestScreen() {
         {/* API Error */}
         <Failure centerscreen={true} type="warn" expand={String(apiError)}>
           <span>{language.getString("PAGES.PLACE.ERROR_MAIN_API_CONNECT")}</span>
-          <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => openPopup("temporary", {timeout: 4000, message: "oi"})} />
+          <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => location.reload()} />
         </Failure>
 
         {/* WebSocket Connecting */}
