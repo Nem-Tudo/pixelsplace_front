@@ -45,8 +45,6 @@
     color: white;
     border: 1px solid var(--color-mid);
     border-radius: 12px;
-    margin-top: 5px;
-    margin-bottom: 15px;
     font-size: 1rem;
     resize: vertical;
   }

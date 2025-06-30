@@ -299,13 +299,7 @@ export default function AdminPage() {
 
               {showColorsArray && (
                 <textarea
-                  style={{
-                    display: "block",
-                    fontFamily: "monospace",
-                    whiteSpace: "pre-wrap",
-                    minHeight: "130px",
-                    marginBottom: "12px",
-                  }}
+                  rows={6}
                   value={freeColorsInput}
                   onChange={(e) => {
                     const value = e.target.value;
