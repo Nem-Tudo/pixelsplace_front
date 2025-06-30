@@ -7,7 +7,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
-export default function Success({ closePopup, message, timeout }) {
+export default function Success({ closePopup, message }) {
     const { language } = useLanguage();
 
     if(!message) message = language.getString("POPUPS.SUCCESS.GENERIC");
@@ -30,12 +30,6 @@ export default function Success({ closePopup, message, timeout }) {
             <footer className={styles.footer}>
                 <CustomButton label={language.getString("COMMON.OK")} onClick={() => closePopup()} />
             </footer>
-
-            {
-                timeout && setTimeout(() => {
-                    closePopup()
-                }, timeout)
-            }
         </>
     );
 }

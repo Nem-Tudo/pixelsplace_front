@@ -19,6 +19,12 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         // Adicione outros popups aqui
     };
 
+    if(showingPopup.settings?.timeout) {
+        setTimeout(() => {
+            closePopup();
+        }, showingPopup.settings.timeout);
+    };
+    
     return (
         <>
             {showingPopup?.popupType && (
