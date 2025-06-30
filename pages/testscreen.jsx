@@ -41,9 +41,6 @@ export default function TestScreen() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-        {
-          openPopup("temporary", {timeout: 1000})
-        }
         {/* Loading canvas */}
         {/*!canvasConfig?.width && !apiError && (
           <BillboardContent centerscreen={true} type="normal-white">
@@ -55,7 +52,7 @@ export default function TestScreen() {
         {/* API Error */}
         <Failure centerscreen={true} type="warn" expand={String(apiError)}>
           <span>{language.getString("PAGES.PLACE.ERROR_MAIN_API_CONNECT")}</span>
-          <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => location.reload()} />
+          <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => openPopup("temporary", {timeout: 4000, message: "oi"})} />
         </Failure>
 
         {/* WebSocket Connecting */}
