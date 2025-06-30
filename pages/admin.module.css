@@ -99,7 +99,7 @@
 .colorContainer{
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 12px;
 
   .colorItem {
     display: flex;

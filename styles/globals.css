@@ -264,28 +264,28 @@ input[type="color"]::-moz-color-swatch {
 
 /* animations */
 .showRight {
-    animation: showRight 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35);
+    animation: showRight 0.4s ease;
     /*-webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.25);*/
 }
 
 .showLeft {
-    animation: showLeft 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35);
+    animation: showLeft 0.4s ease;
     /*-webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);*/
 }
 
 .showTop {
-    animation: showTop 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35);
+    animation: showTop 0.4s ease;
     /*-webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);*/
 }
 
 .showBottom {
-    animation: showBottom 0.2s cubic-bezier(0.31, 0.42, 0.51, 1.35);
+    animation: showBottom 0.4s ease;
     /*-webkit-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);
     box-shadow: -10px 10px 5px -4px rgba(0, 0, 0, 0.25);*/
