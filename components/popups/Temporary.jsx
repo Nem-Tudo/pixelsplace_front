@@ -30,12 +30,7 @@ export default function Temporary({ closePopup, message, timeout = 2000 }) {
             <footer className={styles.footer}>
                 <CustomButton label={language.getString("COMMON.OK")} onClick={() => closePopup()} />
             </footer>
-
-            {
-                setTimeout(() => {
-                    () => closePopup()
-                }, timeout)
-            }
+            
         </>
     );
 }
