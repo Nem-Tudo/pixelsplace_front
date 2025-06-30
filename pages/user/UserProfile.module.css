@@ -123,12 +123,12 @@
       }
 
       .infoBox {
-          max-width: calc(calc(100% / var(--num, 2)) - 10px);
+        max-width: -webkit-fill-available;
 
-          @media (max-width: 768px) {
-            max-width: unset;
-            min-height: 50px;
-          }
+        @media (max-width: 768px) {
+          max-width: unset;
+          min-height: 50px;
+        }
       }
 
       #description {

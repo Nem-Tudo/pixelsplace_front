@@ -177,8 +177,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           '--user-color-secondary': `${user.profile.color_secundary}`,
           '--user-color-text': `${profileTheme.text}`,
           '--user-color-border': `${profileTheme.border}`,
-          '--user-color-background-item': `${profileTheme.backgroundItem}`,
-          '--num': `${user.settings.selected_guild ? 3 : 2}`
+          '--user-color-background-item': `${profileTheme.backgroundItem}`
         } : {}}
       >
 
