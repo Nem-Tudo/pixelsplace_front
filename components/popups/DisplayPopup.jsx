@@ -19,18 +19,17 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         // Adicione outros popups aqui
     };
     
+    showingPopup?.settings?.timeout &&
+    (setTimeout(() => {
+        closePopup()
+    }, showingPopup.settings.timeout))
+
     return (
         <>
             {showingPopup?.popupType && (
                 <section className={styles.popups}>
                     <div ref={popupDivRef} className={styles.popup}>
                         {popupComponents[showingPopup.popupType] || null}
-                        {
-                            showingPopup.settings?.timeout &&
-                            (setTimeout(() => {
-                                closePopup()
-                            }, showingPopup.settings.timeout))
-                        }
                     </div>
                 </section>
             )}
