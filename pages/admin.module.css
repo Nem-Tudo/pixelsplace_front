@@ -120,7 +120,6 @@
   gap: 10px;
 
   .build {
-    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -171,7 +170,7 @@
   }
 }
 
-.footerButtons {
+.buttonsContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

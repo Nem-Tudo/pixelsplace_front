@@ -279,7 +279,7 @@ export default function AdminPage() {
                   />
                 </section>
               </main>
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Salvar tamanho'} icon={'save'} disabled={loading} onClick={async () => {
                   await fetchWithAuth("/canvas/admin/resize", "PATCH", {
                     width,
@@ -354,7 +354,7 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton
                   label={'Adicionar cor'}
                   icon={'plus'}
@@ -422,7 +422,7 @@ export default function AdminPage() {
                   />
                 </section>
               </main>
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Salvar cooldowns'} icon={'save'} disabled={loading} onClick={async () => {
                   await fetchWithAuth("/canvas/admin/cooldown", "PATCH", {
                     cooldown_free: cooldownFree,
@@ -444,7 +444,7 @@ export default function AdminPage() {
                 value={evalCode}
                 onChange={(e) => setEvalCode(e.target.value)}
               />
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
                   if (!evalCode.trim()) return openPopup("error", {message: "Insira o código."});
                   if (
@@ -472,7 +472,7 @@ export default function AdminPage() {
                 value={alertMessage}
                 onChange={(e) => setAlertMessage(e.target.value)}
               />
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
                   if (!alertMessage.trim()) return openPopup("error", {message: "Insira a mensagem."});
                   if (
@@ -493,7 +493,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Desconectar Todos os Sockets</strong>
               </legend>
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Desconectar sockets'} icon={'close'} disabled={loading} color="#ff0000" onClick={async () => {
                   if (
                     confirm("Tem certeza que deseja desconectar todos os sockets?")
@@ -559,7 +559,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Premium</strong>
               </legend>
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton
                   label={setCanvaSettings?.onlyFreeColors ? "Liberar todas as cores" : "Restringir para apenas cores gratuitas"}
                   icon={"paint-bucket"}
@@ -584,93 +584,91 @@ export default function AdminPage() {
               <legend>
                 <strong>Builds</strong>
               </legend>
-              <main>
-                <section>
-                  <CustomButton
-                    label={"Criar"}
-                    icon={'plus'}
-                    onClick={() => {
-                      //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
-                      const branch = prompt("Branch do github");
-                      if (!branch) return openPopup("error", {message: "Branch é obrigatória."});
-                      const forceOnLink = !confirm("Possui tela de confirmação?");
+              <section className={styles.buttonsContainer}>
+                <CustomButton
+                  label={"Criar"}
+                  icon={'plus'}
+                  onClick={() => {
+                    //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
+                    const branch = prompt("Branch do github");
+                    if (!branch) return openPopup("error", {message: "Branch é obrigatória."});
+                    const forceOnLink = !confirm("Possui tela de confirmação?");
 
-                      const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
-                      const expiresAt = expiresAtStr ? dateToTimestamp(expiresAtStr) : null;
+                    const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
+                    const expiresAt = expiresAtStr ? dateToTimestamp(expiresAtStr) : null;
 
-                      const required_flags = prompt("Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]").split(",").map(flag => flag.trim()).filter(flag => flag);
-                      const devices = prompt("Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vario para todos]").split(",").map(device => device.trim()).filter(device => device);
+                    const required_flags = prompt("Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]").split(",").map(flag => flag.trim()).filter(flag => flag);
+                    const devices = prompt("Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vario para todos]").split(",").map(device => device.trim()).filter(device => device);
 
-                      fetchWithAuth("/builds", "POST", {
-                        branch,
-                        forceOnLink,
-                        expiresAt: expiresAt ? new Date(Number(expiresAt)) : null,
-                        required_flags,
-                        devices,
-                      }).then((res) => {
-                        if (res) {
-                          openPopup('success', {message: "Build criada com sucesso."});
-                          getBuildsOverride();
-                        }
-                      });
-                    }}
-                  />
-                </section>
-                <section className={styles.buildsContainer}>
-                  {
-                    buildsOverride.map((build, index) => (
-                      <div key={index} className={styles.build}>
-                        <h2>{build.name}</h2>
-                        <br />
-                        <span>ID: {build.id}</span>
-                        <span>Branch: {build.branch}</span>
-                        <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
-                        <span>Author: {build.author}</span>
-                        <span>Expira: {dateToString(build.expiresAt)}</span>
-                        <span>Criada em: {dateToString(build.createdAt)}</span>
-                        <span>Usos: {Number(build.stats?.uses)}</span>
-                        <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
-                        <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
-                        <footer className={styles.footerButtons}>
-                          <CustomButton
-                            label={'Gerar link'}
-                            icon={'link'}
-                            color="#27b84d"
-                            onClick={() => {
-                              const link = `${window.location.origin}/buildoverride?t=${build.token}`;
-                              copyText(link);
-                              openPopup('success', {message: `Link copiado e assinado!`});
-                            }}
-                          />
-                          <CustomButton
-                            label={'Aplicar'}
-                            icon={'check'}
-                            onClick={() => {
-                              Cookies.set("active-build-token", build.token, { expires: 365, secure: true, sameSite: 'Lax' });
-                              Cookies.set("active-build-data", JSON.stringify(build), { expires: 365, secure: true, sameSite: 'Lax' });
-                              location.href = '/';
-                            }}
-                          />
-                          <CustomButton
-                            label={'Excluir'}
-                            icon={'close'}
-                            color={"#ff6c6c"}
-                            hierarchy={2}
-                            onClick={async () => {
-                              if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
-                                const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
-                                if (res) {
-                                  openPopup('success', {message: "Build excluída com sucesso."});
-                                  getBuildsOverride();
-                                }
+                    fetchWithAuth("/builds", "POST", {
+                      branch,
+                      forceOnLink,
+                      expiresAt: expiresAt ? new Date(Number(expiresAt)) : null,
+                      required_flags,
+                      devices,
+                    }).then((res) => {
+                      if (res) {
+                        openPopup('success', {message: "Build criada com sucesso."});
+                        getBuildsOverride();
+                      }
+                    });
+                  }}
+                />
+              </section>
+              <main className={[styles.buildsContainer, styles.horizontalMain].join(' ')}>
+                {
+                  buildsOverride.map((build, index) => (
+                    <section key={index} className={styles.build}>
+                      <h2>{build.name}</h2>
+                      <br />
+                      <span>ID: {build.id}</span>
+                      <span>Branch: {build.branch}</span>
+                      <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
+                      <span>Author: {build.author}</span>
+                      <span>Expira: {dateToString(build.expiresAt)}</span>
+                      <span>Criada em: {dateToString(build.createdAt)}</span>
+                      <span>Usos: {Number(build.stats?.uses)}</span>
+                      <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
+                      <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
+                      <footer className={styles.buttonsContainer}>
+                        <CustomButton
+                          label={'Gerar link'}
+                          icon={'link'}
+                          color="#27b84d"
+                          onClick={() => {
+                            const link = `${window.location.origin}/buildoverride?t=${build.token}`;
+                            copyText(link);
+                            openPopup('success', {message: `Link copiado e assinado!`});
+                          }}
+                        />
+                        <CustomButton
+                          label={'Aplicar'}
+                          icon={'check'}
+                          onClick={() => {
+                            Cookies.set("active-build-token", build.token, { expires: 365, secure: true, sameSite: 'Lax' });
+                            Cookies.set("active-build-data", JSON.stringify(build), { expires: 365, secure: true, sameSite: 'Lax' });
+                            location.href = '/';
+                          }}
+                        />
+                        <CustomButton
+                          label={'Excluir'}
+                          icon={'close'}
+                          color={"#ff6c6c"}
+                          hierarchy={2}
+                          onClick={async () => {
+                            if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
+                              const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
+                              if (res) {
+                                openPopup('success', {message: "Build excluída com sucesso."});
+                                getBuildsOverride();
                               }
-                            }}
-                          />
-                        </footer>
-                      </div>
-                    ))
-                  }
-                </section>
+                            }
+                          }}
+                        />
+                      </footer>
+                    </section>
+                  ))
+                }
               </main>
             </fieldset>
 
@@ -707,7 +705,7 @@ export default function AdminPage() {
                   <span>Pixels: {stats?.pixels}</span>
                 </section>
               </main>
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Atualizar'} icon={'reload'} onClick={() => fetchStats()} />
               </footer>
             </fieldset>
@@ -717,7 +715,7 @@ export default function AdminPage() {
                 <strong>Escolher usuário</strong>
               </legend>
               <input type="number" id="idUserSearch" />
-              <footer className={styles.footerButtons}>
+              <footer className={styles.buttonsContainer}>
                 <CustomButton
                   label={'Consultar'}
                   icon={'contact'}
@@ -755,7 +753,7 @@ export default function AdminPage() {
                     }} codename={"trash"} /></div>
                   ))}
                 </div>
-                <footer className={styles.footerButtons}>
+                <footer className={styles.buttonsContainer}>
                   <CustomButton
                     label={'Adicionar'}
                     icon={'plus'}
@@ -789,7 +787,7 @@ export default function AdminPage() {
                 <legend>
                   <strong>Ações</strong>
                 </legend>
-                <footer className={styles.footerButtons}>
+                <footer className={styles.buttonsContainer}>
                   <CustomButton
                     label={user.premium ? "Remover Premium" : "Dar Premium"}
                     icon={"pixelarticons"}

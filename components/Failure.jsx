@@ -1,8 +1,8 @@
 import { useState } from "react";
-import styles from "./Failure.module.css"
+import styles from "./MessageDiv.module.css"
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 
-export default function Failure({ children, type, expand, centerscreen = false }) {
+export default function MessageDiv({ children, type, expand, centerscreen = false }) {
 
     const [expanded, setExpanded] = useState(false)
 
