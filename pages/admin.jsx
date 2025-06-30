@@ -33,7 +33,7 @@ export default function AdminPage() {
   const [evalCode, setEvalCode] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [choosePage, setChoosePage] = useState();
+  const [chosenPage, setChosenPage] = useState();
   const [canvaSettings, setCanvaSettings] = useState();
 
   const [buildsOverride, setBuildsOverride] = useState([]);
@@ -95,12 +95,12 @@ export default function AdminPage() {
   useEffect(() => {
     if (router.isReady) {
       const pageFromUrl = router.query.page;
-      const validPages = ['canvas', 'geral', 'users'];
+      const validPages = ['canvas', 'general', 'users'];
 
       if (pageFromUrl && validPages.includes(pageFromUrl)) {
-        setChoosePage(pageFromUrl);
+        setChosenPage(pageFromUrl);
       } else {
-        setChoosePage('canvas'); // página padrão
+        setChosenPage('canvas'); // página padrão
       }
     }
   }, [router.isReady, router.query.page]);
@@ -136,10 +136,10 @@ export default function AdminPage() {
 
   // Atualização da URL quando a página muda
   useEffect(() => {
-    if (choosePage && router.isReady) {
+    if (chosenPage && router.isReady) {
       const updatedQuery = {
         ...router.query,
-        page: choosePage,
+        page: chosenPage,
       };
 
       router.push(
@@ -151,7 +151,7 @@ export default function AdminPage() {
         { shallow: true }
       );
     }
-  }, [choosePage, router.isReady]);
+  }, [chosenPage, router.isReady]);
 
   const fetchWithAuth = async (url, method, body) => {
     try {
@@ -209,7 +209,7 @@ export default function AdminPage() {
     );
 
   // Aguarda inicialização da página
-  if (!choosePage) {
+  if (!chosenPage) {
     return (
       <MainLayout>
         <div>Carregando...</div>
@@ -219,19 +219,19 @@ export default function AdminPage() {
 
   const PageSelector = (
     <div className={styles.pageSelector}>
-      <input checked={choosePage === 'canvas'} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChoosePage('canvas')} />
+      <input checked={chosenPage === 'canvas'} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChosenPage('canvas')} />
       <label htmlFor={"pagina_canvas"}>
         <PixelIcon codename={'frame'} />
         Canvas
       </label>
 
-      <input checked={choosePage === 'geral'} type={"radio"} name={"pagina"} id={"pagina_geral"} value={"geral"} onChange={() => setChoosePage('geral')} />
-      <label htmlFor={"pagina_geral"}>
+      <input checked={chosenPage === 'general'} type={"radio"} name={"pagina"} id={"pagina_general"} value={"general"} onChange={() => setChosenPage('general')} />
+      <label htmlFor={"pagina_general"}>
         <PixelIcon codename={'sliders-2'} />
         Geral
       </label>
 
-      <input checked={choosePage === 'users'} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChoosePage('users')} />
+      <input checked={chosenPage === 'users'} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChosenPage('users')} />
       <label htmlFor={"pagina_users"}>
         <PixelIcon codename={'user'} />
         Usuários
@@ -239,7 +239,7 @@ export default function AdminPage() {
     </div>
   )
 
-  if (choosePage === "canvas") {
+  if (chosenPage === "canvas") {
     return (
       <>
         <Head>
@@ -261,18 +261,24 @@ export default function AdminPage() {
               <legend>
                 <strong>Redimensionar Canvas</strong>
               </legend>
-              <label>Largura:</label>
-              <input
-                type="number"
-                value={width}
-                onChange={(e) => setWidth(Number(e.target.value))}
-              />
-              <label>Altura:</label>
-              <input
-                type="number"
-                value={height}
-                onChange={(e) => setHeight(Number(e.target.value))}
-              />
+              <main>
+                <div>
+                  <label>Largura:</label>
+                  <input
+                    type="number"
+                    value={width}
+                    onChange={(e) => setWidth(Number(e.target.value))}
+                  />
+                </div>
+                <div>
+                  <label>Altura:</label>
+                  <input
+                    type="number"
+                    value={height}
+                    onChange={(e) => setHeight(Number(e.target.value))}
+                  />
+                </div>
+              </main>
               <footer className={styles.footerButtons}>
                 <CustomButton label={'Salvar tamanho'} icon={'save'} disabled={loading} onClick={async () => {
                   await fetchWithAuth("/canvas/admin/resize", "PATCH", {
@@ -509,7 +515,7 @@ export default function AdminPage() {
     );
   }
 
-  else if (choosePage === "geral") {
+  else if (chosenPage === "general") {
     return (
       <>
         <Head>
@@ -524,143 +530,149 @@ export default function AdminPage() {
 
             {PageSelector}
 
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <fieldset>
               <legend>
-                <strong>WhiteList</strong>
+                <strong>Whitelist</strong>
               </legend>
 
-                  <CustomButton
-                    label={setCanvaSettings?.whitelisted ? "OFF Whitelist" : "ON Whitelist"}
-                    icon={"list"}
-                    hierarchy={2}
-                    color={'#ffffff'}
-                    onClick={async () => {
-                      let newWhitelisted = setCanvaSettings?.whitelisted ;
-                      if (setCanvaSettings?.whitelisted ) {
-                        newWhitelisted = 0
-                      } else {
-                        newWhitelisted = 1
-                      }
-                      await fetchWithAuth("/canva/admin/settings", "PATCH", {
-                        whitelisted: newWhitelisted
-                      });
-                    }} 
-                  />
+                  <main>
+                    <span>Whitelist</span>
+                    <ToggleSwitch
+                      checked={setCanvaSettings?.whitelisted}
+                      onChange={async () => {
+                        let newWhitelisted = setCanvaSettings?.whitelisted ;
+                        if (setCanvaSettings?.whitelisted ) {
+                          newWhitelisted = 0
+                        } else {
+                          newWhitelisted = 1
+                        }
+                        await fetchWithAuth("/canva/admin/settings", "PATCH", {
+                          whitelisted: newWhitelisted
+                        });
+                      }} 
+                    />
+                  
+                  </main>
 
             </fieldset>
 
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <fieldset>
               <legend>
                 <strong>Premium</strong>
               </legend>
-                  <CustomButton
-                    label={setCanvaSettings?.onlyFreeColors ? "Liberar todas as cores" : "Apenas cores gratuitas"}
-                    icon={"paint-bucket"}
-                    hierarchy={2}
-                    color={'#d6a700'}
-                    onClick={async () => {
-                      let newOnlyFreeColors = setCanvaSettings?.onlyFreeColors ;
-                      if (setCanvaSettings?.onlyFreeColors ) {
-                        newOnlyFreeColors = 0
-                      } else {
-                        newOnlyFreeColors = 1
-                      }
-                      await fetchWithAuth("/canva/admin/settings", "PATCH", {
-                        onlyFreeColors: newOnlyFreeColors
-                      });
-                    }} 
-                  />
-
+              <footer className={styles.footerButtons}>
+                <CustomButton
+                  label={setCanvaSettings?.onlyFreeColors ? "Liberar todas as cores" : "Restringir para apenas cores gratuitas"}
+                  icon={"paint-bucket"}
+                  hierarchy={2}
+                  color={'#d6a700'}
+                  onClick={async () => {
+                    let newOnlyFreeColors = setCanvaSettings?.onlyFreeColors ;
+                    if (setCanvaSettings?.onlyFreeColors ) {
+                      newOnlyFreeColors = 0
+                    } else {
+                      newOnlyFreeColors = 1
+                    }
+                    await fetchWithAuth("/canva/admin/settings", "PATCH", {
+                      onlyFreeColors: newOnlyFreeColors
+                    });
+                  }} 
+                />
+              </footer>
             </fieldset>
 
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <fieldset>
               <legend>
                 <strong>Builds</strong>
               </legend>
-              <CustomButton
-                label={"Criar"}
-                icon={'plus'}
-                onClick={() => {
-                  //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
-                  const branch = prompt("Branch do github");
-                  if (!branch) return openPopup("error", {message: "Branch é obrigatória."});
-                  const forceOnLink = !confirm("Possui tela de confirmação?");
+              <main>
+                <section>
+                  <CustomButton
+                    label={"Criar"}
+                    icon={'plus'}
+                    onClick={() => {
+                      //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
+                      const branch = prompt("Branch do github");
+                      if (!branch) return openPopup("error", {message: "Branch é obrigatória."});
+                      const forceOnLink = !confirm("Possui tela de confirmação?");
 
-                  const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
-                  const expiresAt = expiresAtStr ? dateToTimestamp(expiresAtStr) : null;
+                      const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
+                      const expiresAt = expiresAtStr ? dateToTimestamp(expiresAtStr) : null;
 
-                  const required_flags = prompt("Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]").split(",").map(flag => flag.trim()).filter(flag => flag);
-                  const devices = prompt("Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vario para todos]").split(",").map(device => device.trim()).filter(device => device);
+                      const required_flags = prompt("Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]").split(",").map(flag => flag.trim()).filter(flag => flag);
+                      const devices = prompt("Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vario para todos]").split(",").map(device => device.trim()).filter(device => device);
 
-                  fetchWithAuth("/builds", "POST", {
-                    branch,
-                    forceOnLink,
-                    expiresAt: expiresAt ? new Date(Number(expiresAt)) : null,
-                    required_flags,
-                    devices,
-                  }).then((res) => {
-                    if (res) {
-                      openPopup('success', {message: "Build criada com sucesso."});
-                      getBuildsOverride();
-                    }
-                  });
-                }}
-              />
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px" }}>
-                {
-                  buildsOverride.map((build, index) => (
-                    <div key={index} style={{ marginBottom: "10px", display: "flex", flexDirection: "column", gap: "5px", backgroundColor: "rgb(255 255 255 / 4%)", padding: "10px", borderRadius: "22px", boxShadow: "2px 2px 7px hsla(0, 0%, 0%, 14.1%)" }}>
-                      <span style={{ fontWeight: "bold" }}>{build.name}</span>
-                      <br />
-                      <span>ID: {build.id}</span>
-                      <span>Branch: {build.branch}</span>
-                      <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
-                      <span>Author: {build.author}</span>
-                      <span>Expira: {dateToString(build.expiresAt)}</span>
-                      <span>Criada em: {dateToString(build.createdAt)}</span>
-                      <span>Usos: {Number(build.stats?.uses)}</span>
-                      <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
-                      <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
-                      <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-                        <CustomButton
-                          label={'Gerar Link'}
-                          icon={'link'}
-                          color="#27b84d"
-                          onClick={() => {
-                            const link = `${window.location.origin}/buildoverride?t=${build.token}`;
-                            copyText(link);
-                            openPopup('success', {message: `Link copiado e assinado!`});
-                          }}
-                        />
-                        <CustomButton
-                          label={'Aplicar'}
-                          icon={'check'}
-                          onClick={() => {
-                            Cookies.set("active-build-token", build.token, { expires: 365, secure: true, sameSite: 'Lax' });
-                            Cookies.set("active-build-data", JSON.stringify(build), { expires: 365, secure: true, sameSite: 'Lax' });
-                            location.href = '/';
-                          }}
-                        />
-                        <CustomButton
-                          label={'Excluir'}
-                          icon={'close'}
-                          color={"#ff6c6c"}
-                          hierarchy={2}
-                          onClick={async () => {
-                            if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
-                              const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
-                              if (res) {
-                                openPopup('success', {message: "Build excluída com sucesso."});
-                                getBuildsOverride();
+                      fetchWithAuth("/builds", "POST", {
+                        branch,
+                        forceOnLink,
+                        expiresAt: expiresAt ? new Date(Number(expiresAt)) : null,
+                        required_flags,
+                        devices,
+                      }).then((res) => {
+                        if (res) {
+                          openPopup('success', {message: "Build criada com sucesso."});
+                          getBuildsOverride();
+                        }
+                      });
+                    }}
+                  />
+                </section>
+                <section className={styles.buildsContainer}>
+                  {
+                    buildsOverride.map((build, index) => (
+                      <div key={index} className={styles.build}>
+                        <h2>{build.name}</h2>
+                        <br />
+                        <span>ID: {build.id}</span>
+                        <span>Branch: {build.branch}</span>
+                        <span>Tela de confirmação: {build.forceOnLink ? "Não" : "Sim"}</span>
+                        <span>Author: {build.author}</span>
+                        <span>Expira: {dateToString(build.expiresAt)}</span>
+                        <span>Criada em: {dateToString(build.createdAt)}</span>
+                        <span>Usos: {Number(build.stats?.uses)}</span>
+                        <span>Flags obrigatórias: {build.required_flags.length > 0 ? build.required_flags.join(", ") : "N/A"}</span>
+                        <span style={{ color: "gray" }}>A assinatura é feita ao gerar um link</span>
+                        <footer className={styles.footerButtons}>
+                          <CustomButton
+                            label={'Gerar link'}
+                            icon={'link'}
+                            color="#27b84d"
+                            onClick={() => {
+                              const link = `${window.location.origin}/buildoverride?t=${build.token}`;
+                              copyText(link);
+                              openPopup('success', {message: `Link copiado e assinado!`});
+                            }}
+                          />
+                          <CustomButton
+                            label={'Aplicar'}
+                            icon={'check'}
+                            onClick={() => {
+                              Cookies.set("active-build-token", build.token, { expires: 365, secure: true, sameSite: 'Lax' });
+                              Cookies.set("active-build-data", JSON.stringify(build), { expires: 365, secure: true, sameSite: 'Lax' });
+                              location.href = '/';
+                            }}
+                          />
+                          <CustomButton
+                            label={'Excluir'}
+                            icon={'close'}
+                            color={"#ff6c6c"}
+                            hierarchy={2}
+                            onClick={async () => {
+                              if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
+                                const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
+                                if (res) {
+                                  openPopup('success', {message: "Build excluída com sucesso."});
+                                  getBuildsOverride();
+                                }
                               }
-                            }
-                          }}
-                        />
+                            }}
+                          />
+                        </footer>
                       </div>
-                    </div>
-                  ))
-                }
-              </div>
+                    ))
+                  }
+                </section>
+              </main>
             </fieldset>
 
           </main>
@@ -669,7 +681,7 @@ export default function AdminPage() {
     );
   }
 
-  else if (choosePage === "users") {
+  else if (chosenPage === "users") {
     return (
       <>
         <Head>
@@ -684,7 +696,7 @@ export default function AdminPage() {
 
             {PageSelector}
 
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <fieldset>
               <legend>
                 <strong>Informações principais</strong>
               </legend>
@@ -696,7 +708,7 @@ export default function AdminPage() {
               <span>Pixels: {stats?.pixels}</span>
             </fieldset>
 
-            <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <fieldset>
               <legend>
                 <strong>Escolher usuário</strong>
               </legend>
@@ -712,7 +724,7 @@ export default function AdminPage() {
             </fieldset>
 
             {user &&
-              <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <fieldset>
                 <legend>
                   <strong>Informações do usuário</strong>
                 </legend>
@@ -724,7 +736,7 @@ export default function AdminPage() {
             }
 
             {
-              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              user && <fieldset>
                 <legend>
                   <strong>Gerenciar flags</strong>
                 </legend>
@@ -741,7 +753,7 @@ export default function AdminPage() {
                     icon={'plus'}
                     color={"#27b84d"}
                     onClick={() => {
-                      const flag = prompt("Escreva o nova Flag").toUpperCase();
+                      const flag = prompt("Escreva o nova flag").toUpperCase();
                       if (flag) {
                         const newFlagsUser = [...user.flags];
                         newFlagsUser.push(flag);
@@ -765,11 +777,11 @@ export default function AdminPage() {
             }
 
             {
-              user && <fieldset style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "20px" }}>
+              user && <fieldset>
                 <legend>
                   <strong>Ações</strong>
                 </legend>
-                <footer className={styles.footerButtons} style={{margin:"0"}}>
+                <footer className={styles.footerButtons}>
                   <CustomButton
                     label={user.premium ? "Remover Premium" : "Dar Premium"}
                     icon={"pixelarticons"}
