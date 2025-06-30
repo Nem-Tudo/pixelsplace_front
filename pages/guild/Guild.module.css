@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   width: 100dvw;
-  background: linear-gradient(132deg, var(--user-color-primary), var(--user-color-secondary));
   color: white;
   flex-grow: 1;
 
@@ -20,17 +19,6 @@
       min-width: 100%;
       object-fit: cover;
       background-color: var(--color-mid);
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    .editPencil {
-      backdrop-filter: var(--frosted-glass-blur);
-      border: var(--outline);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
     }
   }
 
@@ -188,13 +176,6 @@
     }
   }
 
-  .saveChanges {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    z-index: 100;
-  }
-
 }
 
 .infoBox {
@@ -211,16 +192,4 @@
   box-shadow: var(--shadow) !important;
   position: relative !important;
   flex-grow: 1 !important;
-}
-
-.editPencil {
-  padding: 5px;
-  transition: var(--smooth-transition);
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-}
-.editPencil:hover {
-  scale: var(--hover-scale);
 }
