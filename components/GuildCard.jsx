@@ -38,7 +38,7 @@ export default function GuildCard({ guild, index, ...props }) {
                 </h2>
                 <footer className={styles.buttonsContainer}>
                     <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.JOIN")} href={guild.invite} target="_blank" rel="norreferer" />
-                    <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.VISIT")} hierarchy={2} href={`/guild/${guild.id}`} />
+                    <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.VISIT")} color={'#80bbff'} hierarchy={2} href={`/guild/${guild.id}`} />
                 </footer>
             </div>
             <div

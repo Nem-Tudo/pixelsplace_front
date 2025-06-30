@@ -50,9 +50,7 @@
         .buttonsContainer {
             display: flex;
             gap: 8px;
-            overflow-x: auto;
             height: min-content;
-            overflow-y: hidden;
         }
     }
 
