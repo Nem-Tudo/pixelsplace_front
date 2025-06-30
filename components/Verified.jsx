@@ -1,14 +1,14 @@
 import styles from "./Verified.module.css"
-import PixelIcon from "@/components/PixelIcon"
 import Tippy from "@tippyjs/react";
 import { useLanguage } from '@/context/LanguageContext';
+import { MdVerified } from "react-icons/md";
 
 export default function Verified({ verified }) {
     const { language } = useLanguage();
 
     return verified ? 
         <Tippy content={language.getString("COMMON.VERIFIED")} arrow={false} placement="top">
-            <PixelIcon codename={'check'} className={styles.verified} /> 
+            <MdVerified className={styles.verified} />
         </Tippy>
     : <></>
 }
