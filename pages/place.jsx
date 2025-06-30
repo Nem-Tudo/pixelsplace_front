@@ -17,7 +17,7 @@ import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
 import { FaShare } from "react-icons/fa";
-import { hexToNumber, numberToHex } from "@/src/colorFunctions";
+import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
@@ -626,7 +626,7 @@ export default function Place() {
     const data = await request.json();
     if (!request.ok) {
       if (oldpixelcolor) updatePixel(x, y, oldpixelcolor);
-      return openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
+      return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
   }
@@ -650,9 +650,9 @@ export default function Place() {
       }
     ).catch((e) => {
       console.log("Erro ao obter pixel: ", e);
-      openPopup("error", {errorMessage: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
+      openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
     });
-    if (!request.ok) return openPopup("error", {errorMessage: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
+    if (!request.ok) return openPopup("error", {message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
 
     const data = await request.json();
     setShowingPixelInfo(data);
@@ -673,20 +673,6 @@ export default function Place() {
     const b = pixel[2];
 
     return (r << 16) + (g << 8) + b;
-  }
-
-  function lightenColor(colorNum, amount = 0.2) {
-    const r = (colorNum >> 16) & 0xff;
-    const g = (colorNum >> 8) & 0xff;
-    const b = colorNum & 0xff;
-
-    const lighten = (c) => Math.min(255, Math.floor(c + (255 - c) * amount));
-
-    const newR = lighten(r);
-    const newG = lighten(g);
-    const newB = lighten(b);
-
-    return (newR << 16) + (newG << 8) + newB;
   }
 
   return (
@@ -777,7 +763,7 @@ export default function Place() {
                         ) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
-                          openPopup("error", {errorMessage: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
+                          openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
                       }}
                     />
