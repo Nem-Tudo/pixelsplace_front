@@ -9,6 +9,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
 import Verified from "@/components/Verified";
 import GuildCard from "@/components/GuildCard";
+import CustomButton from "@/components/CustomButton";
 
 export async function getServerSideProps() {
     try {
@@ -52,7 +53,7 @@ export default function Partners({ guilds, error, errormessage }) {
                 <div className={styles.title}>
                     <h1>{language.getString("PAGES.PARTNERS.SERVERS")}</h1>
                     <h5>{language.getString("PAGES.PARTNERS.PARTICIPATING_SERVERS")}</h5>
-                    <Link href="/"><BsArrowLeft /> {language.getString("COMMON.BACK")}</Link>
+                    <CustomButton href={"/"} icon={"arrow-left"} label={language.getString("COMMON.BACK")} />
                 </div>
 
 

@@ -22,30 +22,6 @@
       color: var(--color-muted);
       opacity: 0.5;
     }
-
-    a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: row;
-      flex-wrap: nowrap;
-
-      background-color: var(--color-accent);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: var(--smooth-transition);
-      gap: 8px;
-      box-shadow: var(--shadow);
-      border: var(--outline);
-    }
-
-    a:hover {
-      scale: var(--hover-scale);
-      background-color: var(--color-darker);
-    }
   }
 }
 
