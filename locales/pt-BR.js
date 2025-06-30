@@ -62,6 +62,10 @@ module.exports = {
             NORMAL_VIEW: "Visualização normal",
             VIEW_SETTINGS: "Opções de visualização",
         },
+        BADGES: {
+            ADMIN: "Administrador",
+            VACA: "Vaca",
+        },
     },
     POPUPS: {
         PREMIUM_REQUIRED: {
