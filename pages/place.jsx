@@ -702,7 +702,7 @@ export default function Place() {
         <section className={styles.overlayGui}>
           <div className={styles.top}>
             {selectedPixel && (
-              <div className={styles.overlayPosition}>
+              <div className={styles.overlayPosition+" showTop"}>
                 <span>
                   ({selectedPixel.x},{selectedPixel.y}){" "}
                   {Math.round(transform.current.scale)}x
@@ -789,7 +789,7 @@ export default function Place() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelPlacement}
+                className={styles.pixelPlacement+" showBottom"}
                 data-showing-colors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
