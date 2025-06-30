@@ -40,7 +40,7 @@ export async function getServerSideProps({ req, query }) {
   }
 }
 
-export default function GuildPage({ guild: guildobject, error, errormessage }) {
+export default function Guild({ guild: guildobject, error, errormessage }) {
   const { loggedUser, loading, token } = useAuth();
   const { language } = useLanguage();
   const { openPopup } = usePopup();
@@ -72,7 +72,41 @@ export default function GuildPage({ guild: guildobject, error, errormessage }) {
 
   return (
     <MainLayout>
-      {JSON.stringify(guild)}
+      <main className={styles.main}>
+
+        <div className={styles.wallpaper}>
+          <img
+            src={'https://images2.alphacoders.com/941/thumb-1920-941898.jpg'}
+            alt={language.getString("PAGES.GUILD.BACKGROUND_ALT")}
+          />
+        </div>
+
+        <div className={styles.page}>
+
+          <div className={styles.profile}>
+            <div className={styles.icon}>
+              <img src={settings.guildIconURL(guild?.id, guild?.icon)} alt={language.getString("PAGES.GUILD.ICON_ALT")} />
+            </div>
+
+            <div className={styles.name}>
+              <h1 className={styles.displayName}>{guild?.name} <Verified verified={guild?.premium} /></h1>
+            </div>
+
+            <CustomButton label={language.getString('COMMON.JOIN')} href={guild.invite}>
+          </div>
+
+          <div className={styles.moreInfo}>
+
+            <div className={styles.infoBox} id={styles.pixelsInfo}>
+              {language.getString("PAGES.GUILD.PIXELS_PLACED")}: {guild.stats.pixelsPlacedCount}
+              {language.getString("PAGES.GUILD.MEMBER_COUNT")}: {guild.stats.usersCount}
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
     </MainLayout>
-  );
+  )
 }

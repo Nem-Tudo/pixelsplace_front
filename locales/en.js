@@ -35,6 +35,7 @@ module.exports = {
         LANGUAGE: "Language",
         TIME_TRAVEL: "Time Travel",
         VERIFIED: "Verified",
+        JOIN: "Join",
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
@@ -183,6 +184,12 @@ module.exports = {
             CHIEF_DRAGGABLE: 'Chief Draggables',
             GOAT: 'Greatest Of All Times',
             CHIEF_EVIL_LINUX: 'Chief Backend and Evil Forces (Linux)',
+        },
+        GUILD: {
+            BACKGROUND_ALT: 'Server Wallpaper',
+            ICON_ALT: 'Server Icon',
+            PIXELS_PLACED: 'Pixels Placed',
+            MEMBER_COUNT: 'Members',
         },
     },
 }

@@ -35,6 +35,7 @@ module.exports = {
         LANGUAGE: "Idioma",
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
+        JOIN: 'Juntar-se',
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
@@ -183,6 +184,12 @@ module.exports = {
             CHIEF_DRAGGABLE: 'Chief Arrastáveis',
             GOAT: 'O Melhor de Todos',
             CHIEF_EVIL_LINUX: 'Chief Backend e Forças do Mal (Linux)',
+        },
+        GUILD: {
+            BACKGROUND_ALT: 'Plano de fundo do servidor',
+            ICON_ALT: 'Ícone do servidor',
+            PIXELS_PLACED: 'Pixels colocados',
+            MEMBER_COUNT: 'Membros',
         },
     },
 }
