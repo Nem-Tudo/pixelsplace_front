@@ -18,12 +18,6 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
-
-    if(showingPopup.settings?.timeout) {
-        setTimeout(() => {
-            closePopup();
-        }, showingPopup.settings.timeout);
-    };
     
     return (
         <>
@@ -31,6 +25,14 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
                 <section className={styles.popups}>
                     <div ref={popupDivRef} className={styles.popup}>
                         {popupComponents[showingPopup.popupType] || null}
+                        {
+                            showingPopup?.settings?.timeout &&
+                            () => {
+                                setTimeout(() => {
+                                closePopup();
+                            }, showingPopup.settings.timeout);
+                            }
+                        }
                     </div>
                 </section>
             )}
