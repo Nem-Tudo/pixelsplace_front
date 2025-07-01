@@ -354,48 +354,80 @@ export default function Place() {
       window.addEventListener("mouseup", onMouseUp);
     };
 
+    // Armazena o estado inicial do pinch para evitar saltos
+    let initialPinchData = null;
+
     const onTouchStart = (e) => {
       if (e.touches.length === 1) {
         zoom.startX = e.touches[0].clientX - zoom.pointX;
         zoom.startY = e.touches[0].clientY - zoom.pointY;
+        initialPinchData = null; // Reset pinch data no single touch
       } else if (e.touches.length === 2) {
         lastTouchDistance = getTouchDistance(e.touches);
+        const center = getTouchCenter(e.touches);
+        
+        // Armazena dados iniciais do pinch para referência
+        initialPinchData = {
+          distance: lastTouchDistance,
+          center: center,
+          scale: zoom.scale,
+          pointX: zoom.pointX,
+          pointY: zoom.pointY
+        };
       }
     };
 
     const onTouchMove = (e) => {
       e.preventDefault();
 
-      if (e.touches.length === 1) {
+      if (e.touches.length === 1 && !initialPinchData) {
+        // Movimento simples (pan) apenas se não estamos no meio de um pinch
         zoom.pointX = e.touches[0].clientX - zoom.startX;
         zoom.pointY = e.touches[0].clientY - zoom.startY;
         applyTransform();
-      } else if (e.touches.length === 2) {
+      } else if (e.touches.length === 2 && initialPinchData) {
         const newDistance = getTouchDistance(e.touches);
         const center = getTouchCenter(e.touches);
 
-        if (lastTouchDistance) {
-          const delta = newDistance / lastTouchDistance;
-          let newScale = zoom.scale * delta;
-          newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
-
-          const xs = (center.x - zoom.pointX) / zoom.scale;
-          const ys = (center.y - zoom.pointY) / zoom.scale;
-
-          zoom.scale = newScale;
-          zoom.pointX = center.x - xs * newScale;
-          zoom.pointY = center.y - ys * newScale;
-
-          applyTransform();
+        // Calcula o fator de escala baseado na distância inicial
+        const scaleFactor = newDistance / initialPinchData.distance;
+        let newScale = initialPinchData.scale * scaleFactor;
+        
+        // Limita a velocidade de mudança para evitar saltos bruscos
+        const maxScaleChange = 0.1; // 10% máximo de mudança por frame
+        const currentScale = zoom.scale;
+        const maxNewScale = currentScale * (1 + maxScaleChange);
+        const minNewScale = currentScale * (1 - maxScaleChange);
+        
+        // Aplica suavização se a mudança for muito brusca
+        if (Math.abs(scaleFactor - 1) > maxScaleChange) {
+          newScale = newScale > currentScale ? maxNewScale : minNewScale;
         }
+        
+        // Aplica limites de escala
+        newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
 
-        lastTouchDistance = newDistance;
+        // Calcula a nova posição baseada no centro inicial do pinch
+        const xs = (initialPinchData.center.x - initialPinchData.pointX) / initialPinchData.scale;
+        const ys = (initialPinchData.center.y - initialPinchData.pointY) / initialPinchData.scale;
+
+        zoom.scale = newScale;
+        zoom.pointX = center.x - xs * newScale;
+        zoom.pointY = center.y - ys * newScale;
+
+        applyTransform();
       }
     };
 
     const onTouchEnd = (e) => {
       if (e.touches.length < 2) {
         lastTouchDistance = null;
+        initialPinchData = null;
+      }
+      // Reset para single touch se ainda há um dedo
+      if (e.touches.length === 1) {
+        zoom.startX = e.touches[0].clientX - zoom.pointX;
+        zoom.startY = e.touches[0].clientY - zoom.pointY;
       }
     };
 
@@ -702,7 +734,7 @@ export default function Place() {
       <Head>
         <title>PixelsPlace</title>
         <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, minimum-scale=0.1, user-scalable=no, viewport-fit=cover" />
         <meta name="theme-color" content="#80bbff" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
