@@ -713,7 +713,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Escolher usuário</strong>
               </legend>
-              <input type="number" id="idUserSearch" />
+              <input type="text" id="idUserSearch" />
               <footer className={styles.buttonsContainer}>
                 <CustomButton
                   label={'Consultar'}
