@@ -449,7 +449,7 @@ export default function AdminPage() {
                   if (!evalCode.trim()) return openPopup("error", {message: "Insira o código."});
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
-                    execute: () => {
+                    execute: async () => {
                       const res = await fetchWithAuth("/admin/eval", "POST", {
                         content: evalCode,
                       });
@@ -476,7 +476,7 @@ export default function AdminPage() {
                   if (!alertMessage.trim()) return openPopup("error", {message: "Insira a mensagem."});
                   openPopup("confirm", {
                     message: "Deseja enviar essa mensagem para todos os clients?",
-                    execute: () => {
+                    execute: async () => {
                       const res = await fetchWithAuth("/admin/alertmessage", "POST", {
                         content: alertMessage,
                       });
@@ -497,7 +497,7 @@ export default function AdminPage() {
                 <CustomButton label={'Desconectar sockets'} icon={'close'} disabled={loading} color="#ff0000" onClick={async () => {
                   openPopup("confirm", {
                     message: "Tem certeza que deseja desconectar todos os sockets?",
-                    execute: () => {
+                    execute: async () => {
                       const res = await fetchWithAuth(
                         "/admin/disconnectsockets",
                         "POST",
@@ -658,7 +658,7 @@ export default function AdminPage() {
                           onClick={async () => {
                             openPopup("confirm", {
                               message: `Tem certeza que deseja excluir essa build? ${build.name}`,
-                              execute: () => {
+                              execute: async () => {
                                 const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
                                 if (res) {
                                   openPopup('success', {message: "Build excluída com sucesso."});
