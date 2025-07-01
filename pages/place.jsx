@@ -20,6 +20,7 @@ import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
+import { formatDate } from "@/src/dateFunctions";
 
 export default function Place() {
   const router = useRouter();
@@ -634,16 +635,6 @@ export default function Place() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
-  //comverte o tempo
-  function formatDate(isoString) {
-    const date = new Date(isoString);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // mês começa em 0
-    return `${hours}:${minutes} ${day}/${month}`;
-  }
 
   async function placePixel(x, y, color) {
     const oldpixelcolor = getPixelColor(x, y);
