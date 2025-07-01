@@ -3,19 +3,11 @@ import styles from "./credits.module.css";
 import Link from "next/link";
 import { MainLayout } from "@/layout/MainLayout";
 
-import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from "@/context/LanguageContext";
-
-import PremiumButton from '@/components/PremiumButton';
-import CustomButton from '@/components/CustomButton';
-import checkFlags from "@/src/checkFlags";
-import BuildSwitcher from "@/components/BuildSwitcher";
-import PixelIcon from "@/components/PixelIcon";
 
 export default function Credits() {
 
-  const { loggedUser } = useAuth();
-  const { language, changeLanguage } = useLanguage();
+  const { language } = useLanguage();
 
   return (
     <>
@@ -59,7 +51,7 @@ export default function Credits() {
                 }
 
               ].map((staff) => (
-                  <div className={styles.staff}>
+                  <div className={styles.staff} key={staff.id}>
                       <h2>{staff.role}</h2>
                       <Link href={`/user/${staff.id}`}>{staff.name}</Link>
                   </div>
