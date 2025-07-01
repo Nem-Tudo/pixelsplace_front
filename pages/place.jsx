@@ -237,10 +237,17 @@ export default function Place() {
       // Escala o contexto para corresponder ao pixel ratio
       ctx.scale(pixelRatio, pixelRatio);
       
-      overlayCanvasRef.current.width = canvasSettings.width * 10 * pixelRatio;
-      overlayCanvasRef.current.height = canvasSettings.height * 10 * pixelRatio;
-      overlayCanvasRef.current.style.width = (canvasSettings.width * 10) + 'px';
-      overlayCanvasRef.current.style.height = (canvasSettings.height * 10) + 'px';
+      // Configura o overlay canvas - 10x maior para ter precisão nos detalhes
+      const overlayCanvas = overlayCanvasRef.current;
+      overlayCanvas.width = canvasSettings.width * 10 * pixelRatio;
+      overlayCanvas.height = canvasSettings.height * 10 * pixelRatio;
+      overlayCanvas.style.width = canvasSettings.width + 'px';
+      overlayCanvas.style.height = canvasSettings.height + 'px';
+      
+      // Configura o contexto do overlay
+      const overlayCtx = overlayCanvas.getContext("2d");
+      overlayCtx.imageSmoothingEnabled = false;
+      overlayCtx.scale(pixelRatio, pixelRatio);
 
       // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
@@ -479,64 +486,44 @@ export default function Place() {
 
   //Ao atualizar o selectedPixel
   useEffect(() => {
-    //Atualiza o overlay
-    const SCALE = 10; // escala de visualização
+    //Atualiza o overlay - voltando ao design original bonitinho
+    const SCALE = 10; // escala de visualização para ter precisão
 
     const canvas = overlayCanvasRef.current;
     if (!canvas || !selectedPixel) return;
 
     const ctx = canvas.getContext("2d");
-    // Desabilita o anti-aliasing para o overlay também
-    ctx.imageSmoothingEnabled = false;
-    
-    // Ajusta para o pixel ratio do dispositivo
     const pixelRatio = window.devicePixelRatio || 1;
-    ctx.scale(pixelRatio, pixelRatio);
     
+    // Limpa todo o canvas primeiro
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Aplica escala para o pixel ratio
+    ctx.scale(pixelRatio, pixelRatio);
+    ctx.imageSmoothingEnabled = false;
+
+    // Coordenadas no overlay (10x maior para ter precisão)
+    const overlayX = selectedPixel.x * SCALE;
+    const overlayY = selectedPixel.y * SCALE;
 
     //branco externo
     ctx.fillStyle = "#b3b3b3cf"; //branco transpa
-    ctx.fillRect(
-      selectedPixel.x * SCALE - 2,
-      selectedPixel.y * SCALE - 2,
-      14,
-      14
-    );
+    ctx.fillRect(overlayX - 2, overlayY - 2, 14, 14);
 
     //limpa o interno
-    ctx.clearRect(
-      selectedPixel.x * SCALE - 1,
-      selectedPixel.y * SCALE - 1,
-      12,
-      12
-    );
+    ctx.clearRect(overlayX - 1, overlayY - 1, 12, 12);
 
     //preto interno
     ctx.fillStyle = "#05050096";
-    ctx.fillRect(
-      selectedPixel.x * SCALE - 1,
-      selectedPixel.y * SCALE - 1,
-      12,
-      12
-    );
+    ctx.fillRect(overlayX - 1, overlayY - 1, 12, 12);
 
     //limpa o interior
-    ctx.clearRect(selectedPixel.x * SCALE, selectedPixel.y * SCALE, 10, 10);
+    ctx.clearRect(overlayX, overlayY, 10, 10);
 
-    //deixa só os cantos
-    ctx.clearRect(
-      selectedPixel.x * SCALE + 2,
-      selectedPixel.y * SCALE - 2,
-      6,
-      15
-    );
-    ctx.clearRect(
-      selectedPixel.x * SCALE - 2,
-      selectedPixel.y * SCALE + 2,
-      15,
-      6
-    );
+    //deixa só os cantos bonitinhos
+    ctx.clearRect(overlayX + 2, overlayY - 2, 6, 15);
+    ctx.clearRect(overlayX - 2, overlayY + 2, 15, 6);
 
     //Atualiza a query
     // router.push(
@@ -999,8 +986,6 @@ export default function Place() {
             {/* canvas overlay (pixel border etc) */}
             <canvas
               ref={overlayCanvasRef}
-              width={canvasConfig.width * 10}
-              height={canvasConfig.height * 10}
               className="pixelate"
               id={styles.canvas}
               style={{
@@ -1011,7 +996,7 @@ export default function Place() {
                 transformOrigin: "0 0",
                 zIndex: 10,
                 width: "100%",
-                aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
+                height: "100%",
                 display:
                   Math.max(canvasConfig.width, canvasConfig.height) > 1500
                     ? "none"
@@ -1026,8 +1011,11 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
+                const pixelRatio = window.devicePixelRatio || 1;
+                
+                // Ajusta as coordenadas para o pixel ratio
+                const scaleX = (canvas.width / pixelRatio) / rect.width;
+                const scaleY = (canvas.height / pixelRatio) / rect.height;
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
@@ -1040,8 +1028,11 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
+                const pixelRatio = window.devicePixelRatio || 1;
+                
+                // Ajusta as coordenadas para o pixel ratio
+                const scaleX = (canvas.width / pixelRatio) / rect.width;
+                const scaleY = (canvas.height / pixelRatio) / rect.height;
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
