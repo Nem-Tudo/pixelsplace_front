@@ -9,6 +9,9 @@ import localStyles from "@/components/popups/AdminBuildAdd.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { dateToTimestamp } from "@/src/dateFunctions";
+import { usePopup } from '@/context/PopupContext';
+import settings from "@/settings.js";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AdminBuildAdd({ closePopup }) {
     const { language } = useLanguage();
@@ -17,7 +20,37 @@ export default function AdminBuildAdd({ closePopup }) {
     const [forceOnLink, setForceOnLink] = useState(false);
     const [expiresAt, setExpiresAt] = useState("");
     const [requiredFlags, setRequiredFlags] = useState("");
-    const [devices, setDevices] = useState("");
+    const [devices, setDevices] = useState(['MOBILE', 'DESKTOP']);
+
+    const { token, loggedUser } = useAuth();
+    const { openPopup } = usePopup();
+
+    const fetchWithAuth = async (url, method, body) => {
+        try {
+            const res = await fetch(`${settings.apiURL}${url}`, {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: token,
+                },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+            return data;
+        } catch (err) {
+            openPopup("error", {message: `${err.message}`});
+        }
+    };
+
+    const handleDeviceChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setDevices((prev) => [...prev, value]);
+        } else {
+            setDevices((prev) => prev.filter((d) => d !== value));
+        }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,26 +60,34 @@ export default function AdminBuildAdd({ closePopup }) {
             return;
         }
 
-        const expiresAtTimestamp = expiresAt ? dateToTimestamp(expiresAt) : null;
+        let expiresAtTimestamp = null;
+        if (expiresAt) {
+            // Converte datetime-local (YYYY-MM-DDTHH:MM) para o formato esperado
+            const [datePart, timePart] = expiresAt.split("T");
+            const [yyyy, mm, dd] = datePart.split("-");
+            const dateStr = `${dd}/${mm}/${yyyy} ${timePart}`;
+            expiresAtTimestamp = dateToTimestamp(dateStr);
+        }
 
         const payload = {
             branch: branch.trim(),
             forceOnLink,
             expiresAt: expiresAtTimestamp ? new Date(Number(expiresAtTimestamp)) : null,
-            required_flags: requiredFlags
-                ? requiredFlags.split(",").map(flag => flag.trim()).filter(flag => flag)
-                : [],
-            devices: devices
-                ? devices.split(",").map(device => device.trim()).filter(device => device)
-                : []
+            required_flags: (requiredFlags || "").split(",").map(flag => flag.trim()).filter(flag => flag),
+            devices: (devices || [])
         };
 
-        const res = await fetchWithAuth("/builds", "POST", payload);
+        try {
+            const res = await fetchWithAuth("/builds", "POST", payload);
 
-        if (res) {
-            openPopup('success', { message: "Build criada com sucesso." });
-            getBuildsOverride();
-            closePopup();
+            if (res) {
+                openPopup('success', { message: "Build criada com sucesso. A página será recarregada." });
+                window.location.reload(); // força recarregar a página
+            } else {
+                openPopup("error", { message: "Erro ao criar a build. Tente novamente." });
+            }
+        } catch (err) {
+            openPopup("error", { message: `${err.message}` });
         }
     };
 
@@ -75,15 +116,15 @@ export default function AdminBuildAdd({ closePopup }) {
                     <ToggleSwitch
                         name="forceOnLink"
                         id="adminBuildAdd_forceOnLink"
-                        checked={forceOnLink}
+                        checked={!forceOnLink}
                         onChange={(e) => setForceOnLink(!e.target.checked)}
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="adminBuildAdd_expiresAt">Data de expiração</label>
+                    <label htmlFor="adminBuildAdd_expiresAt">Data e hora de expiração</label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         name="expiresAt"
                         id="adminBuildAdd_expiresAt"
                         value={expiresAt}
@@ -105,17 +146,27 @@ export default function AdminBuildAdd({ closePopup }) {
                 </div>
 
                 <div>
-                    <label htmlFor="adminBuildAdd_devices">
-                        Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vazio para todos]
-                    </label>
-                    <input
-                        type="text"
-                        name="devices"
-                        id="adminBuildAdd_devices"
-                        value={devices}
-                        onChange={(e) => setDevices(e.target.value)}
-                    />
+                    <label>Dispositivos permitidos</label>
+                    <div className={localStyles.devices}>
+                        <label>
+                            <ToggleSwitch
+                                value="DESKTOP"
+                                checked={devices.includes("DESKTOP")}
+                                onChange={(e) => handleDeviceChange(e)}
+                            />
+                            Computador
+                        </label>
+                        <label>
+                            <ToggleSwitch
+                                value="MOBILE"
+                                checked={devices.includes("MOBILE")}
+                                onChange={(e) => handleDeviceChange(e)}
+                            />
+                            Celular
+                        </label>
+                    </div>
                 </div>
+                
             </main>
 
             <footer className={styles.footer}>

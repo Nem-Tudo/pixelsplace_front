@@ -18,6 +18,7 @@ import PixelIcon from "@/components/PixelIcon";
 import GuildCard from "@/components/GuildCard";
 import { usePopup } from '@/context/PopupContext';
 import Badges from "@/components/Badges";
+import Tippy from "@tippyjs/react";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -235,7 +236,17 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             </div>
 
             <div className={styles.name}>
-              <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /*PQP NT Q COISA FEIA *//> {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ? <Link href={'/admin?page=users&Search='+user?.id}> <PixelIcon codename={'sliders'}/></Link> : ''}</h1>  
+              <h1 className={styles.displayName}>
+                {user?.display_name}
+                <Verified verified={user?.premium} /*PQP NT Q COISA FEIA *//>
+                {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ?
+                  <Tippy arrow={false} content={'Opções de administrador'} placement="top">
+                    <Link href={'/admin?page=users&Search='+user?.id}>
+                      <PixelIcon codename={'sliders'}/>
+                    </Link> 
+                  </Tippy>
+                : ''}
+              </h1>  
               <p className={styles.userName}>@{user?.username} </p>
             </div>
 
@@ -313,7 +324,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <input type="color" id={styles.editSecondaryColor} value={user.profile.color_secundary} onChange={(e) => {
                 updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
               }} />
-              <PixelIcon codename={'paint-bucket'} className={styles.paintIcon} />
+              <PixelIcon codename={'fill-half'} className={styles.paintIcon} />
             </div>
           }
 
