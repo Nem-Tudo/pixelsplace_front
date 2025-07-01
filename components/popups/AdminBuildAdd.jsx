@@ -5,6 +5,7 @@ import PremiumButton from "@/components/PremiumButton";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
+import localStyles from "@/components/popups/AdminBuildAdd.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { dateToTimestamp } from "@/src/dateFunctions";
@@ -50,62 +51,72 @@ export default function AdminBuildAdd({ closePopup }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={localStyles.main}>
             <h1 className={styles.title}>
                 <PixelIcon codename={'alert'} />
                 {'Nova Build'}
             </h1>
 
             <main className={styles.scrollable}>
-                <label htmlFor="adminBuildAdd_branch">Branch do GitHub</label>
-                <input
-                    type="text"
-                    name="branch"
-                    id="adminBuildAdd_branch"
-                    value={branch}
-                    onChange={(e) => setBranch(e.target.value)}
-                    required
-                />
+                <div>
+                    <label htmlFor="adminBuildAdd_branch">Branch do GitHub</label>
+                    <input
+                        type="text"
+                        name="branch"
+                        id="adminBuildAdd_branch"
+                        value={branch}
+                        onChange={(e) => setBranch(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <label htmlFor="adminBuildAdd_forceOnLink">Tela de confirmação</label>
-                <ToggleSwitch
-                    name="forceOnLink"
-                    id="adminBuildAdd_forceOnLink"
-                    checked={forceOnLink}
-                    onChange={(e) => setForceOnLink(e.target.checked)}
-                    required
-                />
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <label htmlFor="adminBuildAdd_forceOnLink">Tela de confirmação</label>
+                    <ToggleSwitch
+                        name="forceOnLink"
+                        id="adminBuildAdd_forceOnLink"
+                        checked={forceOnLink}
+                        onChange={(e) => setForceOnLink(e.target.checked)}
+                        required
+                    />
+                </div>
 
-                <label htmlFor="adminBuildAdd_expiresAt">Data de expiração</label>
-                <input
-                    type="date"
-                    name="expiresAt"
-                    id="adminBuildAdd_expiresAt"
-                    value={expiresAt}
-                    onChange={(e) => setExpiresAt(e.target.value)}
-                />
+                <div>
+                    <label htmlFor="adminBuildAdd_expiresAt">Data de expiração</label>
+                    <input
+                        type="date"
+                        name="expiresAt"
+                        id="adminBuildAdd_expiresAt"
+                        value={expiresAt}
+                        onChange={(e) => setExpiresAt(e.target.value)}
+                    />
+                </div>
 
-                <label htmlFor="adminBuildAdd_requiredFlags">
-                    Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]
-                </label>
-                <input
-                    type="text"
-                    name="requiredFlags"
-                    id="adminBuildAdd_requiredFlags"
-                    value={requiredFlags}
-                    onChange={(e) => setRequiredFlags(e.target.value)}
-                />
+                <div>
+                    <label htmlFor="adminBuildAdd_requiredFlags">
+                        Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]
+                    </label>
+                    <input
+                        type="text"
+                        name="requiredFlags"
+                        id="adminBuildAdd_requiredFlags"
+                        value={requiredFlags}
+                        onChange={(e) => setRequiredFlags(e.target.value)}
+                    />
+                </div>
 
-                <label htmlFor="adminBuildAdd_devices">
-                    Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vazio para todos]
-                </label>
-                <input
-                    type="text"
-                    name="devices"
-                    id="adminBuildAdd_devices"
-                    value={devices}
-                    onChange={(e) => setDevices(e.target.value)}
-                />
+                <div>
+                    <label htmlFor="adminBuildAdd_devices">
+                        Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vazio para todos]
+                    </label>
+                    <input
+                        type="text"
+                        name="devices"
+                        id="adminBuildAdd_devices"
+                        value={devices}
+                        onChange={(e) => setDevices(e.target.value)}
+                    />
+                </div>
             </main>
 
             <footer className={styles.footer}>

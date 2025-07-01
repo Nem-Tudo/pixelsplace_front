@@ -1,0 +1,11 @@
+.main {
+    input[type="text"], input[type="date"] {
+        border: var(--outline);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: var(--shadow);
+    }
+    input[type="text"]:hover, input[type="date"]:hover {
+        scale: var(--hover-scale);
+    }
+}
