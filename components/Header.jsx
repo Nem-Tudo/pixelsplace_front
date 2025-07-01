@@ -133,7 +133,7 @@ export default function Header() {
 
                         {
                             userValidLinks.map(([name, { label, href, id, exclusive }]) => (
-                                <Link href={href}>
+                                <Link href={href} key={href}>
                                     <span>{label}</span>
                                 </Link>
                             ))
@@ -147,7 +147,7 @@ export default function Header() {
                 <nav className={[styles.left, 'mobileHidden_720'].join(' ')}>
                     {
                         userValidLinks.map(([name, { icon, label, href, id, exclusive }]) => (
-                            <Link id={id || ''} className={styles.item} href={href}>
+                            <Link id={id || ''} className={styles.item} href={href} key={href}>
                                 {
                                     icon && <div className={styles.icon}>{icon}</div>
                                 }
