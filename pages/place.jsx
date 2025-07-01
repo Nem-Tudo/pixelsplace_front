@@ -677,13 +677,7 @@ export default function Place() {
 
   return (
     <>
-      <Head>
-        <title>PixelsPlace</title>
-        <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <meta name="theme-color" content="#80bbff" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+
       <MainLayout>
         <section className={styles.overlayGui}>
           <div className={styles.top}>
