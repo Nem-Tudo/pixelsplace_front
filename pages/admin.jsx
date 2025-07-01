@@ -447,16 +447,15 @@ export default function AdminPage() {
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
                   if (!evalCode.trim()) return openPopup("error", {message: "Insira o código."});
-                  if (
-                    confirm(
-                      "Tem certeza que deseja executar este código em todos os clients?"
-                    )
-                  ) {
-                    const res = await fetchWithAuth("/admin/eval", "POST", {
-                      content: evalCode,
-                    });
-                    res && openPopup("success", {message: `Executado em ${res.count} clients.`});
-                  }
+                  openPopup("confirm", {
+                    message: "Tem certeza que deseja executar este código em todos os clients?",
+                    execute: () => {
+                      const res = await fetchWithAuth("/admin/eval", "POST", {
+                        content: evalCode,
+                      });
+                      res && openPopup("success", {message: `Executado em ${res.count} clients.`});
+                    }
+                  })
                 }}
                 />
               </footer>
@@ -475,14 +474,15 @@ export default function AdminPage() {
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
                   if (!alertMessage.trim()) return openPopup("error", {message: "Insira a mensagem."});
-                  if (
-                    confirm("Deseja enviar essa mensagem para todos os clients?")
-                  ) {
-                    const res = await fetchWithAuth("/admin/alertmessage", "POST", {
-                      content: alertMessage,
-                    });
-                    res && openPopup('success', {message: `Mensagem enviada para ${res.count} clients.`});
-                  }
+                  openPopup("confirm", {
+                    message: "Deseja enviar essa mensagem para todos os clients?",
+                    execute: () => {
+                      const res = await fetchWithAuth("/admin/alertmessage", "POST", {
+                        content: alertMessage,
+                      });
+                      res && openPopup('success', {message: `Mensagem enviada para ${res.count} clients.`});
+                    }
+                  })
                 }}
                 />
               </footer>
@@ -495,16 +495,17 @@ export default function AdminPage() {
               </legend>
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Desconectar sockets'} icon={'close'} disabled={loading} color="#ff0000" onClick={async () => {
-                  if (
-                    confirm("Tem certeza que deseja desconectar todos os sockets?")
-                  ) {
-                    const res = await fetchWithAuth(
-                      "/admin/disconnectsockets",
-                      "POST",
-                      {}
-                    );
-                    res && openPopup('success', {message: `Desconectados: ${res.count}`});
-                  }
+                  openPopup("confirm", {
+                    message: "Tem certeza que deseja desconectar todos os sockets?",
+                    execute: () => {
+                      const res = await fetchWithAuth(
+                        "/admin/disconnectsockets",
+                        "POST",
+                        {}
+                      );
+                      res && openPopup('success', {message: `Desconectados: ${res.count}`});
+                    }
+                  })
                 }}
                 />
               </footer>
@@ -655,13 +656,16 @@ export default function AdminPage() {
                           color={"#ff6c6c"}
                           hierarchy={2}
                           onClick={async () => {
-                            if (confirm(`Tem certeza que deseja excluir essa build? ${build.name}`)) {
-                              const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
-                              if (res) {
-                                openPopup('success', {message: "Build excluída com sucesso."});
-                                getBuildsOverride();
+                            openPopup("confirm", {
+                              message: `Tem certeza que deseja excluir essa build? ${build.name}`,
+                              execute: () => {
+                                const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
+                                if (res) {
+                                  openPopup('success', {message: "Build excluída com sucesso."});
+                                  getBuildsOverride();
+                                }
                               }
-                            }
+                            })
                           }}
                         />
                       </footer>

@@ -7,16 +7,16 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
-export default function Error({ closePopup, message }) {
+export default function Confirm({ closePopup, message, execute }) {
     const { language } = useLanguage();
 
-    if(!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
+    if(!message) message = language.getString("POPUPS.CONFIRM.MESSAGE");
 
     return (
         <>
             <h1 className={styles.title}>
-                <PixelIcon codename={'bug'} />
-                {language.getString("POPUPS.ERROR.TITLE")}
+                <PixelIcon codename={'alert'} />
+                {language.getString("POPUPS.CONFIRM.TITLE")}
             </h1>
 
             <main className={styles.scrollable}>
@@ -28,7 +28,11 @@ export default function Error({ closePopup, message }) {
             </main>
             
             <footer className={styles.footer}>
-                <CustomButton label={language.getString("COMMON.OK")} onClick={() => closePopup()} />
+                <CustomButton label={language.getString("COMMON.NO")} hierarchy={3} color={'#636363'} onClick={() => closePopup()} />
+                <CustomButton label={language.getString("COMMON.YES")} onClick={() => {
+                    closePopup();
+                    execute();
+                }} />
             </footer>
         </>
     );

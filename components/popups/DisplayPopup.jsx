@@ -1,11 +1,12 @@
 import styles from "@/components/popups/DisplayPopup.module.css"
 
 //import popups
-import PremiumRequired from "./PremiumRequiredPopup";
-import Error from "./ErrorPopup";
-import NotImplementedYet from "./NotImplementedYetPopup";
+import PremiumRequired from "./PremiumRequired";
+import Error from "./Error";
+import NotImplementedYet from "./NotImplementedYet";
 import Success from "./Success";
 import Generic from "./Generic";
+import Confirm from "./Confirm";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
@@ -16,6 +17,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "not_implemented_yet": <NotImplementedYet closePopup={closePopup} {...showingPopup?.settings} />,
         "success": <Success closePopup={closePopup} {...showingPopup?.settings} />,
         "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
+        "confirm": <Confirm closePopup={closePopup} {...showingPopup?.settings} />,
         // Adicione outros popups aqui
     };
     

@@ -98,7 +98,7 @@ module.exports = {
             DESCRIPTION: "This feature hasn't been yet implemented...",
         },
         GENERIC: {
-            TITLE: "Alert",
+            TITLE: "Info",
             DESCRIPTION: "Unidentified alert... But something happened!"
         },
     },
