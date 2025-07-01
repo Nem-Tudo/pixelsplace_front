@@ -5,14 +5,14 @@
         flex-direction: column;
         gap: 6px;
 
-        input[type="text"], input[type="date"] {
+        input[type="text"], input[type="datetime-local"] {
             border: var(--outline);
             border-radius: 12px;
             padding: 10px;
             box-shadow: var(--shadow);
             transition: var(--smooth-transition);
         }
-        input[type="text"]:hover, input[type="date"]:hover {
+        input[type="text"]:hover, input[type="datetime-local"]:hover {
             scale: var(--hover-scale);
         }
     }

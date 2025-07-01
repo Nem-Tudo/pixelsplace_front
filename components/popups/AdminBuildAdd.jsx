@@ -9,6 +9,9 @@ import localStyles from "@/components/popups/AdminBuildAdd.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { dateToTimestamp } from "@/src/dateFunctions";
+import { usePopup } from '@/context/PopupContext';
+import settings from "@/settings.js";
+
 
 export default function AdminBuildAdd({ closePopup }) {
     const { language } = useLanguage();
@@ -17,7 +20,37 @@ export default function AdminBuildAdd({ closePopup }) {
     const [forceOnLink, setForceOnLink] = useState(false);
     const [expiresAt, setExpiresAt] = useState("");
     const [requiredFlags, setRequiredFlags] = useState("");
-    const [devices, setDevices] = useState("");
+    const [devices, setDevices] = useState([]);
+
+    const { token, loggedUser } = useAuth();
+    const { openPopup } = usePopup();
+
+    const fetchWithAuth = async (url, method, body) => {
+        try {
+            const res = await fetch(`${settings.apiURL}${url}`, {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: token,
+                },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+            return data;
+        } catch (err) {
+            openPopup("error", {message: `${err.message}`});
+        }
+    };
+
+    const handleDeviceChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setDevices((prev) => [...prev, value]);
+        } else {
+            setDevices((prev) => prev.filter((d) => d !== value));
+        }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,13 +68,13 @@ export default function AdminBuildAdd({ closePopup }) {
             const dateStr = `${dd}/${mm}/${yyyy} ${timePart}`;
             expiresAtTimestamp = dateToTimestamp(dateStr);
         }
-        
+
         const payload = {
             branch: branch.trim(),
             forceOnLink,
             expiresAt: expiresAtTimestamp ? new Date(Number(expiresAtTimestamp)) : null,
             required_flags: (requiredFlags || "").split(",").map(flag => flag.trim()).filter(flag => flag),
-            devices: (devices || "").split(",").map(device => device.trim()).filter(device => device)
+            devices: (devices || [])
         };
 
         const res = await fetchWithAuth("/builds", "POST", payload);
@@ -108,17 +141,38 @@ export default function AdminBuildAdd({ closePopup }) {
                 </div>
 
                 <div>
-                    <label htmlFor="adminBuildAdd_devices">
-                        Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vazio para todos]
-                    </label>
-                    <input
-                        type="text"
-                        name="devices"
-                        id="adminBuildAdd_devices"
-                        value={devices}
-                        onChange={(e) => setDevices(e.target.value)}
-                    />
+                    <label>Dispositivos permitidos</label>
+                    <div className={styles.checkboxGroup}>
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="DESKTOP"
+                                checked={devices.includes("DESKTOP")}
+                                onChange={(e) => handleDeviceChange(e)}
+                            />
+                            DESKTOP
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="MOBILE"
+                                checked={devices.includes("MOBILE")}
+                                onChange={(e) => handleDeviceChange(e)}
+                            />
+                            MOBILE
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="TABLET"
+                                checked={devices.includes("TABLET")}
+                                onChange={(e) => handleDeviceChange(e)}
+                            />
+                            TABLET
+                        </label>
+                    </div>
                 </div>
+                
             </main>
 
             <footer className={styles.footer}>
