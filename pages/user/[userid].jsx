@@ -18,6 +18,7 @@ import PixelIcon from "@/components/PixelIcon";
 import GuildCard from "@/components/GuildCard";
 import { usePopup } from '@/context/PopupContext';
 import Badges from "@/components/Badges";
+import Tippy from "@tippyjs/react";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
