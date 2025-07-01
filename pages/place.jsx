@@ -21,7 +21,6 @@ import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
-import SoundEngine from "@/src/SoundEngine";
 
 export default function Place() {
   const router = useRouter();
@@ -560,10 +559,7 @@ export default function Place() {
       const left = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 
       setTimeLeft(left);
-      if (left === "0:00") {
-        clearInterval(cooldownRef.current);
-        SoundEngine.play('CooldownOverAlert.mp3');
-      }
+      if (left === "0:00") clearInterval(cooldownRef.current);
     };
 
     updateTimer(); // atualiza imediatamente
@@ -633,7 +629,6 @@ export default function Place() {
       return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
-    SoundEngine.play('PixelPlace.mp3');
   }
 
   function updatePixel(x, y, color, loading) {
@@ -682,7 +677,13 @@ export default function Place() {
 
   return (
     <>
-
+      <Head>
+        <title>PixelsPlace</title>
+        <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+        <meta name="theme-color" content="#80bbff" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <MainLayout>
         <section className={styles.overlayGui}>
           <div className={styles.top}>
@@ -725,7 +726,7 @@ export default function Place() {
                   <div className={styles.pixelColorInfo}>
                     <div className={styles.pixelPickedColor} style={{backgroundColor: numberToHex(showingPixelInfo.c)}}>
                       <span>
-                        #{numberToHex(showingPixelInfo.c)}
+                        #{showingPixelInfo.c}
                       </span>
                     </div>
                     
@@ -761,7 +762,6 @@ export default function Place() {
                           canvasConfig.freeColors.includes(showingPixelInfo.c)
                         ) {
                           setSelectedColor(showingPixelInfo.c);
-                          SoundEngine.play('ColorPick.mp3');
                         } else {
                           openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
@@ -813,7 +813,7 @@ export default function Place() {
                     <CustomButton
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
-                      disabled={!(selectedColor && selectedColor != selectedPixel.c)}
+                      disabled={!selectedColor}
                       className={styles.placePixel}
                       onClick={() => {
                         placePixel(
@@ -840,7 +840,6 @@ export default function Place() {
                         }} onChange={(e) => {
                           if (!loggedUser?.premium) return
                           setSelectedColor(hexToNumber(e.target.value))
-                          SoundEngine.play('ColorPick.mp3');
                         }} />
                       </> 
                     : 
@@ -866,7 +865,6 @@ export default function Place() {
                         key={index}
                         onClick={() => {
                           setSelectedColor(color);
-                          SoundEngine.play('ColorPick.mp3')
                         }}
                         className={styles.color}
                         style={{

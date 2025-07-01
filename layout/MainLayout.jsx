@@ -90,12 +90,6 @@ export function MainLayout({ children }) {
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
                 <meta name="theme-color" content="#80bbff" />
                 <link rel="icon" href="/favicon.ico" />
-
-                <meta property="og:type" content="website" />
-                <meta property="og:title" content="PixelsPlace.bat" />
-                <meta property="og:description" content="Coloque um pixel." />
-                <meta property="og:image" content="https://commandbat.com.br/imagens/Icon.jpg" />
-                <meta property="og:url" content="https://google.com" />
             </Head>
             <Header />
             <main className={styles.main}>
