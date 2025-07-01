@@ -95,6 +95,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (router.isReady) {
       const pageFromUrl = router.query.page;
+      const idUserSearch = router.query.Search;
       const validPages = ['canvas', 'general', 'users'];
 
       if (pageFromUrl && validPages.includes(pageFromUrl)) {
@@ -102,6 +103,9 @@ export default function AdminPage() {
       } else {
         setChosenPage('canvas'); // página padrão
       }
+
+      if ((pageFromUrl == 'users') && (idUserSearch))
+      {getUser(idUserSearch)}
     }
   }, [router.isReady, router.query.page]);
 
