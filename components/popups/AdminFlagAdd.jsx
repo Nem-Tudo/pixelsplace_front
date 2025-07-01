@@ -34,7 +34,7 @@ export default function AdminFlagAdd({ closePopup, user, setUser, updateStateKey
   return (
     <form onSubmit={handleSubmit}>
       <h1 className={styles.title}>
-        <PixelIcon codename="alert" />
+        <PixelIcon codename="flag" />
         {'Adicionar nova flag'}
       </h1>
 

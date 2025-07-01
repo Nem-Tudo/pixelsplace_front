@@ -40,7 +40,7 @@ export default function AdminColorAdd({ closePopup, freeColors, setFreeColors })
     return (
         <form onSubmit={handleSubmit}>
             <h1 className={styles.title}>
-                <PixelIcon codename="paint-bucket" />
+                <PixelIcon codename="fill-half" />
                 {'Adicionar cor gratuita'}
             </h1>
 
