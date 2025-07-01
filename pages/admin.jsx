@@ -366,19 +366,7 @@ export default function AdminPage() {
                   icon={'plus'}
                   color={"#27b84d"}
                   onClick={() => {
-                    const color = prompt("Código hex");
-                    if (!color) return;
-                    const number = hexToNumber(color);
-
-                    if (isNaN(number)) return openPopup("error", {message: "cor invalida: NaN"});
-                    if (number < 0) return openPopup("error", {message: "cor invalida: numero menor q 0"});
-                    if (number > 16777215)
-                      return openPopup("error", {message: "cor invalida: numero maior q 16777215"});
-
-                    const newColors = [...freeColors];
-                    newColors.push(number);
-                    setFreeColors(newColors);
-                  }}
+                    openPopup("admin_color_add", { freeColors, setFreeColors })
                 />
                 <CustomButton
                   label={'Salvar cores'}
@@ -746,12 +734,7 @@ export default function AdminPage() {
                     icon={'plus'}
                     color={"#27b84d"}
                     onClick={() => {
-                      const flag = prompt("Escreva o nova flag").toUpperCase();
-                      if (flag) {
-                        const newFlagsUser = [...user.flags];
-                        newFlagsUser.push(flag);
-                        updateStateKey(setUser, user, ["flags", newFlagsUser]);
-                      }
+                      openPopup("admin_flag_add", { user, setUser, updateStateKey })
                     }}
                   />
                   <CustomButton
@@ -838,13 +821,7 @@ export default function AdminPage() {
                     label={"Kick"}
                     icon={"user-x"}
                     hierarchy={2}
-                    onClick={async () => {
-                    const reason = prompt("Escreva o motivo: ");
-
-                      await fetchWithAuth("/admin/onlineusers/" + user?.id + "/disconnect", "POST", {
-                        reason : reason
-                      });
-                    }} 
+                    onClick={openPopup("admin_kick", { user })} 
                   />
                   <CustomButton
                     label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}

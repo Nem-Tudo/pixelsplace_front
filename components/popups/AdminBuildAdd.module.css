@@ -16,5 +16,16 @@
             scale: var(--hover-scale);
         }
     }
+
+    .devices {
+        align-items: center;
+        flex-direction: row;
+        
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
     
 }

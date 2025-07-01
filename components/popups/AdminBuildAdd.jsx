@@ -77,16 +77,17 @@ export default function AdminBuildAdd({ closePopup }) {
             devices: (devices || [])
         };
 
-        const res = await fetchWithAuth("/builds", "POST", payload);
+        try {
+            const res = await fetchWithAuth("/builds", "POST", payload);
 
-        if (res) {
-            openPopup('success', { message: "Build criada com sucesso." });
-            getBuildsOverride();
-            closePopup();
-
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
+            if (res) {
+                openPopup('success', { message: "Build criada com sucesso. A página será recarregada." });
+                window.location.reload(); // força recarregar a página
+            } else {
+                openPopup("error", { message: "Erro ao criar a build. Tente novamente." });
+            }
+        } catch (err) {
+            openPopup("error", { message: `${err.message}` });
         }
     };
 
@@ -146,14 +147,14 @@ export default function AdminBuildAdd({ closePopup }) {
 
                 <div>
                     <label>Dispositivos permitidos</label>
-                    <div style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <div className={localStyles.devices}>
                         <label>
                             <ToggleSwitch
                                 value="DESKTOP"
                                 checked={devices.includes("DESKTOP")}
                                 onChange={(e) => handleDeviceChange(e)}
                             />
-                            DESKTOP
+                            Computador
                         </label>
                         <label>
                             <ToggleSwitch
@@ -161,7 +162,7 @@ export default function AdminBuildAdd({ closePopup }) {
                                 checked={devices.includes("MOBILE")}
                                 onChange={(e) => handleDeviceChange(e)}
                             />
-                            MOBILE
+                            Celular
                         </label>
                     </div>
                 </div>

@@ -8,6 +8,9 @@ import Success from "./Success";
 import Generic from "./Generic";
 import Confirm from "./Confirm";
 import AdminBuildAdd from "./AdminBuildAdd";
+import AdminColorAdd from "./AdminColorAdd";
+import AdminFlagAdd from "./AdminFlagAdd";
+import AdminKick from "./AdminKick";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
@@ -20,6 +23,9 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
         "confirm": <Confirm closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_build_add": <AdminBuildAdd closePopup={closePopup} {...showingPopup?.settings} />,
+        "admin_color_add": <AdminColorAdd closePopup={closePopup} {...showingPopup?.settings} />,
+        "admin_flag_add": <AdminFlagAdd closePopup={closePopup} {...showingPopup?.settings} />,
+        "admin_kick": <AdminKick closePopup={closePopup} {...showingPopup?.settings} />,
     };
     
     showingPopup?.settings?.timeout &&
