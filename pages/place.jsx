@@ -12,11 +12,10 @@ import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
 import useDraggable from "@/src/useDraggable";
-import { MdDragIndicator, MdClose } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
-import { FaShare } from "react-icons/fa";
 import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
@@ -226,11 +225,22 @@ export default function Place() {
         return;
       }
 
-      // Ajusta as dimensões do canvas
-      canvasRef.current.width = canvasSettings.width;
-      canvasRef.current.height = canvasSettings.height;
-      overlayCanvasRef.current.width = canvasSettings.width * 10;
-      overlayCanvasRef.current.height = canvasSettings.height * 10;
+      // Obtém o pixel ratio do dispositivo para alta densidade (fix para mobile)
+      const pixelRatio = window.devicePixelRatio || 1;
+      
+      // Ajusta as dimensões do canvas com suporte a alta densidade
+      canvasRef.current.width = canvasSettings.width * pixelRatio;
+      canvasRef.current.height = canvasSettings.height * pixelRatio;
+      canvasRef.current.style.width = canvasSettings.width + 'px';
+      canvasRef.current.style.height = canvasSettings.height + 'px';
+      
+      // Escala o contexto para corresponder ao pixel ratio
+      ctx.scale(pixelRatio, pixelRatio);
+      
+      overlayCanvasRef.current.width = canvasSettings.width * 10 * pixelRatio;
+      overlayCanvasRef.current.height = canvasSettings.height * 10 * pixelRatio;
+      overlayCanvasRef.current.style.width = (canvasSettings.width * 10) + 'px';
+      overlayCanvasRef.current.style.height = (canvasSettings.height * 10) + 'px';
 
       // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
@@ -249,6 +259,8 @@ export default function Place() {
 
       // Renderiza a imagem no próximo frame para performance
       requestAnimationFrame(() => {
+        // Desabilita o anti-aliasing para manter pixels nítidos
+        ctx.imageSmoothingEnabled = false;
         ctx.putImageData(imageData, 0, 0);
       });
 
@@ -442,6 +454,13 @@ export default function Place() {
     if (!canvas || !selectedPixel) return;
 
     const ctx = canvas.getContext("2d");
+    // Desabilita o anti-aliasing para o overlay também
+    ctx.imageSmoothingEnabled = false;
+    
+    // Ajusta para o pixel ratio do dispositivo
+    const pixelRatio = window.devicePixelRatio || 1;
+    ctx.scale(pixelRatio, pixelRatio);
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     //branco externo
@@ -588,7 +607,7 @@ export default function Place() {
 
   useEffect(() => {
     const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const userAgent = navigator.userAgent || window.opera;
       setIsMobile(/android|iphone|ipad|ipod|windows phone/i.test(userAgent));
     };
 
@@ -638,6 +657,9 @@ export default function Place() {
       ctx.fillStyle = !loading
         ? numberToHex(color)
         : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
+      
+      // Desabilita o anti-aliasing para manter pixels nítidos
+      ctx.imageSmoothingEnabled = false;
       ctx.fillRect(x, y, 1, 1);
     }
   }
