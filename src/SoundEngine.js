@@ -1,12 +1,17 @@
+import { useEffect, useState } from "react";
+
 const SoundEngine = (function () {
   const audioRefs = {};
 
   function load(files = []) {
     files.forEach((file) => {
       if (!audioRefs[file]) {
-        const audio = new Audio(`/sfx/${file}`);
-        audio.load();
-        audioRefs[file] = audio;
+        const [audio, setAudio] = useState(null)
+        useEffect(() => {
+          setAudio(new Audio(`/sfx/${file}`))
+          audio.load();
+          audioRefs[file] = audio;
+        }, [])
       }
     });
   }
