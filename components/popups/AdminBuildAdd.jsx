@@ -51,13 +51,13 @@ export default function AdminBuildAdd({ closePopup }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={localStyles.main}>
+        <form onSubmit={handleSubmit}>
             <h1 className={styles.title}>
                 <PixelIcon codename={'alert'} />
                 {'Nova Build'}
             </h1>
 
-            <main className={styles.scrollable}>
+            <main className={[styles.scrollable, localStyles.main].join(' ')}>
                 <div>
                     <label htmlFor="adminBuildAdd_branch">Branch do GitHub</label>
                     <input
@@ -70,7 +70,7 @@ export default function AdminBuildAdd({ closePopup }) {
                     />
                 </div>
 
-                <div style={{display: 'flex', alignItems: 'center'}}>
+                <div style={{flexDirection: 'row', alignItems: 'center'}}>
                     <label htmlFor="adminBuildAdd_forceOnLink">Tela de confirmação</label>
                     <ToggleSwitch
                         name="forceOnLink"
