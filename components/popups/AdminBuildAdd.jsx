@@ -11,7 +11,7 @@ import ToggleSwitch from "@/components/ToggleSwitch";
 import { dateToTimestamp } from "@/src/dateFunctions";
 import { usePopup } from '@/context/PopupContext';
 import settings from "@/settings.js";
-
+import { useAuth } from "@/context/AuthContext";
 
 export default function AdminBuildAdd({ closePopup }) {
     const { language } = useLanguage();
