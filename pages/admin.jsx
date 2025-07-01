@@ -105,7 +105,9 @@ export default function AdminPage() {
       }
 
       if ((pageFromUrl == 'users') && (idUserSearch))
-      {getUser(idUserSearch)}
+      {
+        getUser(idUserSearch)
+      }
     }
   }, [router.isReady, router.query.page]);
 
@@ -721,7 +723,7 @@ export default function AdminPage() {
               <legend>
                 <strong>Escolher usuário</strong>
               </legend>
-              <input type="text" id="idUserSearch" />
+              <input type="text" id="idUserSearch" defaultValue={router.query.Search} />
               <footer className={styles.buttonsContainer}>
                 <CustomButton
                   label={'Consultar'}
