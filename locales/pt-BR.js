@@ -101,6 +101,10 @@ module.exports = {
             TITLE: "Informação",
             DESCRIPTION: "Alerta não identificado... Mas algo aconteceu!"
         },
+        CONFIRM: {
+            TITLE: "Confirmar",
+            DESCRIPTION: "Você deseja confirmar?",
+        },
     },
     LAYOUTS: {
         MAIN_LAYOUT: {
