@@ -726,7 +726,7 @@ export default function Place() {
                   <div className={styles.pixelColorInfo}>
                     <div className={styles.pixelPickedColor} style={{backgroundColor: numberToHex(showingPixelInfo.c)}}>
                       <span>
-                        #{showingPixelInfo.c}
+                        #{numberToHex(showingPixelInfo.c)}
                       </span>
                     </div>
                     

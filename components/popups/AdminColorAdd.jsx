@@ -40,12 +40,11 @@ export default function AdminColorAdd({ closePopup, freeColors, setFreeColors })
     return (
         <form onSubmit={handleSubmit}>
             <h1 className={styles.title}>
-                <PixelIcon codename="alert" />
+                <PixelIcon codename="paint-bucket" />
                 {'Adicionar cor gratuita'}
             </h1>
 
             <main className={styles.scrollable}>
-                <label htmlFor="adminColorAdd_color">Escolha a cor</label>
                 <input
                     type="color"
                     id="adminColorAdd_color"
@@ -53,6 +52,7 @@ export default function AdminColorAdd({ closePopup, freeColors, setFreeColors })
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
                     required
+                    style={{width: '-webkit-fill-available'}}
                 />
             </main>
 

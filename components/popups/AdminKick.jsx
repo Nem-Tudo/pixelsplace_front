@@ -38,12 +38,11 @@ export default function AdminKick({ closePopup, user }) {
   return (
     <form onSubmit={handleSubmit}>
       <h1 className={styles.title}>
-        <PixelIcon codename="alert" />
+        <PixelIcon codename="user-x" />
         {'Desconectar usuário'}
       </h1>
 
       <main className={styles.scrollable}>
-        <label htmlFor="adminKick_reason">Motivo do kick</label>
         <textarea
           id="adminKick_reason"
           name="reason"

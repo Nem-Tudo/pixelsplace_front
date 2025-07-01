@@ -39,12 +39,12 @@ export default function AdminFlagAdd({ closePopup, user, setUser, updateStateKey
       </h1>
 
       <main className={styles.scrollable}>
-        <label htmlFor="adminFlagAdd_flag">Digite a nova flag</label>
+        <label htmlFor="adminFlagAdd_flag">Digite a flag a adicionar</label>
         <input
           type="text"
           id="adminFlagAdd_flag"
           name="flag"
-          value={flag}
+          value={flag?.toUpperCase()}
           onChange={(e) => setFlag(e.target.value)}
           required
           autoFocus
