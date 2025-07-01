@@ -75,7 +75,7 @@ export default function AdminBuildAdd({ closePopup }) {
                     <ToggleSwitch
                         name="forceOnLink"
                         id="adminBuildAdd_forceOnLink"
-                        checked={forceOnLink}
+                        checked={!forceOnLink}
                         onChange={(e) => setForceOnLink(!e.target.checked)}
                     />
                 </div>
