@@ -1,11 +1,11 @@
 import styles from "@/components/popups/DisplayPopup.module.css"
 
 //import popups
-import PremiumRequired from "./PremiumRequired";
-import Error from "./Error";
-import NotImplementedYet from "./NotImplementedYet";
-import Success from "./Success";
-import Generic from "./Generic";
+import PremiumRequired from "./PremiumRequiredPopup";
+import Error from "./ErrorPopup";
+import NotImplementedYet from "./NotImplementedYetPopup";
+import Success from "./SuccessPopup";
+import Generic from "./GenericPopup";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
