@@ -39,7 +39,7 @@ export default function AdminKick({ closePopup, user }) {
     <form onSubmit={handleSubmit}>
       <h1 className={styles.title}>
         <PixelIcon codename="alert" />
-        {language.getString("POPUPS.ADMIN_KICK.TITLE") || "Desconectar usuário"}
+        {'Desconectar usuário'}
       </h1>
 
       <main className={styles.scrollable}>

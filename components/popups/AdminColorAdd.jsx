@@ -41,7 +41,7 @@ export default function AdminColorAdd({ closePopup, freeColors, setFreeColors })
         <form onSubmit={handleSubmit}>
             <h1 className={styles.title}>
                 <PixelIcon codename="alert" />
-                {language.getString("POPUPS.ADMIN_COLOR_ADD.TITLE") || "Adicionar cor livre"}
+                {'Adicionar cor gratuita'}
             </h1>
 
             <main className={styles.scrollable}>

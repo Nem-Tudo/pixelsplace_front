@@ -367,6 +367,7 @@ export default function AdminPage() {
                   color={"#27b84d"}
                   onClick={() => {
                     openPopup("admin_color_add", { freeColors, setFreeColors })
+                  }}
                 />
                 <CustomButton
                   label={'Salvar cores'}
@@ -821,7 +822,7 @@ export default function AdminPage() {
                     label={"Kick"}
                     icon={"user-x"}
                     hierarchy={2}
-                    onClick={openPopup("admin_kick", { user })} 
+                    onClick={() => openPopup("admin_kick", { user })} 
                   />
                   <CustomButton
                     label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}

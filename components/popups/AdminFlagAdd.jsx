@@ -35,7 +35,7 @@ export default function AdminFlagAdd({ closePopup, user, setUser, updateStateKey
     <form onSubmit={handleSubmit}>
       <h1 className={styles.title}>
         <PixelIcon codename="alert" />
-        {language.getString("POPUPS.ADMIN_FLAG_ADD.TITLE") || "Adicionar nova flag"}
+        {'Adicionar nova flag'}
       </h1>
 
       <main className={styles.scrollable}>
