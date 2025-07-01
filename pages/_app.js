@@ -8,6 +8,9 @@ import "@/styles/tippy.css";
 import { AuthProvider } from '../context/AuthContext';
 import { LanguageProvider } from '../context/LanguageContext';
 import PopupProvider from "@/context/PopupContext";
+import AudioManager from "@/src/AudioManager";
+
+AudioManager.load(["ColorPick.mp3", "CooldownOverAlert.mp3", "Fail.mp3", "PixelPlace.mp3"]);
 
 export default function App({ Component, pageProps }) {
   return <>

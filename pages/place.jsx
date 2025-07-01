@@ -21,6 +21,7 @@ import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
+import AudioManager from "@/src/AudioManager";
 
 export default function Place() {
   const router = useRouter();
@@ -561,10 +562,7 @@ export default function Place() {
       setTimeLeft(left);
       if (left === "0:00") {
         clearInterval(cooldownRef.current);
-        const audio = new Audio("/sfx/CooldownOverAlert.mp3");
-        audio.play().catch((err) => {
-          openPopup("error", {message: `${err} tentando tocar o som CooldownOverAlert.mp3`});
-        });
+        AudioManager.play('CooldownOverAlert.mp3');
       }
     };
 
@@ -635,10 +633,7 @@ export default function Place() {
       return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
-    const audio = new Audio("/sfx/PixelPlace.mp3");
-    audio.play().catch((err) => {
-      openPopup("error", {message: `${err} tentando tocar o som PixelPlace.mp3`});
-    });
+    AudioManager.play('PixelPlace.mp3');
   }
 
   function updatePixel(x, y, color, loading) {
@@ -772,10 +767,7 @@ export default function Place() {
                           canvasConfig.freeColors.includes(showingPixelInfo.c)
                         ) {
                           setSelectedColor(showingPixelInfo.c);
-                          const audio = new Audio("/sfx/ColorPick.mp3");
-                          audio.play().catch((err) => {
-                            openPopup("error", {message: `${err} tentando tocar o som ColorPick.mp3`});
-                          });
+                          AudioManager.play('ColorPick.mp3');
                         } else {
                           openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
@@ -854,10 +846,7 @@ export default function Place() {
                         }} onChange={(e) => {
                           if (!loggedUser?.premium) return
                           setSelectedColor(hexToNumber(e.target.value))
-                          const audio = new Audio("/sfx/ColorPick.mp3");
-                          audio.play().catch((err) => {
-                            openPopup("error", {message: `${err} tentando tocar o som ColorPick.mp3`});
-                          });
+                          AudioManager.play('ColorPick.mp3');
                         }} />
                       </> 
                     : 
@@ -883,10 +872,7 @@ export default function Place() {
                         key={index}
                         onClick={() => {
                           setSelectedColor(color);
-                          const audio = new Audio("/sfx/ColorPick.mp3");
-                          audio.play().catch((err) => {
-                            openPopup("error", {message: `${err} tentando tocar o som ColorPick.mp3`});
-                          });
+                          AudioManager.play('ColorPick.mp3')
                         }}
                         className={styles.color}
                         style={{
