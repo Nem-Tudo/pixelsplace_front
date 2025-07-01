@@ -21,7 +21,7 @@ import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
-import AudioManager from "@/src/AudioManager";
+import SoundEngine from "@/src/SoundEngine";
 
 export default function Place() {
   const router = useRouter();
@@ -562,7 +562,7 @@ export default function Place() {
       setTimeLeft(left);
       if (left === "0:00") {
         clearInterval(cooldownRef.current);
-        AudioManager.play('CooldownOverAlert.mp3');
+        SoundEngine.play('CooldownOverAlert.mp3');
       }
     };
 
@@ -633,7 +633,7 @@ export default function Place() {
       return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
-    AudioManager.play('PixelPlace.mp3');
+    SoundEngine.play('PixelPlace.mp3');
   }
 
   function updatePixel(x, y, color, loading) {
@@ -767,7 +767,7 @@ export default function Place() {
                           canvasConfig.freeColors.includes(showingPixelInfo.c)
                         ) {
                           setSelectedColor(showingPixelInfo.c);
-                          AudioManager.play('ColorPick.mp3');
+                          SoundEngine.play('ColorPick.mp3');
                         } else {
                           openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
                         }
@@ -846,7 +846,7 @@ export default function Place() {
                         }} onChange={(e) => {
                           if (!loggedUser?.premium) return
                           setSelectedColor(hexToNumber(e.target.value))
-                          AudioManager.play('ColorPick.mp3');
+                          SoundEngine.play('ColorPick.mp3');
                         }} />
                       </> 
                     : 
@@ -872,7 +872,7 @@ export default function Place() {
                         key={index}
                         onClick={() => {
                           setSelectedColor(color);
-                          AudioManager.play('ColorPick.mp3')
+                          SoundEngine.play('ColorPick.mp3')
                         }}
                         className={styles.color}
                         style={{

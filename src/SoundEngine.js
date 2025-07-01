@@ -1,4 +1,4 @@
-const AudioManager = (function () {
+const SoundEngine = (function () {
   const audioRefs = {};
 
   function load(files = []) {
@@ -29,4 +29,4 @@ const AudioManager = (function () {
   };
 })();
 
-export default AudioManager;
+export default SoundEngine;
