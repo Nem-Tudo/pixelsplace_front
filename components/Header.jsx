@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState, useRef } from "react"
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
-import CustomButton from "@/components/CustomButton";
 import PixelIcon from "@/components/PixelIcon"
 import ToggleSwitch from "@/components/ToggleSwitch";
 
