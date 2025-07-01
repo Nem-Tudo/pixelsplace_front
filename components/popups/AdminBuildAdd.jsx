@@ -27,18 +27,21 @@ export default function AdminBuildAdd({ closePopup }) {
             return;
         }
 
-        const expiresAtTimestamp = expiresAt ? dateToTimestamp(expiresAt) : null;
-
+        let expiresAtTimestamp = null;
+        if (expiresAt) {
+            // Converte datetime-local (YYYY-MM-DDTHH:MM) para o formato esperado
+            const [datePart, timePart] = expiresAt.split("T");
+            const [yyyy, mm, dd] = datePart.split("-");
+            const dateStr = `${dd}/${mm}/${yyyy} ${timePart}`;
+            expiresAtTimestamp = dateToTimestamp(dateStr);
+        }
+        
         const payload = {
             branch: branch.trim(),
             forceOnLink,
             expiresAt: expiresAtTimestamp ? new Date(Number(expiresAtTimestamp)) : null,
-            required_flags: requiredFlags
-                ? requiredFlags.split(",").map(flag => flag.trim()).filter(flag => flag)
-                : [],
-            devices: devices
-                ? devices.split(",").map(device => device.trim()).filter(device => device)
-                : []
+            required_flags: (requiredFlags || "").split(",").map(flag => flag.trim()).filter(flag => flag),
+            devices: (devices || "").split(",").map(device => device.trim()).filter(device => device)
         };
 
         const res = await fetchWithAuth("/builds", "POST", payload);
@@ -81,9 +84,9 @@ export default function AdminBuildAdd({ closePopup }) {
                 </div>
 
                 <div>
-                    <label htmlFor="adminBuildAdd_expiresAt">Data de expiração</label>
+                    <label htmlFor="adminBuildAdd_expiresAt">Data e hora de expiração</label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         name="expiresAt"
                         id="adminBuildAdd_expiresAt"
                         value={expiresAt}
