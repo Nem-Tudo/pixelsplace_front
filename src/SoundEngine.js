@@ -1,16 +1,22 @@
-const SoundEngine = (function () {
+import fs from 'node:fs';
+
+export default function SoundEngine() {
   const audioRefs = {};
 
-  function load(files = []) {
+  function load() {
     if (typeof window === 'undefined') return; // SSR protection
-    
-    files.forEach((file) => {
-      if (!audioRefs[file]) {
+
+    try {
+      const files = fs.readdirSync('/sfx');
+      for (const file in files) {
+        if(!audioRefs[file]) return;
         const audio = new Audio(`/sfx/${file}`);
         audio.load();
         audioRefs[file] = audio;
       }
-    });
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
   function play(file) {
@@ -31,6 +37,4 @@ const SoundEngine = (function () {
     load,
     play,
   };
-})();
-
-export default SoundEngine;
+}
