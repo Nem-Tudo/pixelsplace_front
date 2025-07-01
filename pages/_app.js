@@ -8,10 +8,7 @@ import "@/styles/tippy.css";
 import { AuthProvider } from '../context/AuthContext';
 import { LanguageProvider } from '../context/LanguageContext';
 import PopupProvider from "@/context/PopupContext";
-import SoundEngine from "@/src/SoundEngine";
-
 export default function App({ Component, pageProps }) {
-  SoundEngine.load();
 
   return <>
     <AuthProvider>

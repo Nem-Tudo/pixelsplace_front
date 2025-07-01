@@ -7,15 +7,12 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import { usePopup } from '@/context/PopupContext';
-import SoundEngine from "@/src/SoundEngine";
 
 export default function Error({ closePopup, message }) {
     const { language } = useLanguage();
     const { openPopup } = usePopup();
 
     if(!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
-
-    SoundEngine.play("Fail.mp3")
 
     return (
         <>
