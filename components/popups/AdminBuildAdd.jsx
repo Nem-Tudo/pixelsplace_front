@@ -14,7 +14,7 @@ export default function AdminBuildAdd({ closePopup }) {
     const { language } = useLanguage();
 
     const [branch, setBranch] = useState("");
-    const [forceOnLink, setForceOnLink] = useState(true);
+    const [forceOnLink, setForceOnLink] = useState(false);
     const [expiresAt, setExpiresAt] = useState("");
     const [requiredFlags, setRequiredFlags] = useState("");
     const [devices, setDevices] = useState("");
@@ -76,8 +76,7 @@ export default function AdminBuildAdd({ closePopup }) {
                         name="forceOnLink"
                         id="adminBuildAdd_forceOnLink"
                         checked={forceOnLink}
-                        onChange={(e) => setForceOnLink(e.target.checked)}
-                        required
+                        onChange={(e) => setForceOnLink(!e.target.checked)}
                     />
                 </div>
 
