@@ -20,7 +20,7 @@ export default function AdminBuildAdd({ closePopup }) {
     const [forceOnLink, setForceOnLink] = useState(false);
     const [expiresAt, setExpiresAt] = useState("");
     const [requiredFlags, setRequiredFlags] = useState("");
-    const [devices, setDevices] = useState([]);
+    const [devices, setDevices] = useState(['MOBILE', 'DESKTOP']);
 
     const { token, loggedUser } = useAuth();
     const { openPopup } = usePopup();
@@ -83,6 +83,10 @@ export default function AdminBuildAdd({ closePopup }) {
             openPopup('success', { message: "Build criada com sucesso." });
             getBuildsOverride();
             closePopup();
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
         }
     };
 
@@ -142,10 +146,9 @@ export default function AdminBuildAdd({ closePopup }) {
 
                 <div>
                     <label>Dispositivos permitidos</label>
-                    <div className={styles.checkboxGroup}>
+                    <div style={{flexDirection: 'row', alignItems: 'center'}}>
                         <label>
-                            <input
-                                type="checkbox"
+                            <ToggleSwitch
                                 value="DESKTOP"
                                 checked={devices.includes("DESKTOP")}
                                 onChange={(e) => handleDeviceChange(e)}
@@ -153,22 +156,12 @@ export default function AdminBuildAdd({ closePopup }) {
                             DESKTOP
                         </label>
                         <label>
-                            <input
-                                type="checkbox"
+                            <ToggleSwitch
                                 value="MOBILE"
                                 checked={devices.includes("MOBILE")}
                                 onChange={(e) => handleDeviceChange(e)}
                             />
                             MOBILE
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                value="TABLET"
-                                checked={devices.includes("TABLET")}
-                                onChange={(e) => handleDeviceChange(e)}
-                            />
-                            TABLET
                         </label>
                     </div>
                 </div>
