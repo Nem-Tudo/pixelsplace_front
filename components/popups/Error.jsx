@@ -6,11 +6,18 @@ import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
+import { usePopup } from '@/context/PopupContext';
 
 export default function Error({ closePopup, message }) {
     const { language } = useLanguage();
+    const { openPopup } = usePopup();
 
     if(!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
+
+    const audio = new Audio("/sfx/Fail.mp3");
+    audio.play().catch((err) => {
+        openPopup("error", {message: `${err} tentando tocar o som Fail.mp3`});
+    });
 
     return (
         <>
