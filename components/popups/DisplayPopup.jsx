@@ -7,6 +7,7 @@ import NotImplementedYet from "./NotImplementedYet";
 import Success from "./Success";
 import Generic from "./Generic";
 import Confirm from "./Confirm";
+import AdminBuildAdd from "./AdminBuildAdd";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
@@ -18,7 +19,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "success": <Success closePopup={closePopup} {...showingPopup?.settings} />,
         "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
         "confirm": <Confirm closePopup={closePopup} {...showingPopup?.settings} />,
-        // Adicione outros popups aqui
+        "admin_build_add": <AdminBuildAdd closePopup={closePopup} {...showingPopup?.settings} />,
     };
     
     showingPopup?.settings?.timeout &&
