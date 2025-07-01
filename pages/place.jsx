@@ -819,7 +819,7 @@ export default function Place() {
                     <CustomButton
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
-                      disabled={!selectedColor}
+                      disabled={!(selectedColor && selectedColor != selectedPixel.c)}
                       className={styles.placePixel}
                       onClick={() => {
                         placePixel(
