@@ -4,8 +4,8 @@ import styles from "@/components/popups/DisplayPopup.module.css"
 import PremiumRequired from "./PremiumRequiredPopup";
 import Error from "./ErrorPopup";
 import NotImplementedYet from "./NotImplementedYetPopup";
-import Success from "./SuccessPopup";
-import Generic from "./GenericPopup";
+import Success from "./Success";
+import Generic from "./Generic";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
