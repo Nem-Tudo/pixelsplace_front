@@ -313,7 +313,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               <input type="color" id={styles.editSecondaryColor} value={user.profile.color_secundary} onChange={(e) => {
                 updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
               }} />
-              <PixelIcon codename={'paint-bucket'} className={styles.paintIcon} />
+              <PixelIcon codename={'fill-half'} className={styles.paintIcon} />
             </div>
           }
 
