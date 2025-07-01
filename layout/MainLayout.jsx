@@ -16,6 +16,42 @@ export function MainLayout({ children }) {
 
     const [ip, setIp] = useState(null);
 
+    let executed = false;
+    useEffect(() => {
+        if (executed) return;
+        executed = true;
+        if (Cookies.get("active-build-token")) {
+            fetchCurrentBuild()
+        }
+    }, [])
+
+    async function fetchCurrentBuild() {
+        const branchtoken = Cookies.get("active-build-token");
+        if (!branchtoken || branchtoken === 'main') return;
+        try {
+            const request = await fetch(`${settings.apiURL}/builds/parsetoken/${branchtoken}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            const response = await request.json();
+            if (!request.ok) {
+                console.log(response, request);
+                openPopup("error", { message: language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT") });
+                location.href = `/buildoverride?t=main`;
+                return
+            }
+            console.log(`RUNNING CUSTOM BUILD`, response);
+        } catch (error) {
+            console.error('Error fetching current branch:', error)
+        }
+    }
+
+    useEffect(() => {
+        document.querySelector("html").lang = lang || "pt";
+    }, [language]);
+
     if (loggedUser?.flags.includes("BANNED")) {
         fetch("https://api.ipify.org?format=json")
             .then(res => res.json())
@@ -45,43 +81,6 @@ export function MainLayout({ children }) {
 
         </>
     }
-
-
-    let executed = false;
-    useEffect(() => {
-        if (executed) return;
-        executed = true;
-        if (Cookies.get("active-build-token")) {
-            fetchCurrentBuild()
-        }
-    }, [])
-
-    async function fetchCurrentBuild() {
-        const branchtoken = Cookies.get("active-build-token");
-        if (!branchtoken || branchtoken === 'main') return;
-        try {
-            const request = await fetch(`${settings.apiURL}/builds/parsetoken/${branchtoken}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            const response = await request.json();
-            if (!request.ok) {
-                console.log(response, request);
-                openPopup("error", {message: language.getString("LAYOUTS.MAIN_LAYOUT.INVALID_BUILD_ALERT")});
-                location.href = `/buildoverride?t=main`;
-                return
-            }
-            console.log(`RUNNING CUSTOM BUILD`, response);
-        } catch (error) {
-            console.error('Error fetching current branch:', error)
-        }
-    }
-
-    useEffect(() => {
-        document.querySelector("html").lang = lang || "pt";
-    }, [language]);
 
     return (
         <>
