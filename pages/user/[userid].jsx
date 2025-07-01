@@ -8,6 +8,8 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
+import Link from "next/link";
+import checkFlags from "@/src/checkFlags";
 
 import updateStateKey from "@/src/updateStateKey";
 import CustomButton from "@/components/CustomButton";
@@ -233,7 +235,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             </div>
 
             <div className={styles.name}>
-              <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /></h1>
+              <h1 className={styles.displayName}>{user?.display_name} <Verified verified={user?.premium} /*PQP NT Q COISA FEIA *//> {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ? <Link href={'/admin?page=users&Search='+user?.id}> <PixelIcon codename={'sliders'}/></Link> : ''}</h1>  
               <p className={styles.userName}>@{user?.username} </p>
             </div>
 
