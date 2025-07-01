@@ -596,29 +596,7 @@ export default function AdminPage() {
                   label={"Criar"}
                   icon={'plus'}
                   onClick={() => {
-                    //obtem dados: { branch, expiresAt, devices, required_flags, forceOnLink }
-                    const branch = prompt("Branch do github");
-                    if (!branch) return openPopup("error", {message: "Branch é obrigatória."});
-                    const forceOnLink = !confirm("Possui tela de confirmação?");
-
-                    const expiresAtStr = prompt("Data de expiração (formato: dd/mm/aa hh:mm) [vazio para não expirar]");
-                    const expiresAt = expiresAtStr ? dateToTimestamp(expiresAtStr) : null;
-
-                    const required_flags = prompt("Flags obrigatórias para selecionar a build (separadas por vírgula) [vazio para todas]").split(",").map(flag => flag.trim()).filter(flag => flag);
-                    const devices = prompt("Dispositivos permitidos (separados por vírgula) (DESKTOP / MOBILE / TABLET) [vario para todos]").split(",").map(device => device.trim()).filter(device => device);
-
-                    fetchWithAuth("/builds", "POST", {
-                      branch,
-                      forceOnLink,
-                      expiresAt: expiresAt ? new Date(Number(expiresAt)) : null,
-                      required_flags,
-                      devices,
-                    }).then((res) => {
-                      if (res) {
-                        openPopup('success', {message: "Build criada com sucesso."});
-                        getBuildsOverride();
-                      }
-                    });
+                    openPopup("admin_build_add")
                   }}
                 />
               </section>
