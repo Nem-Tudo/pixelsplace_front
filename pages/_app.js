@@ -8,8 +8,8 @@ import "@/styles/tippy.css";
 import { AuthProvider } from '../context/AuthContext';
 import { LanguageProvider } from '../context/LanguageContext';
 import PopupProvider from "@/context/PopupContext";
-export default function App({ Component, pageProps }) {
 
+export default function App({ Component, pageProps }) {
   return <>
     <AuthProvider>
       <LanguageProvider>
