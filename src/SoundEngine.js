@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { readdirSync } from 'fs';
 
 export default function SoundEngine() {
   const audioRefs = {};
@@ -7,7 +7,7 @@ export default function SoundEngine() {
     if (typeof window === 'undefined') return; // SSR protection
 
     try {
-      const files = fs.readdirSync('/sfx');
+      const files = readdirSync('/sfx');
       for (const file in files) {
         if(!audioRefs[file]) return;
         const audio = new Audio(`/sfx/${file}`);
