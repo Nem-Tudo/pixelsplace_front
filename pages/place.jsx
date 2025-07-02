@@ -144,9 +144,6 @@ export default function Place() {
     // Touch handling
     let isPinching = false;
     let lastTouchDistance = 0;
-    let lastTouchCenterX = 0;
-    let lastTouchCenterY = 0;
-    let hasMoved = false;
 
     // Utility functions
     const getTouchDistance = (touch1, touch2) => {
@@ -1112,6 +1109,9 @@ export default function Place() {
                 showPixelInfo(x, y);
               }}
               onTouchStart={(e) => {
+                // Não processar se houver múltiplos toques (zoom/pinch)
+                if (e.touches.length > 1) return;
+
                 const touch = e.touches[0];
                 const startTime = Date.now();
                 const startX = touch.clientX;
@@ -1119,19 +1119,23 @@ export default function Place() {
 
                 // Timer para mostrar pixel info após 500ms
                 const longPressTimer = setTimeout(() => {
-                  const canvas = canvasRef.current;
-                  if (!canvas) return;
+                  // Verificar se ainda é um toque único e não está sendo arrastado
+                  if (e.currentTarget.touchData &&
+                    !e.currentTarget.touchData.moved &&
+                    !e.currentTarget.touchData.isDragging) {
+                    const canvas = canvasRef.current;
+                    if (!canvas) return;
 
-                  const rect = canvas.getBoundingClientRect();
-                  const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
-                  const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
+                    const rect = canvas.getBoundingClientRect();
+                    const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
+                    const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
 
-                  showPixelInfo(x, y);
+                    showPixelInfo(x, y);
 
-                  if (navigator.vibrate) navigator.vibrate(50);
+                    // Vibração opcional
+                    if (navigator.vibrate) navigator.vibrate(50);
 
-                  // Marcar que já mostrou o pixel info
-                  if (e.currentTarget.touchData) {
+                    // Marcar que já mostrou o pixel info
                     e.currentTarget.touchData.longPressTriggered = true;
                   }
                 }, 500);
@@ -1144,11 +1148,22 @@ export default function Place() {
                   moved: false,
                   longPressTimer,
                   longPressTriggered: false,
-                  moveDistance: 0
+                  moveDistance: 0,
+                  isDragging: false
                 };
               }}
 
               onTouchMove={(e) => {
+                // Não processar se houver múltiplos toques (zoom/pinch)
+                if (e.touches.length > 1) {
+                  // Cancelar qualquer operação de pixel se começar zoom
+                  if (e.currentTarget.touchData?.longPressTimer) {
+                    clearTimeout(e.currentTarget.touchData.longPressTimer);
+                    e.currentTarget.touchData.longPressTimer = null;
+                  }
+                  return;
+                }
+
                 if (e.currentTarget.touchData) {
                   const touch = e.touches[0];
                   const { startX, startY } = e.currentTarget.touchData;
@@ -1158,10 +1173,16 @@ export default function Place() {
                   const deltaY = touch.clientY - startY;
                   const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                  // Tolerância de movimento em pixels (ajuste conforme necessário)
-                  const MOVEMENT_TOLERANCE = 10;
+                  // Tolerâncias diferentes para drag e pixel selection
+                  const MOVEMENT_TOLERANCE = 10; // Para seleção de pixel
+                  const DRAG_THRESHOLD = 15; // Para considerar como drag (maior)
 
                   e.currentTarget.touchData.moveDistance = distance;
+
+                  // Marcar como dragging se passou do threshold de drag
+                  if (distance > DRAG_THRESHOLD) {
+                    e.currentTarget.touchData.isDragging = true;
+                  }
 
                   // Só considerar como "movido" se ultrapassar a tolerância
                   if (distance > MOVEMENT_TOLERANCE) {
@@ -1178,7 +1199,7 @@ export default function Place() {
               onTouchEnd={(e) => {
                 if (!e.currentTarget.touchData) return;
 
-                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance } = e.currentTarget.touchData;
+                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance, isDragging } = e.currentTarget.touchData;
 
                 // Cancelar timer se ainda existir
                 if (longPressTimer) {
@@ -1188,8 +1209,13 @@ export default function Place() {
                 // Tolerância de movimento em pixels
                 const MOVEMENT_TOLERANCE = 10;
 
-                // Se não moveu muito e não foi long press, é um tap simples
-                if (!moved && !longPressTriggered && moveDistance <= MOVEMENT_TOLERANCE) {
+                // Se não moveu muito, não foi long press, não estava dragging e é toque único
+                if (!moved &&
+                  !longPressTriggered &&
+                  !isDragging &&
+                  moveDistance <= MOVEMENT_TOLERANCE &&
+                  e.touches.length === 0) { // Confirma que todos os toques terminaram
+
                   const endTime = Date.now();
                   const duration = endTime - startTime;
 
