@@ -952,11 +952,8 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const pixelRatio = window.devicePixelRatio || 1;
-
-                // Ajusta as coordenadas para o pixel ratio
-                const scaleX = (canvas.width / pixelRatio) / rect.width;
-                const scaleY = (canvas.height / pixelRatio) / rect.height;
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
@@ -969,11 +966,8 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const pixelRatio = window.devicePixelRatio || 1;
-
-                // Ajusta as coordenadas para o pixel ratio
-                const scaleX = (canvas.width / pixelRatio) / rect.width;
-                const scaleY = (canvas.height / pixelRatio) / rect.height;
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
