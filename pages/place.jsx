@@ -315,7 +315,7 @@ export default function Place() {
                 style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo} ${loggedUser?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
+                  className={`${styles.pixelInfo} ${showingPixelInfo?.author?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
                   ref={pixelInfoRef}
                   style={showingPixelInfo?.author?.premium ? {
