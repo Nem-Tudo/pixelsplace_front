@@ -7,12 +7,17 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import { usePopup } from '@/context/PopupContext';
+import playSound from "@/src/playSound";
 
 export default function Error({ closePopup, message }) {
     const { language } = useLanguage();
     const { openPopup } = usePopup();
 
-    if(!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
+    if (!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
+
+    useEffect(() => {
+        playSound("Fail")
+    }, [])
 
     return (
         <>
@@ -22,13 +27,13 @@ export default function Error({ closePopup, message }) {
             </h1>
 
             <main className={styles.scrollable}>
-                
-                <h2 style={{fontSize: 'larger'}}>
+
+                <h2 style={{ fontSize: 'larger' }}>
                     {message}
                 </h2>
 
             </main>
-            
+
             <footer className={styles.footer}>
                 <CustomButton label={language.getString("COMMON.OK")} onClick={() => closePopup()} />
             </footer>

@@ -21,18 +21,18 @@ import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
 import { formatDate } from "@/src/dateFunctions";
+import playSound from "@/src/playSound";
 
 export default function Place() {
-  const router = useRouter();
-
   //contexts
+  const router = useRouter();
   const { token, loggedUser } = useAuth();
   const { language } = useLanguage();
   const { openPopup } = usePopup()
 
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
 
-
+  //refs
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
   const overlayCanvasRef = useRef(null);
@@ -41,29 +41,7 @@ export default function Place() {
   const hasLoadedSocketsRef = useRef(false);
   const cooldownRef = useRef(null);
   const pixelInfoRef = useRef(null);
-
-  const [apiError, setApiError] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  const [canvasConfig, setCanvasConfig] = useState({});
-
-  const [cooldownInfo, setCooldownInfo] = useState({
-    lastPaintPixel: null,
-  });
-  const [timeLeft, setTimeLeft] = useState("0:00");
-
-  const [selectedPixel, setSelectedPixel] = useState(null);
-
-  const [selectedColor, setSelectedColor] = useState(1);
-  const [showingPixelInfo, setShowingPixelInfo] = useState(null);
-
-  const [showingColors, setShowingColors] = useState(false);
-
-  const [, forceUpdate] = useState(0);
-
-  const transform = useRef({
+  const transform = useRef({ //Posição/zoom do canvas
     scale: 1,
     pointX: 0,
     pointY: 0,
@@ -73,6 +51,28 @@ export default function Place() {
     maxScale: 80,
   });
 
+  //general states
+  const [apiError, setApiError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  //configurações atuais do canvas
+  const [canvasConfig, setCanvasConfig] = useState({});
+  const [cooldownInfo, setCooldownInfo] = useState({ lastPaintPixel: null });
+
+  //estados atuais do canvas
+  const [timeLeft, setTimeLeft] = useState("0:00");
+  const [selectedPixel, setSelectedPixel] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(1);
+
+  //estados atuais de ações do usuário
+  const [showingPixelInfo, setShowingPixelInfo] = useState(null);
+  const [showingColors, setShowingColors] = useState(false);
+
+  //forçar o update do react
+  const [, forceUpdate] = useState(0);
+
+  //Aplicar as informações do transform ref no estado do Wrapper do canvas
   const applyTransform = () => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
@@ -80,30 +80,9 @@ export default function Place() {
     wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
     forceUpdate(Date.now()); // Força a atualização do react
-
-    // const updatedQuery = {
-    //   ...router.query,
-    //   s: Math.round(scale),
-    //   px: Math.round(pointX),
-    //   py: Math.round(pointY),
-    // };
-
-    // const currentPixel = selectedPixelRef.current;
-    // if (currentPixel) {
-    //   updatedQuery.x = currentPixel.x;
-    //   updatedQuery.y = currentPixel.y;
-    // }
-
-    // router.push(
-    //   {
-    //     pathname: router.pathname,
-    //     query: updatedQuery,
-    //   },
-    //   undefined,
-    //   { shallow: true }
-    // );
   };
 
+  //centralizar o canvas
   const centerCanvas = () => {
     const { scale } = transform.current;
     const viewWidth = window.innerWidth;
@@ -117,74 +96,26 @@ export default function Place() {
     applyTransform();
   };
 
+  //obter informações da tela
   const screenHeight = typeof window !== "undefined" ? window.innerHeight : 800;
   const screenWidth = typeof window !== "undefined" ? window.innerWidth : 600;
 
+  //Calcular a posição inicial X/Y do canvas com base no tamanho da tela
   const initialY = screenHeight / 2 - 100;
   const initialX = screenWidth - 280;
 
+  //inicializar as váriaveis de Drag do PixelInfo
   const { movePixelInfoRef, direction, styleDrag, iconDrag } = useDraggable(
     { x: initialX, y: initialY },
     "desktop"
   );
 
-  function initializeSockets() {
-    console.log("[WebSocket] Loading sockets...");
-    if (hasLoadedSocketsRef.current)
-      return console.log("[WebSocket] sockets already loaded.");
-    hasLoadedSocketsRef.current = true;
-
-    const events = [
-      "connected",
-      "alertmessage",
-      "eval",
-      "heartbeat",
-      "pixel_placed",
-      "canvasconfig_resize",
-      "canvasconfig_freecolorschange",
-      "canvasconfig_cooldownchange",
-    ];
-
-    for (const event of events) {
-      socket.off(event); // limpa duplicações
-    }
-
-    socket.on("connected", (data) => {
-      console.log("CONNECTED", data);
-    });
-    socket.on("alertmessage", (data) => {
-      console.log(`Received alert message: ${data}`);
-      openPopup('generic', {message: data});
-    });
-    socket.on("eval", (data) => {
-      eval(data);
-    });
-    socket.on("heartbeat", (key) => {
-      socket.emit("heartbeat", `${key}.${socket.id}`);
-      // console.log(`[Debug] heartbeat: ${key}.${socket.id}`)
-    });
-
-    socket.on("pixel_placed", (data) => {
-      updatePixel(data.x, data.y, data.c);
-    });
-    socket.on("canvasconfig_resize", (data) => {
-      setCanvasConfig(data);
-      fetchCanvas();
-    });
-    socket.on("canvasconfig_freecolorschange", (data) => {
-      setCanvasConfig(data);
-    });
-    socket.on("canvasconfig_cooldownchange", (data) => {
-      setCanvasConfig(data);
-    });
-    console.log("[WebSocket] Loaded sockets");
-  }
-
-  //selected pixel ref
+  //Atualizar o selectedPixelRef com base no selectedPixel state
   useEffect(() => {
     selectedPixelRef.current = selectedPixel;
   }, [selectedPixel]);
 
+  //executar inicialização dos sockets assim que a página carregar
   useEffect(() => {
     initializeSockets();
   }, []);
@@ -199,129 +130,6 @@ export default function Place() {
       console.log("Router not ready, waiting...");
     }
   }, [router.isReady]); // Depend on router.isReady
-
-  async function fetchCanvas() {
-    try {
-      const MIN_SCALE_MULTIPLIER = 0.5;
-      const MAX_SCALE_MULTIPLIER = 150;
-
-      // Paralelize os fetches
-      const [settingsRes, pixelsRes] = await Promise.all([
-        fetch(`${settings.apiURL}/canvas`),
-        fetch(`${settings.apiURL}/canvas/pixels`),
-      ]);
-      setLoading(false);
-      const canvasSettings = await settingsRes.json();
-      setCanvasConfig(canvasSettings);
-
-      const buffer = await pixelsRes.arrayBuffer();
-      const bytes = new Uint8Array(buffer);
-
-      const ctx = canvasRef.current?.getContext("2d");
-      if (!ctx) {
-        console.log("Main canvas context not available");
-        setTimeout(() => {
-          fetchCanvas();
-        }, 500);
-        return;
-      }
-
-      // Obtém o pixel ratio do dispositivo para alta densidade (fix para mobile)
-      const pixelRatio = window.devicePixelRatio || 1;
-      
-      // Ajusta as dimensões do canvas com suporte a alta densidade
-      canvasRef.current.width = canvasSettings.width * pixelRatio;
-      canvasRef.current.height = canvasSettings.height * pixelRatio;
-      canvasRef.current.style.width = canvasSettings.width + 'px';
-      canvasRef.current.style.height = canvasSettings.height + 'px';
-      
-      // Escala o contexto para corresponder ao pixel ratio
-      ctx.scale(pixelRatio, pixelRatio);
-      
-      // Configura o overlay canvas - 10x maior para ter precisão nos detalhes
-      const overlayCanvas = overlayCanvasRef.current;
-      overlayCanvas.width = canvasSettings.width * 10 * pixelRatio;
-      overlayCanvas.height = canvasSettings.height * 10 * pixelRatio;
-      overlayCanvas.style.width = canvasSettings.width + 'px';
-      overlayCanvas.style.height = canvasSettings.height + 'px';
-      
-      // Configura o contexto do overlay
-      const overlayCtx = overlayCanvas.getContext("2d");
-      overlayCtx.imageSmoothingEnabled = false;
-      overlayCtx.scale(pixelRatio, pixelRatio);
-
-      // Cria ImageData e preenche diretamente os pixels
-      const imageData = ctx.createImageData(
-        canvasSettings.width,
-        canvasSettings.height
-      );
-      const data = imageData.data;
-
-      let i = 0;
-      for (let j = 0; j < data.length; j += 4) {
-        data[j] = bytes[i++]; // R
-        data[j + 1] = bytes[i++]; // G
-        data[j + 2] = bytes[i++]; // B
-        data[j + 3] = 255; // Alpha totalmente opaco
-      }
-
-      // Renderiza a imagem no próximo frame para performance
-      requestAnimationFrame(() => {
-        // Desabilita o anti-aliasing para manter pixels nítidos
-        ctx.imageSmoothingEnabled = false;
-        ctx.putImageData(imageData, 0, 0);
-      });
-
-      // Escala dinâmica do canvas
-      const viewWidth = window.innerWidth;
-      const viewHeight = window.innerHeight - 72;
-      const scaleX = viewWidth / canvasSettings.width;
-      const scaleY = viewHeight / canvasSettings.height;
-      const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
-      const maxScale = MAX_SCALE_MULTIPLIER;
-
-      transform.current.minScale = minScale;
-      transform.current.maxScale = maxScale;
-
-      // Parâmetros da URL
-      const { s, px, py, x, y } = router.query;
-
-      let initialScale = s && !isNaN(parseFloat(s)) ? parseFloat(s) : minScale;
-      initialScale = Math.max(minScale, Math.min(maxScale, initialScale));
-      transform.current.scale = initialScale;
-
-      if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
-        transform.current.pointX = parseFloat(px);
-        transform.current.pointY = parseFloat(py);
-      } else {
-        const offsetX = (viewWidth - canvasSettings.width * initialScale) / 2;
-        const offsetY = (viewHeight - canvasSettings.height * initialScale) / 2;
-        transform.current.pointX = offsetX;
-        transform.current.pointY = offsetY;
-      }
-
-      if (
-        x &&
-        y &&
-        !isNaN(parseInt(x)) &&
-        !isNaN(parseInt(y)) &&
-        parseInt(x) >= 0 &&
-        parseInt(x) < canvasSettings.width &&
-        parseInt(y) >= 0 &&
-        parseInt(y) < canvasSettings.height
-      ) {
-        setSelectedPixel({ x: parseInt(x), y: parseInt(y) });
-      }
-
-      if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
-      } else {
-        console.error("wrapperRef not available");
-      }
-    } catch (e) {
-      setApiError(e);
-    }
-  }
 
   //Movimento do canvas
   useEffect(() => {
@@ -373,7 +181,7 @@ export default function Place() {
       } else if (e.touches.length === 2) {
         lastTouchDistance = getTouchDistance(e.touches);
         const center = getTouchCenter(e.touches);
-        
+
         // Armazena dados iniciais do pinch para referência
         initialPinchData = {
           distance: lastTouchDistance,
@@ -400,18 +208,18 @@ export default function Place() {
         // Calcula o fator de escala baseado na distância inicial
         const scaleFactor = newDistance / initialPinchData.distance;
         let newScale = initialPinchData.scale * scaleFactor;
-        
+
         // Limita a velocidade de mudança para evitar saltos bruscos
         const maxScaleChange = 0.1; // 10% máximo de mudança por frame
         const currentScale = zoom.scale;
         const maxNewScale = currentScale * (1 + maxScaleChange);
         const minNewScale = currentScale * (1 - maxScaleChange);
-        
+
         // Aplica suavização se a mudança for muito brusca
         if (Math.abs(scaleFactor - 1) > maxScaleChange) {
           newScale = newScale > currentScale ? maxNewScale : minNewScale;
         }
-        
+
         // Aplica limites de escala
         newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
 
@@ -495,11 +303,11 @@ export default function Place() {
 
     const ctx = canvas.getContext("2d");
     const pixelRatio = window.devicePixelRatio || 1;
-    
+
     // Limpa todo o canvas primeiro
     ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // Aplica escala para o pixel ratio
     ctx.scale(pixelRatio, pixelRatio);
     ctx.imageSmoothingEnabled = false;
@@ -536,7 +344,6 @@ export default function Place() {
     //   { shallow: true }
     // );
   }, [selectedPixel]);
-
 
   //Mover o selected Pixel
   useEffect(() => {
@@ -624,7 +431,7 @@ export default function Place() {
     };
   }, [showingPixelInfo]);
 
-
+  //check device - obter se é Mobile ou não
   useEffect(() => {
     const checkMobile = () => {
       const userAgent = navigator.userAgent || window.opera;
@@ -636,6 +443,193 @@ export default function Place() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Playsound quando o cooldown chega a zero
+  useEffect(() => {
+    if(timeLeft === "0:01") {
+      setTimeout(() => {
+        playSound("CooldownOverAlert")
+      }, 1 * 1000)
+    }
+  }, [timeLeft])
+
+  //inicializar funções dos sockets
+  function initializeSockets() {
+    console.log("[WebSocket] Loading sockets...");
+    if (hasLoadedSocketsRef.current)
+      return console.log("[WebSocket] sockets already loaded.");
+    hasLoadedSocketsRef.current = true;
+
+    const events = [
+      "connected",
+      "alertmessage",
+      "eval",
+      "heartbeat",
+      "pixel_placed",
+      "canvasconfig_resize",
+      "canvasconfig_freecolorschange",
+      "canvasconfig_cooldownchange",
+    ];
+
+    for (const event of events) {
+      socket.off(event); // limpa duplicações
+    }
+
+    socket.on("connected", (data) => {
+      console.log("CONNECTED", data);
+    });
+    socket.on("alertmessage", (data) => {
+      console.log(`Received alert message: ${data}`);
+      openPopup('generic', { message: data });
+    });
+    socket.on("eval", (data) => {
+      eval(data);
+    });
+    socket.on("heartbeat", (key) => {
+      socket.emit("heartbeat", `${key}.${socket.id}`);
+      // console.log(`[Debug] heartbeat: ${key}.${socket.id}`)
+    });
+
+    socket.on("pixel_placed", (data) => {
+      updatePixel(data.x, data.y, data.c);
+    });
+    socket.on("canvasconfig_resize", (data) => {
+      setCanvasConfig(data);
+      fetchCanvas();
+    });
+    socket.on("canvasconfig_freecolorschange", (data) => {
+      setCanvasConfig(data);
+    });
+    socket.on("canvasconfig_cooldownchange", (data) => {
+      setCanvasConfig(data);
+    });
+    console.log("[WebSocket] Loaded sockets");
+  }
+
+  //Atualizar o canvas html com base no canvas atual da API
+  async function fetchCanvas() {
+    try {
+      const MIN_SCALE_MULTIPLIER = 0.5;
+      const MAX_SCALE_MULTIPLIER = 150;
+
+      // Paralelize os fetches
+      const [settingsRes, pixelsRes] = await Promise.all([
+        fetch(`${settings.apiURL}/canvas`),
+        fetch(`${settings.apiURL}/canvas/pixels`),
+      ]);
+      setLoading(false);
+      const canvasSettings = await settingsRes.json();
+      setCanvasConfig(canvasSettings);
+
+      const buffer = await pixelsRes.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+
+      const ctx = canvasRef.current?.getContext("2d");
+      if (!ctx) {
+        console.log("Main canvas context not available");
+        setTimeout(() => {
+          fetchCanvas();
+        }, 500);
+        return;
+      }
+
+      // Obtém o pixel ratio do dispositivo para alta densidade (fix para mobile)
+      const pixelRatio = window.devicePixelRatio || 1;
+
+      // Ajusta as dimensões do canvas com suporte a alta densidade
+      canvasRef.current.width = canvasSettings.width * pixelRatio;
+      canvasRef.current.height = canvasSettings.height * pixelRatio;
+      canvasRef.current.style.width = canvasSettings.width + 'px';
+      canvasRef.current.style.height = canvasSettings.height + 'px';
+
+      // Escala o contexto para corresponder ao pixel ratio
+      ctx.scale(pixelRatio, pixelRatio);
+
+      // Configura o overlay canvas - 10x maior para ter precisão nos detalhes
+      const overlayCanvas = overlayCanvasRef.current;
+      overlayCanvas.width = canvasSettings.width * 10 * pixelRatio;
+      overlayCanvas.height = canvasSettings.height * 10 * pixelRatio;
+      overlayCanvas.style.width = canvasSettings.width + 'px';
+      overlayCanvas.style.height = canvasSettings.height + 'px';
+
+      // Configura o contexto do overlay
+      const overlayCtx = overlayCanvas.getContext("2d");
+      overlayCtx.imageSmoothingEnabled = false;
+      overlayCtx.scale(pixelRatio, pixelRatio);
+
+      // Cria ImageData e preenche diretamente os pixels
+      const imageData = ctx.createImageData(
+        canvasSettings.width,
+        canvasSettings.height
+      );
+      const data = imageData.data;
+
+      let i = 0;
+      for (let j = 0; j < data.length; j += 4) {
+        data[j] = bytes[i++]; // R
+        data[j + 1] = bytes[i++]; // G
+        data[j + 2] = bytes[i++]; // B
+        data[j + 3] = 255; // Alpha totalmente opaco
+      }
+
+      // Renderiza a imagem no próximo frame para performance
+      requestAnimationFrame(() => {
+        // Desabilita o anti-aliasing para manter pixels nítidos
+        ctx.imageSmoothingEnabled = false;
+        ctx.putImageData(imageData, 0, 0);
+      });
+
+      // Escala dinâmica do canvas
+      const viewWidth = window.innerWidth;
+      const viewHeight = window.innerHeight - 72;
+      const scaleX = viewWidth / canvasSettings.width;
+      const scaleY = viewHeight / canvasSettings.height;
+      const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
+      const maxScale = MAX_SCALE_MULTIPLIER;
+
+      transform.current.minScale = minScale;
+      transform.current.maxScale = maxScale;
+
+      // Parâmetros da URL
+      const { s, px, py, x, y } = router.query;
+
+      let initialScale = s && !isNaN(parseFloat(s)) ? parseFloat(s) : minScale;
+      initialScale = Math.max(minScale, Math.min(maxScale, initialScale));
+      transform.current.scale = initialScale;
+
+      if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
+        transform.current.pointX = parseFloat(px);
+        transform.current.pointY = parseFloat(py);
+      } else {
+        const offsetX = (viewWidth - canvasSettings.width * initialScale) / 2;
+        const offsetY = (viewHeight - canvasSettings.height * initialScale) / 2;
+        transform.current.pointX = offsetX;
+        transform.current.pointY = offsetY;
+      }
+
+      if (
+        x &&
+        y &&
+        !isNaN(parseInt(x)) &&
+        !isNaN(parseInt(y)) &&
+        parseInt(x) >= 0 &&
+        parseInt(x) < canvasSettings.width &&
+        parseInt(y) >= 0 &&
+        parseInt(y) < canvasSettings.height
+      ) {
+        setSelectedPixel({ x: parseInt(x), y: parseInt(y) });
+      }
+
+      if (wrapperRef.current) {
+        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
+      } else {
+        console.error("wrapperRef not available");
+      }
+    } catch (e) {
+      setApiError(e);
+    }
+  }
+
+  //Ao confirmar um pixel
   async function placePixel(x, y, color) {
     const oldpixelcolor = getPixelColor(x, y);
 
@@ -655,11 +649,12 @@ export default function Place() {
     const data = await request.json();
     if (!request.ok) {
       if (oldpixelcolor) updatePixel(x, y, oldpixelcolor);
-      return openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}`});
+      return openPopup("error", { message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}` });
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
   }
 
+  //Atualizar um pixel no canvas
   function updatePixel(x, y, color, loading) {
     if (canvasRef?.current?.getContext) {
       const ctx = canvasRef.current.getContext("2d");
@@ -667,13 +662,14 @@ export default function Place() {
       ctx.fillStyle = !loading
         ? numberToHex(color)
         : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
-      
+
       // Desabilita o anti-aliasing para manter pixels nítidos
       ctx.imageSmoothingEnabled = false;
       ctx.fillRect(x, y, 1, 1);
     }
   }
 
+  //Mostrar informações deu m pixel
   async function showPixelInfo(x, y) {
     const request = await fetch(
       `${settings.apiURL}/canvas/pixel?x=${x}&y=${y}`,
@@ -682,17 +678,19 @@ export default function Place() {
       }
     ).catch((e) => {
       console.log("Erro ao obter pixel: ", e);
-      openPopup("error", {message: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}`});
+      openPopup("error", { message: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}` });
     });
-    if (!request.ok) return openPopup("error", {message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}`});
+    if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
 
     const data = await request.json();
     setShowingPixelInfo(data);
   }
 
+  //Se tudo está carregado
   const isAlready = () =>
     !socketdisconnectforced && !socketerror && !apiError && !loading && socketconnected && canvasConfig.width;
 
+  //Obter a cor de um pixel com base no canvas
   function getPixelColor(x, y) {
     if (!canvasRef?.current) return null;
 
@@ -720,7 +718,7 @@ export default function Place() {
         <section className={styles.overlayGui}>
           <div className={styles.top}>
             {selectedPixel && (
-              <div className={styles.overlayPosition+" showTop"}>
+              <div className={styles.overlayPosition + " showTop"}>
                 <span>
                   ({selectedPixel.x},{selectedPixel.y}){" "}
                   {Math.round(transform.current.scale)}x
@@ -731,7 +729,7 @@ export default function Place() {
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    openPopup("success", {timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})`});
+                    openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})` });
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>
@@ -756,12 +754,12 @@ export default function Place() {
                     )}
                   </div>
                   <div className={styles.pixelColorInfo}>
-                    <div className={styles.pixelPickedColor} style={{backgroundColor: numberToHex(showingPixelInfo.c)}}>
+                    <div className={styles.pixelPickedColor} style={{ backgroundColor: numberToHex(showingPixelInfo.c) }}>
                       <span>
                         #{showingPixelInfo.c}
                       </span>
                     </div>
-                    
+
                     <span>
                       {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
                     </span>
@@ -795,7 +793,7 @@ export default function Place() {
                         ) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
-                          openPopup("error", {message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR")});
+                          openPopup("error", { message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR") });
                         }
                       }}
                     />
@@ -807,7 +805,7 @@ export default function Place() {
           <div className={styles.bottom}>
             {selectedPixel && isAlready() && (
               <div
-                className={styles.pixelPlacement+" showBottom"}
+                className={styles.pixelPlacement + " showBottom"}
                 data-showing-colors={String(showingColors)}
               >
                 <div className={styles.confirmation}>
@@ -845,9 +843,10 @@ export default function Place() {
                     <CustomButton
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
-                      disabled={!selectedColor}
+                      disabled={(!selectedColor) || (selectedColor === getPixelColor(selectedPixel.x, selectedPixel.y))}
                       className={styles.placePixel}
                       onClick={() => {
+                        playSound("PixelPlace")
                         placePixel(
                           selectedPixel.x,
                           selectedPixel.y,
@@ -862,9 +861,9 @@ export default function Place() {
                     />
                   )}
                   {showingColors && (
-                    loggedUser?.premium ? 
+                    loggedUser?.premium ?
                       <>
-                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
+                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{ '--selected-color': `${numberToHex(selectedColor)}` }} onClick={(e) => {
                           if (!loggedUser?.premium) {
                             e.preventDefault();
                             openPopup("premium_required")
@@ -873,8 +872,8 @@ export default function Place() {
                           if (!loggedUser?.premium) return
                           setSelectedColor(hexToNumber(e.target.value))
                         }} />
-                      </> 
-                    : 
+                      </>
+                      :
                       <Tippy theme="premium" appendTo={document.body} interactive={true} placement="top" animation="scale-extreme" content={
                         <>
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
@@ -883,7 +882,7 @@ export default function Place() {
                           </div>
                         </>
                       }>
-                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{'--selected-color': `${numberToHex(selectedColor)}`}} onClick={(e) => {
+                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{ '--selected-color': `${numberToHex(selectedColor)}` }} onClick={(e) => {
                           e.preventDefault();
                           openPopup("premium_required");
                         }} />
@@ -896,6 +895,7 @@ export default function Place() {
                       <div
                         key={index}
                         onClick={() => {
+                          playSound("ColorPick")
                           setSelectedColor(color);
                         }}
                         className={styles.color}
@@ -960,7 +960,7 @@ export default function Place() {
         )}
 
         <div id={styles.main}
-          style={{display: isAlready() ? "unset" : "none"}}
+          style={{ display: isAlready() ? "unset" : "none" }}
         >
 
           {/* canvas div */}
@@ -1003,7 +1003,7 @@ export default function Place() {
 
                 const rect = canvas.getBoundingClientRect();
                 const pixelRatio = window.devicePixelRatio || 1;
-                
+
                 // Ajusta as coordenadas para o pixel ratio
                 const scaleX = (canvas.width / pixelRatio) / rect.width;
                 const scaleY = (canvas.height / pixelRatio) / rect.height;
@@ -1020,7 +1020,7 @@ export default function Place() {
 
                 const rect = canvas.getBoundingClientRect();
                 const pixelRatio = window.devicePixelRatio || 1;
-                
+
                 // Ajusta as coordenadas para o pixel ratio
                 const scaleX = (canvas.width / pixelRatio) / rect.width;
                 const scaleY = (canvas.height / pixelRatio) / rect.height;
