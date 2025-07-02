@@ -1,3 +1,9 @@
+@property --gradient-angle {
+    syntax: "<angle>";
+    initual-value: 0deg;
+    inherits: false;
+}
+
 #main {
     width: 100dvw;
     height: calc(100dvh - 72px);
@@ -149,7 +155,7 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    position: fixed;
+    position: relative;
     pointer-events: all;
     user-select: none;
     background: var(--frosted-glass);
@@ -215,4 +221,27 @@
         gap: 10px;
         flex-wrap: wrap;
     }
+}
+
+.pixelInfo::before, .pixelInfo::after {
+    content: "";
+    position: absolute;
+    inset: -0.2rem;
+    z-index: 1;
+    background: conic-gradient(
+        from var(--gradient-angle),
+        red,
+        blue,
+        red);
+    border-radius: inherit;
+    animation: gradientRotate 20s linear infinite;
+}
+
+.pixelInfo::after {
+    filter: blur(3.5rem);
+}
+
+@keyframes gradientRotate {
+    0% { --gradient-angle: 0deg; }
+    100% { --gradient-angle: 360deg; }
 }
