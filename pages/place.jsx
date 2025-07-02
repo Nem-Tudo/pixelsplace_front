@@ -535,7 +535,7 @@ export default function Place() {
             ref={canvasRef}
             onChangeSelectedPixel={(x, y) => {
               setSelectedPixel({ x, y })
-              if(selectedPixel.x == x && selectedPixel.y == y) {showPixelInfo(x, y)}
+              if(selectedPixel?.x == x && selectedPixel?.y == y) {showPixelInfo(x, y)}
             }}
             onRightClickPixel={showPixelInfo}
             settings={{
