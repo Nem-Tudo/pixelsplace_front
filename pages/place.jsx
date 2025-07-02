@@ -319,18 +319,6 @@ export default function Place() {
     const handleTouchEnd = (e) => {
       if (e.touches.length === 0) {
         // All touches ended
-        if (isDragging && !hasMoved) {
-          // Foi um toque simples, não um drag - simular o click
-          const touch = e.changedTouches[0];
-          const canvas = canvasRef.current;
-          if (canvas) {
-            const rect = canvas.getBoundingClientRect();
-            const x = Math.floor((touch.clientX - rect.left) / rect.width * canvasConfig.width);
-            const y = Math.floor((touch.clientY - rect.top) / rect.height * canvasConfig.height);
-            setSelectedPixel({ x, y });
-          }
-        }
-
         isDragging = false;
         isPinching = false;
         lastTouchDistance = 0;
@@ -1122,6 +1110,55 @@ export default function Place() {
                 const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
                 const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
                 showPixelInfo(x, y);
+              }}
+              onTouchStart={(e) => {
+                // Armazenar info do toque
+                const touch = e.touches[0];
+                const startTime = Date.now();
+                const startX = touch.clientX;
+                const startY = touch.clientY;
+
+                // Guardar no elemento para acessar depois
+                e.currentTarget.touchData = { startTime, startX, startY, moved: false };
+              }}
+
+              onTouchMove={(e) => {
+                // Marcar que moveu (para não triggerar click/longpress)
+                if (e.currentTarget.touchData) {
+                  e.currentTarget.touchData.moved = true;
+                }
+              }}
+
+              onTouchEnd={(e) => {
+                if (!e.currentTarget.touchData) return;
+
+                const { startTime, startX, startY, moved } = e.currentTarget.touchData;
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+
+                // Se não moveu muito
+                if (!moved) {
+                  const canvas = canvasRef.current;
+                  if (!canvas) return;
+
+                  const rect = canvas.getBoundingClientRect();
+                  const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
+                  const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
+
+                  if (duration > 500) {
+                    // Long press = mostrar info do pixel
+                    e.preventDefault();
+                    showPixelInfo(x, y);
+                    // Vibração opcional
+                    if (navigator.vibrate) navigator.vibrate(50);
+                  } else {
+                    // Tap rápido = selecionar pixel
+                    setSelectedPixel({ x, y });
+                  }
+                }
+
+                // Limpar dados
+                delete e.currentTarget.touchData;
               }}
               className="pixelate"
               id={styles.canvas}
