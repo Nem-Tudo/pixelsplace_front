@@ -560,6 +560,7 @@ export default function Place() {
     });
 
     socket.on("pixel_placed", (data) => {
+      alert(JSON.stringify(data))
       updatePixel(data.x, data.y, data.c);
     });
     socket.on("canvasconfig_resize", (data) => {
@@ -748,7 +749,8 @@ export default function Place() {
       // Desabilita o anti-aliasing para manter pixels nítidos
       // ctx.imageSmoothingEnabled = false;
       ctx.fillRect(x, y, 1, 1);
-    }
+      alert(`2- `, x, y, color, loading)
+    } else alert("vish")
   }
 
   //Mostrar informações deu m pixel
