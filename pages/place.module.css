@@ -248,5 +248,6 @@
 
 @keyframes gradientRotate {
     0% { --gradient-angle: 0deg; }
+    50% { --gradient-angle: 180deg; }
     100% { --gradient-angle: 360deg; }
 }

@@ -318,10 +318,10 @@ export default function Place() {
                   className={`${styles.pixelInfo} ${loggedUser?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
                   ref={pixelInfoRef}
-                  style={showingPixelInfo?.author?.premium && {
+                  style={showingPixelInfo?.author?.premium ? {
                     '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
                     '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
-                  }}
+                  } : {}}
                 >
                   <div style={{ position: "absolute", right: "20px" }}>
                     {isMobile ? (
