@@ -1074,15 +1074,12 @@ overlayCtx.scale(10, 10);
   const canvas = canvasRef.current;
   if (!canvas) return;
 
-  // Para mobile, usar touches se disponível
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
   const rect = canvas.getBoundingClientRect();
+  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
   
-  // Calcular posição considerando devicePixelRatio e escala do canvas
-  const x = Math.floor((clientX - rect.left) * (canvasConfig.width / rect.width));
-  const y = Math.floor((clientY - rect.top) * (canvasConfig.height / rect.height));
+  const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+  const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
 
   setSelectedPixel({ x, y });
 }}
@@ -1092,15 +1089,12 @@ onContextMenu={(e) => {
   const canvas = canvasRef.current;
   if (!canvas) return;
 
-  // Para mobile, usar touches se disponível  
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
   const rect = canvas.getBoundingClientRect();
+  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
   
-  // Calcular posição considerando devicePixelRatio e escala do canvas
-  const x = Math.floor((clientX - rect.left) * (canvasConfig.width / rect.width));
-  const y = Math.floor((clientY - rect.top) * (canvasConfig.height / rect.height));
+  const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+  const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
 
   showPixelInfo(x, y);
 }}
