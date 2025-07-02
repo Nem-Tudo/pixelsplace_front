@@ -1112,32 +1112,13 @@ export default function Place() {
                 showPixelInfo(x, y);
               }}
               onTouchStart={(e) => {
-                // Armazenar info do toque
                 const touch = e.touches[0];
                 const startTime = Date.now();
                 const startX = touch.clientX;
                 const startY = touch.clientY;
 
-                // Guardar no elemento para acessar depois
-                e.currentTarget.touchData = { startTime, startX, startY, moved: false };
-              }}
-
-              onTouchMove={(e) => {
-                // Marcar que moveu (para não triggerar click/longpress)
-                if (e.currentTarget.touchData) {
-                  e.currentTarget.touchData.moved = true;
-                }
-              }}
-
-              onTouchEnd={(e) => {
-                if (!e.currentTarget.touchData) return;
-
-                const { startTime, startX, startY, moved } = e.currentTarget.touchData;
-                const endTime = Date.now();
-                const duration = endTime - startTime;
-
-                // Se não moveu muito
-                if (!moved) {
+                // Timer para mostrar pixel info após 500ms
+                const longPressTimer = setTimeout(() => {
                   const canvas = canvasRef.current;
                   if (!canvas) return;
 
@@ -1145,14 +1126,82 @@ export default function Place() {
                   const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
                   const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
 
-                  if (duration > 500) {
-                    // Long press = mostrar info do pixel
-                    e.preventDefault();
-                    showPixelInfo(x, y);
-                    // Vibração opcional
-                    if (navigator.vibrate) navigator.vibrate(50);
-                  } else {
-                    // Tap rápido = selecionar pixel
+                  showPixelInfo(x, y);
+
+                  if (navigator.vibrate) navigator.vibrate(50);
+
+                  // Marcar que já mostrou o pixel info
+                  if (e.currentTarget.touchData) {
+                    e.currentTarget.touchData.longPressTriggered = true;
+                  }
+                }, 500);
+
+                // Guardar dados do toque
+                e.currentTarget.touchData = {
+                  startTime,
+                  startX,
+                  startY,
+                  moved: false,
+                  longPressTimer,
+                  longPressTriggered: false,
+                  moveDistance: 0
+                };
+              }}
+
+              onTouchMove={(e) => {
+                if (e.currentTarget.touchData) {
+                  const touch = e.touches[0];
+                  const { startX, startY } = e.currentTarget.touchData;
+
+                  // Calcular distância do movimento
+                  const deltaX = touch.clientX - startX;
+                  const deltaY = touch.clientY - startY;
+                  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                  // Tolerância de movimento em pixels (ajuste conforme necessário)
+                  const MOVEMENT_TOLERANCE = 10;
+
+                  e.currentTarget.touchData.moveDistance = distance;
+
+                  // Só considerar como "movido" se ultrapassar a tolerância
+                  if (distance > MOVEMENT_TOLERANCE) {
+                    // Cancelar timer se mexeu muito
+                    if (e.currentTarget.touchData.longPressTimer) {
+                      clearTimeout(e.currentTarget.touchData.longPressTimer);
+                      e.currentTarget.touchData.longPressTimer = null;
+                    }
+                    e.currentTarget.touchData.moved = true;
+                  }
+                }
+              }}
+
+              onTouchEnd={(e) => {
+                if (!e.currentTarget.touchData) return;
+
+                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance } = e.currentTarget.touchData;
+
+                // Cancelar timer se ainda existir
+                if (longPressTimer) {
+                  clearTimeout(longPressTimer);
+                }
+
+                // Tolerância de movimento em pixels
+                const MOVEMENT_TOLERANCE = 10;
+
+                // Se não moveu muito e não foi long press, é um tap simples
+                if (!moved && !longPressTriggered && moveDistance <= MOVEMENT_TOLERANCE) {
+                  const endTime = Date.now();
+                  const duration = endTime - startTime;
+
+                  // Só selecionar pixel se foi tap rápido (< 500ms)
+                  if (duration < 500) {
+                    const canvas = canvasRef.current;
+                    if (!canvas) return;
+
+                    const rect = canvas.getBoundingClientRect();
+                    const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
+                    const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
+
                     setSelectedPixel({ x, y });
                   }
                 }
