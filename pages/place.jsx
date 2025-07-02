@@ -41,12 +41,10 @@ export default function Place() {
   const hasLoadedSocketsRef = useRef(false);
   const cooldownRef = useRef(null);
   const pixelInfoRef = useRef(null);
-  const transform = useRef({ //Posição/zoom do canvas
+  const transform = useRef({
     scale: 1,
-    pointX: 0,
-    pointY: 0,
-    startX: 0,
-    startY: 0,
+    translateX: 0,
+    translateY: 0,
     minScale: 1,
     maxScale: 80,
   });
@@ -76,23 +74,26 @@ export default function Place() {
   const applyTransform = () => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
-    const { pointX, pointY, scale } = transform.current;
-    wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
-    forceUpdate(Date.now()); // Força a atualização do react
+    const { translateX, translateY, scale } = transform.current;
+    wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    forceUpdate(Date.now());
   };
 
   //centralizar o canvas
   const centerCanvas = () => {
+    if (!canvasConfig.width || !canvasConfig.height) return;
+
     const { scale } = transform.current;
     const viewWidth = window.innerWidth;
     const viewHeight = window.innerHeight - 72;
 
-    const offsetX = (viewWidth - canvasConfig.width * scale) / 2;
-    const offsetY = (viewHeight - canvasConfig.height * scale) / 2;
+    const canvasDisplayWidth = canvasConfig.width * scale;
+    const canvasDisplayHeight = canvasConfig.height * scale;
 
-    transform.current.pointX = offsetX;
-    transform.current.pointY = offsetY;
+    transform.current.translateX = (viewWidth - canvasDisplayWidth) / 2;
+    transform.current.translateY = (viewHeight - canvasDisplayHeight) / 2;
+
     applyTransform();
   };
 
@@ -134,215 +135,298 @@ export default function Place() {
   //Movimento do canvas
   useEffect(() => {
     const wrapper = wrapperRef.current;
-    const zoom = transform.current;
+    if (!wrapper || !canvasConfig.width) return;
 
-    let lastTouchDistance = null;
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
 
-    const getTouchCenter = (touches) => {
-      const x = (touches[0].clientX + touches[1].clientX) / 2;
-      const y = (touches[0].clientY + touches[1].clientY) / 2;
-      return { x, y };
-    };
+    // Touch handling
+    let isPinching = false;
+    let lastTouchDistance = 0;
+    let lastTouchCenterX = 0;
+    let lastTouchCenterY = 0;
 
-    const getTouchDistance = (touches) => {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
+    // Utility functions
+    const getTouchDistance = (touch1, touch2) => {
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
       return Math.sqrt(dx * dx + dy * dy);
     };
 
-    const onMouseDown = (e) => {
-      e.preventDefault();
-      zoom.startX = e.clientX - zoom.pointX;
-      zoom.startY = e.clientY - zoom.pointY;
-
-      const onMouseMove = (e) => {
-        zoom.pointX = e.clientX - zoom.startX;
-        zoom.pointY = e.clientY - zoom.startY;
-        applyTransform();
+    const getTouchCenter = (touch1, touch2) => {
+      return {
+        x: (touch1.clientX + touch2.clientX) / 2,
+        y: (touch1.clientY + touch2.clientY) / 2
       };
-
-      const onMouseUp = () => {
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("mouseup", onMouseUp);
-      };
-
-      window.addEventListener("mousemove", onMouseMove);
-      window.addEventListener("mouseup", onMouseUp);
     };
 
-    // Armazena o estado inicial do pinch para evitar saltos
-    let initialPinchData = null;
+    const constrainTransform = () => {
+      const { minScale, maxScale } = transform.current;
 
-    const onTouchStart = (e) => {
-      if (e.touches.length === 1) {
-        zoom.startX = e.touches[0].clientX - zoom.pointX;
-        zoom.startY = e.touches[0].clientY - zoom.pointY;
-        initialPinchData = null; // Reset pinch data no single touch
-      } else if (e.touches.length === 2) {
-        lastTouchDistance = getTouchDistance(e.touches);
-        const center = getTouchCenter(e.touches);
-
-        // Armazena dados iniciais do pinch para referência
-        initialPinchData = {
-          distance: lastTouchDistance,
-          center: center,
-          scale: zoom.scale,
-          pointX: zoom.pointX,
-          pointY: zoom.pointY
-        };
+      // Constrain scale
+      if (transform.current.scale < minScale) {
+        transform.current.scale = minScale;
+      }
+      if (transform.current.scale > maxScale) {
+        transform.current.scale = maxScale;
       }
     };
 
-    const onTouchMove = (e) => {
+    // Mouse Events
+    const handleMouseDown = (e) => {
+      if (e.button !== 0) return; // Only left mouse button
       e.preventDefault();
 
-      if (e.touches.length === 1 && !initialPinchData) {
-        // Movimento simples (pan) apenas se não estamos no meio de um pinch
-        zoom.pointX = e.touches[0].clientX - zoom.startX;
-        zoom.pointY = e.touches[0].clientY - zoom.startY;
-        applyTransform();
-      } else if (e.touches.length === 2 && initialPinchData) {
-        const newDistance = getTouchDistance(e.touches);
-        const center = getTouchCenter(e.touches);
+      isDragging = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
 
-        // Calcula o fator de escala baseado na distância inicial
-        const scaleFactor = newDistance / initialPinchData.distance;
-        let newScale = initialPinchData.scale * scaleFactor;
-
-        // Limita a velocidade de mudança para evitar saltos bruscos
-        const maxScaleChange = 0.1; // 10% máximo de mudança por frame
-        const currentScale = zoom.scale;
-        const maxNewScale = currentScale * (1 + maxScaleChange);
-        const minNewScale = currentScale * (1 - maxScaleChange);
-
-        // Aplica suavização se a mudança for muito brusca
-        if (Math.abs(scaleFactor - 1) > maxScaleChange) {
-          newScale = newScale > currentScale ? maxNewScale : minNewScale;
-        }
-
-        // Aplica limites de escala
-        newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
-
-        // Calcula a nova posição baseada no centro inicial do pinch
-        const xs = (initialPinchData.center.x - initialPinchData.pointX) / initialPinchData.scale;
-        const ys = (initialPinchData.center.y - initialPinchData.pointY) / initialPinchData.scale;
-
-        zoom.scale = newScale;
-        zoom.pointX = center.x - xs * newScale;
-        zoom.pointY = center.y - ys * newScale;
-
-        applyTransform();
-      }
+      wrapper.style.cursor = 'grabbing';
     };
 
-    const onTouchEnd = (e) => {
-      if (e.touches.length < 2) {
-        lastTouchDistance = null;
-        initialPinchData = null;
-      }
-      // Reset para single touch se ainda há um dedo
-      if (e.touches.length === 1) {
-        zoom.startX = e.touches[0].clientX - zoom.pointX;
-        zoom.startY = e.touches[0].clientY - zoom.pointY;
-      }
-    };
-
-    const onWheel = (e) => {
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
       e.preventDefault();
-      const { pointX, pointY, scale, minScale, maxScale } = zoom;
 
-      const xs = (e.clientX - pointX) / scale;
-      const ys = (e.clientY - pointY) / scale;
-      const delta = e.wheelDelta ? e.wheelDelta : -e.deltaY;
+      const deltaX = e.clientX - lastMouseX;
+      const deltaY = e.clientY - lastMouseY;
 
-      let newScale = scale * (delta > 0 ? 1.2 : 1 / 1.2);
-      newScale = Math.max(minScale, Math.min(maxScale, newScale));
+      transform.current.translateX += deltaX;
+      transform.current.translateY += deltaY;
 
-      zoom.scale = newScale;
-      zoom.pointX = e.clientX - xs * newScale;
-      zoom.pointY = e.clientY - ys * newScale;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
 
       applyTransform();
     };
 
-    const onKeyPress = (e) => {
+    const handleMouseUp = (e) => {
+      if (!isDragging) return;
+
+      isDragging = false;
+      wrapper.style.cursor = 'default';
+    };
+
+    // Wheel Event
+    const handleWheel = (e) => {
+      e.preventDefault();
+
+      const { scale, translateX, translateY, minScale, maxScale } = transform.current;
+
+      // Posição do mouse relativa à viewport
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      // Calcular novo zoom
+      const zoomFactor = 1.2;
+      const isZoomIn = e.deltaY < 0;
+      const newScale = isZoomIn
+        ? Math.min(maxScale, scale * zoomFactor)
+        : Math.max(minScale, scale / zoomFactor);
+
+      if (newScale === scale) return; // Se não mudou a escala, não faz nada
+
+      // Ponto no canvas antes do zoom (em coordenadas do canvas)
+      const canvasX = (mouseX - translateX) / scale;
+      const canvasY = (mouseY - translateY) / scale;
+
+      // Ajustar translação para manter o ponto sob o mouse
+      const newTranslateX = mouseX - canvasX * newScale;
+      const newTranslateY = mouseY - canvasY * newScale;
+
+      transform.current.scale = newScale;
+      transform.current.translateX = newTranslateX;
+      transform.current.translateY = newTranslateY;
+
+      applyTransform();
+    };
+
+    // Touch Events
+    const handleTouchStart = (e) => {
+      e.preventDefault();
+
+      if (e.touches.length === 1) {
+        // Single touch - start dragging
+        isDragging = true;
+        isPinching = false;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+      } else if (e.touches.length === 2) {
+        // Two touches - start pinching
+        isDragging = false;
+        isPinching = true;
+
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+
+        lastTouchDistance = getTouchDistance(touch1, touch2);
+        const center = getTouchCenter(touch1, touch2);
+        lastTouchCenterX = center.x;
+        lastTouchCenterY = center.y;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      e.preventDefault();
+
+      if (e.touches.length === 1 && isDragging && !isPinching) {
+        // Single touch dragging
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - lastMouseX;
+        const deltaY = touch.clientY - lastMouseY;
+
+        transform.current.translateX += deltaX;
+        transform.current.translateY += deltaY;
+
+        lastMouseX = touch.clientX;
+        lastMouseY = touch.clientY;
+
+        applyTransform();
+      } else if (e.touches.length === 2 && isPinching) {
+        // Two touch pinching/zooming
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+
+        const currentDistance = getTouchDistance(touch1, touch2);
+        const currentCenter = getTouchCenter(touch1, touch2);
+
+        if (lastTouchDistance > 0) {
+          const { scale, translateX, translateY, minScale, maxScale } = transform.current;
+
+          // Calcular mudança de escala (mais suave)
+          const distanceRatio = currentDistance / lastTouchDistance;
+          const newScale = Math.max(minScale, Math.min(maxScale, scale * distanceRatio));
+
+          if (newScale !== scale) {
+            // Ponto no canvas antes do zoom (coordenadas do canvas)
+            const canvasX = (currentCenter.x - translateX) / scale;
+            const canvasY = (currentCenter.y - translateY) / scale;
+
+            // Ajustar translação para manter o ponto central
+            const newTranslateX = currentCenter.x - canvasX * newScale;
+            const newTranslateY = currentCenter.y - canvasY * newScale;
+
+            transform.current.scale = newScale;
+            transform.current.translateX = newTranslateX;
+            transform.current.translateY = newTranslateY;
+
+            applyTransform();
+          }
+        }
+
+        lastTouchDistance = currentDistance;
+        lastTouchCenterX = currentCenter.x;
+        lastTouchCenterY = currentCenter.y;
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      if (e.touches.length === 0) {
+        // All touches ended
+        isDragging = false;
+        isPinching = false;
+        lastTouchDistance = 0;
+      } else if (e.touches.length === 1 && isPinching) {
+        // One touch remaining after pinch - switch to dragging
+        isPinching = false;
+        isDragging = true;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+        lastTouchDistance = 0;
+      }
+    };
+
+    // Keyboard Events
+    const handleKeyPress = (e) => {
       if (e.key.toLowerCase() === "r") {
-        zoom.scale = zoom.minScale;
+        transform.current.scale = transform.current.minScale;
         centerCanvas();
       }
     };
 
-    wrapper?.addEventListener("mousedown", onMouseDown);
-    wrapper?.addEventListener("wheel", onWheel, { passive: false });
+    // Event Listeners
+    wrapper.addEventListener("mousedown", handleMouseDown);
+    wrapper.addEventListener("wheel", handleWheel, { passive: false });
+    wrapper.addEventListener("touchstart", handleTouchStart, { passive: false });
+    wrapper.addEventListener("touchmove", handleTouchMove, { passive: false });
+    wrapper.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    wrapper?.addEventListener("touchstart", onTouchStart, { passive: false });
-    wrapper?.addEventListener("touchmove", onTouchMove, { passive: false });
-    wrapper?.addEventListener("touchend", onTouchEnd);
+    // Global events for mouse
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("keypress", handleKeyPress);
 
-    window?.addEventListener("keypress", onKeyPress);
+    // Set initial cursor
+    wrapper.style.cursor = 'default';
 
+    // Cleanup
     return () => {
-      wrapper?.removeEventListener("mousedown", onMouseDown);
-      wrapper?.removeEventListener("wheel", onWheel);
+      wrapper.removeEventListener("mousedown", handleMouseDown);
+      wrapper.removeEventListener("wheel", handleWheel);
+      wrapper.removeEventListener("touchstart", handleTouchStart);
+      wrapper.removeEventListener("touchmove", handleTouchMove);
+      wrapper.removeEventListener("touchend", handleTouchEnd);
 
-      wrapper?.removeEventListener("touchstart", onTouchStart);
-      wrapper?.removeEventListener("touchmove", onTouchMove);
-      wrapper?.removeEventListener("touchend", onTouchEnd);
-
-      window?.removeEventListener("keypress", onKeyPress);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("keypress", handleKeyPress);
     };
   }, [canvasConfig.width, canvasConfig.height]);
 
   //Ao atualizar o selectedPixel
   useEffect(() => {
-    //Atualiza o overlay - voltando ao design original bonitinho
-    const SCALE = 10; // escala de visualização para ter precisão
+    //Atualiza o overlay
+    const SCALE = 10; // escala de visualização
 
     const canvas = overlayCanvasRef.current;
     if (!canvas || !selectedPixel) return;
 
     const ctx = canvas.getContext("2d");
-    const pixelRatio = window.devicePixelRatio || 1;
-
-    // Limpa todo o canvas primeiro
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Aplica escala para o pixel ratio
-    ctx.scale(pixelRatio, pixelRatio);
-    ctx.imageSmoothingEnabled = false;
-
-    // Coordenadas no overlay (10x maior para ter precisão)
-    const overlayX = selectedPixel.x * SCALE;
-    const overlayY = selectedPixel.y * SCALE;
 
     //branco externo
     ctx.fillStyle = "#b3b3b3cf"; //branco transpa
-    ctx.fillRect(overlayX - 2, overlayY - 2, 14, 14);
+    ctx.fillRect(
+      selectedPixel.x * SCALE - 2,
+      selectedPixel.y * SCALE - 2,
+      14,
+      14
+    );
 
     //limpa o interno
-    ctx.clearRect(overlayX - 1, overlayY - 1, 12, 12);
+    ctx.clearRect(
+      selectedPixel.x * SCALE - 1,
+      selectedPixel.y * SCALE - 1,
+      12,
+      12
+    );
 
     //preto interno
     ctx.fillStyle = "#05050096";
-    ctx.fillRect(overlayX - 1, overlayY - 1, 12, 12);
+    ctx.fillRect(
+      selectedPixel.x * SCALE - 1,
+      selectedPixel.y * SCALE - 1,
+      12,
+      12
+    );
 
     //limpa o interior
-    ctx.clearRect(overlayX, overlayY, 10, 10);
+    ctx.clearRect(selectedPixel.x * SCALE, selectedPixel.y * SCALE, 10, 10);
 
-    //deixa só os cantos bonitinhos
-    ctx.clearRect(overlayX + 2, overlayY - 2, 6, 15);
-    ctx.clearRect(overlayX - 2, overlayY + 2, 15, 6);
-
-    //Atualiza a query
-    // router.push(
-    //   {
-    //     pathname: router.pathname,
-    //     query: { ...router.query, x: selectedPixel.x, y: selectedPixel.y },
-    //   },
-    //   undefined,
-    //   { shallow: true }
-    // );
+    //deixa só os cantos
+    ctx.clearRect(
+      selectedPixel.x * SCALE + 2,
+      selectedPixel.y * SCALE - 2,
+      6,
+      15
+    );
+    ctx.clearRect(
+      selectedPixel.x * SCALE - 2,
+      selectedPixel.y * SCALE + 2,
+      15,
+      6
+    );
   }, [selectedPixel]);
 
   //Mover o selected Pixel
@@ -445,7 +529,7 @@ export default function Place() {
 
   // Playsound quando o cooldown chega a zero
   useEffect(() => {
-    if(timeLeft === "0:01") {
+    if (timeLeft === "0:01") {
       setTimeout(() => {
         playSound("CooldownOverAlert")
       }, 1 * 1000)
@@ -532,29 +616,11 @@ export default function Place() {
         return;
       }
 
-      // Obtém o pixel ratio do dispositivo para alta densidade (fix para mobile)
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      // Ajusta as dimensões do canvas com suporte a alta densidade
-      canvasRef.current.width = canvasSettings.width * pixelRatio;
-      canvasRef.current.height = canvasSettings.height * pixelRatio;
-      canvasRef.current.style.width = canvasSettings.width + 'px';
-      canvasRef.current.style.height = canvasSettings.height + 'px';
-
-      // Escala o contexto para corresponder ao pixel ratio
-      ctx.scale(pixelRatio, pixelRatio);
-
-      // Configura o overlay canvas - 10x maior para ter precisão nos detalhes
-      const overlayCanvas = overlayCanvasRef.current;
-      overlayCanvas.width = canvasSettings.width * 10 * pixelRatio;
-      overlayCanvas.height = canvasSettings.height * 10 * pixelRatio;
-      overlayCanvas.style.width = canvasSettings.width + 'px';
-      overlayCanvas.style.height = canvasSettings.height + 'px';
-
-      // Configura o contexto do overlay
-      const overlayCtx = overlayCanvas.getContext("2d");
-      overlayCtx.imageSmoothingEnabled = false;
-      overlayCtx.scale(pixelRatio, pixelRatio);
+      // Ajusta as dimensões do canvas
+      canvasRef.current.width = canvasSettings.width;
+      canvasRef.current.height = canvasSettings.height;
+      overlayCanvasRef.current.width = canvasSettings.width * 10;
+      overlayCanvasRef.current.height = canvasSettings.height * 10;
 
       // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
@@ -573,8 +639,6 @@ export default function Place() {
 
       // Renderiza a imagem no próximo frame para performance
       requestAnimationFrame(() => {
-        // Desabilita o anti-aliasing para manter pixels nítidos
-        ctx.imageSmoothingEnabled = false;
         ctx.putImageData(imageData, 0, 0);
       });
 
@@ -597,13 +661,13 @@ export default function Place() {
       transform.current.scale = initialScale;
 
       if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
-        transform.current.pointX = parseFloat(px);
-        transform.current.pointY = parseFloat(py);
+        transform.current.translateX = parseFloat(px);
+        transform.current.translateY = parseFloat(py);
       } else {
         const offsetX = (viewWidth - canvasSettings.width * initialScale) / 2;
         const offsetY = (viewHeight - canvasSettings.height * initialScale) / 2;
-        transform.current.pointX = offsetX;
-        transform.current.pointY = offsetY;
+        transform.current.translateX = offsetX;
+        transform.current.translateY = offsetY;
       }
 
       if (
@@ -620,7 +684,7 @@ export default function Place() {
       }
 
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
+        wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px) scale(${transform.current.scale})`;
       } else {
         console.error("wrapperRef not available");
       }
@@ -664,7 +728,7 @@ export default function Place() {
         : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
 
       // Desabilita o anti-aliasing para manter pixels nítidos
-      ctx.imageSmoothingEnabled = false;
+      // ctx.imageSmoothingEnabled = false;
       ctx.fillRect(x, y, 1, 1);
     }
   }
@@ -726,7 +790,7 @@ export default function Place() {
                 <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} arrow={false} placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
-                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
+                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.translateX)}&py=${Math.round(transform.current.translateY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
                     openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})` });
@@ -987,7 +1051,6 @@ export default function Place() {
                 transformOrigin: "0 0",
                 zIndex: 10,
                 width: "100%",
-                height: "100%",
                 display:
                   Math.max(canvasConfig.width, canvasConfig.height) > 1500
                     ? "none"
@@ -1002,11 +1065,8 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const pixelRatio = window.devicePixelRatio || 1;
-
-                // Ajusta as coordenadas para o pixel ratio
-                const scaleX = (canvas.width / pixelRatio) / rect.width;
-                const scaleY = (canvas.height / pixelRatio) / rect.height;
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
@@ -1019,11 +1079,8 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const pixelRatio = window.devicePixelRatio || 1;
-
-                // Ajusta as coordenadas para o pixel ratio
-                const scaleX = (canvas.width / pixelRatio) / rect.width;
-                const scaleY = (canvas.height / pixelRatio) / rect.height;
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
 
                 const x = Math.floor((e.clientX - rect.left) * scaleX);
                 const y = Math.floor((e.clientY - rect.top) * scaleY);
