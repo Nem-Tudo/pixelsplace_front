@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useImperativeHandle, forwardRef } from "react";
+import { useRef, useEffect, useState, useImperativeHandle, forwardRef, useCallback } from "react";
 import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import styles from "./Canvas.module.css";
 
@@ -26,9 +26,22 @@ const Canvas = forwardRef(({
 
     // States
     const [selectedPixel, setSelectedPixel] = useState(null);
-
     const [canvasInitialized, setCanvasInitialized] = useState(false);
+    const [initializationError, setInitializationError] = useState(null);
     const [, forceUpdate] = useState(0);
+
+    // Memoized callbacks para evitar dependências circulares
+    const selectPixel = useCallback((x, y) => {
+        if (onChangeSelectedPixel && typeof onChangeSelectedPixel === 'function') {
+            onChangeSelectedPixel(x, y);
+        }
+    }, [onChangeSelectedPixel]);
+
+    const rightClickPixel = useCallback((x, y) => {
+        if (onRightClickPixel && typeof onRightClickPixel === 'function') {
+            onRightClickPixel(x, y);
+        }
+    }, [onRightClickPixel]);
 
     // Expose functions to parent component
     useImperativeHandle(ref, () => ({
@@ -41,12 +54,25 @@ const Canvas = forwardRef(({
         initializeCanvas: (bytes) => {
             initializeCanvas(bytes);
         },
+        initializeCanvasWhenReady: (bytes) => {
+            // Versão que aguarda o componente estar pronto
+            const tryInitialize = () => {
+                if (canvasRef.current && overlayCanvasRef.current) {
+                    initializeCanvas(bytes);
+                } else {
+                    setTimeout(tryInitialize, 50);
+                }
+            };
+            tryInitialize();
+        },
         centerCanvas: () => {
             centerCanvas();
         },
         getSelectedPixel: () => selectedPixel,
         getTransform: () => transform.current,
-        setSelectedPixel: (pixel) => setSelectedPixel(pixel)
+        setSelectedPixel: (pixel) => setSelectedPixel(pixel),
+        getInitializationStatus: () => ({ initialized: canvasInitialized, error: initializationError }),
+        isReady: () => !!(canvasRef.current && overlayCanvasRef.current)
     }));
 
     // Apply transform to canvas
@@ -92,89 +118,133 @@ const Canvas = forwardRef(({
 
     // Initialize canvas with pixel data
     const initializeCanvas = (bytes) => {
-        const ctx = canvasRef.current?.getContext("2d");
-        if (!ctx) {
-            console.log("Canvas context not available");
-            return;
+        try {
+            setInitializationError(null);
+
+            // Validações iniciais
+            if (!bytes || !Array.isArray(bytes) && !(bytes instanceof Uint8Array)) {
+                throw new Error("Dados de bytes inválidos");
+            }
+
+            // Aguardar o canvas estar disponível
+            if (!canvasRef.current) {
+                console.log("Canvas ref não disponível ainda, tentando novamente...");
+                setTimeout(() => initializeCanvas(bytes), 100);
+                return;
+            }
+
+            const ctx = canvasRef.current.getContext("2d");
+            if (!ctx) {
+                console.log("Contexto 2D não disponível ainda, tentando novamente...");
+                setTimeout(() => initializeCanvas(bytes), 100);
+                return;
+            }
+
+            const canvas = canvasRef.current;
+            const overlayCanvas = overlayCanvasRef.current;
+
+            if (!overlayCanvas) {
+                console.log("Canvas de overlay não disponível ainda, tentando novamente...");
+                setTimeout(() => initializeCanvas(bytes), 100);
+                return;
+            }
+
+            // Verificar se os bytes têm o tamanho correto
+            const expectedSize = width * height * 3; // RGB
+            if (bytes.length !== expectedSize) {
+                console.warn(`Tamanho dos bytes não corresponde: esperado ${expectedSize}, recebido ${bytes.length}`);
+            }
+
+            // Setup main canvas
+            canvas.width = width;
+            canvas.height = height;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+
+            // Setup overlay canvas
+            overlayCanvas.width = width * 10;
+            overlayCanvas.height = height * 10;
+            overlayCanvas.style.width = width + 'px';
+            overlayCanvas.style.height = height + 'px';
+
+            // Scale overlay context
+            const overlayCtx = overlayCanvas.getContext('2d');
+            if (!overlayCtx) {
+                console.log("Contexto do overlay canvas não disponível ainda, tentando novamente...");
+                setTimeout(() => initializeCanvas(bytes), 100);
+                return;
+            }
+            overlayCtx.scale(10, 10);
+
+            // Disable antialiasing
+            ctx.imageSmoothingEnabled = false;
+            ctx.mozImageSmoothingEnabled = false;
+            ctx.webkitImageSmoothingEnabled = false;
+            ctx.msImageSmoothingEnabled = false;
+
+            overlayCtx.imageSmoothingEnabled = false;
+            overlayCtx.mozImageSmoothingEnabled = false;
+            overlayCtx.webkitImageSmoothingEnabled = false;
+            overlayCtx.msImageSmoothingEnabled = false;
+
+            // Create and fill ImageData
+            const imageData = ctx.createImageData(width, height);
+            const data = imageData.data;
+
+            let i = 0;
+            for (let j = 0; j < data.length; j += 4) {
+                data[j] = bytes[i++] || 0; // R
+                data[j + 1] = bytes[i++] || 0; // G
+                data[j + 2] = bytes[i++] || 0; // B
+                data[j + 3] = 255; // Alpha
+            }
+
+            // Render image
+            const renderFrame = () => {
+                try {
+                    ctx.putImageData(imageData, 0, 0);
+
+                    // Calculate initial scale
+                    const MIN_SCALE_MULTIPLIER = 0.5;
+                    const MAX_SCALE_MULTIPLIER = 150;
+                    const viewWidth = window.innerWidth;
+                    const viewHeight = window.innerHeight - 72;
+                    const scaleX = viewWidth / width;
+                    const scaleY = viewHeight / height;
+                    const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
+                    const maxScale = MAX_SCALE_MULTIPLIER;
+
+                    transform.current.minScale = minScale;
+                    transform.current.maxScale = maxScale;
+                    transform.current.scale = minScale;
+
+                    centerCanvas();
+                    setCanvasInitialized(true);
+
+                    console.log("Canvas inicializado com sucesso");
+                } catch (renderError) {
+                    console.error("Erro ao renderizar:", renderError);
+                    setInitializationError(`Erro ao renderizar: ${renderError.message}`);
+                }
+            };
+
+            requestAnimationFrame(renderFrame);
+
+        } catch (error) {
+            console.error("Erro na inicialização do canvas:", error);
+            setInitializationError(error.message);
+            setCanvasInitialized(false);
         }
-
-        const canvas = canvasRef.current;
-        const overlayCanvas = overlayCanvasRef.current;
-
-        // Setup main canvas
-        canvas.width = width;
-        canvas.height = height;
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-
-        // Setup overlay canvas
-        overlayCanvas.width = width * 10;
-        overlayCanvas.height = height * 10;
-        overlayCanvas.style.width = width + 'px';
-        overlayCanvas.style.height = height + 'px';
-
-        // Scale overlay context
-        const overlayCtx = overlayCanvas.getContext('2d');
-        overlayCtx.scale(10, 10);
-
-        // Disable antialiasing
-        ctx.imageSmoothingEnabled = false;
-        ctx.mozImageSmoothingEnabled = false;
-        ctx.webkitImageSmoothingEnabled = false;
-        ctx.msImageSmoothingEnabled = false;
-
-        overlayCtx.imageSmoothingEnabled = false;
-        overlayCtx.mozImageSmoothingEnabled = false;
-        overlayCtx.webkitImageSmoothingEnabled = false;
-        overlayCtx.msImageSmoothingEnabled = false;
-
-        // Create and fill ImageData
-        const imageData = ctx.createImageData(width, height);
-        const data = imageData.data;
-
-        let i = 0;
-        for (let j = 0; j < data.length; j += 4) {
-            data[j] = bytes[i++]; // R
-            data[j + 1] = bytes[i++]; // G
-            data[j + 2] = bytes[i++]; // B
-            data[j + 3] = 255; // Alpha
-        }
-
-        // Render image
-        requestAnimationFrame(() => {
-            ctx.putImageData(imageData, 0, 0);
-        });
-
-        // Calculate initial scale
-        const MIN_SCALE_MULTIPLIER = 0.5;
-        const MAX_SCALE_MULTIPLIER = 150;
-        const viewWidth = window.innerWidth;
-        const viewHeight = window.innerHeight - 72;
-        const scaleX = viewWidth / width;
-        const scaleY = viewHeight / height;
-        const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
-        const maxScale = MAX_SCALE_MULTIPLIER;
-
-        transform.current.minScale = minScale;
-        transform.current.maxScale = maxScale;
-        transform.current.scale = minScale;
-
-        centerCanvas();
-        setCanvasInitialized(true);
     };
 
-    const selectPixel = (x, y) => {
-        onChangeSelectedPixel(x, y)
-    }
-
-    const rightClickPixel = (x, y) => {
-        onRightClickPixel(x, y)
-    }
-
-    // Update selectedPixelRef when selectedPixel changes
+    // Update selectedPixelRef when selectedPixel changes - SEM dependência circular
     useEffect(() => {
         selectedPixelRef.current = selectedPixel;
-        if (onChangeSelectedPixel && selectedPixel) {
+    }, [selectedPixel]);
+
+    // Separar o callback para onChangeSelectedPixel
+    useEffect(() => {
+        if (selectedPixel && onChangeSelectedPixel) {
             selectPixel(selectedPixel.x, selectedPixel.y);
         }
     }, [selectedPixel]);
@@ -187,6 +257,8 @@ const Canvas = forwardRef(({
         if (!canvas || !selectedPixel) return;
 
         const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         const x = selectedPixel.x;
@@ -613,7 +685,8 @@ const Canvas = forwardRef(({
 
                 const rect = canvas.getBoundingClientRect();
                 const x = Math.floor((startX - rect.left) / rect.width * width);
-                const y = Math.floor((startY - rect.top) / rect.height * width);
+                // 🔧 CORREÇÃO: estava usando width em vez de height
+                const y = Math.floor((startY - rect.top) / rect.height * height);
 
                 if (x >= 0 && x < width && y >= 0 && y < height) {
                     setSelectedPixel({ x, y });
@@ -624,7 +697,23 @@ const Canvas = forwardRef(({
         delete e.currentTarget.touchData;
     };
 
-    if(!canvasInitialized) return <h1>Canvas não incializado</h1>
+    // Renderização condicional melhorada
+    if (initializationError) {
+        return (
+            <div className={styles.canvasContainer}>
+                <div style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
+                    <h2>Erro na inicialização do Canvas</h2>
+                    <p>{initializationError}</p>
+                    <button onClick={() => {
+                        setInitializationError(null);
+                        setCanvasInitialized(false);
+                    }}>
+                        Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.canvasContainer}>
