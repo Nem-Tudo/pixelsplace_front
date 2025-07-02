@@ -144,6 +144,9 @@ export default function Place() {
     // Touch handling
     let isPinching = false;
     let lastTouchDistance = 0;
+    let lastTouchCenterX = 0;
+    let lastTouchCenterY = 0;
+    let hasMoved = false;
 
     // Utility functions
     const getTouchDistance = (touch1, touch2) => {
@@ -1114,8 +1117,21 @@ export default function Place() {
                 const startX = touch.clientX;
                 const startY = touch.clientY;
 
+                if (e.touches.length > 1) {
+                  if (e.currentTarget.touchData.longPressTimer) {
+                    clearTimeout(e.currentTarget.touchData.longPressTimer);
+                    e.currentTarget.touchData.longPressTimer = null;
+                  }
+                }
+
                 // Timer para mostrar pixel info após 500ms
-                const longPressTimer = setTimeout(() => {
+                const longPressTimer = e.touches.length > 1 ? null : setTimeout(() => {
+                  if (e.touches.length > 1) {
+                    if (e.currentTarget.touchData.longPressTimer) {
+                      clearTimeout(e.currentTarget.touchData.longPressTimer);
+                      e.currentTarget.touchData.longPressTimer = null;
+                    }
+                  }
                   const canvas = canvasRef.current;
                   if (!canvas) return;
 
