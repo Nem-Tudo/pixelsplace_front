@@ -1072,38 +1072,36 @@ export default function Place() {
   const canvas = canvasRef.current;
   if (!canvas) return;
 
-  const { scale, translateX, translateY } = transform.current;
-  
-  // Coordenadas relativas à viewport
-  const viewportX = e.clientX;
-  const viewportY = e.clientY;
-  
-  // Converter para coordenadas do canvas considerando transformação
-  const canvasX = (viewportX - translateX) / scale;
-  const canvasY = (viewportY - translateY) / scale;
-  
-  const x = Math.floor(canvasX);
-  const y = Math.floor(canvasY);
+  // Para mobile, usar touches se disponível
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-  // Verificar se está dentro dos limites
-  if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height) {
-    setSelectedPixel({ x, y });
-  }
+  const rect = canvas.getBoundingClientRect();
+  
+  // Calcular posição considerando devicePixelRatio e escala do canvas
+  const x = Math.floor((clientX - rect.left) * (canvasConfig.width / rect.width));
+  const y = Math.floor((clientY - rect.top) * (canvasConfig.height / rect.height));
+
+  setSelectedPixel({ x, y });
 }}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                const canvas = canvasRef.current;
-                if (!canvas) return;
 
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
+onContextMenu={(e) => {
+  e.preventDefault();
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                const y = Math.floor((e.clientY - rect.top) * scaleY);
+  // Para mobile, usar touches se disponível  
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-                showPixelInfo(x, y);
-              }}
+  const rect = canvas.getBoundingClientRect();
+  
+  // Calcular posição considerando devicePixelRatio e escala do canvas
+  const x = Math.floor((clientX - rect.left) * (canvasConfig.width / rect.width));
+  const y = Math.floor((clientY - rect.top) * (canvasConfig.height / rect.height));
+
+  showPixelInfo(x, y);
+}}
               className="pixelate"
               id={styles.canvas}
               ref={canvasRef}
