@@ -213,23 +213,27 @@ export default function Place() {
       e.preventDefault();
 
       const { scale, translateX, translateY, minScale, maxScale } = transform.current;
-      const rect = wrapper.getBoundingClientRect();
 
-      // Mouse position relative to the wrapper
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+      // Posição do mouse relativa à viewport
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
 
-      // Calculate zoom
-      const zoomIntensity = 0.1;
-      const wheel = e.deltaY < 0 ? 1 : -1;
-      const zoom = Math.exp(wheel * zoomIntensity);
+      // Calcular novo zoom
+      const zoomFactor = 1.2;
+      const isZoomIn = e.deltaY < 0;
+      const newScale = isZoomIn
+        ? Math.min(maxScale, scale * zoomFactor)
+        : Math.max(minScale, scale / zoomFactor);
 
-      const newScale = Math.max(minScale, Math.min(maxScale, scale * zoom));
-      const scaleRatio = newScale / scale;
+      if (newScale === scale) return; // Se não mudou a escala, não faz nada
 
-      // Adjust translation to zoom toward mouse position
-      const newTranslateX = mouseX - (mouseX - translateX) * scaleRatio;
-      const newTranslateY = mouseY - (mouseY - translateY) * scaleRatio;
+      // Ponto no canvas antes do zoom (em coordenadas do canvas)
+      const canvasX = (mouseX - translateX) / scale;
+      const canvasY = (mouseY - translateY) / scale;
+
+      // Ajustar translação para manter o ponto sob o mouse
+      const newTranslateX = mouseX - canvasX * newScale;
+      const newTranslateY = mouseY - canvasY * newScale;
 
       transform.current.scale = newScale;
       transform.current.translateX = newTranslateX;
