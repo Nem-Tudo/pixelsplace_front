@@ -361,9 +361,7 @@ export default function Place() {
                     <CustomButton
                       label={language.getString("PAGES.PLACE.PICK_COLOR")}
                       onClick={() => {
-                        if (
-                          canvasConfig.freeColors.includes(showingPixelInfo.c)
-                        ) {
+                        if (canvasConfig.freeColors.includes(showingPixelInfo.c) && !loggedUser?.premium) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
                           openPopup("error", { message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR") });
