@@ -41,12 +41,10 @@ export default function Place() {
   const hasLoadedSocketsRef = useRef(false);
   const cooldownRef = useRef(null);
   const pixelInfoRef = useRef(null);
-  const transform = useRef({ //Posição/zoom do canvas
+  const transform = useRef({
     scale: 1,
-    pointX: 0,
-    pointY: 0,
-    startX: 0,
-    startY: 0,
+    translateX: 0,
+    translateY: 0,
     minScale: 1,
     maxScale: 80,
   });
@@ -76,23 +74,26 @@ export default function Place() {
   const applyTransform = () => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
-    const { pointX, pointY, scale } = transform.current;
-    wrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
 
-    forceUpdate(Date.now()); // Força a atualização do react
+    const { translateX, translateY, scale } = transform.current;
+    wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    forceUpdate(Date.now());
   };
 
   //centralizar o canvas
   const centerCanvas = () => {
+    if (!canvasConfig.width || !canvasConfig.height) return;
+
     const { scale } = transform.current;
     const viewWidth = window.innerWidth;
     const viewHeight = window.innerHeight - 72;
 
-    const offsetX = (viewWidth - canvasConfig.width * scale) / 2;
-    const offsetY = (viewHeight - canvasConfig.height * scale) / 2;
+    const canvasDisplayWidth = canvasConfig.width * scale;
+    const canvasDisplayHeight = canvasConfig.height * scale;
 
-    transform.current.pointX = offsetX;
-    transform.current.pointY = offsetY;
+    transform.current.translateX = (viewWidth - canvasDisplayWidth) / 2;
+    transform.current.translateY = (viewHeight - canvasDisplayHeight) / 2;
+
     applyTransform();
   };
 
@@ -134,130 +135,236 @@ export default function Place() {
   //Movimento do canvas
   useEffect(() => {
     const wrapper = wrapperRef.current;
-    const zoom = transform.current;
+    if (!wrapper || !canvasConfig.width) return;
 
-    let lastTouchDistance = null;
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
 
-    const getTouchCenter = (touches) => {
-      const x = (touches[0].clientX + touches[1].clientX) / 2;
-      const y = (touches[0].clientY + touches[1].clientY) / 2;
-      return { x, y };
-    };
+    // Touch handling
+    let isPinching = false;
+    let lastTouchDistance = 0;
+    let lastTouchCenterX = 0;
+    let lastTouchCenterY = 0;
 
-    const getTouchDistance = (touches) => {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
+    // Utility functions
+    const getTouchDistance = (touch1, touch2) => {
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
       return Math.sqrt(dx * dx + dy * dy);
     };
 
-    const onMouseDown = (e) => {
-      e.preventDefault();
-      zoom.startX = e.clientX - zoom.pointX;
-      zoom.startY = e.clientY - zoom.pointY;
-
-      const onMouseMove = (e) => {
-        zoom.pointX = e.clientX - zoom.startX;
-        zoom.pointY = e.clientY - zoom.startY;
-        applyTransform();
+    const getTouchCenter = (touch1, touch2) => {
+      return {
+        x: (touch1.clientX + touch2.clientX) / 2,
+        y: (touch1.clientY + touch2.clientY) / 2
       };
-
-      const onMouseUp = () => {
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("mouseup", onMouseUp);
-      };
-
-      window.addEventListener("mousemove", onMouseMove);
-      window.addEventListener("mouseup", onMouseUp);
     };
 
-    const onTouchStart = (e) => {
-      if (e.touches.length === 1) {
-        zoom.startX = e.touches[0].clientX - zoom.pointX;
-        zoom.startY = e.touches[0].clientY - zoom.pointY;
-      } else if (e.touches.length === 2) {
-        lastTouchDistance = getTouchDistance(e.touches);
+    const constrainTransform = () => {
+      const { minScale, maxScale } = transform.current;
+
+      // Constrain scale
+      if (transform.current.scale < minScale) {
+        transform.current.scale = minScale;
+      }
+      if (transform.current.scale > maxScale) {
+        transform.current.scale = maxScale;
       }
     };
 
-    const onTouchMove = (e) => {
+    // Mouse Events
+    const handleMouseDown = (e) => {
+      if (e.button !== 0) return; // Only left mouse button
       e.preventDefault();
 
-      if (e.touches.length === 1) {
-        zoom.pointX = e.touches[0].clientX - zoom.startX;
-        zoom.pointY = e.touches[0].clientY - zoom.startY;
-        applyTransform();
-      } else if (e.touches.length === 2) {
-        const newDistance = getTouchDistance(e.touches);
-        const center = getTouchCenter(e.touches);
+      isDragging = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
 
-        if (lastTouchDistance) {
-          const delta = newDistance / lastTouchDistance;
-          let newScale = zoom.scale * delta;
-          newScale = Math.max(zoom.minScale, Math.min(zoom.maxScale, newScale));
-
-          const xs = (center.x - zoom.pointX) / zoom.scale;
-          const ys = (center.y - zoom.pointY) / zoom.scale;
-
-          zoom.scale = newScale;
-          zoom.pointX = center.x - xs * newScale;
-          zoom.pointY = center.y - ys * newScale;
-
-          applyTransform();
-        }
-
-        lastTouchDistance = newDistance;
-      }
+      wrapper.style.cursor = 'grabbing';
     };
 
-    const onTouchEnd = (e) => {
-      if (e.touches.length < 2) {
-        lastTouchDistance = null;
-      }
-    };
-
-    const onWheel = (e) => {
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
       e.preventDefault();
-      const { pointX, pointY, scale, minScale, maxScale } = zoom;
 
-      const xs = (e.clientX - pointX) / scale;
-      const ys = (e.clientY - pointY) / scale;
-      const delta = e.wheelDelta ? e.wheelDelta : -e.deltaY;
+      const deltaX = e.clientX - lastMouseX;
+      const deltaY = e.clientY - lastMouseY;
 
-      let newScale = scale * (delta > 0 ? 1.2 : 1 / 1.2);
-      newScale = Math.max(minScale, Math.min(maxScale, newScale));
+      transform.current.translateX += deltaX;
+      transform.current.translateY += deltaY;
 
-      zoom.scale = newScale;
-      zoom.pointX = e.clientX - xs * newScale;
-      zoom.pointY = e.clientY - ys * newScale;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
 
       applyTransform();
     };
 
-    const onKeyPress = (e) => {
+    const handleMouseUp = (e) => {
+      if (!isDragging) return;
+
+      isDragging = false;
+      wrapper.style.cursor = 'grab';
+    };
+
+    // Wheel Event
+    const handleWheel = (e) => {
+      e.preventDefault();
+
+      const { scale, translateX, translateY, minScale, maxScale } = transform.current;
+      const rect = wrapper.getBoundingClientRect();
+
+      // Mouse position relative to the wrapper
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // Calculate zoom
+      const zoomIntensity = 0.1;
+      const wheel = e.deltaY < 0 ? 1 : -1;
+      const zoom = Math.exp(wheel * zoomIntensity);
+
+      const newScale = Math.max(minScale, Math.min(maxScale, scale * zoom));
+      const scaleRatio = newScale / scale;
+
+      // Adjust translation to zoom toward mouse position
+      const newTranslateX = mouseX - (mouseX - translateX) * scaleRatio;
+      const newTranslateY = mouseY - (mouseY - translateY) * scaleRatio;
+
+      transform.current.scale = newScale;
+      transform.current.translateX = newTranslateX;
+      transform.current.translateY = newTranslateY;
+
+      applyTransform();
+    };
+
+    // Touch Events
+    const handleTouchStart = (e) => {
+      e.preventDefault();
+
+      if (e.touches.length === 1) {
+        // Single touch - start dragging
+        isDragging = true;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+      } else if (e.touches.length === 2) {
+        // Two touches - start pinching
+        isDragging = false;
+        isPinching = true;
+
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+
+        lastTouchDistance = getTouchDistance(touch1, touch2);
+        const center = getTouchCenter(touch1, touch2);
+        lastTouchCenterX = center.x;
+        lastTouchCenterY = center.y;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      e.preventDefault();
+
+      if (e.touches.length === 1 && isDragging && !isPinching) {
+        // Single touch dragging
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - lastMouseX;
+        const deltaY = touch.clientY - lastMouseY;
+
+        transform.current.translateX += deltaX;
+        transform.current.translateY += deltaY;
+
+        lastMouseX = touch.clientX;
+        lastMouseY = touch.clientY;
+
+        applyTransform();
+      } else if (e.touches.length === 2 && isPinching) {
+        // Two touch pinching/zooming
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+
+        const currentDistance = getTouchDistance(touch1, touch2);
+        const currentCenter = getTouchCenter(touch1, touch2);
+
+        if (lastTouchDistance > 0) {
+          const { scale, translateX, translateY, minScale, maxScale } = transform.current;
+
+          // Calculate scale change
+          const scaleChange = currentDistance / lastTouchDistance;
+          const newScale = Math.max(minScale, Math.min(maxScale, scale * scaleChange));
+          const scaleRatio = newScale / scale;
+
+          // Adjust translation to zoom toward touch center
+          const rect = wrapper.getBoundingClientRect();
+          const centerX = currentCenter.x - rect.left;
+          const centerY = currentCenter.y - rect.top;
+
+          const newTranslateX = centerX - (centerX - translateX) * scaleRatio;
+          const newTranslateY = centerY - (centerY - translateY) * scaleRatio;
+
+          transform.current.scale = newScale;
+          transform.current.translateX = newTranslateX;
+          transform.current.translateY = newTranslateY;
+
+          applyTransform();
+        }
+
+        lastTouchDistance = currentDistance;
+        lastTouchCenterX = currentCenter.x;
+        lastTouchCenterY = currentCenter.y;
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      if (e.touches.length === 0) {
+        // All touches ended
+        isDragging = false;
+        isPinching = false;
+        lastTouchDistance = 0;
+      } else if (e.touches.length === 1) {
+        // One touch remaining - switch to dragging
+        isPinching = false;
+        isDragging = true;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+        lastTouchDistance = 0;
+      }
+    };
+
+    // Keyboard Events
+    const handleKeyPress = (e) => {
       if (e.key.toLowerCase() === "r") {
-        zoom.scale = zoom.minScale;
+        transform.current.scale = transform.current.minScale;
         centerCanvas();
       }
     };
 
-    wrapper?.addEventListener("mousedown", onMouseDown);
-    wrapper?.addEventListener("wheel", onWheel, { passive: false });
+    // Event Listeners
+    wrapper.addEventListener("mousedown", handleMouseDown);
+    wrapper.addEventListener("wheel", handleWheel, { passive: false });
+    wrapper.addEventListener("touchstart", handleTouchStart, { passive: false });
+    wrapper.addEventListener("touchmove", handleTouchMove, { passive: false });
+    wrapper.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    wrapper?.addEventListener("touchstart", onTouchStart, { passive: false });
-    wrapper?.addEventListener("touchmove", onTouchMove, { passive: false });
-    wrapper?.addEventListener("touchend", onTouchEnd);
+    // Global events for mouse
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("keypress", handleKeyPress);
 
-    window?.addEventListener("keypress", onKeyPress);
+    // Set initial cursor
+    wrapper.style.cursor = 'grab';
 
+    // Cleanup
     return () => {
-      wrapper?.removeEventListener("mousedown", onMouseDown);
-      wrapper?.removeEventListener("wheel", onWheel);
+      wrapper.removeEventListener("mousedown", handleMouseDown);
+      wrapper.removeEventListener("wheel", handleWheel);
+      wrapper.removeEventListener("touchstart", handleTouchStart);
+      wrapper.removeEventListener("touchmove", handleTouchMove);
+      wrapper.removeEventListener("touchend", handleTouchEnd);
 
-      wrapper?.removeEventListener("touchstart", onTouchStart);
-      wrapper?.removeEventListener("touchmove", onTouchMove);
-      wrapper?.removeEventListener("touchend", onTouchEnd);
-
-      window?.removeEventListener("keypress", onKeyPress);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("keypress", handleKeyPress);
     };
   }, [canvasConfig.width, canvasConfig.height]);
 
@@ -548,13 +655,13 @@ export default function Place() {
       transform.current.scale = initialScale;
 
       if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
-        transform.current.pointX = parseFloat(px);
-        transform.current.pointY = parseFloat(py);
+        transform.current.translateX = parseFloat(px);
+        transform.current.translateY = parseFloat(py);
       } else {
         const offsetX = (viewWidth - canvasSettings.width * initialScale) / 2;
         const offsetY = (viewHeight - canvasSettings.height * initialScale) / 2;
-        transform.current.pointX = offsetX;
-        transform.current.pointY = offsetY;
+        transform.current.translateX = offsetX;
+        transform.current.translateY = offsetY;
       }
 
       if (
@@ -571,7 +678,7 @@ export default function Place() {
       }
 
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.pointX}px, ${transform.current.pointY}px) scale(${transform.current.scale})`;
+        wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px) scale(${transform.current.scale})`;
       } else {
         console.error("wrapperRef not available");
       }
@@ -677,7 +784,7 @@ export default function Place() {
                 <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} arrow={false} placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
-                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.pointX)}&py=${Math.round(transform.current.pointY)}`;
+                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.translateX)}&py=${Math.round(transform.current.translateY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
                     openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})` });
