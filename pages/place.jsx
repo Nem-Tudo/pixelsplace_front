@@ -73,10 +73,24 @@ export default function Place() {
   //Aplicar as informações do transform ref no estado do Wrapper do canvas
   const applyTransform = () => {
     const wrapper = wrapperRef.current;
-    if (!wrapper) return;
+    const canvas = canvasRef.current;
+    const overlayCanvas = overlayCanvasRef.current;
+    if (!wrapper || !canvas || !overlayCanvas) return;
 
     const { translateX, translateY, scale } = transform.current;
-    wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+    // Apenas translação no wrapper
+    wrapper.style.transform = `translate(${translateX}px, ${translateY}px)`;
+
+    // Escala direta nos canvas
+    const scaledWidth = canvasConfig.width * scale;
+    const scaledHeight = canvasConfig.height * scale;
+
+    canvas.style.width = scaledWidth + 'px';
+    canvas.style.height = scaledHeight + 'px';
+    overlayCanvas.style.width = scaledWidth + 'px';
+    overlayCanvas.style.height = scaledHeight + 'px';
+
     forceUpdate(Date.now());
   };
 
@@ -690,7 +704,16 @@ export default function Place() {
       }
 
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px) scale(${transform.current.scale})`;
+        wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px)`;
+
+        // Redimensionar o canvas diretamente
+        const scaledWidth = canvasSettings.width * transform.current.scale;
+        const scaledHeight = canvasSettings.height * transform.current.scale;
+
+        canvas.style.width = scaledWidth + 'px';
+        canvas.style.height = scaledHeight + 'px';
+        overlayCanvas.style.width = scaledWidth + 'px';
+        overlayCanvas.style.height = scaledHeight + 'px';
       } else {
         console.error("wrapperRef not available");
       }
