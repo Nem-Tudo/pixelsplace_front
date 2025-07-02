@@ -181,13 +181,15 @@ export default function Place() {
       isDragging = true;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
-
-      wrapper.style.cursor = 'grabbing';
     };
 
     const handleMouseMove = (e) => {
       if (!isDragging) return;
       e.preventDefault();
+
+      if (wrapper.style.cursor !== 'grabbing') {
+        wrapper.style.cursor = 'grabbing';
+      }
 
       const deltaX = e.clientX - lastMouseX;
       const deltaY = e.clientY - lastMouseY;
@@ -594,25 +596,25 @@ export default function Place() {
         return;
       }
 
-      
+
       const devicePixelRatio = window.devicePixelRatio || 1;
       const canvas = canvasRef.current;
       const overlayCanvas = overlayCanvasRef.current;
-// Canvas principal - SEM devicePixelRatio
-canvas.width = canvasSettings.width;
-canvas.height = canvasSettings.height;
-canvas.style.width = canvasSettings.width + 'px';
-canvas.style.height = canvasSettings.height + 'px';
+      // Canvas principal - SEM devicePixelRatio
+      canvas.width = canvasSettings.width;
+      canvas.height = canvasSettings.height;
+      canvas.style.width = canvasSettings.width + 'px';
+      canvas.style.height = canvasSettings.height + 'px';
 
-// Overlay - SEM devicePixelRatio  
-overlayCanvas.width = canvasSettings.width * 10;
-overlayCanvas.height = canvasSettings.height * 10;
-overlayCanvas.style.width = canvasSettings.width + 'px';
-overlayCanvas.style.height = canvasSettings.height + 'px';
+      // Overlay - SEM devicePixelRatio  
+      overlayCanvas.width = canvasSettings.width * 10;
+      overlayCanvas.height = canvasSettings.height * 10;
+      overlayCanvas.style.width = canvasSettings.width + 'px';
+      overlayCanvas.style.height = canvasSettings.height + 'px';
 
-// Escalar APENAS o contexto do overlay
-const overlayCtx = overlayCanvas.getContext('2d');
-overlayCtx.scale(10, 10);
+      // Escalar APENAS o contexto do overlay
+      const overlayCtx = overlayCanvas.getContext('2d');
+      overlayCtx.scale(10, 10);
 
       // Escalar o contexto principal
       ctx.scale(devicePixelRatio, devicePixelRatio);
@@ -1070,36 +1072,32 @@ overlayCtx.scale(10, 10);
 
             {/* main canvas */}
             <canvas
-              onTouchEnd={(e) => {
-alert("a1")
-  const canvas = canvasRef.current;
-  if (!canvas) return;
+              onClick={(e) => {
+                const canvas = canvasRef.current;
+                if (!canvas) return;
 
-  const rect = canvas.getBoundingClientRect();
-  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-  
-  const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
-  const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
-alert("a2")
-  setSelectedPixel({ x, y });
-}}
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX;
+                const clientY = e.clientY;
 
-onContextMenu={(e) => {
-alert("B1")
-  e.preventDefault();
-  const canvas = canvasRef.current;
-  if (!canvas) return;
+                const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+                const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
+                setSelectedPixel({ x, y });
+              }}
 
-  const rect = canvas.getBoundingClientRect();
-  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-  
-  const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
-  const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
-alert("B2")
-  showPixelInfo(x, y);
-}}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                const canvas = canvasRef.current;
+                if (!canvas) return;
+
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX;
+                const clientY = e.clientY;
+
+                const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+                const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
+                showPixelInfo(x, y);
+              }}
               className="pixelate"
               id={styles.canvas}
               ref={canvasRef}
