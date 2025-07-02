@@ -533,7 +533,7 @@ export default function Place() {
     ];
 
     for (const event of events) {
-      socket.off(event); // limpa duplicações
+      socket.off(event); // limpa duplicações!
     }
 
     socket.on("connected", (data) => {
