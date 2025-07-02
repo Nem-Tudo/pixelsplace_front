@@ -1069,18 +1069,27 @@ export default function Place() {
             {/* main canvas */}
             <canvas
               onClick={(e) => {
-                const canvas = canvasRef.current;
-                if (!canvas) return;
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
+  const { scale, translateX, translateY } = transform.current;
+  
+  // Coordenadas relativas à viewport
+  const viewportX = e.clientX;
+  const viewportY = e.clientY;
+  
+  // Converter para coordenadas do canvas considerando transformação
+  const canvasX = (viewportX - translateX) / scale;
+  const canvasY = (viewportY - translateY) / scale;
+  
+  const x = Math.floor(canvasX);
+  const y = Math.floor(canvasY);
 
-                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                const y = Math.floor((e.clientY - rect.top) * scaleY);
-
-                setSelectedPixel({ x, y });
-              }}
+  // Verificar se está dentro dos limites
+  if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height) {
+    setSelectedPixel({ x, y });
+  }
+}}
               onContextMenu={(e) => {
                 e.preventDefault();
                 const canvas = canvasRef.current;
