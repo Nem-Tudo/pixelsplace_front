@@ -26,7 +26,8 @@ const Canvas = forwardRef(({
     const [selectedPixel, setSelectedPixel] = useState(null);
     const [canvasInitialized, setCanvasInitialized] = useState(false);
     const [initializationError, setInitializationError] = useState(null);
-    const [canvasConfig, setCanvasConfig] = useState({ width: 100, height: 100 });
+    // 🔧 CORREÇÃO: Inicializar com null para evitar dimensões incorretas
+    const [canvasConfig, setCanvasConfig] = useState(null);
     const [, forceUpdate] = useState(0);
 
     // Memoized callbacks para evitar dependências circulares
@@ -79,7 +80,7 @@ const Canvas = forwardRef(({
         const wrapper = wrapperRef.current;
         const canvas = canvasRef.current;
         const overlayCanvas = overlayCanvasRef.current;
-        if (!wrapper || !canvas || !overlayCanvas) return;
+        if (!wrapper || !canvas || !overlayCanvas || !canvasConfig) return;
 
         const { translateX, translateY, scale } = transform.current;
 
@@ -99,15 +100,16 @@ const Canvas = forwardRef(({
     };
 
     // Center canvas on screen
-    const centerCanvas = () => {
-        if (!canvasConfig.width || !canvasConfig.height) return;
+    const centerCanvas = (config) => {
+        const currentConfig = config || canvasConfig
+        if (!currentConfig?.width || !currentConfig?.height) return;
 
         const { scale } = transform.current;
         const viewWidth = window.innerWidth;
         const viewHeight = window.innerHeight - 72;
 
-        const canvasDisplayWidth = canvasConfig.width * scale;
-        const canvasDisplayHeight = canvasConfig.height * scale;
+        const canvasDisplayWidth = currentConfig.width * scale;
+        const canvasDisplayHeight = currentConfig.height * scale;
 
         transform.current.translateX = (viewWidth - canvasDisplayWidth) / 2;
         transform.current.translateY = (viewHeight - canvasDisplayHeight) / 2;
@@ -155,9 +157,10 @@ const Canvas = forwardRef(({
                 console.warn(`Tamanho dos bytes não corresponde: esperado ${expectedSize}, recebido ${bytes.length}`);
             }
 
-            // Setup main canvas
+            // 🔧 CORREÇÃO: Setup main canvas com as dimensões corretas IMEDIATAMENTE
             canvas.width = config.width;
             canvas.height = config.height;
+            // Definir o estilo inicial com as dimensões corretas
             canvas.style.width = config.width + 'px';
             canvas.style.height = config.height + 'px';
 
@@ -218,7 +221,7 @@ const Canvas = forwardRef(({
                     transform.current.maxScale = maxScale;
                     transform.current.scale = minScale;
 
-                    centerCanvas();
+                    centerCanvas(config);
                     setCanvasInitialized(true);
 
                     console.log("Canvas inicializado com sucesso");
@@ -286,7 +289,7 @@ const Canvas = forwardRef(({
     // Canvas movement and zoom
     useEffect(() => {
         const wrapper = wrapperRef.current;
-        if (!wrapper || !canvasInitialized) return;
+        if (!wrapper || !canvasInitialized || !canvasConfig) return;
 
         let isDragging = false;
         let lastMouseX = 0;
@@ -494,12 +497,12 @@ const Canvas = forwardRef(({
             document.removeEventListener("mouseup", handleMouseUp);
             window.removeEventListener("keypress", handleKeyPress);
         };
-    }, [canvasInitialized, canvasConfig.width, canvasConfig.height]);
+    }, [canvasInitialized, canvasConfig?.width, canvasConfig?.height]);
 
     // Keyboard navigation for selected pixel
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (!selectedPixel) return;
+            if (!selectedPixel || !canvasConfig) return;
 
             let newPixel = { ...selectedPixel };
 
@@ -527,7 +530,7 @@ const Canvas = forwardRef(({
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [selectedPixel, canvasConfig.width, canvasConfig.height]);
+    }, [selectedPixel, canvasConfig?.width, canvasConfig?.height]);
 
     // Update pixel on canvas
     const updatePixel = (x, y, color, loading = false) => {
@@ -565,7 +568,7 @@ const Canvas = forwardRef(({
     // Handle canvas click
     const handleCanvasClick = (e) => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas || !canvasConfig) return;
 
         const rect = canvas.getBoundingClientRect();
         const clientX = e.clientX;
@@ -583,7 +586,7 @@ const Canvas = forwardRef(({
     const handleCanvasRightClick = (e) => {
         e.preventDefault();
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas || !canvasConfig) return;
 
         const rect = canvas.getBoundingClientRect();
         const clientX = e.clientX;
@@ -614,7 +617,7 @@ const Canvas = forwardRef(({
 
         const longPressTimer = setTimeout(() => {
             const canvas = canvasRef.current;
-            if (!canvas) return;
+            if (!canvas || !canvasConfig) return;
 
             const rect = canvas.getBoundingClientRect();
             const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
@@ -681,11 +684,10 @@ const Canvas = forwardRef(({
 
             if (duration < 500) {
                 const canvas = canvasRef.current;
-                if (!canvas) return;
+                if (!canvas || !canvasConfig) return;
 
                 const rect = canvas.getBoundingClientRect();
                 const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
-                // 🔧 CORREÇÃO: estava usando width em vez de height
                 const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
 
                 if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height) {
@@ -697,6 +699,17 @@ const Canvas = forwardRef(({
         delete e.currentTarget.touchData;
     };
 
+    // 🔧 CORREÇÃO: Não renderizar o canvas até ter as configurações corretas
+    if (!canvasConfig) {
+        return (
+            <div className={styles.canvasContainer}>
+                <div style={{ padding: '20px', textAlign: 'center' }}>
+                    <p>Inicializando canvas...</p>
+                </div>
+            </div>
+        );
+    }
+
     // Renderização condicional melhorada
     if (initializationError) {
         return (
@@ -707,6 +720,7 @@ const Canvas = forwardRef(({
                     <button onClick={() => {
                         setInitializationError(null);
                         setCanvasInitialized(false);
+                        setCanvasConfig(null);
                     }}>
                         Tentar Novamente
                     </button>

@@ -224,7 +224,7 @@ export default function Place() {
 
       const buffer = await pixelsRes.arrayBuffer();
       const bytes = new Uint8Array(buffer);
-      canvasRef.current.initializeCanvasWhenReady(bytes, canvasSettings);
+      canvasRef.current.initializeCanvas(bytes, canvasSettings);
     } catch (e) {
       setApiError(true)
       console.log("Error on fetch canvas", e)
