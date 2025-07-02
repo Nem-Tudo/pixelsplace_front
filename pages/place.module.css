@@ -223,21 +223,26 @@
     }
 }
 
-.pixelInfo::before, .pixelInfo::after {
+.pixelInfo.premium {
+    background: white !important;
+    backdrop-filter: none !important;
+}
+
+.pixelInfo.premium::before, .pixelInfo.premium::after {
     content: "";
     position: absolute;
-    inset: -0.2rem;
-    z-index: 1;
+    inset: -3px;
+    z-index: -1;
     background: conic-gradient(
         from var(--gradient-angle),
-        red,
-        blue,
-        red);
-    border-radius: inherit;
+        var(--user-color-primary, red),
+        var(--user-color-secondary, blue),
+        var(--user-color-primary, red));
+    border-radius: 25px;
     animation: gradientRotate 20s linear infinite;
 }
 
-.pixelInfo::after {
+.pixelInfo.premium::after {
     filter: blur(3.5rem);
 }
 
