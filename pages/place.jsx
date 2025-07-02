@@ -1070,7 +1070,7 @@ overlayCtx.scale(10, 10);
 
             {/* main canvas */}
             <canvas
-              onClick={(e) => {
+              onTouchEnd={(e) => {
 alert("a1")
   const canvas = canvasRef.current;
   if (!canvas) return;
