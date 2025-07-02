@@ -602,27 +602,34 @@ export default function Place() {
         return;
       }
 
+
       const devicePixelRatio = window.devicePixelRatio || 1;
       const canvas = canvasRef.current;
       const overlayCanvas = overlayCanvasRef.current;
-
-      // Canvas principal - tamanho físico normal, resolução alta
-      canvas.width = canvasSettings.width * devicePixelRatio;
-      canvas.height = canvasSettings.height * devicePixelRatio;
+      // Canvas principal - SEM devicePixelRatio
+      canvas.width = canvasSettings.width;
+      canvas.height = canvasSettings.height;
       canvas.style.width = canvasSettings.width + 'px';
       canvas.style.height = canvasSettings.height + 'px';
 
-      // Overlay
+      // Overlay - SEM devicePixelRatio  
       overlayCanvas.width = canvasSettings.width * 10;
       overlayCanvas.height = canvasSettings.height * 10;
       overlayCanvas.style.width = canvasSettings.width + 'px';
       overlayCanvas.style.height = canvasSettings.height + 'px';
 
-      // Escalar APENAS o contexto do overlay (sem devicePixelRatio)
+      // Escalar APENAS o contexto do overlay
       const overlayCtx = overlayCanvas.getContext('2d');
       overlayCtx.scale(10, 10);
 
-      // Desabilitar antialiasing
+      // Escalar o contexto principal
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+
+      // Escalar o contexto overlay (10x densidade + retina)
+      //const overlayCtx = overlayCanvas.getContext('2d');
+      //overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
+
+      // Forçar desabilitação do antialiasing
       ctx.imageSmoothingEnabled = false;
       ctx.mozImageSmoothingEnabled = false;
       ctx.webkitImageSmoothingEnabled = false;
@@ -633,35 +640,22 @@ export default function Place() {
       overlayCtx.webkitImageSmoothingEnabled = false;
       overlayCtx.msImageSmoothingEnabled = false;
 
-      // Criar ImageData com resolução alta
+      // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
-        canvasSettings.width * devicePixelRatio,
-        canvasSettings.height * devicePixelRatio
+        canvasSettings.width,
+        canvasSettings.height
       );
       const data = imageData.data;
 
-      // Preencher pixels com upscaling
       let i = 0;
-      for (let y = 0; y < canvasSettings.height; y++) {
-        for (let x = 0; x < canvasSettings.width; x++) {
-          const r = bytes[i++];
-          const g = bytes[i++];
-          const b = bytes[i++];
-
-          // Para cada pixel original, preencher um bloco devicePixelRatio x devicePixelRatio
-          for (let dy = 0; dy < devicePixelRatio; dy++) {
-            for (let dx = 0; dx < devicePixelRatio; dx++) {
-              const pixelIndex = ((y * devicePixelRatio + dy) * canvasSettings.width * devicePixelRatio + (x * devicePixelRatio + dx)) * 4;
-              data[pixelIndex] = r;     // R
-              data[pixelIndex + 1] = g; // G
-              data[pixelIndex + 2] = b; // B
-              data[pixelIndex + 3] = 255; // Alpha
-            }
-          }
-        }
+      for (let j = 0; j < data.length; j += 4) {
+        data[j] = bytes[i++]; // R
+        data[j + 1] = bytes[i++]; // G
+        data[j + 2] = bytes[i++]; // B
+        data[j + 3] = 255; // Alpha totalmente opaco
       }
 
-      // Renderizar no próximo frame
+      // Renderiza a imagem no próximo frame para performance
       requestAnimationFrame(() => {
         ctx.putImageData(imageData, 0, 0);
       });
@@ -746,19 +740,22 @@ export default function Place() {
   function updatePixel(x, y, color, loading) {
     if (canvasRef?.current?.getContext) {
       const ctx = canvasRef.current.getContext("2d");
-      const devicePixelRatio = window.devicePixelRatio || 1;
+
+      // Salvar o estado atual do contexto (que tem o scaling)
+      ctx.save();
+
+      // Resetar todas as transformações para coordenadas "normais"
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
 
       ctx.fillStyle = !loading
         ? numberToHex(color)
         : `${numberToHex(lightenColor(color))}`;
 
-      // Agora desenhamos um bloco proporcional ao devicePixelRatio
-      ctx.fillRect(
-        x * devicePixelRatio,
-        y * devicePixelRatio,
-        devicePixelRatio,
-        devicePixelRatio
-      );
+      // Agora desenhar nas coordenadas originais
+      ctx.fillRect(x, y, 1, 1);
+
+      // Restaurar o estado anterior (com o scaling)
+      ctx.restore();
     }
   }
 
@@ -790,15 +787,17 @@ export default function Place() {
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return null;
 
-    const devicePixelRatio = window.devicePixelRatio || 1;
+    // Salvar estado
+    ctx.save();
 
-    // Ler pixel na posição escalada
-    const pixel = ctx.getImageData(
-      x * devicePixelRatio,
-      y * devicePixelRatio,
-      1,
-      1
-    ).data;
+    // Resetar transformações
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    // Ler pixel nas coordenadas originais
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+
+    // Restaurar estado
+    ctx.restore();
 
     const r = pixel[0];
     const g = pixel[1];
