@@ -361,10 +361,11 @@ export default function Place() {
                     <CustomButton
                       label={language.getString("PAGES.PLACE.PICK_COLOR")}
                       onClick={() => {
-                        canvasConfig.freeColors.includes(showingPixelInfo.c) || loggedUser?.premium ?
+                        if (canvasConfig.freeColors.includes(showingPixelInfo.c) || loggedUser?.premium) {
                           setSelectedColor(showingPixelInfo.c);
-                        :
+                        } else {
                           openPopup("error", { message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR") });
+                        }
                       }}
                     />
                   </div>
@@ -534,7 +535,7 @@ export default function Place() {
             ref={canvasRef}
             onChangeSelectedPixel={(x, y) => {
               setSelectedPixel({ x, y })
-              if(selectedPixel.x == x && selectedPixel.y == y) showPixelInfo(x, y);
+              if(selectedPixel.x == x && selectedPixel.y == y) {showPixelInfo(x, y)}
             }}
             onRightClickPixel={showPixelInfo}
             settings={{
