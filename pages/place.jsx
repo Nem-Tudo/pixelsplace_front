@@ -377,56 +377,34 @@ export default function Place() {
   //Ao atualizar o selectedPixel
   useEffect(() => {
     //Atualiza o overlay
-    const SCALE = 10; // escala de visualização
-
     const canvas = overlayCanvasRef.current;
     if (!canvas || !selectedPixel) return;
 
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Como o contexto já está escalado por (10 * devicePixelRatio), 
+    // desenhamos nas coordenadas originais do pixel
+    const x = selectedPixel.x;
+    const y = selectedPixel.y;
+
     //branco externo
     ctx.fillStyle = "#b3b3b3cf"; //branco transpa
-    ctx.fillRect(
-      selectedPixel.x * SCALE - 2,
-      selectedPixel.y * SCALE - 2,
-      14,
-      14
-    );
+    ctx.fillRect(x - 0.2, y - 0.2, 1.4, 1.4);
 
     //limpa o interno
-    ctx.clearRect(
-      selectedPixel.x * SCALE - 1,
-      selectedPixel.y * SCALE - 1,
-      12,
-      12
-    );
+    ctx.clearRect(x - 0.1, y - 0.1, 1.2, 1.2);
 
     //preto interno
     ctx.fillStyle = "#05050096";
-    ctx.fillRect(
-      selectedPixel.x * SCALE - 1,
-      selectedPixel.y * SCALE - 1,
-      12,
-      12
-    );
+    ctx.fillRect(x - 0.1, y - 0.1, 1.2, 1.2);
 
     //limpa o interior
-    ctx.clearRect(selectedPixel.x * SCALE, selectedPixel.y * SCALE, 10, 10);
+    ctx.clearRect(x, y, 1, 1);
 
     //deixa só os cantos
-    ctx.clearRect(
-      selectedPixel.x * SCALE + 2,
-      selectedPixel.y * SCALE - 2,
-      6,
-      15
-    );
-    ctx.clearRect(
-      selectedPixel.x * SCALE - 2,
-      selectedPixel.y * SCALE + 2,
-      15,
-      6
-    );
+    ctx.clearRect(x + 0.2, y - 0.2, 0.6, 1.5);
+    ctx.clearRect(x - 0.2, y + 0.2, 1.5, 0.6);
   }, [selectedPixel]);
 
   //Mover o selected Pixel
@@ -616,11 +594,41 @@ export default function Place() {
         return;
       }
 
-      // Ajusta as dimensões do canvas
-      canvasRef.current.width = canvasSettings.width;
-      canvasRef.current.height = canvasSettings.height;
-      overlayCanvasRef.current.width = canvasSettings.width * 10;
-      overlayCanvasRef.current.height = canvasSettings.height * 10;
+      // NOVO: Ajuste para displays retina
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const canvas = canvasRef.current;
+      const overlayCanvas = overlayCanvasRef.current;
+
+      // Ajustar tamanho do canvas principal para retina
+      canvas.width = canvasSettings.width * devicePixelRatio;
+      canvas.height = canvasSettings.height * devicePixelRatio;
+      canvas.style.width = canvasSettings.width + 'px';
+      canvas.style.height = canvasSettings.height + 'px';
+
+      // Ajustar tamanho do canvas overlay para retina
+      // O overlay deve ter o MESMO tamanho visual, mas 10x mais denso
+      overlayCanvas.width = (canvasSettings.width * 10) * devicePixelRatio;
+      overlayCanvas.height = (canvasSettings.height * 10) * devicePixelRatio;
+      overlayCanvas.style.width = canvasSettings.width + 'px'; // MESMO tamanho visual
+      overlayCanvas.style.height = canvasSettings.height + 'px'; // MESMO tamanho visual
+
+      // Escalar o contexto principal
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+
+      // Escalar o contexto overlay (10x densidade + retina)
+      const overlayCtx = overlayCanvas.getContext('2d');
+      overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
+
+      // Forçar desabilitação do antialiasing
+      ctx.imageSmoothingEnabled = false;
+      ctx.mozImageSmoothingEnabled = false;
+      ctx.webkitImageSmoothingEnabled = false;
+      ctx.msImageSmoothingEnabled = false;
+
+      overlayCtx.imageSmoothingEnabled = false;
+      overlayCtx.mozImageSmoothingEnabled = false;
+      overlayCtx.webkitImageSmoothingEnabled = false;
+      overlayCtx.msImageSmoothingEnabled = false;
 
       // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
