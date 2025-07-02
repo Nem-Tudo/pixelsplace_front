@@ -591,7 +591,7 @@ export default function Place() {
       }
 
 
-      const devicePixelRatio = window.devicePixelRatio || 1;
+      // const devicePixelRatio = window.devicePixelRatio || 1;
       const canvas = canvasRef.current;
       const overlayCanvas = overlayCanvasRef.current;
       // Canvas principal - SEM devicePixelRatio
@@ -611,7 +611,7 @@ export default function Place() {
       overlayCtx.scale(10, 10);
 
       // Escalar o contexto principal
-      ctx.scale(devicePixelRatio, devicePixelRatio);
+      // ctx.scale(devicePixelRatio, devicePixelRatio);
 
       // Escalar o contexto overlay (10x densidade + retina)
       //const overlayCtx = overlayCanvas.getContext('2d');
