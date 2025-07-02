@@ -1071,6 +1071,7 @@ overlayCtx.scale(10, 10);
             {/* main canvas */}
             <canvas
               onClick={(e) => {
+alert("a1")
   const canvas = canvasRef.current;
   if (!canvas) return;
 
@@ -1080,11 +1081,12 @@ overlayCtx.scale(10, 10);
   
   const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
   const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
-
+alert("a2")
   setSelectedPixel({ x, y });
 }}
 
 onContextMenu={(e) => {
+alert("B1")
   e.preventDefault();
   const canvas = canvasRef.current;
   if (!canvas) return;
@@ -1095,7 +1097,7 @@ onContextMenu={(e) => {
   
   const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
   const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
-
+alert("B2")
   showPixelInfo(x, y);
 }}
               className="pixelate"
