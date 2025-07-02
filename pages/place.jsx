@@ -146,6 +146,7 @@ export default function Place() {
     let lastTouchDistance = 0;
     let lastTouchCenterX = 0;
     let lastTouchCenterY = 0;
+    let hasMoved = false;
 
     // Utility functions
     const getTouchDistance = (touch1, touch2) => {
@@ -161,18 +162,6 @@ export default function Place() {
       };
     };
 
-    const constrainTransform = () => {
-      const { minScale, maxScale } = transform.current;
-
-      // Constrain scale
-      if (transform.current.scale < minScale) {
-        transform.current.scale = minScale;
-      }
-      if (transform.current.scale > maxScale) {
-        transform.current.scale = maxScale;
-      }
-    };
-
     // Mouse Events
     const handleMouseDown = (e) => {
       if (e.button !== 0) return; // Only left mouse button
@@ -181,13 +170,15 @@ export default function Place() {
       isDragging = true;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
-
-      wrapper.style.cursor = 'grabbing';
     };
 
     const handleMouseMove = (e) => {
       if (!isDragging) return;
       e.preventDefault();
+
+      if (wrapper.style.cursor !== 'grabbing') {
+        wrapper.style.cursor = 'grabbing';
+      }
 
       const deltaX = e.clientX - lastMouseX;
       const deltaY = e.clientY - lastMouseY;
@@ -276,6 +267,10 @@ export default function Place() {
         const deltaX = touch.clientX - lastMouseX;
         const deltaY = touch.clientY - lastMouseY;
 
+        if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) {
+          hasMoved = true;
+        }
+
         transform.current.translateX += deltaX;
         transform.current.translateY += deltaY;
 
@@ -327,6 +322,7 @@ export default function Place() {
         isDragging = false;
         isPinching = false;
         lastTouchDistance = 0;
+        hasMoved = false; // Reset flag
       } else if (e.touches.length === 1 && isPinching) {
         // One touch remaining after pinch - switch to dragging
         isPinching = false;
@@ -334,9 +330,9 @@ export default function Place() {
         lastMouseX = e.touches[0].clientX;
         lastMouseY = e.touches[0].clientY;
         lastTouchDistance = 0;
+        hasMoved = false; // Reset flag
       }
     };
-
     // Keyboard Events
     const handleKeyPress = (e) => {
       if (e.key.toLowerCase() === "r") {
@@ -377,56 +373,34 @@ export default function Place() {
   //Ao atualizar o selectedPixel
   useEffect(() => {
     //Atualiza o overlay
-    const SCALE = 10; // escala de visualização
-
     const canvas = overlayCanvasRef.current;
     if (!canvas || !selectedPixel) return;
 
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Como o contexto já está escalado por (10 * devicePixelRatio), 
+    // desenhamos nas coordenadas originais do pixel
+    const x = selectedPixel.x;
+    const y = selectedPixel.y;
+
     //branco externo
     ctx.fillStyle = "#b3b3b3cf"; //branco transpa
-    ctx.fillRect(
-      selectedPixel.x * SCALE - 2,
-      selectedPixel.y * SCALE - 2,
-      14,
-      14
-    );
+    ctx.fillRect(x - 0.2, y - 0.2, 1.4, 1.4);
 
     //limpa o interno
-    ctx.clearRect(
-      selectedPixel.x * SCALE - 1,
-      selectedPixel.y * SCALE - 1,
-      12,
-      12
-    );
+    ctx.clearRect(x - 0.1, y - 0.1, 1.2, 1.2);
 
     //preto interno
     ctx.fillStyle = "#05050096";
-    ctx.fillRect(
-      selectedPixel.x * SCALE - 1,
-      selectedPixel.y * SCALE - 1,
-      12,
-      12
-    );
+    ctx.fillRect(x - 0.1, y - 0.1, 1.2, 1.2);
 
     //limpa o interior
-    ctx.clearRect(selectedPixel.x * SCALE, selectedPixel.y * SCALE, 10, 10);
+    ctx.clearRect(x, y, 1, 1);
 
     //deixa só os cantos
-    ctx.clearRect(
-      selectedPixel.x * SCALE + 2,
-      selectedPixel.y * SCALE - 2,
-      6,
-      15
-    );
-    ctx.clearRect(
-      selectedPixel.x * SCALE - 2,
-      selectedPixel.y * SCALE + 2,
-      15,
-      6
-    );
+    ctx.clearRect(x + 0.2, y - 0.2, 0.6, 1.5);
+    ctx.clearRect(x - 0.2, y + 0.2, 1.5, 0.6);
   }, [selectedPixel]);
 
   //Mover o selected Pixel
@@ -555,7 +529,7 @@ export default function Place() {
     ];
 
     for (const event of events) {
-      socket.off(event); // limpa duplicações
+      socket.off(event); // limpa duplicações!
     }
 
     socket.on("connected", (data) => {
@@ -616,11 +590,43 @@ export default function Place() {
         return;
       }
 
-      // Ajusta as dimensões do canvas
-      canvasRef.current.width = canvasSettings.width;
-      canvasRef.current.height = canvasSettings.height;
-      overlayCanvasRef.current.width = canvasSettings.width * 10;
-      overlayCanvasRef.current.height = canvasSettings.height * 10;
+
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const canvas = canvasRef.current;
+      const overlayCanvas = overlayCanvasRef.current;
+      // Canvas principal - SEM devicePixelRatio
+      canvas.width = canvasSettings.width;
+      canvas.height = canvasSettings.height;
+      canvas.style.width = canvasSettings.width + 'px';
+      canvas.style.height = canvasSettings.height + 'px';
+
+      // Overlay - SEM devicePixelRatio  
+      overlayCanvas.width = canvasSettings.width * 10;
+      overlayCanvas.height = canvasSettings.height * 10;
+      overlayCanvas.style.width = canvasSettings.width + 'px';
+      overlayCanvas.style.height = canvasSettings.height + 'px';
+
+      // Escalar APENAS o contexto do overlay
+      const overlayCtx = overlayCanvas.getContext('2d');
+      overlayCtx.scale(10, 10);
+
+      // Escalar o contexto principal
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+
+      // Escalar o contexto overlay (10x densidade + retina)
+      //const overlayCtx = overlayCanvas.getContext('2d');
+      //overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
+
+      // Forçar desabilitação do antialiasing
+      ctx.imageSmoothingEnabled = false;
+      ctx.mozImageSmoothingEnabled = false;
+      ctx.webkitImageSmoothingEnabled = false;
+      ctx.msImageSmoothingEnabled = false;
+
+      overlayCtx.imageSmoothingEnabled = false;
+      overlayCtx.mozImageSmoothingEnabled = false;
+      overlayCtx.webkitImageSmoothingEnabled = false;
+      overlayCtx.msImageSmoothingEnabled = false;
 
       // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
@@ -723,13 +729,21 @@ export default function Place() {
     if (canvasRef?.current?.getContext) {
       const ctx = canvasRef.current.getContext("2d");
 
+      // Salvar o estado atual do contexto (que tem o scaling)
+      ctx.save();
+
+      // Resetar todas as transformações para coordenadas "normais"
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+
       ctx.fillStyle = !loading
         ? numberToHex(color)
-        : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
+        : `${numberToHex(lightenColor(color))}`;
 
-      // Desabilita o anti-aliasing para manter pixels nítidos
-      // ctx.imageSmoothingEnabled = false;
+      // Agora desenhar nas coordenadas originais
       ctx.fillRect(x, y, 1, 1);
+
+      // Restaurar o estado anterior (com o scaling)
+      ctx.restore();
     }
   }
 
@@ -761,7 +775,18 @@ export default function Place() {
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return null;
 
+    // Salvar estado
+    ctx.save();
+
+    // Resetar transformações
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    // Ler pixel nas coordenadas originais
     const pixel = ctx.getImageData(x, y, 1, 1).data;
+
+    // Restaurar estado
+    ctx.restore();
+
     const r = pixel[0];
     const g = pixel[1];
     const b = pixel[2];
@@ -1065,27 +1090,137 @@ export default function Place() {
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
+                const clientX = e.clientX;
+                const clientY = e.clientY;
 
-                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                const y = Math.floor((e.clientY - rect.top) * scaleY);
-
+                const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+                const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
                 setSelectedPixel({ x, y });
               }}
+
               onContextMenu={(e) => {
                 e.preventDefault();
                 const canvas = canvasRef.current;
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
+                const clientX = e.clientX;
+                const clientY = e.clientY;
 
-                const x = Math.floor((e.clientX - rect.left) * scaleX);
-                const y = Math.floor((e.clientY - rect.top) * scaleY);
-
+                const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+                const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
                 showPixelInfo(x, y);
+              }}
+              onTouchStart={(e) => {
+                const touch = e.touches[0];
+                const startTime = Date.now();
+                const startX = touch.clientX;
+                const startY = touch.clientY;
+
+                if (e.touches.length > 1) {
+                  if (e.currentTarget.touchData.longPressTimer) {
+                    clearTimeout(e.currentTarget.touchData.longPressTimer);
+                    e.currentTarget.touchData.longPressTimer = null;
+                  }
+                }
+
+                // Timer para mostrar pixel info após 500ms
+                const longPressTimer = e.touches.length > 1 ? null : setTimeout(() => {
+                  if (e.touches.length > 1) {
+                    if (e.currentTarget.touchData.longPressTimer) {
+                      clearTimeout(e.currentTarget.touchData.longPressTimer);
+                      e.currentTarget.touchData.longPressTimer = null;
+                    }
+                  }
+                  const canvas = canvasRef.current;
+                  if (!canvas) return;
+
+                  const rect = canvas.getBoundingClientRect();
+                  const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
+                  const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
+
+                  showPixelInfo(x, y);
+
+                  if (navigator.vibrate) navigator.vibrate(50);
+
+                  // Marcar que já mostrou o pixel info
+                  if (e.currentTarget.touchData) {
+                    e.currentTarget.touchData.longPressTriggered = true;
+                  }
+                }, 500);
+
+                // Guardar dados do toque
+                e.currentTarget.touchData = {
+                  startTime,
+                  startX,
+                  startY,
+                  moved: false,
+                  longPressTimer,
+                  longPressTriggered: false,
+                  moveDistance: 0
+                };
+              }}
+
+              onTouchMove={(e) => {
+                if (e.currentTarget.touchData) {
+                  const touch = e.touches[0];
+                  const { startX, startY } = e.currentTarget.touchData;
+
+                  // Calcular distância do movimento
+                  const deltaX = touch.clientX - startX;
+                  const deltaY = touch.clientY - startY;
+                  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                  // Tolerância de movimento em pixels (ajuste conforme necessário)
+                  const MOVEMENT_TOLERANCE = 10;
+
+                  e.currentTarget.touchData.moveDistance = distance;
+
+                  // Só considerar como "movido" se ultrapassar a tolerância
+                  if (distance > MOVEMENT_TOLERANCE) {
+                    // Cancelar timer se mexeu muito
+                    if (e.currentTarget.touchData.longPressTimer) {
+                      clearTimeout(e.currentTarget.touchData.longPressTimer);
+                      e.currentTarget.touchData.longPressTimer = null;
+                    }
+                    e.currentTarget.touchData.moved = true;
+                  }
+                }
+              }}
+
+              onTouchEnd={(e) => {
+                if (!e.currentTarget.touchData) return;
+
+                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance } = e.currentTarget.touchData;
+
+                // Cancelar timer se ainda existir
+                if (longPressTimer) {
+                  clearTimeout(longPressTimer);
+                }
+
+                // Tolerância de movimento em pixels
+                const MOVEMENT_TOLERANCE = 10;
+
+                // Se não moveu muito e não foi long press, é um tap simples
+                if (!moved && !longPressTriggered && moveDistance <= MOVEMENT_TOLERANCE) {
+                  const endTime = Date.now();
+                  const duration = endTime - startTime;
+
+                  // Só selecionar pixel se foi tap rápido (< 500ms)
+                  if (duration < 500) {
+                    const canvas = canvasRef.current;
+                    if (!canvas) return;
+
+                    const rect = canvas.getBoundingClientRect();
+                    const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
+                    const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
+
+                    setSelectedPixel({ x, y });
+                  }
+                }
+
+                // Limpar dados
+                delete e.currentTarget.touchData;
               }}
               className="pixelate"
               id={styles.canvas}
