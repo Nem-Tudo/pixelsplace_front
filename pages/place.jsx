@@ -146,6 +146,7 @@ export default function Place() {
     let lastTouchDistance = 0;
     let lastTouchCenterX = 0;
     let lastTouchCenterY = 0;
+    let hasMoved = false;
 
     // Utility functions
     const getTouchDistance = (touch1, touch2) => {
@@ -159,18 +160,6 @@ export default function Place() {
         x: (touch1.clientX + touch2.clientX) / 2,
         y: (touch1.clientY + touch2.clientY) / 2
       };
-    };
-
-    const constrainTransform = () => {
-      const { minScale, maxScale } = transform.current;
-
-      // Constrain scale
-      if (transform.current.scale < minScale) {
-        transform.current.scale = minScale;
-      }
-      if (transform.current.scale > maxScale) {
-        transform.current.scale = maxScale;
-      }
     };
 
     // Mouse Events
@@ -278,6 +267,10 @@ export default function Place() {
         const deltaX = touch.clientX - lastMouseX;
         const deltaY = touch.clientY - lastMouseY;
 
+        if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) {
+          hasMoved = true;
+        }
+
         transform.current.translateX += deltaX;
         transform.current.translateY += deltaY;
 
@@ -326,9 +319,22 @@ export default function Place() {
     const handleTouchEnd = (e) => {
       if (e.touches.length === 0) {
         // All touches ended
+        if (isDragging && !hasMoved) {
+          // Foi um toque simples, não um drag - simular o click
+          const touch = e.changedTouches[0];
+          const canvas = canvasRef.current;
+          if (canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((touch.clientX - rect.left) / rect.width * canvasConfig.width);
+            const y = Math.floor((touch.clientY - rect.top) / rect.height * canvasConfig.height);
+            setSelectedPixel({ x, y });
+          }
+        }
+
         isDragging = false;
         isPinching = false;
         lastTouchDistance = 0;
+        hasMoved = false; // Reset flag
       } else if (e.touches.length === 1 && isPinching) {
         // One touch remaining after pinch - switch to dragging
         isPinching = false;
@@ -336,9 +342,9 @@ export default function Place() {
         lastMouseX = e.touches[0].clientX;
         lastMouseY = e.touches[0].clientY;
         lastTouchDistance = 0;
+        hasMoved = false; // Reset flag
       }
     };
-
     // Keyboard Events
     const handleKeyPress = (e) => {
       if (e.key.toLowerCase() === "r") {
