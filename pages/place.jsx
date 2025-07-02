@@ -594,30 +594,32 @@ export default function Place() {
         return;
       }
 
-      // NOVO: Ajuste para displays retina
+      
       const devicePixelRatio = window.devicePixelRatio || 1;
       const canvas = canvasRef.current;
       const overlayCanvas = overlayCanvasRef.current;
+// Canvas principal - SEM devicePixelRatio
+canvas.width = canvasSettings.width;
+canvas.height = canvasSettings.height;
+canvas.style.width = canvasSettings.width + 'px';
+canvas.style.height = canvasSettings.height + 'px';
 
-      // Ajustar tamanho do canvas principal para retina
-      canvas.width = canvasSettings.width * devicePixelRatio;
-      canvas.height = canvasSettings.height * devicePixelRatio;
-      canvas.style.width = canvasSettings.width + 'px';
-      canvas.style.height = canvasSettings.height + 'px';
+// Overlay - SEM devicePixelRatio  
+overlayCanvas.width = canvasSettings.width * 10;
+overlayCanvas.height = canvasSettings.height * 10;
+overlayCanvas.style.width = canvasSettings.width + 'px';
+overlayCanvas.style.height = canvasSettings.height + 'px';
 
-      // Ajustar tamanho do canvas overlay para retina
-      // O overlay deve ter o MESMO tamanho visual, mas 10x mais denso
-      overlayCanvas.width = (canvasSettings.width * 10) * devicePixelRatio;
-      overlayCanvas.height = (canvasSettings.height * 10) * devicePixelRatio;
-      overlayCanvas.style.width = canvasSettings.width + 'px'; // MESMO tamanho visual
-      overlayCanvas.style.height = canvasSettings.height + 'px'; // MESMO tamanho visual
+// Escalar APENAS o contexto do overlay
+const overlayCtx = overlayCanvas.getContext('2d');
+overlayCtx.scale(10, 10);
 
       // Escalar o contexto principal
       ctx.scale(devicePixelRatio, devicePixelRatio);
 
       // Escalar o contexto overlay (10x densidade + retina)
-      const overlayCtx = overlayCanvas.getContext('2d');
-      overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
+      //const overlayCtx = overlayCanvas.getContext('2d');
+      //overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
 
       // Forçar desabilitação do antialiasing
       ctx.imageSmoothingEnabled = false;
