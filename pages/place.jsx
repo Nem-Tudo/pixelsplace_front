@@ -560,7 +560,6 @@ export default function Place() {
     });
 
     socket.on("pixel_placed", (data) => {
-      alert(JSON.stringify(data))
       updatePixel(data.x, data.y, data.c);
     });
     socket.on("canvasconfig_resize", (data) => {
@@ -603,34 +602,27 @@ export default function Place() {
         return;
       }
 
-
       const devicePixelRatio = window.devicePixelRatio || 1;
       const canvas = canvasRef.current;
       const overlayCanvas = overlayCanvasRef.current;
-      // Canvas principal - SEM devicePixelRatio
-      canvas.width = canvasSettings.width;
-      canvas.height = canvasSettings.height;
+
+      // Canvas principal - tamanho físico normal, resolução alta
+      canvas.width = canvasSettings.width * devicePixelRatio;
+      canvas.height = canvasSettings.height * devicePixelRatio;
       canvas.style.width = canvasSettings.width + 'px';
       canvas.style.height = canvasSettings.height + 'px';
 
-      // Overlay - SEM devicePixelRatio  
+      // Overlay
       overlayCanvas.width = canvasSettings.width * 10;
       overlayCanvas.height = canvasSettings.height * 10;
       overlayCanvas.style.width = canvasSettings.width + 'px';
       overlayCanvas.style.height = canvasSettings.height + 'px';
 
-      // Escalar APENAS o contexto do overlay
+      // Escalar APENAS o contexto do overlay (sem devicePixelRatio)
       const overlayCtx = overlayCanvas.getContext('2d');
       overlayCtx.scale(10, 10);
 
-      // Escalar o contexto principal
-      ctx.scale(devicePixelRatio, devicePixelRatio);
-
-      // Escalar o contexto overlay (10x densidade + retina)
-      //const overlayCtx = overlayCanvas.getContext('2d');
-      //overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
-
-      // Forçar desabilitação do antialiasing
+      // Desabilitar antialiasing
       ctx.imageSmoothingEnabled = false;
       ctx.mozImageSmoothingEnabled = false;
       ctx.webkitImageSmoothingEnabled = false;
@@ -641,22 +633,35 @@ export default function Place() {
       overlayCtx.webkitImageSmoothingEnabled = false;
       overlayCtx.msImageSmoothingEnabled = false;
 
-      // Cria ImageData e preenche diretamente os pixels
+      // Criar ImageData com resolução alta
       const imageData = ctx.createImageData(
-        canvasSettings.width,
-        canvasSettings.height
+        canvasSettings.width * devicePixelRatio,
+        canvasSettings.height * devicePixelRatio
       );
       const data = imageData.data;
 
+      // Preencher pixels com upscaling
       let i = 0;
-      for (let j = 0; j < data.length; j += 4) {
-        data[j] = bytes[i++]; // R
-        data[j + 1] = bytes[i++]; // G
-        data[j + 2] = bytes[i++]; // B
-        data[j + 3] = 255; // Alpha totalmente opaco
+      for (let y = 0; y < canvasSettings.height; y++) {
+        for (let x = 0; x < canvasSettings.width; x++) {
+          const r = bytes[i++];
+          const g = bytes[i++];
+          const b = bytes[i++];
+
+          // Para cada pixel original, preencher um bloco devicePixelRatio x devicePixelRatio
+          for (let dy = 0; dy < devicePixelRatio; dy++) {
+            for (let dx = 0; dx < devicePixelRatio; dx++) {
+              const pixelIndex = ((y * devicePixelRatio + dy) * canvasSettings.width * devicePixelRatio + (x * devicePixelRatio + dx)) * 4;
+              data[pixelIndex] = r;     // R
+              data[pixelIndex + 1] = g; // G
+              data[pixelIndex + 2] = b; // B
+              data[pixelIndex + 3] = 255; // Alpha
+            }
+          }
+        }
       }
 
-      // Renderiza a imagem no próximo frame para performance
+      // Renderizar no próximo frame
       requestAnimationFrame(() => {
         ctx.putImageData(imageData, 0, 0);
       });
@@ -741,16 +746,20 @@ export default function Place() {
   function updatePixel(x, y, color, loading) {
     if (canvasRef?.current?.getContext) {
       const ctx = canvasRef.current.getContext("2d");
+      const devicePixelRatio = window.devicePixelRatio || 1;
 
       ctx.fillStyle = !loading
         ? numberToHex(color)
-        : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
+        : `${numberToHex(lightenColor(color))}`;
 
-      // Desabilita o anti-aliasing para manter pixels nítidos
-      // ctx.imageSmoothingEnabled = false;
-      ctx.fillRect(x, y, 1, 1);
-      alert(`2- `, x, y, color, loading)
-    } else alert("vish")
+      // Agora desenhamos um bloco proporcional ao devicePixelRatio
+      ctx.fillRect(
+        x * devicePixelRatio,
+        y * devicePixelRatio,
+        devicePixelRatio,
+        devicePixelRatio
+      );
+    }
   }
 
   //Mostrar informações deu m pixel
@@ -781,7 +790,16 @@ export default function Place() {
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return null;
 
-    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    const devicePixelRatio = window.devicePixelRatio || 1;
+
+    // Ler pixel na posição escalada
+    const pixel = ctx.getImageData(
+      x * devicePixelRatio,
+      y * devicePixelRatio,
+      1,
+      1
+    ).data;
+
     const r = pixel[0];
     const g = pixel[1];
     const b = pixel[2];
