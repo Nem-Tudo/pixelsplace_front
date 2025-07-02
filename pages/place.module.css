@@ -1,3 +1,9 @@
+@property --gradient-angle {
+    syntax: "<angle>";
+    initual-value: 0deg;
+    inherits: false;
+}
+
 #main {
     width: 100dvw;
     height: calc(100dvh - 72px);
@@ -227,6 +233,11 @@
     position: absolute;
     inset: -3px;
     z-index: -1;
+    background: conic-gradient(
+        from var(--gradient-angle),
+        var(--user-color-primary, transparent),
+        var(--user-color-secondary, transparent),
+        var(--user-color-primary, transparent));
     border-radius: 25px;
     animation: gradientRotate 20s linear infinite;
 }
@@ -236,19 +247,6 @@
 }
 
 @keyframes gradientRotate {
-    0% {
-        background: conic-gradient(
-            from 0deg,
-            var(--user-color-primary, transparent),
-            var(--user-color-secondary, transparent),
-            var(--user-color-primary, transparent));
-    }
-
-    100% {
-        background: conic-gradient(
-            from 360deg,
-            var(--user-color-primary, transparent),
-            var(--user-color-secondary, transparent),
-            var(--user-color-primary, transparent));
-    }
+    0% { --gradient-angle: 0deg; }
+    100% { --gradient-angle: 360deg; }
 }
