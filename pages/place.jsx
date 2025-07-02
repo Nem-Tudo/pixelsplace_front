@@ -315,12 +315,12 @@ export default function Place() {
                 style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo}${loggedUser?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
+                  className={`${styles.pixelInfo} ${loggedUser?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
                   ref={pixelInfoRef}
-                  style={showingPixelInfo?.u?.premium && {
-                    '--user-color-primary': `${showingPixelInfo?.u?.profile?.color_primary}`,
-                    '--user-color-secondary': `${showingPixelInfo?.u?.profile?.color_secundary}`,
+                  style={showingPixelInfo?.author?.premium && {
+                    '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
+                    '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
                   }}
                 >
                   <div style={{ position: "absolute", right: "20px" }}>
