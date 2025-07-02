@@ -224,8 +224,7 @@ export default function Place() {
 
       const buffer = await pixelsRes.arrayBuffer();
       const bytes = new Uint8Array(buffer);
-      console.log(bytes)
-      canvasRef.current.initializeCanvas(bytes);
+      canvasRef.current.initializeCanvasWhenReady(bytes, canvasSettings);
     } catch (e) {
       setApiError(true)
       console.log("Error on fetch canvas", e)
@@ -536,8 +535,6 @@ export default function Place() {
         >
           <Canvas
             ref={canvasRef}
-            width={canvasConfig.width}
-            height={canvasConfig.height}
             onChangeSelectedPixel={(x, y) => {
               setSelectedPixel({ x, y })
             }}

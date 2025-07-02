@@ -3,8 +3,6 @@ import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
 import styles from "./Canvas.module.css";
 
 const Canvas = forwardRef(({
-    width = 1000,
-    height = 1000,
     onChangeSelectedPixel,
     onRightClickPixel,
     settings = {
@@ -28,6 +26,7 @@ const Canvas = forwardRef(({
     const [selectedPixel, setSelectedPixel] = useState(null);
     const [canvasInitialized, setCanvasInitialized] = useState(false);
     const [initializationError, setInitializationError] = useState(null);
+    const [canvasConfig, setCanvasConfig] = useState({ width: 100, height: 100 });
     const [, forceUpdate] = useState(0);
 
     // Memoized callbacks para evitar dependências circulares
@@ -51,14 +50,14 @@ const Canvas = forwardRef(({
         getPixelColor: (x, y) => {
             return getPixelColor(x, y);
         },
-        initializeCanvas: (bytes) => {
-            initializeCanvas(bytes);
+        initializeCanvas: (...data) => {
+            initializeCanvas(...data);
         },
-        initializeCanvasWhenReady: (bytes) => {
+        initializeCanvasWhenReady: (...data) => {
             // Versão que aguarda o componente estar pronto
             const tryInitialize = () => {
                 if (canvasRef.current && overlayCanvasRef.current) {
-                    initializeCanvas(bytes);
+                    initializeCanvas(...data);
                 } else {
                     setTimeout(tryInitialize, 50);
                 }
@@ -88,8 +87,8 @@ const Canvas = forwardRef(({
         wrapper.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
         // Direct scaling on canvas
-        const scaledWidth = width * scale;
-        const scaledHeight = height * scale;
+        const scaledWidth = canvasConfig.width * scale;
+        const scaledHeight = canvasConfig.height * scale;
 
         canvas.style.width = scaledWidth + 'px';
         canvas.style.height = scaledHeight + 'px';
@@ -101,14 +100,14 @@ const Canvas = forwardRef(({
 
     // Center canvas on screen
     const centerCanvas = () => {
-        if (!width || !height) return;
+        if (!canvasConfig.width || !canvasConfig.height) return;
 
         const { scale } = transform.current;
         const viewWidth = window.innerWidth;
         const viewHeight = window.innerHeight - 72;
 
-        const canvasDisplayWidth = width * scale;
-        const canvasDisplayHeight = height * scale;
+        const canvasDisplayWidth = canvasConfig.width * scale;
+        const canvasDisplayHeight = canvasConfig.height * scale;
 
         transform.current.translateX = (viewWidth - canvasDisplayWidth) / 2;
         transform.current.translateY = (viewHeight - canvasDisplayHeight) / 2;
@@ -117,8 +116,9 @@ const Canvas = forwardRef(({
     };
 
     // Initialize canvas with pixel data
-    const initializeCanvas = (bytes) => {
+    const initializeCanvas = (bytes, config) => {
         try {
+            setCanvasConfig(config);
             setInitializationError(null);
 
             // Validações iniciais
@@ -129,14 +129,14 @@ const Canvas = forwardRef(({
             // Aguardar o canvas estar disponível
             if (!canvasRef.current) {
                 console.log("Canvas ref não disponível ainda, tentando novamente...");
-                setTimeout(() => initializeCanvas(bytes), 100);
+                setTimeout(() => initializeCanvas(bytes, config), 100);
                 return;
             }
 
             const ctx = canvasRef.current.getContext("2d");
             if (!ctx) {
                 console.log("Contexto 2D não disponível ainda, tentando novamente...");
-                setTimeout(() => initializeCanvas(bytes), 100);
+                setTimeout(() => initializeCanvas(bytes, config), 100);
                 return;
             }
 
@@ -145,33 +145,33 @@ const Canvas = forwardRef(({
 
             if (!overlayCanvas) {
                 console.log("Canvas de overlay não disponível ainda, tentando novamente...");
-                setTimeout(() => initializeCanvas(bytes), 100);
+                setTimeout(() => initializeCanvas(bytes, config), 100);
                 return;
             }
 
             // Verificar se os bytes têm o tamanho correto
-            const expectedSize = width * height * 3; // RGB
+            const expectedSize = config.width * config.height * 3; // RGB
             if (bytes.length !== expectedSize) {
                 console.warn(`Tamanho dos bytes não corresponde: esperado ${expectedSize}, recebido ${bytes.length}`);
             }
 
             // Setup main canvas
-            canvas.width = width;
-            canvas.height = height;
-            canvas.style.width = width + 'px';
-            canvas.style.height = height + 'px';
+            canvas.width = config.width;
+            canvas.height = config.height;
+            canvas.style.width = config.width + 'px';
+            canvas.style.height = config.height + 'px';
 
             // Setup overlay canvas
-            overlayCanvas.width = width * 10;
-            overlayCanvas.height = height * 10;
-            overlayCanvas.style.width = width + 'px';
-            overlayCanvas.style.height = height + 'px';
+            overlayCanvas.width = config.width * 10;
+            overlayCanvas.height = config.height * 10;
+            overlayCanvas.style.width = config.width + 'px';
+            overlayCanvas.style.height = config.height + 'px';
 
             // Scale overlay context
             const overlayCtx = overlayCanvas.getContext('2d');
             if (!overlayCtx) {
                 console.log("Contexto do overlay canvas não disponível ainda, tentando novamente...");
-                setTimeout(() => initializeCanvas(bytes), 100);
+                setTimeout(() => initializeCanvas(bytes, config), 100);
                 return;
             }
             overlayCtx.scale(10, 10);
@@ -188,7 +188,7 @@ const Canvas = forwardRef(({
             overlayCtx.msImageSmoothingEnabled = false;
 
             // Create and fill ImageData
-            const imageData = ctx.createImageData(width, height);
+            const imageData = ctx.createImageData(config.width, config.height);
             const data = imageData.data;
 
             let i = 0;
@@ -209,8 +209,8 @@ const Canvas = forwardRef(({
                     const MAX_SCALE_MULTIPLIER = 150;
                     const viewWidth = window.innerWidth;
                     const viewHeight = window.innerHeight - 72;
-                    const scaleX = viewWidth / width;
-                    const scaleY = viewHeight / height;
+                    const scaleX = viewWidth / config.width;
+                    const scaleY = viewHeight / config.height;
                     const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
                     const maxScale = MAX_SCALE_MULTIPLIER;
 
@@ -494,7 +494,7 @@ const Canvas = forwardRef(({
             document.removeEventListener("mouseup", handleMouseUp);
             window.removeEventListener("keypress", handleKeyPress);
         };
-    }, [canvasInitialized, width, height]);
+    }, [canvasInitialized, canvasConfig.width, canvasConfig.height]);
 
     // Keyboard navigation for selected pixel
     useEffect(() => {
@@ -508,13 +508,13 @@ const Canvas = forwardRef(({
                     newPixel.y = Math.max(0, selectedPixel.y - 1);
                     break;
                 case "ArrowDown":
-                    newPixel.y = Math.min(height - 1, selectedPixel.y + 1);
+                    newPixel.y = Math.min(canvasConfig.height - 1, selectedPixel.y + 1);
                     break;
                 case "ArrowLeft":
                     newPixel.x = Math.max(0, selectedPixel.x - 1);
                     break;
                 case "ArrowRight":
-                    newPixel.x = Math.min(width - 1, selectedPixel.x + 1);
+                    newPixel.x = Math.min(canvasConfig.width - 1, selectedPixel.x + 1);
                     break;
                 default:
                     return;
@@ -527,7 +527,7 @@ const Canvas = forwardRef(({
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [selectedPixel, width, height]);
+    }, [selectedPixel, canvasConfig.width, canvasConfig.height]);
 
     // Update pixel on canvas
     const updatePixel = (x, y, color, loading = false) => {
@@ -571,10 +571,10 @@ const Canvas = forwardRef(({
         const clientX = e.clientX;
         const clientY = e.clientY;
 
-        const x = Math.floor((clientX - rect.left) / rect.width * width);
-        const y = Math.floor((clientY - rect.top) / rect.height * height);
+        const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+        const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
 
-        if (x >= 0 && x < width && y >= 0 && y < height) {
+        if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height) {
             setSelectedPixel({ x, y });
         }
     };
@@ -589,10 +589,10 @@ const Canvas = forwardRef(({
         const clientX = e.clientX;
         const clientY = e.clientY;
 
-        const x = Math.floor((clientX - rect.left) / rect.width * width);
-        const y = Math.floor((clientY - rect.top) / rect.height * height);
+        const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
+        const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
 
-        if (x >= 0 && x < width && y >= 0 && y < height && onRightClickPixel) {
+        if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height && onRightClickPixel) {
             rightClickPixel(x, y);
         }
     };
@@ -617,10 +617,10 @@ const Canvas = forwardRef(({
             if (!canvas) return;
 
             const rect = canvas.getBoundingClientRect();
-            const x = Math.floor((startX - rect.left) / rect.width * width);
-            const y = Math.floor((startY - rect.top) / rect.height * height);
+            const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
+            const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
 
-            if (x >= 0 && x < width && y >= 0 && y < height && onRightClickPixel) {
+            if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height && onRightClickPixel) {
                 rightClickPixel(x, y);
             }
 
@@ -684,11 +684,11 @@ const Canvas = forwardRef(({
                 if (!canvas) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const x = Math.floor((startX - rect.left) / rect.width * width);
+                const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
                 // 🔧 CORREÇÃO: estava usando width em vez de height
-                const y = Math.floor((startY - rect.top) / rect.height * height);
+                const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
 
-                if (x >= 0 && x < width && y >= 0 && y < height) {
+                if (x >= 0 && x < canvasConfig.width && y >= 0 && y < canvasConfig.height) {
                     setSelectedPixel({ x, y });
                 }
             }
@@ -739,7 +739,7 @@ const Canvas = forwardRef(({
                         transformOrigin: "0 0",
                         zIndex: 10,
                         display: settings.showSelectedPixelOutline &&
-                            Math.max(width, height) <= 1500 ? "block" : "none",
+                            Math.max(canvasConfig.width, canvasConfig.height) <= 1500 ? "block" : "none",
                     }}
                 />
 
@@ -747,15 +747,15 @@ const Canvas = forwardRef(({
                 <canvas
                     ref={canvasRef}
                     className={`${styles.mainCanvas} pixelate`}
-                    width={width}
-                    height={height}
+                    width={canvasConfig.width}
+                    height={canvasConfig.height}
                     onClick={handleCanvasClick}
                     onContextMenu={handleCanvasRightClick}
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                     style={{
-                        aspectRatio: `auto ${width} / ${height}`,
+                        aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
                     }}
                 />
             </div>
