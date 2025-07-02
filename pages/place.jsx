@@ -1151,6 +1151,8 @@ export default function Place() {
                   moveDistance: 0,
                   isDragging: false
                 };
+
+                // NÃO prevenir default - deixar o wrapper lidar com movimento
               }}
 
               onTouchMove={(e) => {
@@ -1173,16 +1175,10 @@ export default function Place() {
                   const deltaY = touch.clientY - startY;
                   const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                  // Tolerâncias diferentes para drag e pixel selection
+                  // Tolerâncias
                   const MOVEMENT_TOLERANCE = 10; // Para seleção de pixel
-                  const DRAG_THRESHOLD = 15; // Para considerar como drag (maior)
 
                   e.currentTarget.touchData.moveDistance = distance;
-
-                  // Marcar como dragging se passou do threshold de drag
-                  if (distance > DRAG_THRESHOLD) {
-                    e.currentTarget.touchData.isDragging = true;
-                  }
 
                   // Só considerar como "movido" se ultrapassar a tolerância
                   if (distance > MOVEMENT_TOLERANCE) {
@@ -1194,12 +1190,14 @@ export default function Place() {
                     e.currentTarget.touchData.moved = true;
                   }
                 }
+
+                // NÃO prevenir default - deixar o wrapper lidar com movimento
               }}
 
               onTouchEnd={(e) => {
                 if (!e.currentTarget.touchData) return;
 
-                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance, isDragging } = e.currentTarget.touchData;
+                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance } = e.currentTarget.touchData;
 
                 // Cancelar timer se ainda existir
                 if (longPressTimer) {
@@ -1209,12 +1207,10 @@ export default function Place() {
                 // Tolerância de movimento em pixels
                 const MOVEMENT_TOLERANCE = 10;
 
-                // Se não moveu muito, não foi long press, não estava dragging e é toque único
+                // Se não moveu muito e não foi long press, é um tap simples
                 if (!moved &&
                   !longPressTriggered &&
-                  !isDragging &&
-                  moveDistance <= MOVEMENT_TOLERANCE &&
-                  e.touches.length === 0) { // Confirma que todos os toques terminaram
+                  moveDistance <= MOVEMENT_TOLERANCE) {
 
                   const endTime = Date.now();
                   const duration = endTime - startTime;
