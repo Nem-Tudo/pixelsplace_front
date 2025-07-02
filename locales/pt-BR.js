@@ -36,7 +36,7 @@ module.exports = {
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
         JOIN: 'Juntar-se',
-        PREFERENCES: "Preferencias",
+        PREFERENCES: "Preferências",
         SOUND_EFFECTS: "Efeitos sonoros"
     },
     COMPONENTS: {
