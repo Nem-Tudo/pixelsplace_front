@@ -249,6 +249,7 @@ export default function Place() {
       if (e.touches.length === 1) {
         // Single touch - start dragging
         isDragging = true;
+        isPinching = false;
         lastMouseX = e.touches[0].clientX;
         lastMouseY = e.touches[0].clientY;
       } else if (e.touches.length === 2) {
@@ -293,24 +294,25 @@ export default function Place() {
         if (lastTouchDistance > 0) {
           const { scale, translateX, translateY, minScale, maxScale } = transform.current;
 
-          // Calculate scale change
-          const scaleChange = currentDistance / lastTouchDistance;
-          const newScale = Math.max(minScale, Math.min(maxScale, scale * scaleChange));
-          const scaleRatio = newScale / scale;
+          // Calcular mudança de escala (mais suave)
+          const distanceRatio = currentDistance / lastTouchDistance;
+          const newScale = Math.max(minScale, Math.min(maxScale, scale * distanceRatio));
 
-          // Adjust translation to zoom toward touch center
-          const rect = wrapper.getBoundingClientRect();
-          const centerX = currentCenter.x - rect.left;
-          const centerY = currentCenter.y - rect.top;
+          if (newScale !== scale) {
+            // Ponto no canvas antes do zoom (coordenadas do canvas)
+            const canvasX = (currentCenter.x - translateX) / scale;
+            const canvasY = (currentCenter.y - translateY) / scale;
 
-          const newTranslateX = centerX - (centerX - translateX) * scaleRatio;
-          const newTranslateY = centerY - (centerY - translateY) * scaleRatio;
+            // Ajustar translação para manter o ponto central
+            const newTranslateX = currentCenter.x - canvasX * newScale;
+            const newTranslateY = currentCenter.y - canvasY * newScale;
 
-          transform.current.scale = newScale;
-          transform.current.translateX = newTranslateX;
-          transform.current.translateY = newTranslateY;
+            transform.current.scale = newScale;
+            transform.current.translateX = newTranslateX;
+            transform.current.translateY = newTranslateY;
 
-          applyTransform();
+            applyTransform();
+          }
         }
 
         lastTouchDistance = currentDistance;
@@ -325,8 +327,8 @@ export default function Place() {
         isDragging = false;
         isPinching = false;
         lastTouchDistance = 0;
-      } else if (e.touches.length === 1) {
-        // One touch remaining - switch to dragging
+      } else if (e.touches.length === 1 && isPinching) {
+        // One touch remaining after pinch - switch to dragging
         isPinching = false;
         isDragging = true;
         lastMouseX = e.touches[0].clientX;
