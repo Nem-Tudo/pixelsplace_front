@@ -22,6 +22,7 @@ import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
 import { formatDate } from "@/src/dateFunctions";
 import playSound from "@/src/playSound";
+import Canvas from "@/components/canvas/Canvas.jsx";
 
 export default function Place() {
   //contexts
@@ -34,20 +35,10 @@ export default function Place() {
 
   //refs
   const canvasRef = useRef(null);
-  const wrapperRef = useRef(null);
-  const overlayCanvasRef = useRef(null);
-  const selectedPixelRef = useRef(null);
   const hasFetchedRef = useRef(false);
   const hasLoadedSocketsRef = useRef(false);
   const cooldownRef = useRef(null);
   const pixelInfoRef = useRef(null);
-  const transform = useRef({
-    scale: 1,
-    translateX: 0,
-    translateY: 0,
-    minScale: 1,
-    maxScale: 80,
-  });
 
   //general states
   const [apiError, setApiError] = useState(false);
@@ -67,68 +58,17 @@ export default function Place() {
   const [showingPixelInfo, setShowingPixelInfo] = useState(null);
   const [showingColors, setShowingColors] = useState(false);
 
-  //forçar o update do react
-  const [, forceUpdate] = useState(0);
-
-  //Aplicar as informações do transform ref no estado do Wrapper do canvas
-  const applyTransform = () => {
-    const wrapper = wrapperRef.current;
-    const canvas = canvasRef.current;
-    const overlayCanvas = overlayCanvasRef.current;
-    if (!wrapper || !canvas || !overlayCanvas) return;
-
-    const { translateX, translateY, scale } = transform.current;
-
-    // Apenas translação no wrapper
-    wrapper.style.transform = `translate(${translateX}px, ${translateY}px)`;
-
-    // Escala direta nos canvas
-    const scaledWidth = canvasConfig.width * scale;
-    const scaledHeight = canvasConfig.height * scale;
-
-    canvas.style.width = scaledWidth + 'px';
-    canvas.style.height = scaledHeight + 'px';
-    overlayCanvas.style.width = scaledWidth + 'px';
-    overlayCanvas.style.height = scaledHeight + 'px';
-
-    forceUpdate(Date.now());
-  };
-
-  //centralizar o canvas
-  const centerCanvas = () => {
-    if (!canvasConfig.width || !canvasConfig.height) return;
-
-    const { scale } = transform.current;
-    const viewWidth = window.innerWidth;
-    const viewHeight = window.innerHeight - 72;
-
-    const canvasDisplayWidth = canvasConfig.width * scale;
-    const canvasDisplayHeight = canvasConfig.height * scale;
-
-    transform.current.translateX = (viewWidth - canvasDisplayWidth) / 2;
-    transform.current.translateY = (viewHeight - canvasDisplayHeight) / 2;
-
-    applyTransform();
-  };
-
   //obter informações da tela
   const screenHeight = typeof window !== "undefined" ? window.innerHeight : 800;
   const screenWidth = typeof window !== "undefined" ? window.innerWidth : 600;
 
-  //Calcular a posição inicial X/Y do canvas com base no tamanho da tela
-  const initialY = screenHeight / 2 - 100;
-  const initialX = screenWidth - 280;
-
   //inicializar as váriaveis de Drag do PixelInfo
+  const pixelInfoInitialX = screenWidth - 280;
+  const pixelInfoInitialY = screenHeight / 2 - 100;
   const { movePixelInfoRef, direction, styleDrag, iconDrag } = useDraggable(
-    { x: initialX, y: initialY },
+    { x: pixelInfoInitialX, y: pixelInfoInitialY },
     "desktop"
   );
-
-  //Atualizar o selectedPixelRef com base no selectedPixel state
-  useEffect(() => {
-    selectedPixelRef.current = selectedPixel;
-  }, [selectedPixel]);
 
   //executar inicialização dos sockets assim que a página carregar
   useEffect(() => {
@@ -145,314 +85,6 @@ export default function Place() {
       console.log("Router not ready, waiting...");
     }
   }, [router.isReady]); // Depend on router.isReady
-
-  //Movimento do canvas
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper || !canvasConfig.width) return;
-
-    let isDragging = false;
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-
-    // Touch handling
-    let isPinching = false;
-    let lastTouchDistance = 0;
-    let lastTouchCenterX = 0;
-    let lastTouchCenterY = 0;
-    let hasMoved = false;
-
-    // Utility functions
-    const getTouchDistance = (touch1, touch2) => {
-      const dx = touch1.clientX - touch2.clientX;
-      const dy = touch1.clientY - touch2.clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    };
-
-    const getTouchCenter = (touch1, touch2) => {
-      return {
-        x: (touch1.clientX + touch2.clientX) / 2,
-        y: (touch1.clientY + touch2.clientY) / 2
-      };
-    };
-
-    // Mouse Events
-    const handleMouseDown = (e) => {
-      if (e.button !== 0) return; // Only left mouse button
-      e.preventDefault();
-
-      isDragging = true;
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
-    };
-
-    const handleMouseMove = (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-
-      if (wrapper.style.cursor !== 'grabbing') {
-        wrapper.style.cursor = 'grabbing';
-      }
-
-      const deltaX = e.clientX - lastMouseX;
-      const deltaY = e.clientY - lastMouseY;
-
-      transform.current.translateX += deltaX;
-      transform.current.translateY += deltaY;
-
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
-
-      applyTransform();
-    };
-
-    const handleMouseUp = (e) => {
-      if (!isDragging) return;
-
-      isDragging = false;
-      wrapper.style.cursor = 'default';
-    };
-
-    // Wheel Event
-    const handleWheel = (e) => {
-      e.preventDefault();
-
-      const { scale, translateX, translateY, minScale, maxScale } = transform.current;
-
-      // Posição do mouse relativa à viewport
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-
-      // Calcular novo zoom
-      const zoomFactor = 1.2;
-      const isZoomIn = e.deltaY < 0;
-      const newScale = isZoomIn
-        ? Math.min(maxScale, scale * zoomFactor)
-        : Math.max(minScale, scale / zoomFactor);
-
-      if (newScale === scale) return; // Se não mudou a escala, não faz nada
-
-      // Ponto no canvas antes do zoom (em coordenadas do canvas)
-      const canvasX = (mouseX - translateX) / scale;
-      const canvasY = (mouseY - translateY) / scale;
-
-      // Ajustar translação para manter o ponto sob o mouse
-      const newTranslateX = mouseX - canvasX * newScale;
-      const newTranslateY = mouseY - canvasY * newScale;
-
-      transform.current.scale = newScale;
-      transform.current.translateX = newTranslateX;
-      transform.current.translateY = newTranslateY;
-
-      applyTransform();
-    };
-
-    // Touch Events
-    const handleTouchStart = (e) => {
-      e.preventDefault();
-
-      if (e.touches.length === 1) {
-        // Single touch - start dragging
-        isDragging = true;
-        isPinching = false;
-        lastMouseX = e.touches[0].clientX;
-        lastMouseY = e.touches[0].clientY;
-      } else if (e.touches.length === 2) {
-        // Two touches - start pinching
-        isDragging = false;
-        isPinching = true;
-
-        const touch1 = e.touches[0];
-        const touch2 = e.touches[1];
-
-        lastTouchDistance = getTouchDistance(touch1, touch2);
-        const center = getTouchCenter(touch1, touch2);
-        lastTouchCenterX = center.x;
-        lastTouchCenterY = center.y;
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      e.preventDefault();
-
-      if (e.touches.length === 1 && isDragging && !isPinching) {
-        // Single touch dragging
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - lastMouseX;
-        const deltaY = touch.clientY - lastMouseY;
-
-        if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) {
-          hasMoved = true;
-        }
-
-        transform.current.translateX += deltaX;
-        transform.current.translateY += deltaY;
-
-        lastMouseX = touch.clientX;
-        lastMouseY = touch.clientY;
-
-        applyTransform();
-      } else if (e.touches.length === 2 && isPinching) {
-        // Two touch pinching/zooming
-        const touch1 = e.touches[0];
-        const touch2 = e.touches[1];
-
-        const currentDistance = getTouchDistance(touch1, touch2);
-        const currentCenter = getTouchCenter(touch1, touch2);
-
-        if (lastTouchDistance > 0) {
-          const { scale, translateX, translateY, minScale, maxScale } = transform.current;
-
-          // Calcular mudança de escala (mais suave)
-          const distanceRatio = currentDistance / lastTouchDistance;
-          const newScale = Math.max(minScale, Math.min(maxScale, scale * distanceRatio));
-
-          if (newScale !== scale) {
-            // Ponto no canvas antes do zoom (coordenadas do canvas)
-            const canvasX = (currentCenter.x - translateX) / scale;
-            const canvasY = (currentCenter.y - translateY) / scale;
-
-            // Ajustar translação para manter o ponto central
-            const newTranslateX = currentCenter.x - canvasX * newScale;
-            const newTranslateY = currentCenter.y - canvasY * newScale;
-
-            transform.current.scale = newScale;
-            transform.current.translateX = newTranslateX;
-            transform.current.translateY = newTranslateY;
-
-            applyTransform();
-          }
-        }
-
-        lastTouchDistance = currentDistance;
-        lastTouchCenterX = currentCenter.x;
-        lastTouchCenterY = currentCenter.y;
-      }
-    };
-
-    const handleTouchEnd = (e) => {
-      if (e.touches.length === 0) {
-        // All touches ended
-        isDragging = false;
-        isPinching = false;
-        lastTouchDistance = 0;
-        hasMoved = false; // Reset flag
-      } else if (e.touches.length === 1 && isPinching) {
-        // One touch remaining after pinch - switch to dragging
-        isPinching = false;
-        isDragging = true;
-        lastMouseX = e.touches[0].clientX;
-        lastMouseY = e.touches[0].clientY;
-        lastTouchDistance = 0;
-        hasMoved = false; // Reset flag
-      }
-    };
-    // Keyboard Events
-    const handleKeyPress = (e) => {
-      if (e.key.toLowerCase() === "r") {
-        transform.current.scale = transform.current.minScale;
-        centerCanvas();
-      }
-    };
-
-    // Event Listeners
-    wrapper.addEventListener("mousedown", handleMouseDown);
-    wrapper.addEventListener("wheel", handleWheel, { passive: false });
-    wrapper.addEventListener("touchstart", handleTouchStart, { passive: false });
-    wrapper.addEventListener("touchmove", handleTouchMove, { passive: false });
-    wrapper.addEventListener("touchend", handleTouchEnd, { passive: false });
-
-    // Global events for mouse
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("keypress", handleKeyPress);
-
-    // Set initial cursor
-    wrapper.style.cursor = 'default';
-
-    // Cleanup
-    return () => {
-      wrapper.removeEventListener("mousedown", handleMouseDown);
-      wrapper.removeEventListener("wheel", handleWheel);
-      wrapper.removeEventListener("touchstart", handleTouchStart);
-      wrapper.removeEventListener("touchmove", handleTouchMove);
-      wrapper.removeEventListener("touchend", handleTouchEnd);
-
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("keypress", handleKeyPress);
-    };
-  }, [canvasConfig.width, canvasConfig.height]);
-
-  //Ao atualizar o selectedPixel
-  useEffect(() => {
-    //Atualiza o overlay
-    const canvas = overlayCanvasRef.current;
-    if (!canvas || !selectedPixel) return;
-
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Como o contexto já está escalado por (10 * devicePixelRatio), 
-    // desenhamos nas coordenadas originais do pixel
-    const x = selectedPixel.x;
-    const y = selectedPixel.y;
-
-    //branco externo
-    ctx.fillStyle = "#b3b3b3cf"; //branco transpa
-    ctx.fillRect(x - 0.2, y - 0.2, 1.4, 1.4);
-
-    //limpa o interno
-    ctx.clearRect(x - 0.1, y - 0.1, 1.2, 1.2);
-
-    //preto interno
-    ctx.fillStyle = "#05050096";
-    ctx.fillRect(x - 0.1, y - 0.1, 1.2, 1.2);
-
-    //limpa o interior
-    ctx.clearRect(x, y, 1, 1);
-
-    //deixa só os cantos
-    ctx.clearRect(x + 0.2, y - 0.2, 0.6, 1.5);
-    ctx.clearRect(x - 0.2, y + 0.2, 1.5, 0.6);
-  }, [selectedPixel]);
-
-  //Mover o selected Pixel
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (!selectedPixel) return;
-      switch (event.key) {
-        case "ArrowUp":
-          setSelectedPixel({ x: selectedPixel.x, y: selectedPixel.y - 1 });
-          break;
-        case "ArrowDown":
-          setSelectedPixel({ x: selectedPixel.x, y: selectedPixel.y + 1 });
-          break;
-        case "ArrowLeft":
-          setSelectedPixel({ x: selectedPixel.x - 1, y: selectedPixel.y });
-          break;
-        case "ArrowRight":
-          setSelectedPixel({ x: selectedPixel.x + 1, y: selectedPixel.y });
-          break;
-        case "Enter":
-          if (timeLeft === "0:00") {
-            if (!loggedUser) {
-              window.location.href = "/login";
-            } else {
-              setShowingColors(true);
-            }
-          }
-          break;
-      }
-    };
-
-    window?.addEventListener("keydown", handleKeyDown);
-
-    // Limpeza ao desmontar
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [selectedPixel, timeLeft, loggedUser]);
 
   //calcula o cooldown
   useEffect(() => {
@@ -562,7 +194,7 @@ export default function Place() {
     });
 
     socket.on("pixel_placed", (data) => {
-      updatePixel(data.x, data.y, data.c);
+      canvasRef.current.updatePixel(data.x, data.y, data.c);
     });
     socket.on("canvasconfig_resize", (data) => {
       setCanvasConfig(data);
@@ -580,8 +212,6 @@ export default function Place() {
   //Atualizar o canvas html com base no canvas atual da API
   async function fetchCanvas() {
     try {
-      const MIN_SCALE_MULTIPLIER = 0.5;
-      const MAX_SCALE_MULTIPLIER = 150;
 
       // Paralelize os fetches
       const [settingsRes, pixelsRes] = await Promise.all([
@@ -594,139 +224,20 @@ export default function Place() {
 
       const buffer = await pixelsRes.arrayBuffer();
       const bytes = new Uint8Array(buffer);
-
-      const ctx = canvasRef.current?.getContext("2d");
-      if (!ctx) {
-        console.log("Main canvas context not available");
-        setTimeout(() => {
-          fetchCanvas();
-        }, 500);
-        return;
-      }
-
-
-      // const devicePixelRatio = window.devicePixelRatio || 1;
-      const canvas = canvasRef.current;
-      const overlayCanvas = overlayCanvasRef.current;
-      // Canvas principal - SEM devicePixelRatio
-      canvas.width = canvasSettings.width;
-      canvas.height = canvasSettings.height;
-      canvas.style.width = canvasSettings.width + 'px';
-      canvas.style.height = canvasSettings.height + 'px';
-
-      // Overlay - SEM devicePixelRatio  
-      overlayCanvas.width = canvasSettings.width * 10;
-      overlayCanvas.height = canvasSettings.height * 10;
-      overlayCanvas.style.width = canvasSettings.width + 'px';
-      overlayCanvas.style.height = canvasSettings.height + 'px';
-
-      // Escalar APENAS o contexto do overlay
-      const overlayCtx = overlayCanvas.getContext('2d');
-      overlayCtx.scale(10, 10);
-
-      // Escalar o contexto principal
-      // ctx.scale(devicePixelRatio, devicePixelRatio);
-
-      // Escalar o contexto overlay (10x densidade + retina)
-      //const overlayCtx = overlayCanvas.getContext('2d');
-      //overlayCtx.scale(10 * devicePixelRatio, 10 * devicePixelRatio);
-
-      // Forçar desabilitação do antialiasing
-      ctx.imageSmoothingEnabled = false;
-      ctx.mozImageSmoothingEnabled = false;
-      ctx.webkitImageSmoothingEnabled = false;
-      ctx.msImageSmoothingEnabled = false;
-
-      overlayCtx.imageSmoothingEnabled = false;
-      overlayCtx.mozImageSmoothingEnabled = false;
-      overlayCtx.webkitImageSmoothingEnabled = false;
-      overlayCtx.msImageSmoothingEnabled = false;
-
-      // Cria ImageData e preenche diretamente os pixels
-      const imageData = ctx.createImageData(
-        canvasSettings.width,
-        canvasSettings.height
-      );
-      const data = imageData.data;
-
-      let i = 0;
-      for (let j = 0; j < data.length; j += 4) {
-        data[j] = bytes[i++]; // R
-        data[j + 1] = bytes[i++]; // G
-        data[j + 2] = bytes[i++]; // B
-        data[j + 3] = 255; // Alpha totalmente opaco
-      }
-
-      // Renderiza a imagem no próximo frame para performance
-      requestAnimationFrame(() => {
-        ctx.putImageData(imageData, 0, 0);
-      });
-
-      // Escala dinâmica do canvas
-      const viewWidth = window.innerWidth;
-      const viewHeight = window.innerHeight - 72;
-      const scaleX = viewWidth / canvasSettings.width;
-      const scaleY = viewHeight / canvasSettings.height;
-      const minScale = Math.min(scaleX, scaleY) * MIN_SCALE_MULTIPLIER;
-      const maxScale = MAX_SCALE_MULTIPLIER;
-
-      transform.current.minScale = minScale;
-      transform.current.maxScale = maxScale;
-
-      // Parâmetros da URL
-      const { s, px, py, x, y } = router.query;
-
-      let initialScale = s && !isNaN(parseFloat(s)) ? parseFloat(s) : minScale;
-      initialScale = Math.max(minScale, Math.min(maxScale, initialScale));
-      transform.current.scale = initialScale;
-
-      if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
-        transform.current.translateX = parseFloat(px);
-        transform.current.translateY = parseFloat(py);
-      } else {
-        const offsetX = (viewWidth - canvasSettings.width * initialScale) / 2;
-        const offsetY = (viewHeight - canvasSettings.height * initialScale) / 2;
-        transform.current.translateX = offsetX;
-        transform.current.translateY = offsetY;
-      }
-
-      if (
-        x &&
-        y &&
-        !isNaN(parseInt(x)) &&
-        !isNaN(parseInt(y)) &&
-        parseInt(x) >= 0 &&
-        parseInt(x) < canvasSettings.width &&
-        parseInt(y) >= 0 &&
-        parseInt(y) < canvasSettings.height
-      ) {
-        setSelectedPixel({ x: parseInt(x), y: parseInt(y) });
-      }
-
-      if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px)`;
-
-        // Redimensionar o canvas diretamente
-        const scaledWidth = canvasSettings.width * transform.current.scale;
-        const scaledHeight = canvasSettings.height * transform.current.scale;
-
-        canvas.style.width = scaledWidth + 'px';
-        canvas.style.height = scaledHeight + 'px';
-        overlayCanvas.style.width = scaledWidth + 'px';
-        overlayCanvas.style.height = scaledHeight + 'px';
-      } else {
-        console.error("wrapperRef not available");
-      }
+      console.log(bytes)
+      canvasRef.current.initializeCanvas(bytes);
     } catch (e) {
-      setApiError(e);
+      setApiError(true)
+      console.log("Error on fetch canvas", e)
+      alert(`Error on fetch canvas`, e)
     }
   }
 
   //Ao confirmar um pixel
   async function placePixel(x, y, color) {
-    const oldpixelcolor = getPixelColor(x, y);
+    const oldpixelcolor = canvasRef.current.getPixelColor(x, y);
 
-    updatePixel(x, y, color, true);
+    canvasRef.current.updatePixel(x, y, color, true);
     const request = await fetch(`${settings.apiURL}/canvas/pixel`, {
       method: "POST",
       headers: {
@@ -741,33 +252,10 @@ export default function Place() {
     });
     const data = await request.json();
     if (!request.ok) {
-      if (oldpixelcolor) updatePixel(x, y, oldpixelcolor);
+      if (oldpixelcolor) canvasRef.current.updatePixel(x, y, oldpixelcolor);
       return openPopup("error", { message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}` });
     }
     setCooldownInfo({ lastPaintPixel: new Date() });
-  }
-
-  //Atualizar um pixel no canvas
-  function updatePixel(x, y, color, loading) {
-    if (canvasRef?.current?.getContext) {
-      const ctx = canvasRef.current.getContext("2d");
-
-      // Salvar o estado atual do contexto (que tem o scaling)
-      ctx.save();
-
-      // Resetar todas as transformações para coordenadas "normais"
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-      ctx.fillStyle = !loading
-        ? numberToHex(color)
-        : `${numberToHex(lightenColor(color))}`;
-
-      // Agora desenhar nas coordenadas originais
-      ctx.fillRect(x, y, 1, 1);
-
-      // Restaurar o estado anterior (com o scaling)
-      ctx.restore();
-    }
   }
 
   //Mostrar informações deu m pixel
@@ -791,32 +279,6 @@ export default function Place() {
   const isAlready = () =>
     !socketdisconnectforced && !socketerror && !apiError && !loading && socketconnected && canvasConfig.width;
 
-  //Obter a cor de um pixel com base no canvas
-  function getPixelColor(x, y) {
-    if (!canvasRef?.current) return null;
-
-    const ctx = canvasRef.current.getContext("2d");
-    if (!ctx) return null;
-
-    // Salvar estado
-    ctx.save();
-
-    // Resetar transformações
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-    // Ler pixel nas coordenadas originais
-    const pixel = ctx.getImageData(x, y, 1, 1).data;
-
-    // Restaurar estado
-    ctx.restore();
-
-    const r = pixel[0];
-    const g = pixel[1];
-    const b = pixel[2];
-
-    return (r << 16) + (g << 8) + b;
-  }
-
   return (
     <>
       <Head>
@@ -833,15 +295,15 @@ export default function Place() {
               <div className={styles.overlayPosition + " showTop"}>
                 <span>
                   ({selectedPixel.x},{selectedPixel.y}){" "}
-                  {Math.round(transform.current.scale)}x
+                  {Math.round(canvasRef.current.getTransform().scale)}x
                 </span>
                 <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} arrow={false} placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
-                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(transform.current.scale)}&px=${Math.round(transform.current.translateX)}&py=${Math.round(transform.current.translateY)}`;
+                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(canvasRef.current.getTransform().scale)}&px=${Math.round(canvasRef.current.getTransform().translateX)}&py=${Math.round(canvasRef.current.getTransform().translateY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(transform.current.scale)})` });
+                    openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(canvasRef.current.getTransform().scale)})` });
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>
@@ -955,7 +417,7 @@ export default function Place() {
                     <CustomButton
                       label={selectedColor ? language.getString("PAGES.PLACE.PLACE") : language.getString("PAGES.PLACE.PICK_A_COLOR")}
                       color={"#099b52"}
-                      disabled={(!selectedColor) || (selectedColor === getPixelColor(selectedPixel.x, selectedPixel.y))}
+                      disabled={(!selectedColor) || (selectedColor === canvasRef.current.getPixelColor(selectedPixel.x, selectedPixel.y))}
                       className={styles.placePixel}
                       onClick={() => {
                         playSound("PixelPlace")
@@ -1025,8 +487,6 @@ export default function Place() {
           </div>
         </section>
 
-
-
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
           <BillboardContent centerscreen={true} type="normal-white">
@@ -1074,187 +534,18 @@ export default function Place() {
         <div id={styles.main}
           style={{ display: isAlready() ? "unset" : "none" }}
         >
-
-          {/* canvas div */}
-          <div
-            ref={wrapperRef}
-            style={{
-              transformOrigin: "0 0",
-              position: "absolute",
-              top: 0,
-              left: 0,
+          <Canvas
+            ref={canvasRef}
+            width={canvasConfig.width}
+            height={canvasConfig.height}
+            onChangeSelectedPixel={(x, y) => {
+              setSelectedPixel({ x, y })
             }}
-          >
-
-            {/* canvas overlay (pixel border etc) */}
-            <canvas
-              ref={overlayCanvasRef}
-              className="pixelate"
-              id={styles.canvas}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                pointerEvents: "none",
-                transformOrigin: "0 0",
-                zIndex: 10,
-                width: "100%",
-                display:
-                  Math.max(canvasConfig.width, canvasConfig.height) > 1500
-                    ? "none"
-                    : "unset",
-              }}
-            />
-
-            {/* main canvas */}
-            <canvas
-              onClick={(e) => {
-                const canvas = canvasRef.current;
-                if (!canvas) return;
-
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.clientX;
-                const clientY = e.clientY;
-
-                const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
-                const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
-                setSelectedPixel({ x, y });
-              }}
-
-              onContextMenu={(e) => {
-                e.preventDefault();
-                const canvas = canvasRef.current;
-                if (!canvas) return;
-
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.clientX;
-                const clientY = e.clientY;
-
-                const x = Math.floor((clientX - rect.left) / rect.width * canvasConfig.width);
-                const y = Math.floor((clientY - rect.top) / rect.height * canvasConfig.height);
-                showPixelInfo(x, y);
-              }}
-              onTouchStart={(e) => {
-                const touch = e.touches[0];
-                const startTime = Date.now();
-                const startX = touch.clientX;
-                const startY = touch.clientY;
-
-                if (e.touches.length > 1) {
-                  if (e.currentTarget.touchData.longPressTimer) {
-                    clearTimeout(e.currentTarget.touchData.longPressTimer);
-                    e.currentTarget.touchData.longPressTimer = null;
-                  }
-                }
-
-                // Timer para mostrar pixel info após 500ms
-                const longPressTimer = e.touches.length > 1 ? null : setTimeout(() => {
-                  if (e.touches.length > 1) {
-                    if (e.currentTarget.touchData.longPressTimer) {
-                      clearTimeout(e.currentTarget.touchData.longPressTimer);
-                      e.currentTarget.touchData.longPressTimer = null;
-                    }
-                  }
-                  const canvas = canvasRef.current;
-                  if (!canvas) return;
-
-                  const rect = canvas.getBoundingClientRect();
-                  const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
-                  const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
-
-                  showPixelInfo(x, y);
-
-                  if (navigator.vibrate) navigator.vibrate(50);
-
-                  // Marcar que já mostrou o pixel info
-                  if (e.currentTarget.touchData) {
-                    e.currentTarget.touchData.longPressTriggered = true;
-                  }
-                }, 500);
-
-                // Guardar dados do toque
-                e.currentTarget.touchData = {
-                  startTime,
-                  startX,
-                  startY,
-                  moved: false,
-                  longPressTimer,
-                  longPressTriggered: false,
-                  moveDistance: 0
-                };
-              }}
-
-              onTouchMove={(e) => {
-                if (e.currentTarget.touchData) {
-                  const touch = e.touches[0];
-                  const { startX, startY } = e.currentTarget.touchData;
-
-                  // Calcular distância do movimento
-                  const deltaX = touch.clientX - startX;
-                  const deltaY = touch.clientY - startY;
-                  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-                  // Tolerância de movimento em pixels (ajuste conforme necessário)
-                  const MOVEMENT_TOLERANCE = 10;
-
-                  e.currentTarget.touchData.moveDistance = distance;
-
-                  // Só considerar como "movido" se ultrapassar a tolerância
-                  if (distance > MOVEMENT_TOLERANCE) {
-                    // Cancelar timer se mexeu muito
-                    if (e.currentTarget.touchData.longPressTimer) {
-                      clearTimeout(e.currentTarget.touchData.longPressTimer);
-                      e.currentTarget.touchData.longPressTimer = null;
-                    }
-                    e.currentTarget.touchData.moved = true;
-                  }
-                }
-              }}
-
-              onTouchEnd={(e) => {
-                if (!e.currentTarget.touchData) return;
-
-                const { startTime, startX, startY, moved, longPressTimer, longPressTriggered, moveDistance } = e.currentTarget.touchData;
-
-                // Cancelar timer se ainda existir
-                if (longPressTimer) {
-                  clearTimeout(longPressTimer);
-                }
-
-                // Tolerância de movimento em pixels
-                const MOVEMENT_TOLERANCE = 10;
-
-                // Se não moveu muito e não foi long press, é um tap simples
-                if (!moved && !longPressTriggered && moveDistance <= MOVEMENT_TOLERANCE) {
-                  const endTime = Date.now();
-                  const duration = endTime - startTime;
-
-                  // Só selecionar pixel se foi tap rápido (< 500ms)
-                  if (duration < 500) {
-                    const canvas = canvasRef.current;
-                    if (!canvas) return;
-
-                    const rect = canvas.getBoundingClientRect();
-                    const x = Math.floor((startX - rect.left) / rect.width * canvasConfig.width);
-                    const y = Math.floor((startY - rect.top) / rect.height * canvasConfig.height);
-
-                    setSelectedPixel({ x, y });
-                  }
-                }
-
-                // Limpar dados
-                delete e.currentTarget.touchData;
-              }}
-              className="pixelate"
-              id={styles.canvas}
-              ref={canvasRef}
-              width={canvasConfig.width}
-              height={canvasConfig.height}
-              style={{
-                aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
-              }}
-            />
-          </div>
+            onRightClickPixel={showPixelInfo}
+            settings={{
+              showSelectedPixelOutline: true
+            }}
+          />
         </div>
       </MainLayout>
     </>

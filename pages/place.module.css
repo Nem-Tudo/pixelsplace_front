@@ -13,13 +13,6 @@
         position: absolute;
         top: 0;
     }
-
-    #canvas {
-        touch-action: none;
-        box-shadow: var(--shadow);
-        flex-grow: 1;
-        user-select: none;
-    }
 }
 
 .overlayGui {
