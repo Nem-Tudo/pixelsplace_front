@@ -205,7 +205,7 @@ export default function Place() {
       if (!isDragging) return;
 
       isDragging = false;
-      wrapper.style.cursor = 'grab';
+      wrapper.style.cursor = 'default';
     };
 
     // Wheel Event
@@ -356,7 +356,7 @@ export default function Place() {
     window.addEventListener("keypress", handleKeyPress);
 
     // Set initial cursor
-    wrapper.style.cursor = 'grab';
+    wrapper.style.cursor = 'default';
 
     // Cleanup
     return () => {
