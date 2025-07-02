@@ -36,6 +36,8 @@ module.exports = {
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
         JOIN: 'Juntar-se',
+        PREFERENCES: "Preferencias",
+        SOUND_EFFECTS: "Efeitos sonoros"
     },
     COMPONENTS: {
         BUILD_SWITCHER: {

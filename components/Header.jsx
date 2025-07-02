@@ -4,7 +4,7 @@ import Tippy from "@tippyjs/react"
 import Link from "next/link"
 import checkFlags from "@/src/checkFlags"
 import Cookies from "js-cookie";
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import PixelIcon from "@/components/PixelIcon"
@@ -21,9 +21,7 @@ export default function Header() {
             setUsingBuildOverride(true);
         }
     }, [])
-    
-    const ref = useRef(null);
-    
+
     const HeaderLinks = {
         pixelsplace: {
             icon: (<img style={{ width: "40px" }} src="/logo.png" alt="" />),
@@ -188,9 +186,23 @@ export default function Header() {
                                         }
                                     </select>
                                 </div>
-                                <Link href={"/auth/discord"} style={{'--hover-color': '#ff0000', '--hover-color-text': '#ffffff'}}>
+                                <Link href={"/auth/discord"} style={{ '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
                                     <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
+                                <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
+                                    <>
+                                        <div>
+                                            <span>{language.getString("COMMON.SOUND_EFFECTS")}</span>
+                                            <ToggleSwitch defaultChecked={localStorage.getItem("sound_effects_disabled") != "true"} onChange={(e) => {
+                                                localStorage.setItem("preferences.sound_effects_disabled", !e.target.checked)
+                                            }} />
+                                        </div>
+                                    </>
+                                )}>
+                                    <div style={{ '--hover-color': '#35a4ff', '--hover-color-text': '#ffffff' }}>
+                                        <span>{language.getString("COMMON.PREFERENCES")}</span>
+                                    </div>
+                                </Tippy>
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                         <>
@@ -207,11 +219,11 @@ export default function Header() {
                                             </div>
                                             <div>
                                                 <span>{language.getString("COMMON.PREMIUM")}</span>
-                                                <ToggleSwitch onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium}/>
+                                                <ToggleSwitch onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium} />
                                             </div>
                                         </>
                                     )}>
-                                        <div style={{'--hover-color': '#35a4ff', '--hover-color-text': '#ffffff'}}>
+                                        <div style={{ '--hover-color': '#35a4ff', '--hover-color-text': '#ffffff' }}>
                                             <span>{language.getString("COMPONENTS.HEADER.VIEW_SETTINGS")}</span>
                                         </div>
                                     </Tippy>
@@ -225,7 +237,7 @@ export default function Header() {
                             </>}>
                                 <div className={styles.loggedUser}>
                                     <span className={styles.userName + " mobileHidden_720"}>{loggedUser.username}</span>
-                                        <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
+                                    <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
                                 </div>
                             </Tippy>
                         </> : <>
