@@ -302,15 +302,12 @@ export default function Place() {
     if (!canvas || !selectedPixel) return;
 
     const ctx = canvas.getContext("2d");
-    const pixelRatio = window.devicePixelRatio || 1;
 
     // Limpa todo o canvas primeiro
     ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Aplica escala para o pixel ratio
-    ctx.scale(pixelRatio, pixelRatio);
-    ctx.imageSmoothingEnabled = false;
 
     // Coordenadas no overlay (10x maior para ter precisão)
     const overlayX = selectedPixel.x * SCALE;
@@ -445,7 +442,7 @@ export default function Place() {
 
   // Playsound quando o cooldown chega a zero
   useEffect(() => {
-    if(timeLeft === "0:01") {
+    if (timeLeft === "0:01") {
       setTimeout(() => {
         playSound("CooldownOverAlert")
       }, 1 * 1000)
@@ -532,29 +529,11 @@ export default function Place() {
         return;
       }
 
-      // Obtém o pixel ratio do dispositivo para alta densidade (fix para mobile)
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      // Ajusta as dimensões do canvas com suporte a alta densidade
-      canvasRef.current.width = canvasSettings.width * pixelRatio;
-      canvasRef.current.height = canvasSettings.height * pixelRatio;
-      canvasRef.current.style.width = canvasSettings.width + 'px';
-      canvasRef.current.style.height = canvasSettings.height + 'px';
-
-      // Escala o contexto para corresponder ao pixel ratio
-      ctx.scale(pixelRatio, pixelRatio);
-
-      // Configura o overlay canvas - 10x maior para ter precisão nos detalhes
-      const overlayCanvas = overlayCanvasRef.current;
-      overlayCanvas.width = canvasSettings.width * 10 * pixelRatio;
-      overlayCanvas.height = canvasSettings.height * 10 * pixelRatio;
-      overlayCanvas.style.width = canvasSettings.width + 'px';
-      overlayCanvas.style.height = canvasSettings.height + 'px';
-
-      // Configura o contexto do overlay
-      const overlayCtx = overlayCanvas.getContext("2d");
-      overlayCtx.imageSmoothingEnabled = false;
-      overlayCtx.scale(pixelRatio, pixelRatio);
+      // Ajusta as dimensões do canvas
+      canvasRef.current.width = canvasSettings.width;
+      canvasRef.current.height = canvasSettings.height;
+      overlayCanvasRef.current.width = canvasSettings.width * 10;
+      overlayCanvasRef.current.height = canvasSettings.height * 10;
 
       // Cria ImageData e preenche diretamente os pixels
       const imageData = ctx.createImageData(
@@ -573,8 +552,6 @@ export default function Place() {
 
       // Renderiza a imagem no próximo frame para performance
       requestAnimationFrame(() => {
-        // Desabilita o anti-aliasing para manter pixels nítidos
-        ctx.imageSmoothingEnabled = false;
         ctx.putImageData(imageData, 0, 0);
       });
 
@@ -664,7 +641,7 @@ export default function Place() {
         : `${numberToHex(lightenColor(color))}`; //não tá carregando? Cor total : mais claro
 
       // Desabilita o anti-aliasing para manter pixels nítidos
-      ctx.imageSmoothingEnabled = false;
+      // ctx.imageSmoothingEnabled = false;
       ctx.fillRect(x, y, 1, 1);
     }
   }
