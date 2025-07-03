@@ -193,7 +193,7 @@ export default function Header() {
                                     <>
                                         <div>
                                             <span>{language.getString("COMMON.SOUND_EFFECTS")}</span>
-                                            <ToggleSwitch defaultChecked={localStorage.getItem("sound_effects_disabled") != "true"} onChange={(e) => {
+                                            <ToggleSwitch defaultChecked={localStorage.getItem("preferences.sound_effects_disabled") != "true"} onChange={(e) => {
                                                 localStorage.setItem("preferences.sound_effects_disabled", !e.target.checked)
                                             }} />
                                         </div>
