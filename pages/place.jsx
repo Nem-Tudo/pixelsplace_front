@@ -509,8 +509,8 @@ export default function Place() {
                     }} />
                   </div>
                   <div>
-                    <CustomButton hierarchy={3} onClick={() => fetchCanvas()}>Reset</CustomButton>
-                    <CustomButton hierarchy={3} onClick={() => {
+                    <CustomButton padding={1} hierarchy={3} onClick={() => fetchCanvas()}>Reset</CustomButton>
+                    <CustomButton padding={1} hierarchy={3} onClick={() => {
                       const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 1)") || 1);
                       if (isNaN(multipler)) return alert("deve ser um número")
                       downloadCanvasImage(canvasRef.current.getCanvasRef(), `canvas-x${multipler}-${Date.now()}.png`, multipler)

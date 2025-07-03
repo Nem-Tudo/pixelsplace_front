@@ -1,7 +1,6 @@
 /* formato dos botões gerais */
 .button {
   box-shadow: var(--shadow);
-  padding: 18px;
   border-radius: 12px;
   transition: var(--smooth-transition);
   cursor: pointer;
@@ -41,6 +40,17 @@
   color: var(--btn-color, var(--color-accent));
   border: none;
   background: transparent;
+}
+
+/* paddings */
+.button.lowestPadding {
+  padding: 5px 10px;
+}
+.button.lowerPadding {
+  padding: 10px 12px;
+}
+.button.regularPadding {
+  padding: 18px;
 }
 
 
