@@ -11,12 +11,14 @@ export default function CustomButton({
     color = '#0075d5',
     onClick = undefined,
     hierarchy = 1,
+    padding = 3,
     disabled = false,
     icon,
     ...props
 }) {
     const ref = useRef();
     const importances = [styles.primary, styles.secondary, styles.tertiary];
+    const paddings = [styles.lowestPadding, styles.lowerPadding, styles.regularPadding];
 
     useEffect(() => {
         if (ref.current) {
@@ -30,6 +32,7 @@ export default function CustomButton({
     const className = [
         styles.button,
         importances[hierarchy - 1],
+        paddings[padding - 1],
         props.className || ''
     ].join(' ');
 

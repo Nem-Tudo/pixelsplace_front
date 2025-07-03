@@ -80,7 +80,7 @@
             justify-items: center;
             max-width: fit-content;
             width: 99dvw;
-            margin-bottom: 16px;
+            margin-bottom: 5px;
 
             .placePixel {
                 width: fit-content;
@@ -111,6 +111,12 @@
             border: var(--outline);
             overflow-x: hidden;
 
+            @media (max-width: 768px) {
+                border-radius: 0;
+                width: 100dvw;
+                margin-bottom: 0;
+            }
+
             @media screen and (max-height: 500px) and (orientation: landscape) {
                 width: 50dvw;
                 position: absolute;
@@ -124,14 +130,14 @@
                 overflow-x: auto;
                 display: flex;
                 max-width: 100%;
-                padding: 0 15px;
+                padding: 10px;
+                gap: 10px;
                 
                 .color, .confirmation .color {
                     width: 50px;
                     min-width: 50px;
                     height: 50px;
                     border-radius: 12px;
-                    margin: 7px;
                     cursor: pointer;
                     border: var(--outline);
                     box-shadow: var(--shadow);

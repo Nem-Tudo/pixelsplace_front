@@ -58,13 +58,18 @@
 
 .tippy-box[data-theme="pixelsplace_dropdown"] {
     background: var(--frosted-glass);
-    backdrop-filter: var(--frosted-glass-blur);
+    backdrop-filter: unset;
     border-radius: 12px;
     user-select: none;
     cursor: pointer;
     transition: var(--smooth-transition);
     box-shadow: var(--shadow);
     padding: 0;
+
+    .tippy-content {
+        border-radius: 12px;
+        backdrop-filter: var(--frosted-glass-blur);
+    }
 
     .tippy-content > * {
         display: flex;
@@ -93,6 +98,8 @@
 
         > :not(div[data-tippy-root]):hover {
             background-color: var(--hover-color, rgb(228, 228, 228));
+            color: var(--hover-color-text, var(--color-text));
+            
             span {
                 color: var(--hover-color-text, var(--color-text));
             }
