@@ -180,16 +180,7 @@ const PixelCanvas = forwardRef(({
         const overlayCtx = overlayCanvas.getContext('2d');
         overlayCtx.scale(10, 10);
 
-        // Desabilitar antialiasing
-        [ctx, overlayCtx].forEach(context => {
-            context.imageSmoothingEnabled = false;
-            context.mozImageSmoothingEnabled = false;
-            context.webkitImageSmoothingEnabled = false;
-            context.msImageSmoothingEnabled = false;
-        });
-
         // Renderizar pixels se bytes fornecidos
-        console.log(bytes, config, defaultView)
         if (bytes) {
             const imageData = ctx.createImageData(config.width, config.height);
             const data = imageData.data;

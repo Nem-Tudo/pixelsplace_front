@@ -17,34 +17,15 @@
 
 .mainCanvas {
     display: block;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-crisp-edges;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
     cursor: default;
 }
 
 .overlayCanvas {
     display: block;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-crisp-edges;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
     pointer-events: none;
 }
 
 /* Ensure proper touch handling */
 .canvasWrapper {
     touch-action: none;
-}
-
-/* Handle different device pixel ratios */
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-
-    .mainCanvas,
-    .overlayCanvas {
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
-    }
 }
