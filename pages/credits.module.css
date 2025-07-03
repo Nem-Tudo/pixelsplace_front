@@ -51,6 +51,9 @@
       a {
         opacity: 75%;
       }
+      a:hover{
+        text-decoration: underline;
+      }
     }
   }
 
