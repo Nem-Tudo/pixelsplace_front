@@ -22,7 +22,7 @@ import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
 import { formatDate } from "@/src/dateFunctions";
 import playSound from "@/src/playSound";
-import Canvas from "@/components/canvas/Canvas.jsx";
+import PixelCanvas from "@/components/pixelCanvas/PixelCanvas.jsx";
 
 export default function Place() {
   //contexts
@@ -53,6 +53,7 @@ export default function Place() {
   const [timeLeft, setTimeLeft] = useState("0:00");
   const [selectedPixel, setSelectedPixel] = useState(null);
   const [selectedColor, setSelectedColor] = useState(1);
+  const [canvasTransform, setCanvasTransform] = useState(null)
 
   //estados atuais de ações do usuário
   const [showingPixelInfo, setShowingPixelInfo] = useState(null);
@@ -224,7 +225,7 @@ export default function Place() {
 
       const buffer = await pixelsRes.arrayBuffer();
       const bytes = new Uint8Array(buffer);
-      canvasRef.current.initializeCanvas(bytes, canvasSettings);
+      canvasRef.current.initializeCanvas(bytes, canvasSettings, router.query);
     } catch (e) {
       setApiError(true)
       console.log("Error on fetch canvas", e)
@@ -290,19 +291,19 @@ export default function Place() {
       <MainLayout>
         <section className={styles.overlayGui}>
           <div className={styles.top}>
-            {selectedPixel && (
+            {selectedPixel && canvasTransform && (
               <div className={styles.overlayPosition + " showTop"}>
                 <span>
                   ({selectedPixel.x},{selectedPixel.y}){" "}
-                  {Math.round(canvasRef.current.getTransform().scale)}x
+                  {Math.round(canvasTransform.scale)}x
                 </span>
                 <Tippy content={language.getString("PAGES.PLACE.COPY_LINK")} arrow={false} placement="bottom">
                   <div style={{ cursor: "pointer" }} onClick={() => {
                     const currentDomain = window.location.origin;
-                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(canvasRef.current.getTransform().scale)}&px=${Math.round(canvasRef.current.getTransform().translateX)}&py=${Math.round(canvasRef.current.getTransform().translateY)}`;
+                    const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(canvasTransform.scale)}&px=${Math.round(canvasTransform.translateX)}&py=${Math.round(canvasTransform.translateY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(canvasRef.current.getTransform().scale)})` });
+                    openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(canvasTransform.scale)})` });
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>
@@ -533,15 +534,13 @@ export default function Place() {
         <div id={styles.main}
           style={{ display: isAlready() ? "unset" : "none" }}
         >
-          <Canvas
+          <PixelCanvas
             ref={canvasRef}
-            onChangeSelectedPixel={(x, y) => {
+            onChangeSelectedPixel={({ x, y }) => {
               setSelectedPixel({ x, y })
             }}
             onRightClickPixel={showPixelInfo}
-            settings={{
-              showSelectedPixelOutline: true
-            }}
+            onTransformChange={setCanvasTransform}
           />
         </div>
       </MainLayout>
