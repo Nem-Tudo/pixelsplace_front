@@ -316,9 +316,13 @@ export default function Place() {
                 style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo} ${direction === "left" ? "showLeft" : "showRight"
+                  className={`${styles.pixelInfo} ${showingPixelInfo?.author?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
                   ref={pixelInfoRef}
+                  style={showingPixelInfo?.author?.premium ? {
+                    '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
+                    '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
+                  } : {}}
                 >
                   <div style={{ position: "absolute", right: "20px" }}>
                     {isMobile ? (
@@ -362,9 +366,7 @@ export default function Place() {
                     <CustomButton
                       label={language.getString("PAGES.PLACE.PICK_COLOR")}
                       onClick={() => {
-                        if (
-                          canvasConfig.freeColors.includes(showingPixelInfo.c)
-                        ) {
+                        if (canvasConfig.freeColors.includes(showingPixelInfo.c) || loggedUser?.premium) {
                           setSelectedColor(showingPixelInfo.c);
                         } else {
                           openPopup("error", { message: language.getString("PAGES.PLACE.PREMIUM_ONLY_COLOR") });
@@ -538,6 +540,7 @@ export default function Place() {
             ref={canvasRef}
             onChangeSelectedPixel={({ x, y }) => {
               setSelectedPixel({ x, y })
+              if(selectedPixel?.x == x && selectedPixel?.y == y) {showPixelInfo(x, y)}
             }}
             onRightClickPixel={showPixelInfo}
             onTransformChange={setCanvasTransform}
