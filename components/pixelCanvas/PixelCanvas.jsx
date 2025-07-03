@@ -618,14 +618,9 @@ const PixelCanvas = forwardRef(({
             <div>
                 {
                     !settings.disableCanvasTools && checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
-                        <Tippy placement="top" trigger="click" interactive={true} content={<>
-                            <button onClick={() => {
-                                const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)") || 10);
-                                if (isNaN(multipler)) return alert("deve ser um número")
-                                downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
-                            }}>Download Canvas</button>
+                        <Tippy animation="scale-extreme" theme="pixelsplace_dropdown" placement="top" trigger="click" interactive={true} content={<>
                             <div>
-                                <span>Buffer width </span>
+                                <span>Buffer Width </span>
                                 <input type="number" value={tools_canvasConfigCustom?.width || canvasConfig.width} onChange={e => {
                                     if (tools_canvasConfigCustom === null) tools_setInitialBytes(getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig))
 
@@ -638,7 +633,7 @@ const PixelCanvas = forwardRef(({
                                 }} />
                             </div>
                             <div>
-                                <span>Buffer height </span>
+                                <span>Buffer Height </span>
                                 <input type="number" value={tools_canvasConfigCustom?.height || canvasConfig.height} onChange={e => {
                                     if (tools_canvasConfigCustom === null) tools_setInitialBytes(getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig))
 
@@ -651,40 +646,42 @@ const PixelCanvas = forwardRef(({
                                 }} />
                             </div>
                             <div>
-                                <button onClick={() => {
+                                <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     const bytes = tools_initialBytes || getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig);
                                     replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), canvasConfig, 1);
                                     tools_setCanvasConfigCustom(null);
                                     tools_setInitialBytes(null)
-                                }}>Reset</button>
+                                }}>Reset</CustomButton>
+                                <CustomButton hierarchy={3} padding={1} onClick={() => {
+                                    const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)") || 10);
+                                    if (isNaN(multipler)) return alert("deve ser um número")
+                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                                }}>Download</CustomButton>
                             </div>
                             <div>
-                                <button onClick={() => {
+                                <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     centerCanvas()
-                                }}>centralizar</button>
-                                <button onClick={() => {
+                                }}>centralizar</CustomButton>
+                                <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     transform.current.scale = transform.current.minScale;
                                     applyTransform()
-                                }}>resetar scala</button>
-                                <button onClick={() => {
+                                }}>resetar escala</CustomButton>
+                                <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     transform.current.scale = transform.current.minScale;
                                     centerCanvas();
-                                }}>resetar tudo</button>
+                                }}>resetar tudo</CustomButton>
                             </div>
                         </>}>
-                            <div style={{
+                            <PixelIcon codename={'cog'} style={{
                                 right: 0,
                                 bottom: 0,
                                 position: "absolute",
                                 margin: "10px",
                                 cursor: "pointer",
                                 pointerEvents: "all",
-                                zIndex: 20
-                            }}>
-                                <div style={{ cursor: "pointer" }}>
-                                    <FaGear />
-                                </div>
-                            </div>
+                                zIndex: 20,
+                                cursor: "pointer" 
+                            }} />
                         </Tippy>
                     </>
                 }
