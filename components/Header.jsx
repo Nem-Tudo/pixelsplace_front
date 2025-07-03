@@ -201,6 +201,7 @@ export default function Header() {
                                 )}>
                                     <div style={{ '--hover-color': '#35a4ff', '--hover-color-text': '#ffffff' }}>
                                         <span>{language.getString("COMMON.PREFERENCES")}</span>
+                                        <PixelIcon codename={'chevron-right'} />
                                     </div>
                                 </Tippy>
                                 {
@@ -225,6 +226,7 @@ export default function Header() {
                                     )}>
                                         <div style={{ '--hover-color': '#35a4ff', '--hover-color-text': '#ffffff' }}>
                                             <span>{language.getString("COMPONENTS.HEADER.VIEW_SETTINGS")}</span>
+                                            <PixelIcon codename={'chevron-right'} />
                                         </div>
                                     </Tippy>
                                 }
