@@ -343,7 +343,7 @@ export default function Place() {
                   {showingPixelInfo.u && (
                     <div className={styles.pixelUserInfo}>
                       <span>
-                        {language.getString("COMMON.USER") + ": "}
+                        <img onError={e => e.target.src = "/assets/avatar.png"} className={styles.useravatar} src={settings.avatarURL(showingPixelInfo.author.id, showingPixelInfo.author.avatar)} alt="avatar" />
                         <Link href={`/user/${showingPixelInfo.u}`}>
                           {showingPixelInfo.author.username}
                         </Link>{" "}

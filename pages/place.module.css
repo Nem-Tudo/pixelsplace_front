@@ -195,6 +195,12 @@
 
     }
 
+    .useravatar{
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+    }
+
     .pixelUserInfo {
         display: flex;
         flex-direction: column;
@@ -205,6 +211,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            justify-content: center;
         }
 
         a {
