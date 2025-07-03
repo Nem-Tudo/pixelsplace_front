@@ -4,7 +4,7 @@ export default function CustomHead({
     title = "PixelsPlace",
     description = "Se junte ao PixelsPlace!",
     url = {url},
-    imageUrl = "logo"
+    imageUrl = "/logo.png"
 }) {
 
     return <Head>
