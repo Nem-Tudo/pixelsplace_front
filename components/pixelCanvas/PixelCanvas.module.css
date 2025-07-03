@@ -1,0 +1,31 @@
+/* components/Canvas/Canvas.module.css */
+
+.canvasContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.canvasWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    box-shadow: var(--shadow);
+}
+
+.mainCanvas {
+    display: block;
+    cursor: default;
+}
+
+.overlayCanvas {
+    display: block;
+    pointer-events: none;
+}
+
+/* Ensure proper touch handling */
+.canvasWrapper {
+    touch-action: none;
+}

@@ -7,10 +7,10 @@ import NotImplementedYet from "./NotImplementedYet";
 import Success from "./Success";
 import Generic from "./Generic";
 import Confirm from "./Confirm";
-import AdminBuildAdd from "./AdminBuildAdd";
-import AdminColorAdd from "./AdminColorAdd";
-import AdminFlagAdd from "./AdminFlagAdd";
-import AdminKick from "./AdminKick";
+import AdminBuildAdd from "./admin/BuildAdd";
+import AdminColorAdd from "./admin/ColorAdd";
+import AdminFlagAdd from "./admin/FlagAdd";
+import AdminKick from "./admin/Kick";
 
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 

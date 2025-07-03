@@ -1,3 +1,9 @@
+@property --gradient-angle {
+    syntax: "<angle>";
+    initual-value: 0deg;
+    inherits: false;
+}
+
 #main {
     width: 100dvw;
     height: calc(100dvh - 72px);
@@ -12,13 +18,6 @@
         height: 100vh;
         position: absolute;
         top: 0;
-    }
-
-    #canvas {
-        touch-action: none;
-        box-shadow: var(--shadow);
-        flex-grow: 1;
-        user-select: none;
     }
 }
 
@@ -156,7 +155,7 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    position: fixed;
+    position: relative;
     pointer-events: all;
     user-select: none;
     background: var(--frosted-glass);
@@ -222,4 +221,32 @@
         gap: 10px;
         flex-wrap: wrap;
     }
+}
+
+.pixelInfo.premium {
+    background: white !important;
+    backdrop-filter: none !important;
+}
+
+.pixelInfo.premium::before, .pixelInfo.premium::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    background: conic-gradient(
+        from var(--gradient-angle),
+        var(--user-color-primary, transparent),
+        var(--user-color-secondary, transparent),
+        var(--user-color-primary, transparent));
+    border-radius: 25px;
+    animation: gradientRotate 20s linear infinite;
+}
+
+.pixelInfo.premium::after {
+    filter: blur(3.5rem);
+}
+
+@keyframes gradientRotate {
+    0% { --gradient-angle: 0deg; }
+    100% { --gradient-angle: 360deg; }
 }

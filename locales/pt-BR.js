@@ -172,7 +172,7 @@ module.exports = {
             LINK_SUCCESSFULLY_COPIED: "Link copiado para a área de transferência!",
             PICK_COLOR: "Selecionar cor",
             PICK_A_COLOR: "Selecione uma cor",
-            PREMIUM_ONLY_COLOR: "Essa cor está disponível apenas para Premiums! :(",
+            PREMIUM_ONLY_COLOR: "Essa cor está disponível apenas para usuários do Premium. :(",
             PLACE_PIXEL: "Colocar pixel",
             LOG_IN_TO_PLACE_PIXEL: "Logue para colocar pixel",
             PLACE: "Colocar!",

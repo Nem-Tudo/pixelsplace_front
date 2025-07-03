@@ -5,7 +5,7 @@ import PremiumButton from "@/components/PremiumButton";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
-import localStyles from "@/components/popups/AdminBuildAdd.module.css";
+import localStyles from "@/components/popups/admin/BuildAdd.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { dateToTimestamp } from "@/src/dateFunctions";
