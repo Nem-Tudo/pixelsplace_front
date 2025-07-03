@@ -8,7 +8,7 @@ import { darkenHex } from "@/src/colorFunctions";
 
 export default function PremiumButton({ 
   setStyle, 
-  setClass, 
+  setClass = "", 
   onClick, 
   redirect, 
   as: Component = 'button', 
@@ -48,14 +48,14 @@ export default function PremiumButton({
   if (Component === Link) {
     if (loggedUser?.premium) return (
       <>
-        <Component className={[styles.button, styles.secondary, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+        <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
           {children}
         </Component>
       </>
     );
     return (
       <>
-        <Component href={href} className={`${styles.button} ${styles.primary} premiumOnly ${setClass || ""}`} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+        <Component href={href} className={[styles.button, styles.secondary, styles.regularPadding, "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
           <div className="glassEffect" />
           {children}
         </Component>
@@ -78,14 +78,14 @@ export default function PremiumButton({
   // Para 'button', 'a' ou outros componentes
   if (loggedUser?.premium) return (
     <>
-      <Component className={[styles.button, styles.secondary, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+      <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
         {children}
       </Component>
     </>
   );
   return (
     <>
-      <Component className={`${styles.button} ${styles.primary} premiumOnly ${setClass || ""}`} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+      <Component className={[styles.button, styles.secondary, styles.regularPadding, "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
         <div className="glassEffect" />
         {children}
       </Component>
