@@ -73,7 +73,7 @@ export default function Place() {
         } else {
             fetchCanvas(travelDuration, travelMultiplier, includeHistory, {
                 renderImageTimeout: 1,
-                changeTransform: true,
+                changeTransform: false,
             });
         }
     }, [travelDuration, travelMultiplier, includeHistory]);
