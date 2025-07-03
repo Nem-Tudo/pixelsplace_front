@@ -490,13 +490,8 @@ export default function Place() {
             {
               checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
                 <Tippy placement="top" trigger="click" arrow={false} theme="pixelsplace_dropdown" interactive={true} content={<>
-                  <CustomButton onClick={() => {
-                    const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 1)") || 1);
-                    if (isNaN(multipler)) return alert("deve ser um número")
-                    downloadCanvasImage(canvasRef.current.getCanvasRef(), `canvas-x${multipler}-${Date.now()}.png`, multipler)
-                  }}>Download Canvas</CustomButton>
                   <div>
-                    <span>width </span>
+                    <span>Width </span>
                     <input type="number" value={canvasConfig.width} onChange={e => {
                       const newConfig = JSON.parse(JSON.stringify(canvasConfig));
                       newConfig.width = e.target.value
@@ -505,7 +500,7 @@ export default function Place() {
                     }} />
                   </div>
                   <div>
-                    <span>height </span>
+                    <span>Height </span>
                     <input type="number" value={canvasConfig.height} onChange={e => {
                       const newConfig = JSON.parse(JSON.stringify(canvasConfig));
                       newConfig.height = e.target.value
@@ -515,18 +510,20 @@ export default function Place() {
                   </div>
                   <div>
                     <CustomButton onClick={() => fetchCanvas()}>Reset</CustomButton>
+                    <CustomButton onClick={() => {
+                      const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 1)") || 1);
+                      if (isNaN(multipler)) return alert("deve ser um número")
+                      downloadCanvasImage(canvasRef.current.getCanvasRef(), `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                    }}>Download</CustomButton>
                   </div>
                 </>}>
-                  <div style={{
+                  <PixelIcon codename={'cog'} style={{
                     right: 0,
                     bottom: 0,
                     position: "absolute",
-                    margin: "10px"
-                  }}>
-                    <div style={{ cursor: "pointer" }}>
-                      <PixelIcon codename={'cog'} />
-                    </div>
-                  </div>
+                    margin: "10px",
+                    cursor: "pointer"
+                  }} />
                 </Tippy>
               </>
             }
