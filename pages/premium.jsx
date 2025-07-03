@@ -13,11 +13,23 @@ export default function Premium(props) {
     return (
         <>
             <Head>
-                <title>PixelsPlace Premium</title>
-                <meta name="description" content="Seja Premium no PixelsPlace!" />
+                <title>{language.getString("PAGES.PREMIUM.META_TITLE")}</title>
+                <meta name="description" content={language.getString("PAGES.PREMIUM.META_DESCRIPTION")} />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
                 <meta name="theme-color" content="#80bbff" />
                 <link rel="icon" href="/favicon.ico" />
+
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://pixelsplace.nemtudo.me/premium" />
+                <meta property="og:title" content={language.getString("PAGES.PREMIUM.META_TITLE")} />
+                <meta property="og:description" content={language.getString("PAGES.PREMIUM.META_DESCRIPTION")} />
+                <meta property="og:image" content="/logo.png" />
+
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/premium" />
+                <meta property="twitter:title" content={language.getString("PAGES.PREMIUM.META_TITLE")} />
+                <meta property="twitter:description" content={language.getString("PAGES.PREMIUM.META_DESCRIPTION")}  />
+                <meta property="twitter:image" content="/logo.png" />
             </Head>
             <MainLayout>
                 <div

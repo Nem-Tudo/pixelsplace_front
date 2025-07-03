@@ -119,7 +119,7 @@ module.exports = {
         },
     },
     PAGES: {
-        HOME: {
+        INDEX: {
             META_DESCRIPTION: "Join PixelsPlace!",
             LOGO_ALT: "logo",
             SERVERS: "Servers",
