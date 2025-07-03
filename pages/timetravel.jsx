@@ -140,7 +140,7 @@ export default function Place() {
                                 type="range"
                                 min={0}
                                 max={100}
-                                value={travelMultiplier}
+                                defaultValue={travelMultiplier}
                                 onChange={(e) => {
                                     clearTimeout(multiplierTimeout);
                                     multiplierTimeout = setTimeout(() => {
@@ -203,7 +203,7 @@ export default function Place() {
                                 type="number"
                                 min={1}
                                 max={1440}
-                                value={travelDuration}
+                                defaultValue={travelDuration}
                                 onChange={(e) => {
                                     clearTimeout(durationTimeout);
                                     durationTimeout = setTimeout(() => {
