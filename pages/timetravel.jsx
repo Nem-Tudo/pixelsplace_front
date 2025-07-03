@@ -27,6 +27,29 @@ export default function Place() {
     const [travelDuration, setTravelDuration] = useState(10);
     const [includeHistory, setIncludeHistory] = useState(true);
 
+    // Função para calcular a data sendo exibida
+    const calculateDisplayedDate = () => {
+        if (!canvasConfig.cooldown_free) return null;
+        
+        const untilTime = new Date(Date.now() - (canvasConfig.cooldown_free || 5) * 1000);
+        const maxMultiplier = 100;
+        const invertedMultiplier = maxMultiplier - travelMultiplier;
+        const endTime = new Date(untilTime.getTime() - (invertedMultiplier + 1) * travelDuration * 60 * 1000);
+        
+        return endTime;
+    };
+
+    const formatDate = (date) => {
+        if (!date) return '';
+        
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        
+        return `${day}/${month} ${hours}:${minutes}`;
+    };
+
     async function fetchCanvas(duration, multiplier, history = false, initializeSettings) {
         try {
             multiplier = Number(multiplier);
@@ -118,6 +141,29 @@ export default function Place() {
                     border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
                     
+                    {/* Preview da Data */}
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        marginBottom: '5px'
+                    }}>
+                        <div style={{
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            borderRadius: '12px',
+                            padding: '6px 12px',
+                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                            fontFamily: 'monospace',
+                            letterSpacing: '0.5px'
+                        }}>
+                            📅 {formatDate(calculateDisplayedDate()) || 'Carregando...'}
+                        </div>
+                    </div>
+
                     {/* Slider Principal - Viagem no Tempo */}
                     <div style={{
                         display: 'flex',
