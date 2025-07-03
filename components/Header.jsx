@@ -230,7 +230,7 @@ export default function Header() {
                                 }
                                 {
                                     usingBuildOverride && <Link href={"/buildoverride?t=main"}>
-                                        <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
+                                        <span style={{ color: "red", '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
                                     </Link>
                                 }
 
