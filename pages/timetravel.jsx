@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
 import styles from "./timetravel.module.css";
@@ -10,6 +10,10 @@ import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/context/LanguageContext';
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
+
+
+let durationTimeout;
+let multiplierTimeout;
 
 export default function Place() {
 
@@ -31,8 +35,10 @@ export default function Place() {
 
 
 
-    async function fetchCanvas(duration, multiplier, history = false) {
+    async function fetchCanvas(duration, multiplier, history = false, initializeSettings) {
         try {
+            multiplier = Number(multiplier);
+            duration = Number(duration);
 
             // Paralelize os fetches
             const [settingsRes, pixelsRes] = await Promise.all([
@@ -49,7 +55,7 @@ export default function Place() {
 
             const buffer = await pixelsRes.arrayBuffer();
             const bytes = new Uint8Array(buffer);
-            canvasRef.current.initializeCanvas(bytes, canvasSettings, router.query);
+            canvasRef.current.initializeCanvas(bytes, canvasSettings, {}, initializeSettings);
         } catch (e) {
             setApiError(true)
             console.log("Error on fetch canvas", e)
@@ -59,9 +65,18 @@ export default function Place() {
 
 
 
+    const firstTime = useRef(true);
     useEffect(() => {
-        fetchCanvas(travelDuration, travelMultiplier, includeHistory)
-    }, [travelDuration, travelMultiplier, includeHistory])
+        if (firstTime.current) {
+            firstTime.current = false;
+            fetchCanvas(travelDuration, travelMultiplier, includeHistory);
+        } else {
+            fetchCanvas(travelDuration, travelMultiplier, includeHistory, {
+                renderImageTimeout: 1,
+                changeTransform: true,
+            });
+        }
+    }, [travelDuration, travelMultiplier, includeHistory]);
 
     const isAlready = () => !apiError && !loading && canvasConfig.width
 
@@ -117,9 +132,16 @@ export default function Place() {
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <div>
                                 <span>{language.getString("PAGES.TIME_TRAVEL.MARCH_LABEL")} </span>
-                                <input type="number" value={travelDuration} onChange={(e) => {
-                                    setTravelDuration(e.target.value);
-                                }} />
+                                <input
+                                    type="number"
+                                    defaultValue={travelDuration}
+                                    onChange={(e) => {
+                                        clearTimeout(durationTimeout);
+                                        durationTimeout = setTimeout(() => {
+                                            setTravelDuration(e.target.value);
+                                        }, 100);
+                                    }}
+                                />
                             </div>
                             <span style={{ display: "flex", justifyContent: "center" }}>
                                 <span>{language.getString("PAGES.TIME_TRAVEL.MULTIPLIER_LABEL")}</span>
@@ -129,13 +151,15 @@ export default function Place() {
                                     style={{ width: "80dvw" }}
                                     type="range"
                                     defaultValue={travelMultiplier}
-                                    onMouseUp={(e) => setTravelMultiplier(e.target.value)}
-                                    onTouchEnd={(e) => setTravelMultiplier(e.target.value)}
-                                // onChange={(e) => setTravelMultiplier(Number(e.target.value))}
+                                    onChange={(e) => {
+                                        clearTimeout(multiplierTimeout);
+                                        multiplierTimeout = setTimeout(() => {
+                                            setTravelMultiplier(Number(e.target.value));
+                                        }, 100);
+                                    }}
                                 />
                                 <span>({travelMultiplier}x)</span>
                             </span>
-
                         </div>
                     </div>
                 </section>

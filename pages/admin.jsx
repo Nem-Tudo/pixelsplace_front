@@ -16,14 +16,16 @@ import updateStateKey from "@/src/updateStateKey";
 import Verified from "@/components/Verified";
 import { usePopup } from '@/context/PopupContext';
 import ToggleSwitch from "@/components/ToggleSwitch";
+import { useLanguage } from "@/context/LanguageContext";
 
 
 export default function AdminPage() {
   const router = useRouter();
 
   const { token, loggedUser } = useAuth();
+  const { language } = useLanguage()
   const [canvas, setCanvas] = useState(null);
-  const [stats, setStats] = useState(null)
+  const [stats, setStats] = useState(null);
 
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
@@ -104,8 +106,7 @@ export default function AdminPage() {
         setChosenPage('canvas'); // página padrão
       }
 
-      if ((pageFromUrl == 'users') && (idUserSearch))
-      {
+      if ((pageFromUrl == 'users') && (idUserSearch)) {
         getUser(idUserSearch)
       }
     }
@@ -132,7 +133,7 @@ export default function AdminPage() {
       const response = await request.json();
       if (!request.ok) {
         console.log(response, request);
-        return openPopup("error", {message: `Erro ao buscar builds: ${response.message || 'Erro desconhecido'}`});
+        return openPopup("error", { message: `Erro ao buscar builds: ${response.message || 'Erro desconhecido'}` });
       }
       setBuildsOverride(response);
     } catch (error) {
@@ -174,7 +175,7 @@ export default function AdminPage() {
       if (!res.ok) throw new Error(data.message || "Erro na requisição.");
       return data;
     } catch (err) {
-      openPopup("error", {message: `${err.message}`});
+      openPopup("error", { message: `${err.message}` });
     } finally {
       setLoading(false);
     }
@@ -264,7 +265,7 @@ export default function AdminPage() {
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/admin" />
           <meta property="twitter:title" content={language.getString("PAGES.ADMIN.META_TITLE")} />
-          <meta property="twitter:description" content={language.getString("PAGES.ADMIN.META_DESCRIPTION")}  />
+          <meta property="twitter:description" content={language.getString("PAGES.ADMIN.META_DESCRIPTION")} />
           <meta property="twitter:image" content="/logo.png" />
         </Head>
 
@@ -453,14 +454,14 @@ export default function AdminPage() {
               />
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
-                  if (!evalCode.trim()) return openPopup("error", {message: "Insira o código."});
+                  if (!evalCode.trim()) return openPopup("error", { message: "Insira o código." });
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
                       const res = await fetchWithAuth("/admin/eval", "POST", {
                         content: evalCode,
                       });
-                      res && openPopup("success", {message: `Executado em ${res.count} clients.`});
+                      res && openPopup("success", { message: `Executado em ${res.count} clients.` });
                     }
                   })
                 }}
@@ -480,14 +481,14 @@ export default function AdminPage() {
               />
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
-                  if (!alertMessage.trim()) return openPopup("error", {message: "Insira a mensagem."});
+                  if (!alertMessage.trim()) return openPopup("error", { message: "Insira a mensagem." });
                   openPopup("confirm", {
                     message: "Deseja enviar essa mensagem para todos os clients?",
                     execute: async () => {
                       const res = await fetchWithAuth("/admin/alertmessage", "POST", {
                         content: alertMessage,
                       });
-                      res && openPopup('success', {message: `Mensagem enviada para ${res.count} clients.`});
+                      res && openPopup('success', { message: `Mensagem enviada para ${res.count} clients.` });
                     }
                   })
                 }}
@@ -510,7 +511,7 @@ export default function AdminPage() {
                         "POST",
                         {}
                       );
-                      res && openPopup('success', {message: `Desconectados: ${res.count}`});
+                      res && openPopup('success', { message: `Desconectados: ${res.count}` });
                     }
                   })
                 }}
@@ -548,8 +549,8 @@ export default function AdminPage() {
                   <ToggleSwitch
                     checked={setCanvaSettings?.whitelisted}
                     onChange={async () => {
-                      let newWhitelisted = setCanvaSettings?.whitelisted ;
-                      if (setCanvaSettings?.whitelisted ) {
+                      let newWhitelisted = setCanvaSettings?.whitelisted;
+                      if (setCanvaSettings?.whitelisted) {
                         newWhitelisted = 0
                       } else {
                         newWhitelisted = 1
@@ -557,7 +558,7 @@ export default function AdminPage() {
                       await fetchWithAuth("/canva/admin/settings", "PATCH", {
                         whitelisted: newWhitelisted
                       });
-                    }} 
+                    }}
                   />
                 </section>
               </main>
@@ -574,8 +575,8 @@ export default function AdminPage() {
                   hierarchy={2}
                   color={'#d6a700'}
                   onClick={async () => {
-                    let newOnlyFreeColors = setCanvaSettings?.onlyFreeColors ;
-                    if (setCanvaSettings?.onlyFreeColors ) {
+                    let newOnlyFreeColors = setCanvaSettings?.onlyFreeColors;
+                    if (setCanvaSettings?.onlyFreeColors) {
                       newOnlyFreeColors = 0
                     } else {
                       newOnlyFreeColors = 1
@@ -583,7 +584,7 @@ export default function AdminPage() {
                     await fetchWithAuth("/canva/admin/settings", "PATCH", {
                       onlyFreeColors: newOnlyFreeColors
                     });
-                  }} 
+                  }}
                 />
               </footer>
             </fieldset>
@@ -623,7 +624,7 @@ export default function AdminPage() {
                           onClick={() => {
                             const link = `${window.location.origin}/buildoverride?t=${build.token}`;
                             copyText(link);
-                            openPopup('success', {message: `Link copiado e assinado!`});
+                            openPopup('success', { message: `Link copiado e assinado!` });
                           }}
                         />
                         <CustomButton
@@ -646,7 +647,7 @@ export default function AdminPage() {
                               execute: async () => {
                                 const res = await fetchWithAuth(`/builds/${build.id}`, "DELETE");
                                 if (res) {
-                                  openPopup('success', {message: "Build excluída com sucesso."});
+                                  openPopup('success', { message: "Build excluída com sucesso." });
                                   getBuildsOverride();
                                 }
                               }
@@ -779,7 +780,7 @@ export default function AdminPage() {
                     onClick={async () => {
                       // console.log("Antes: "+user?.premium)
                       let newPremim = user?.premium;
-                      if(user?.premium){
+                      if (user?.premium) {
                         newPremim = 0;
                       } else {
                         newPremim = 1;
@@ -791,8 +792,8 @@ export default function AdminPage() {
                         premium: newPremim,
                       });
 
-                      
-                    }} 
+
+                    }}
                   />
                   <CustomButton
                     label={user.flags.includes("BANNED") ? "Desbanir" : "Banir"}
@@ -810,7 +811,7 @@ export default function AdminPage() {
                         flags: newFlags
                       });
                       getUser(user.id)
-                    }} 
+                    }}
                   />
                   <CustomButton
                     label={user.flags.includes("BANNED_DRAWN") ? "Poder Desenhar" : "Proibir Desenhar"}
@@ -828,13 +829,13 @@ export default function AdminPage() {
                         flags: newFlags
                       });
                       getUser(user.id)
-                    }} 
+                    }}
                   />
                   <CustomButton
                     label={"Kick"}
                     icon={"user-x"}
                     hierarchy={2}
-                    onClick={() => openPopup("admin_kick", { user })} 
+                    onClick={() => openPopup("admin_kick", { user })}
                   />
                   <CustomButton
                     label={user.flags.includes("SOCKET_WHITELISTED") ? "Remover Whitelist" : "Whitelist"}
@@ -852,7 +853,7 @@ export default function AdminPage() {
                         flags: newFlags
                       });
                       getUser(user.id)
-                    }} 
+                    }}
                   />
                 </footer>
               </fieldset>
