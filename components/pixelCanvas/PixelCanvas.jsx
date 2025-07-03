@@ -1,17 +1,24 @@
 import { useRef, useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./PixelCanvas.module.css";
+import checkFlags from "@/src/checkFlags";
+import { useAuth } from "@/context/AuthContext";
+import Tippy from "@tippyjs/react";
+import downloadCanvasImage from "@/src/downloadCanvasImage";
+import { FaGear } from "react-icons/fa6";
 
 const PixelCanvas = forwardRef(({
     onChangeSelectedPixel,
     onRightClickPixel,
     onTransformChange,
+    fetchCanvas,
     settings = {
         showSelectedPixelOutline: true,
         minScaleMultiplier: 0.5,
         maxScaleMultiplier: 150,
         enableMovement: true,
         enableZoom: true,
-        enableSelection: true
+        enableSelection: true,
+        disableCanvasTools: false
     },
     className = "",
     style = {},
@@ -30,11 +37,16 @@ const PixelCanvas = forwardRef(({
         maxScale: 80,
     });
 
+    const { loggedUser } = useAuth()
+
     // States
     const [selectedPixel, setSelectedPixelState] = useState(null);
     const [canvasConfig, setCanvasConfig] = useState({ width: 0, height: 0 });
     const [isInitialized, setIsInitialized] = useState(false);
     const [, forceUpdate] = useState(0);
+
+    const [tools_canvasConfigCustom, tools_setCanvasConfigCustom] = useState(null);
+    const [tools_initialBytes, tools_setInitialBytes] = useState(null);
 
     // Aplicar transformações
     const applyTransform = () => {
@@ -138,6 +150,7 @@ const PixelCanvas = forwardRef(({
 
     // Inicializar canvas
     const initializeCanvas = (bytes, config, defaultView = {}, initializeSettings = { renderImageTimeout: 50, changeTransform: true }) => {
+        if (tools_canvasConfigCustom) config = tools_canvasConfigCustom;
         // Verificar se os elementos estão prontos
         if (!canvasRef.current || !overlayCanvasRef.current || !wrapperRef.current) {
             requestAnimationFrame(() => {
@@ -183,22 +196,8 @@ const PixelCanvas = forwardRef(({
         overlayCtx.scale(10, 10);
 
         // Renderizar pixels se bytes fornecidos
-        if (bytes) {
-            const imageData = ctx.createImageData(config.width, config.height);
-            const data = imageData.data;
+        replaceCanvasBytes(bytes, ctx, config, initializeSettings.renderImageTimeout)
 
-            let i = 0;
-            for (let j = 0; j < data.length; j += 4) {
-                data[j] = bytes[i++]; // R
-                data[j + 1] = bytes[i++]; // G
-                data[j + 2] = bytes[i++]; // B
-                data[j + 3] = 255; // Alpha
-            }
-            setTimeout(() => {
-                ctx.putImageData(imageData, 0, 0);
-            }, initializeSettings.renderImageTimeout);
-        }
-        // Parâmetros da URL
         if (initializeSettings.changeTransform) {
             // Configurar escala
             const viewWidth = window.innerWidth;
@@ -259,6 +258,43 @@ const PixelCanvas = forwardRef(({
 
         return true;
     };
+
+    const replaceCanvasBytes = (bytes, ctx, config, timeout) => {
+        const imageData = ctx.createImageData(config.width, config.height);
+        const data = imageData.data;
+
+        let i = 0;
+        for (let j = 0; j < data.length; j += 4) {
+            data[j] = bytes[i++]; // R
+            data[j + 1] = bytes[i++]; // G
+            data[j + 2] = bytes[i++]; // B
+            data[j + 3] = 255; // Alpha
+        }
+        setTimeout(() => {
+            ctx.putImageData(imageData, 0, 0);
+        }, timeout);
+
+    }
+
+    function getCanvasBytes(ctx, config) {
+        // Obtém os dados da imagem do canvas
+        const imageData = ctx.getImageData(0, 0, config.width, config.height);
+        const data = imageData.data;
+
+        // Calcula o tamanho do array de bytes (apenas RGB, sem alpha)
+        const bytesLength = (data.length / 4) * 3;
+        const bytes = new Uint8Array(bytesLength);
+
+        let i = 0;
+        for (let j = 0; j < data.length; j += 4) {
+            bytes[i++] = data[j];     // R
+            bytes[i++] = data[j + 1]; // G  
+            bytes[i++] = data[j + 2]; // B
+            // Ignora o canal alpha (data[j + 3])
+        }
+
+        return bytes;
+    }
 
     // Atualizar outline do pixel selecionado
     useEffect(() => {
@@ -578,170 +614,246 @@ const PixelCanvas = forwardRef(({
     };
 
     return (
-        <div
-            className={`${styles.canvasContainer} ${className}`}
-            style={style}
-            {...props}
-        >
+        <>
+            <div>
+                {
+                    !settings.disableCanvasTools && checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
+                        <Tippy placement="top" trigger="click" interactive={true} content={<>
+                            <button onClick={() => {
+                                const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)") || 10);
+                                if (isNaN(multipler)) return alert("deve ser um número")
+                                downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                            }}>Download Canvas</button>
+                            <div>
+                                <span>Buffer width </span>
+                                <input type="number" value={tools_canvasConfigCustom?.width || canvasConfig.width} onChange={e => {
+                                    if (tools_canvasConfigCustom === null) tools_setInitialBytes(getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig))
+
+                                    const bytes = tools_initialBytes || getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig);
+
+                                    const newConfig = JSON.parse(JSON.stringify(tools_canvasConfigCustom || canvasConfig));
+                                    newConfig.width = e.target.value
+                                    tools_setCanvasConfigCustom(newConfig)
+                                    replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), newConfig, 1);
+                                }} />
+                            </div>
+                            <div>
+                                <span>Buffer height </span>
+                                <input type="number" value={tools_canvasConfigCustom?.height || canvasConfig.height} onChange={e => {
+                                    if (tools_canvasConfigCustom === null) tools_setInitialBytes(getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig))
+
+                                    const bytes = tools_initialBytes || getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig);
+
+                                    const newConfig = JSON.parse(JSON.stringify(tools_canvasConfigCustom || canvasConfig));
+                                    newConfig.height = e.target.value
+                                    tools_setCanvasConfigCustom(newConfig)
+                                    replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), newConfig, 1);
+                                }} />
+                            </div>
+                            <div>
+                                <button onClick={() => {
+                                    const bytes = tools_initialBytes || getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig);
+                                    replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), canvasConfig, 1);
+                                    tools_setCanvasConfigCustom(null);
+                                    tools_setInitialBytes(null)
+                                }}>Reset</button>
+                            </div>
+                            <div>
+                                <button onClick={() => {
+                                    centerCanvas()
+                                }}>centralizar</button>
+                                <button onClick={() => {
+                                    transform.current.scale = transform.current.minScale;
+                                    applyTransform()
+                                }}>resetar scala</button>
+                                <button onClick={() => {
+                                    transform.current.scale = transform.current.minScale;
+                                    centerCanvas();
+                                }}>resetar tudo</button>
+                            </div>
+                        </>}>
+                            <div style={{
+                                right: 0,
+                                bottom: 0,
+                                position: "absolute",
+                                margin: "10px",
+                                cursor: "pointer",
+                                pointerEvents: "all",
+                                zIndex: 20
+                            }}>
+                                <div style={{ cursor: "pointer" }}>
+                                    <FaGear />
+                                </div>
+                            </div>
+                        </Tippy>
+                    </>
+                }
+            </div>
             <div
-                ref={wrapperRef}
-                className={styles.canvasWrapper}
-                style={{
-                    transformOrigin: "0 0",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                }}
+                className={`${styles.canvasContainer} ${className}`}
+                style={style}
+                {...props}
             >
-                {/* Overlay Canvas */}
-                <canvas
-                    ref={overlayCanvasRef}
-                    className={`${styles.overlayCanvas} pixelate`}
+                <div
+                    ref={wrapperRef}
+                    className={styles.canvasWrapper}
                     style={{
+                        transformOrigin: "0 0",
                         position: "absolute",
                         top: 0,
                         left: 0,
-                        pointerEvents: "none",
-                        transformOrigin: "0 0",
-                        zIndex: 10,
-                        display: settings.showSelectedPixelOutline &&
-                            Math.max(canvasConfig.width, canvasConfig.height) <= 1500
-                            ? "block" : "none",
                     }}
-                />
+                >
+                    {/* Overlay Canvas */}
+                    <canvas
+                        ref={overlayCanvasRef}
+                        className={`${styles.overlayCanvas} pixelate`}
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            pointerEvents: "none",
+                            transformOrigin: "0 0",
+                            zIndex: 10,
+                            display: settings.showSelectedPixelOutline &&
+                                Math.max(canvasConfig.width, canvasConfig.height) <= 1500
+                                ? "block" : "none",
+                        }}
+                    />
 
-                {/* Main Canvas */}
-                <canvas
-                    ref={canvasRef}
-                    className={`${styles.mainCanvas} pixelate`}
-                    onClick={(e) => {
-                        if (!settings.enableSelection) return;
+                    {/* Main Canvas */}
+                    <canvas
+                        ref={canvasRef}
+                        className={`${styles.mainCanvas} pixelate`}
+                        onClick={(e) => {
+                            if (!settings.enableSelection) return;
 
-                        const coords = getClickCoordinates(e, canvasRef.current);
-                        if (coords) {
-                            setSelectedPixel(coords);
-                        }
-                    }}
-                    onContextMenu={(e) => {
-                        e.preventDefault();
-                        if (!onRightClickPixel) return;
-
-                        const coords = getClickCoordinates(e, canvasRef.current);
-                        if (coords) {
-                            onRightClickPixel(coords.x, coords.y);
-                        }
-                    }}
-                    onTouchStart={(e) => {
-                        const touch = e.touches[0];
-                        const startTime = Date.now();
-                        const startX = touch.clientX;
-                        const startY = touch.clientY;
-
-                        if (e.touches.length > 1) {
-                            if (e.currentTarget.touchData?.longPressTimer) {
-                                clearTimeout(e.currentTarget.touchData.longPressTimer);
-                                e.currentTarget.touchData.longPressTimer = null;
+                            const coords = getClickCoordinates(e, canvasRef.current);
+                            if (coords) {
+                                setSelectedPixel(coords);
                             }
-                            return;
-                        }
+                        }}
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            if (!onRightClickPixel) return;
 
-                        // Timer para long press
-                        const longPressTimer = setTimeout(() => {
-                            if (onRightClickPixel) {
-                                const coords = getClickCoordinates({
-                                    clientX: startX,
-                                    clientY: startY
-                                }, canvasRef.current);
-                                if (coords) {
-                                    onRightClickPixel(coords.x, coords.y);
-                                }
-
-                                if (navigator.vibrate) navigator.vibrate(50);
-
-                                if (e.currentTarget.touchData) {
-                                    e.currentTarget.touchData.longPressTriggered = true;
-                                }
+                            const coords = getClickCoordinates(e, canvasRef.current);
+                            if (coords) {
+                                onRightClickPixel(coords.x, coords.y);
                             }
-                        }, 500);
-
-                        e.currentTarget.touchData = {
-                            startTime,
-                            startX,
-                            startY,
-                            moved: false,
-                            longPressTimer,
-                            longPressTriggered: false,
-                            moveDistance: 0
-                        };
-                    }}
-                    onTouchMove={(e) => {
-                        if (e.currentTarget.touchData) {
+                        }}
+                        onTouchStart={(e) => {
                             const touch = e.touches[0];
-                            const { startX, startY } = e.currentTarget.touchData;
+                            const startTime = Date.now();
+                            const startX = touch.clientX;
+                            const startY = touch.clientY;
 
-                            const deltaX = touch.clientX - startX;
-                            const deltaY = touch.clientY - startY;
-                            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-                            const MOVEMENT_TOLERANCE = 10;
-                            e.currentTarget.touchData.moveDistance = distance;
-
-                            if (distance > MOVEMENT_TOLERANCE) {
-                                if (e.currentTarget.touchData.longPressTimer) {
+                            if (e.touches.length > 1) {
+                                if (e.currentTarget.touchData?.longPressTimer) {
                                     clearTimeout(e.currentTarget.touchData.longPressTimer);
                                     e.currentTarget.touchData.longPressTimer = null;
                                 }
-                                e.currentTarget.touchData.moved = true;
+                                return;
                             }
-                        }
-                    }}
-                    onTouchEnd={(e) => {
-                        if (!e.currentTarget.touchData) return;
 
-                        const {
-                            startTime,
-                            startX,
-                            startY,
-                            moved,
-                            longPressTimer,
-                            longPressTriggered,
-                            moveDistance
-                        } = e.currentTarget.touchData;
+                            // Timer para long press
+                            const longPressTimer = setTimeout(() => {
+                                if (onRightClickPixel) {
+                                    const coords = getClickCoordinates({
+                                        clientX: startX,
+                                        clientY: startY
+                                    }, canvasRef.current);
+                                    if (coords) {
+                                        onRightClickPixel(coords.x, coords.y);
+                                    }
 
-                        if (longPressTimer) {
-                            clearTimeout(longPressTimer);
-                        }
+                                    if (navigator.vibrate) navigator.vibrate(50);
 
-                        const MOVEMENT_TOLERANCE = 10;
+                                    if (e.currentTarget.touchData) {
+                                        e.currentTarget.touchData.longPressTriggered = true;
+                                    }
+                                }
+                            }, 500);
 
-                        // Tap simples
-                        if (!moved && !longPressTriggered &&
-                            moveDistance <= MOVEMENT_TOLERANCE &&
-                            settings.enableSelection) {
-                            const endTime = Date.now();
-                            const duration = endTime - startTime;
+                            e.currentTarget.touchData = {
+                                startTime,
+                                startX,
+                                startY,
+                                moved: false,
+                                longPressTimer,
+                                longPressTriggered: false,
+                                moveDistance: 0
+                            };
+                        }}
+                        onTouchMove={(e) => {
+                            if (e.currentTarget.touchData) {
+                                const touch = e.touches[0];
+                                const { startX, startY } = e.currentTarget.touchData;
 
-                            if (duration < 500) {
-                                const coords = getClickCoordinates({
-                                    clientX: startX,
-                                    clientY: startY
-                                }, canvasRef.current);
-                                if (coords) {
-                                    setSelectedPixel(coords);
+                                const deltaX = touch.clientX - startX;
+                                const deltaY = touch.clientY - startY;
+                                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                                const MOVEMENT_TOLERANCE = 10;
+                                e.currentTarget.touchData.moveDistance = distance;
+
+                                if (distance > MOVEMENT_TOLERANCE) {
+                                    if (e.currentTarget.touchData.longPressTimer) {
+                                        clearTimeout(e.currentTarget.touchData.longPressTimer);
+                                        e.currentTarget.touchData.longPressTimer = null;
+                                    }
+                                    e.currentTarget.touchData.moved = true;
                                 }
                             }
-                        }
+                        }}
+                        onTouchEnd={(e) => {
+                            if (!e.currentTarget.touchData) return;
 
-                        delete e.currentTarget.touchData;
-                    }}
-                    width={canvasConfig.width}
-                    height={canvasConfig.height}
-                    style={{
-                        aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
-                    }}
-                />
+                            const {
+                                startTime,
+                                startX,
+                                startY,
+                                moved,
+                                longPressTimer,
+                                longPressTriggered,
+                                moveDistance
+                            } = e.currentTarget.touchData;
+
+                            if (longPressTimer) {
+                                clearTimeout(longPressTimer);
+                            }
+
+                            const MOVEMENT_TOLERANCE = 10;
+
+                            // Tap simples
+                            if (!moved && !longPressTriggered &&
+                                moveDistance <= MOVEMENT_TOLERANCE &&
+                                settings.enableSelection) {
+                                const endTime = Date.now();
+                                const duration = endTime - startTime;
+
+                                if (duration < 500) {
+                                    const coords = getClickCoordinates({
+                                        clientX: startX,
+                                        clientY: startY
+                                    }, canvasRef.current);
+                                    if (coords) {
+                                        setSelectedPixel(coords);
+                                    }
+                                }
+                            }
+
+                            delete e.currentTarget.touchData;
+                        }}
+                        width={canvasConfig.width}
+                        height={canvasConfig.height}
+                        style={{
+                            aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
+                        }}
+                    />
+                </div>
             </div>
-        </div>
+        </>
     );
 });
 

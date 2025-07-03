@@ -161,6 +161,7 @@ export default function Place() {
                 >
                     <PixelCanvas
                         ref={canvasRef}
+                        fetchCanvas={fetchCanvas}
                     />
                 </div>
 
