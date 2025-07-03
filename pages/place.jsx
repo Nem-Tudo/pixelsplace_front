@@ -489,7 +489,7 @@ export default function Place() {
             )}
             {
               checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
-                <Tippy placement="top" trigger="click" arrow={false} theme="pixelsplace_dropdown" interactive={true} content={<>
+                <Tippy animation="scale-extreme" placement="top" trigger="click" arrow={false} theme="pixelsplace_dropdown" interactive={true} content={<>
                   <div>
                     <span>Width </span>
                     <input type="number" value={canvasConfig.width} onChange={e => {
@@ -509,8 +509,8 @@ export default function Place() {
                     }} />
                   </div>
                   <div>
-                    <CustomButton onClick={() => fetchCanvas()}>Reset</CustomButton>
-                    <CustomButton onClick={() => {
+                    <CustomButton hierarchy={3} onClick={() => fetchCanvas()}>Reset</CustomButton>
+                    <CustomButton hierarchy={3} onClick={() => {
                       const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 1)") || 1);
                       if (isNaN(multipler)) return alert("deve ser um número")
                       downloadCanvasImage(canvasRef.current.getCanvasRef(), `canvas-x${multipler}-${Date.now()}.png`, multipler)

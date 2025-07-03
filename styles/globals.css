@@ -75,7 +75,7 @@
   transition: var(--smooth-transition);
 }
 
-select {
+select, input[type=text], input[type=number], textarea {
   border: var(--outline);
   box-shadow: var(--shadow);
   transition: var(--smooth-transition);
@@ -83,7 +83,7 @@ select {
   border-radius: 4px;
 }
 
-select:hover {
+select:hover, input[type=text]:hover, input[type=number]:hover, textarea:hover {
   scale: var(--hover-scale);
 }
 
