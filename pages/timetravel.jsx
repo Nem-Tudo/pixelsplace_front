@@ -149,7 +149,6 @@ export default function Place() {
                         display: isAlready() ? "unset" : "none"
                     }}
                 >
-                    {/* canvas div */}
                     <PixelCanvas
                         ref={canvasRef}
                     />
