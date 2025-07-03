@@ -349,10 +349,16 @@ export default function Place() {
                         </Link>{" "}
                         <Verified verified={showingPixelInfo.author.premium} />
                       </span>
-                      <span>
-                        {language.getString("COMMON.SERVER") + ": "}
-                        {showingPixelInfo.author.mainServer || language.getString("COMMON.NOT_SELECTED")}
-                      </span>
+                      {
+                        showingPixelInfo.author.settings.selected_guild ? <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
+                          {language.getString("COMMON.SERVER") + ": "}
+                          {showingPixelInfo.author.settings.selected_guild}
+                        </Link > : <span>
+                          {language.getString("COMMON.SERVER") + ": "}
+                          {language.getString("COMMON.NOT_SELECTED")}
+                        </span>
+                      }
+
                     </div>
                   )}
                   <div className={styles.pixelButtons}>
