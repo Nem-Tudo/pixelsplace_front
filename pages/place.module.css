@@ -200,22 +200,22 @@
 
     }
 
-    .useravatar{
-        width: 35px;
-        height: 35px;
-        border-radius: 5px;
-    }
-
     .pixelUserInfo {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 16px;
         font-size: 0.95rem;
+
+        .userAvatar{
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
 
         span {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
             justify-content: center;
         }
 
