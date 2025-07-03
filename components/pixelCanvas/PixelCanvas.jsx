@@ -137,7 +137,7 @@ const PixelCanvas = forwardRef(({
     };
 
     // Inicializar canvas
-    const initializeCanvas = (bytes, config, defaultView) => {
+    const initializeCanvas = (bytes, config, defaultView = {}, initializeSettings = { renderImageTimeout: 50, changeTransform: true }) => {
         // Verificar se os elementos estão prontos
         if (!canvasRef.current || !overlayCanvasRef.current || !wrapperRef.current) {
             requestAnimationFrame(() => {
@@ -165,17 +165,19 @@ const PixelCanvas = forwardRef(({
         const canvas = canvasRef.current;
         const overlayCanvas = overlayCanvasRef.current;
 
-        // Configurar canvas principal
-        canvas.width = config.width;
-        canvas.height = config.height;
-        canvas.style.width = config.width + 'px';
-        canvas.style.height = config.height + 'px';
+        if (initializeSettings.changeTransform) {
+            // Configurar canvas principal
+            canvas.width = config.width;
+            canvas.height = config.height;
+            canvas.style.width = config.width + 'px';
+            canvas.style.height = config.height + 'px';
 
-        // Configurar overlay
-        overlayCanvas.width = config.width * 10;
-        overlayCanvas.height = config.height * 10;
-        overlayCanvas.style.width = config.width + 'px';
-        overlayCanvas.style.height = config.height + 'px';
+            // Configurar overlay
+            overlayCanvas.width = config.width * 10;
+            overlayCanvas.height = config.height * 10;
+            overlayCanvas.style.width = config.width + 'px';
+            overlayCanvas.style.height = config.height + 'px';
+        }
 
         const overlayCtx = overlayCanvas.getContext('2d');
         overlayCtx.scale(10, 10);
@@ -194,65 +196,65 @@ const PixelCanvas = forwardRef(({
             }
             setTimeout(() => {
                 ctx.putImageData(imageData, 0, 0);
-            }, 50);
+            }, initializeSettings.renderImageTimeout);
         }
-
-        // Configurar escala
-        const viewWidth = window.innerWidth;
-        const viewHeight = window.innerHeight - 72;
-        const scaleX = viewWidth / config.width;
-        const scaleY = viewHeight / config.height;
-        const minScale = Math.min(scaleX, scaleY) * settings.minScaleMultiplier;
-        const maxScale = settings.maxScaleMultiplier;
-
-        transform.current.minScale = minScale;
-        transform.current.maxScale = maxScale;
-
         // Parâmetros da URL
-        const { s, px, py, x, y } = defaultView;
+        if (initializeSettings.changeTransform) {
+            // Configurar escala
+            const viewWidth = window.innerWidth;
+            const viewHeight = window.innerHeight - 72;
+            const scaleX = viewWidth / config.width;
+            const scaleY = viewHeight / config.height;
+            const minScale = Math.min(scaleX, scaleY) * settings.minScaleMultiplier;
+            const maxScale = settings.maxScaleMultiplier;
 
-        let initialScale = s && !isNaN(parseFloat(s)) ? parseFloat(s) : minScale;
-        initialScale = Math.max(minScale, Math.min(maxScale, initialScale));
-        transform.current.scale = initialScale;
+            transform.current.minScale = minScale;
+            transform.current.maxScale = maxScale;
 
-        if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
-            transform.current.translateX = parseFloat(px);
-            transform.current.translateY = parseFloat(py);
-        } else {
-            const offsetX = (viewWidth - config.width * initialScale) / 2;
-            const offsetY = (viewHeight - config.height * initialScale) / 2;
-            transform.current.translateX = offsetX;
-            transform.current.translateY = offsetY;
+            const { s, px, py, x, y } = defaultView;
+
+            let initialScale = s && !isNaN(parseFloat(s)) ? parseFloat(s) : minScale;
+            initialScale = Math.max(minScale, Math.min(maxScale, initialScale));
+            transform.current.scale = initialScale;
+
+            if (px && py && !isNaN(parseFloat(px)) && !isNaN(parseFloat(py))) {
+                transform.current.translateX = parseFloat(px);
+                transform.current.translateY = parseFloat(py);
+            } else {
+                const offsetX = (viewWidth - config.width * initialScale) / 2;
+                const offsetY = (viewHeight - config.height * initialScale) / 2;
+                transform.current.translateX = offsetX;
+                transform.current.translateY = offsetY;
+            }
+
+            if (
+                x &&
+                y &&
+                !isNaN(parseInt(x)) &&
+                !isNaN(parseInt(y)) &&
+                parseInt(x) >= 0 &&
+                parseInt(x) < config.width &&
+                parseInt(y) >= 0 &&
+                parseInt(y) < config.height
+            ) {
+                setSelectedPixel({ x: parseInt(x), y: parseInt(y) });
+            }
+
+            if (wrapperRef.current) {
+                wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px)`;
+
+                // Redimensionar o canvas diretamente
+                const scaledWidth = config.width * transform.current.scale;
+                const scaledHeight = config.height * transform.current.scale;
+
+                canvas.style.width = scaledWidth + 'px';
+                canvas.style.height = scaledHeight + 'px';
+                overlayCanvas.style.width = scaledWidth + 'px';
+                overlayCanvas.style.height = scaledHeight + 'px';
+            } else {
+                console.error("wrapperRef not available");
+            }
         }
-
-        if (
-            x &&
-            y &&
-            !isNaN(parseInt(x)) &&
-            !isNaN(parseInt(y)) &&
-            parseInt(x) >= 0 &&
-            parseInt(x) < config.width &&
-            parseInt(y) >= 0 &&
-            parseInt(y) < config.height
-        ) {
-            setSelectedPixel({ x: parseInt(x), y: parseInt(y) });
-        }
-
-        if (wrapperRef.current) {
-            wrapperRef.current.style.transform = `translate(${transform.current.translateX}px, ${transform.current.translateY}px)`;
-
-            // Redimensionar o canvas diretamente
-            const scaledWidth = config.width * transform.current.scale;
-            const scaledHeight = config.height * transform.current.scale;
-
-            canvas.style.width = scaledWidth + 'px';
-            canvas.style.height = scaledHeight + 'px';
-            overlayCanvas.style.width = scaledWidth + 'px';
-            overlayCanvas.style.height = scaledHeight + 'px';
-        } else {
-            console.error("wrapperRef not available");
-        }
-
         setIsInitialized(true);
 
         return true;
