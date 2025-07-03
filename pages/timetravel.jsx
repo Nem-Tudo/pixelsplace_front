@@ -9,6 +9,8 @@ import Cookies from 'js-cookie'
 import { useLanguage } from '@/context/LanguageContext';
 import CustomHead from "@/components/CustomHead";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 let durationTimeout;
 let multiplierTimeout;
@@ -23,7 +25,7 @@ export default function Place() {
     const [apiError, setApiError] = useState(false);
     const [loading, setLoading] = useState(true);
     const [canvasConfig, setCanvasConfig] = useState({});
-    const [travelMultiplier, setTravelMultiplier] = useState(0);
+    const [travelMultiplier, setTravelMultiplier] = useState(100);
     const [travelDuration, setTravelDuration] = useState(10);
     const [includeHistory, setIncludeHistory] = useState(true);
 
@@ -162,6 +164,80 @@ export default function Place() {
                         }}>
                             📅 {formatDate(calculateDisplayedDate()) || 'Carregando...'}
                         </div>
+                        
+                        {/* Ícone de Ajuda */}
+                        <Tippy
+                            content={
+                                <div style={{
+                                    maxWidth: '300px',
+                                    padding: '12px',
+                                    fontSize: '13px',
+                                    lineHeight: '1.5',
+                                    color: 'white'
+                                }}>
+                                    <div style={{ fontWeight: '600', marginBottom: '8px', fontSize: '14px' }}>
+                                        🕐 Como usar a Viagem no Tempo
+                                    </div>
+                                    <div style={{ marginBottom: '8px' }}>
+                                        <strong>Slider de Tempo:</strong><br/>
+                                        • <strong>100%</strong> = Momento atual<br/>
+                                        • <strong>0%</strong> = Mais longe no passado
+                                    </div>
+                                    <div style={{ marginBottom: '8px' }}>
+                                        <strong>Duração:</strong><br/>
+                                        • Define a janela de tempo em minutos<br/>
+                                        • Ex: 10 min = últimos 10 minutos
+                                    </div>
+                                    <div style={{ marginBottom: '8px' }}>
+                                        <strong>Histórico:</strong><br/>
+                                        • <strong>Ativado:</strong> Mostra tudo até aquele momento<br/>
+                                        • <strong>Desativado:</strong> Apenas mudanças na janela
+                                    </div>
+                                    <div style={{ 
+                                        background: 'rgba(255, 255, 255, 0.1)', 
+                                        padding: '8px', 
+                                        borderRadius: '6px',
+                                        fontSize: '12px'
+                                    }}>
+                                        💡 <strong>Dica:</strong> Use 50% e 30 min para ver como estava há algumas horas!
+                                    </div>
+                                </div>
+                            }
+                            placement="top"
+                            theme="dark"
+                            interactive={true}
+                            arrow={true}
+                            trigger="click"
+                            hideOnClick={true}
+                        >
+                            <button style={{
+                                width: '18px',
+                                height: '18px',
+                                borderRadius: '50%',
+                                background: 'rgba(255, 255, 255, 0.2)',
+                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                                color: 'white',
+                                fontSize: '11px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease',
+                                outline: 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = 'rgba(255, 255, 255, 0.3)';
+                                e.target.style.transform = 'scale(1.1)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                                e.target.style.transform = 'scale(1)';
+                            }}
+                            >
+                                ?
+                            </button>
+                        </Tippy>
                     </div>
 
                     {/* Slider Principal - Viagem no Tempo */}
@@ -186,7 +262,7 @@ export default function Place() {
                                 type="range"
                                 min={0}
                                 max={100}
-                                defaultValue={travelMultiplier}
+                                defaultValue={100}
                                 onChange={(e) => {
                                     clearTimeout(multiplierTimeout);
                                     multiplierTimeout = setTimeout(() => {
