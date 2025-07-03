@@ -15,6 +15,7 @@ import Verified from "@/components/Verified";
 import { usePopup } from '@/context/PopupContext';
 import ToggleSwitch from "@/components/ToggleSwitch";
 import CustomHead from "@/components/CustomHead";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function AdminPage() {
   const router = useRouter();
