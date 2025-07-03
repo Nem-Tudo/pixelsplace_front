@@ -282,11 +282,23 @@ export default function Place() {
   return (
     <>
       <Head>
-        <title>PixelsPlace</title>
+        <title>{language.getString("PAGES.PLACE.META_TITLE")}</title>
         <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, minimum-scale=0.1, user-scalable=no, viewport-fit=cover" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="theme-color" content="#80bbff" />
         <link rel="icon" href="/favicon.ico" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://pixelsplace.nemtudo.me/place" />
+        <meta property="og:title" content={language.getString("PAGES.PLACE.META_TITLE")} />
+        <meta property="og:description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
+        <meta property="og:image" content="/logo.png" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/place" />
+        <meta property="twitter:title" content={language.getString("PAGES.PLACE.META_TITLE")} />
+        <meta property="twitter:description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")}  />
+        <meta property="twitter:image" content="/logo.png" />
       </Head>
       <MainLayout>
         <section className={styles.overlayGui}>

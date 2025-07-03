@@ -121,7 +121,8 @@ module.exports = {
         },
     },
     PAGES: {
-        HOME: {
+        INDEX: {
+            META_TITLE: "PixelsPlace",
             META_DESCRIPTION: "Participe do PixelsPlace!",
             LOGO_ALT: "logo",
             SERVERS: "Servidores",
@@ -151,13 +152,15 @@ module.exports = {
             VIEW_PIXELS: "Ver os pixels de {{displayName}}",
         },
         PARTNERS: {
+            META_TITLE: "PixelsPlace - Parceiros",
+            META_DESCRIPTION: "Conheça os servidores participantes do PixelsPlace.",
             SERVERS: "SERVIDORES",
             PARTICIPATING_SERVERS: "Servidores participando",
             SECRET: "Segredo...",
         },
         TIME_TRAVEL: {
-            PAGE_TITLE: "Timetravel PixelsPlace",
-            PAGE_DESCRIPTION: "Participe do PixelsPlace!",
+            PAGE_TITLE: "PixelsPlace - Timetravel",
+            PAGE_DESCRIPTION: "Acesse o histórico e a evolução do PixelsPlace, pixel por pixel!",
             API_ERROR: "Ocorreu um erro ao se conectar com a api principal",
             RELOAD_BUTTON: "Recarregar",
             FULL_HISTORY: "Todo o histórico",
@@ -166,6 +169,7 @@ module.exports = {
             MULTIPLIER_LABEL: "Multiplicador:",
         },
         PLACE: {
+            META_TITLE: "PixelsPlace",
             META_DESCRIPTION: "Participe do PixelsPlace!",
             COPY_LINK: "Copiar link para o pixel",
             LINK_GENERATED: "Link gerado:",
@@ -185,6 +189,8 @@ module.exports = {
             ERROR_OBTAINING_PIXEL: "Erro ao obter pixel",
         },
         CREDITS: {
+            META_TITLE: 'PixelsPlace - Créditos',
+            META_DESCRIPTION: 'Conheça a equipe responsável pelo PixelsPlace.',
             TITLE: 'Time PixelsPlace',
             CHIEF_COW: 'Chief Vaca',
             CHIEF_DRAGGABLE: 'Chief Arrastáveis',
@@ -196,6 +202,14 @@ module.exports = {
             ICON_ALT: 'Ícone do servidor',
             PIXELS_PLACED: 'Pixels colocados',
             MEMBER_COUNT: 'Membros',
+        },
+        ADMIN: {
+            META_TITLE: "PixelsPlace - Ferramentas administrativas",
+            META_DESCRIPTION: "Shhh... Essa página é secreta.",
+        },
+        PREMIUM: {
+            META_TITLE: "PixelsPlace Premium",
+            META_DESCRIPTION: "Descubra as incríveis vantagens de se tornar um jogador Premium do PixelsPlace e apoie um projeto independente!",
         },
     },
 }
