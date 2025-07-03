@@ -15,7 +15,7 @@ import { MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
-import { hexToNumber, numberToHex, lightenColor } from "@/src/colorFunctions";
+import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
 import { usePopup } from "@/context/PopupContext";
@@ -23,6 +23,8 @@ import { formatDate } from "@/src/dateFunctions";
 import playSound from "@/src/playSound";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas.jsx";
 import CustomHead from "@/components/CustomHead";
+import checkFlags from "@/src/checkFlags";
+import { FaGear } from "react-icons/fa6";
 
 export default function Place() {
   //contexts
@@ -211,16 +213,16 @@ export default function Place() {
   }
 
   //Atualizar o canvas html com base no canvas atual da API
-  async function fetchCanvas() {
+  async function fetchCanvas(forceConfig = null) {
     try {
 
       // Paralelize os fetches
-      const [settingsRes, pixelsRes] = await Promise.all([
+      const [settingsRes, pixelsRes] = forceConfig ? [forceConfig, await fetch(`${settings.apiURL}/canvas/pixels`)] : await Promise.all([
         fetch(`${settings.apiURL}/canvas`),
         fetch(`${settings.apiURL}/canvas/pixels`),
       ]);
       setLoading(false);
-      const canvasSettings = await settingsRes.json();
+      const canvasSettings = forceConfig ? forceConfig : await settingsRes.json();
       setCanvasConfig(canvasSettings);
 
       const buffer = await pixelsRes.arrayBuffer();
@@ -281,7 +283,7 @@ export default function Place() {
 
   return (
     <>
-      <CustomHead 
+      <CustomHead
         title={language.getString("PAGES.PLACE.META_TITLE")}
         description={language.getString("PAGES.PLACE.META_DESCRIPTION")}
         url={"https://pixelsplace.nemtudo.me/place"}
@@ -484,6 +486,44 @@ export default function Place() {
                 )}
               </div>
             )}
+            {
+              checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
+                <Tippy placement="top" trigger="click" interactive={true} content={<>
+                  <div>
+                    <span>width </span>
+                    <input type="number" value={canvasConfig.width} onChange={e => {
+                      const newConfig = JSON.parse(JSON.stringify(canvasConfig));
+                      newConfig.width = e.target.value
+                      setCanvasConfig(newConfig)
+                      fetchCanvas(newConfig)
+                    }} />
+                  </div>
+                  <div>
+                    <span>height </span>
+                    <input type="number" value={canvasConfig.height} onChange={e => {
+                      const newConfig = JSON.parse(JSON.stringify(canvasConfig));
+                      newConfig.height = e.target.value
+                      setCanvasConfig(newConfig)
+                      fetchCanvas(newConfig)
+                    }} />
+                  </div>
+                  <div>
+                    <button onClick={() => fetchCanvas()}>Reset</button>
+                  </div>
+                </>}>
+                  <div style={{
+                    right: 0,
+                    bottom: 0,
+                    position: "absolute",
+                    margin: "10px"
+                  }}>
+                    <div style={{ cursor: "pointer" }}>
+                      <FaGear />
+                    </div>
+                  </div>
+                </Tippy>
+              </>
+            }
           </div>
         </section>
 
@@ -538,7 +578,7 @@ export default function Place() {
             ref={canvasRef}
             onChangeSelectedPixel={({ x, y }) => {
               setSelectedPixel({ x, y })
-              if(selectedPixel?.x == x && selectedPixel?.y == y) {showPixelInfo(x, y)}
+              if (selectedPixel?.x == x && selectedPixel?.y == y) { showPixelInfo(x, y) }
             }}
             onRightClickPixel={showPixelInfo}
             onTransformChange={setCanvasTransform}

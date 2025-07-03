@@ -45,8 +45,8 @@ export function formatDate(isoString) {
   if (isToday) {
     return `${hours}:${minutes}`;
   } else if (isCurrentYear) {
-    return `${day}/${month} ${hours}:${minutes}`;
+    return `${hours}:${minutes} ${day}/${month}`;
   } else {
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
+    return `${hours}:${minutes} ${day}/${month}/${year}`;
   }
 }
