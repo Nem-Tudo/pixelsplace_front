@@ -5,6 +5,8 @@ import { useAuth } from "@/context/AuthContext";
 import Tippy from "@tippyjs/react";
 import downloadCanvasImage from "@/src/downloadCanvasImage";
 import { FaGear } from "react-icons/fa6";
+import CustomButton from "@/components/CustomButton";
+import PixelIcon from "@/components/PixelIcon";
 
 const PixelCanvas = forwardRef(({
     onChangeSelectedPixel,
