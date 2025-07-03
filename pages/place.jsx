@@ -25,6 +25,7 @@ import PixelCanvas from "@/components/pixelCanvas/PixelCanvas.jsx";
 import CustomHead from "@/components/CustomHead";
 import checkFlags from "@/src/checkFlags";
 import { FaGear } from "react-icons/fa6";
+import downloadCanvasImage from "@/src/downloadCanvasImage";
 
 export default function Place() {
   //contexts
@@ -489,6 +490,11 @@ export default function Place() {
             {
               checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
                 <Tippy placement="top" trigger="click" interactive={true} content={<>
+                  <button onClick={() => {
+                    const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 1)") || 1);
+                    if (isNaN(multipler)) return alert("deve ser um número")
+                    downloadCanvasImage(canvasRef.current.getCanvasRef(), `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                  }}>Download Canvas</button>
                   <div>
                     <span>width </span>
                     <input type="number" value={canvasConfig.width} onChange={e => {
