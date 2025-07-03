@@ -11,6 +11,7 @@ import CustomButton from '@/components/CustomButton';
 import checkFlags from "@/src/checkFlags";
 import BuildSwitcher from "@/components/BuildSwitcher";
 import PixelIcon from "@/components/PixelIcon";
+import CustomHead from "@/components/CustomHead";
 
 export default function Home() {
 
@@ -19,25 +20,11 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>{language.getString("PAGES.INDEX.META_TITLE")}</title>
-        <meta name="description" content={language.getString("PAGES.INDEX.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <meta name="theme-color" content="#80bbff" />
-        <link rel="icon" href="/favicon.ico" />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://pixelsplace.nemtudo.me/" />
-        <meta property="og:title" content={language.getString("PAGES.INDEX.META_TITLE")} />
-        <meta property="og:description" content={language.getString("PAGES.INDEX.META_DESCRIPTION")} />
-        <meta property="og:image" content="/logo.png" />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/" />
-        <meta property="twitter:title" content={language.getString("PAGES.INDEX.META_TITLE")} />
-        <meta property="twitter:description" content={language.getString("PAGES.INDEX.META_DESCRIPTION")}  />
-        <meta property="twitter:image" content="/logo.png" />
-      </Head>
+      <CustomHead 
+        title={language.getString("PAGES.INDEX.META_TITLE")}
+        description={language.getString("PAGES.INDEX.META_DESCRIPTION")}
+        url={"https://pixelsplace.nemtudo.me/"}
+      />
       <MainLayout>
         <main className={styles.main}>
           <div className={styles.logo}>

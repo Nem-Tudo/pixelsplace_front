@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
@@ -9,6 +8,7 @@ import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/context/LanguageContext';
+import CustomHead from "@/components/CustomHead";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
 
 export default function Place() {
@@ -75,6 +75,13 @@ export default function Place() {
 
     return (
         <>
+<<<<<<< HEAD
+            <CustomHead 
+                title={language.getString("PAGES.TIME_TRAVEL.META_TITLE")}
+                description={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")}
+                url={"https://pixelsplace.nemtudo.me/timetravel"}
+            />
+=======
             <Head>
                 <title>{language.getString("COMMON.TIME_TRAVEL")}</title>
                 <meta name="description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
@@ -94,6 +101,7 @@ export default function Place() {
                 <meta property="twitter:description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
                 <meta property="twitter:image" content="/logo.png" />
             </Head>
+>>>>>>> 38988a75a88a7cf654dde3364dd83aea1d5f79b3
             <MainLayout>
                 {
                     !canvasConfig.width && !apiError && <BillboardContent centerscreen={true} type="normal-white"> <Loading width={"50px"} /></BillboardContent>

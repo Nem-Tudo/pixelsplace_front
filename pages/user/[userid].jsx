@@ -19,6 +19,7 @@ import GuildCard from "@/components/GuildCard";
 import { usePopup } from '@/context/PopupContext';
 import Badges from "@/components/Badges";
 import Tippy from "@tippyjs/react";
+import CustomHead from "@/components/CustomHead";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -186,15 +187,12 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
   return (
   <>
-    <Head>
-      <title>Perfil de {user?.display_name} no PixelsPlace</title>
-      <meta name="description" content={user?.profile?.aboutme ? user.profile.aboutme : "Verifique as estatísticas e mais informações da jornada desse usuário no PixelsPlace."} />
-      <meta name="author" content={`${user.display_name}`} />
-      <meta name="og:image" content={settings.avatarURL(user.id, user.avatar)} />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-      <meta name="theme-color" content="#80bbff" />
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+    <CustomHead 
+      title={language.getString("PAGES.USER_PROFILE.META_TITLE", { userDisplayName: user?.display_name })}
+      description={user?.profile?.aboutme ? user.profile.aboutme : language.getString("PAGES.USER_PROFILE.META_DESCRIPTION")}
+      url={`https://pixelsplace.nemtudo.me/user/${user?.id}`}
+      imageUrl={settings.avatarURL(user.id, user.avatar)}
+    />
     <MainLayout>
       <main
         className={styles.main}

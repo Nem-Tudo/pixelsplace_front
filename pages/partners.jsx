@@ -1,15 +1,13 @@
-import Link from "next/link";
 import styles from "./partners.module.css";
 import React, { useEffect, useState } from 'react';
-import { BsArrowLeft } from "react-icons/bs";
 import { MainLayout } from "@/layout/MainLayout";
 import checkFlags from "@/src/checkFlags";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
-import Verified from "@/components/Verified";
 import GuildCard from "@/components/GuildCard";
 import CustomButton from "@/components/CustomButton";
+import CustomHead from "@/components/CustomHead";
 
 export async function getServerSideProps() {
     try {
@@ -46,25 +44,11 @@ export default function Partners({ guilds, error, errormessage }) {
     )
 
     return (<>
-        <Head>
-            <title>{language.getString("PAGES.PARTNERS.META_TITLE")}</title>
-            <meta name="description" content={language.getString("PAGES.PARTNERS.META_DESCRIPTION")} />
-            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-            <meta name="theme-color" content="#80bbff" />
-            <link rel="icon" href="/favicon.ico" />
-
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://pixelsplace.nemtudo.me/partners" />
-            <meta property="og:title" content={language.getString("PAGES.PARTNERS.META_TITLE")} />
-            <meta property="og:description" content={language.getString("PAGES.PARTNERS.META_DESCRIPTION")} />
-            <meta property="og:image" content="/logo.png" />
-
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/partners" />
-            <meta property="twitter:title" content={language.getString("PAGES.PARTNERS.META_TITLE")} />
-            <meta property="twitter:description" content={language.getString("PAGES.PARTNERS.META_DESCRIPTION")}  />
-            <meta property="twitter:image" content="/logo.png" />
-            </Head>
+        <CustomHead 
+            title={language.getString("PAGES.PARTNERS.META_TITLE")}
+            description={language.getString("PAGES.PARTNERS.META_DESCRIPTION")}
+            url={"https://pixelsplace.nemtudo.me/partners"}
+        />
         <MainLayout>
 
             <main className={styles.main}>

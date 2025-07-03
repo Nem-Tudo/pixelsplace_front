@@ -16,6 +16,7 @@ import PixelIcon from "@/components/PixelIcon";
 import GuildCard from "@/components/GuildCard";
 import { usePopup } from '@/context/PopupContext';
 import Badges from "@/components/Badges";
+import CustomHead from "@/components/CustomHead";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -72,14 +73,12 @@ export default function Guild({ guild: guildobject, error, errormessage }) {
 
   return (
     <>
-      <Head>
-        <title>Página de {guild?.name} no PixelsPlace</title>
-        <meta name="description" content={`Veja as estatísticas e se junte aos mais de ${guild?.stats?.usersCount} membros desse servidor participante do PixelsPlace.`} />
-        <meta name="author" content={`${guild?.name}`} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <meta name="theme-color" content="#80bbff" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead 
+        title={language.getString("PAGES.GUILD.META_TITLE", { guildName: guild.name })}
+        description={language.getString("PAGES.GUILD.META_DESCRIPTION", { guildName: guild.name, guildUsersCount: guild?.stats?.usersCount })}
+        url={`https://pixelsplace.nemtudo.me/guild/${guild?.id}`}
+        imageUrl={settings.guildIconURL(guild?.id, guild?.icon)}
+      />
       <MainLayout>
         <main className={styles.main}>
 
