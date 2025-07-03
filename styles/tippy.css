@@ -70,7 +70,7 @@
         border-radius: 12px;
         backdrop-filter: var(--frosted-glass-blur);
     }
-    
+
     .tippy-content > * {
         display: flex;
         flex-direction: column;
@@ -98,6 +98,8 @@
 
         > :not(div[data-tippy-root]):hover {
             background-color: var(--hover-color, rgb(228, 228, 228));
+            color: var(--hover-color-text, var(--color-text));
+            
             span {
                 color: var(--hover-color-text, var(--color-text));
             }
