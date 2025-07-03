@@ -90,6 +90,8 @@
           color: var(--user-color-text);
           width: max-content;
           max-width: 20dvw;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           @media (max-width: 768px) {
             max-width: 90dvw;
