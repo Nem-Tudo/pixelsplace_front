@@ -75,33 +75,11 @@ export default function Place() {
 
     return (
         <>
-<<<<<<< HEAD
             <CustomHead 
                 title={language.getString("PAGES.TIME_TRAVEL.META_TITLE")}
                 description={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")}
                 url={"https://pixelsplace.nemtudo.me/timetravel"}
             />
-=======
-            <Head>
-                <title>{language.getString("COMMON.TIME_TRAVEL")}</title>
-                <meta name="description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
-                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-                <meta name="theme-color" content="#80bbff" />
-                <link rel="icon" href="/favicon.ico" />
-
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://pixelsplace.nemtudo.me/timetravel" />
-                <meta property="og:title" content={language.getString("COMMON.TIME_TRAVEL")} />
-                <meta property="og:description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
-                <meta property="og:image" content="/logo.png" />
-
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/timetravel" />
-                <meta property="twitter:title" content={language.getString("COMMON.TIME_TRAVEL")} />
-                <meta property="twitter:description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
-                <meta property="twitter:image" content="/logo.png" />
-            </Head>
->>>>>>> 38988a75a88a7cf654dde3364dd83aea1d5f79b3
             <MainLayout>
                 {
                     !canvasConfig.width && !apiError && <BillboardContent centerscreen={true} type="normal-white"> <Loading width={"50px"} /></BillboardContent>
