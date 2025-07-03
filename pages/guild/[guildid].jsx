@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import settings from "@/settings";
 import { MainLayout } from "@/layout/MainLayout";
-import styles from "./Guild.module.css";
+import styles from "@/pages/profile.module.css";
 import Verified from "@/components/Verified";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';

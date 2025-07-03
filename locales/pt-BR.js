@@ -161,8 +161,8 @@ module.exports = {
             SECRET: "Segredo...",
         },
         TIME_TRAVEL: {
-            PAGE_TITLE: "PixelsPlace - Timetravel",
-            PAGE_DESCRIPTION: "Acesse o histórico e a evolução do PixelsPlace, pixel por pixel!",
+            META_TITLE: "PixelsPlace - Timetravel",
+            META_DESCRIPTION: "Acesse o histórico e a evolução do PixelsPlace, pixel por pixel!",
             API_ERROR: "Ocorreu um erro ao se conectar com a api principal",
             RELOAD_BUTTON: "Recarregar",
             FULL_HISTORY: "Todo o histórico",

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import settings from "@/settings";
 import { MainLayout } from "@/layout/MainLayout";
-import styles from "./UserProfile.module.css";
+import styles from "@/pages/profile.module.css";
 import Verified from "@/components/Verified";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
@@ -250,7 +250,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                 {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ?
                   <Tippy arrow={false} content={'Opções de administrador'} placement="top">
                     <Link href={'/admin?page=users&Search='+user?.id}>
-                      <PixelIcon codename={'sliders'}/>
+                      <PixelIcon codename={'cog'}/>
                     </Link> 
                   </Tippy>
                 : ''}
