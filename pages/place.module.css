@@ -80,7 +80,7 @@
             justify-items: center;
             max-width: fit-content;
             width: 99dvw;
-            margin-bottom: 5px;
+            margin-bottom: 16px;
 
             .placePixel {
                 width: fit-content;
@@ -93,7 +93,6 @@
                 align-items: center;
                 gap: 8px;
                 padding-top: 4px;
-                width: 100vw;
                 justify-content: center;
 
                 #premiumPicker {
