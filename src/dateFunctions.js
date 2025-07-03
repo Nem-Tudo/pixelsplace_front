@@ -26,9 +26,27 @@ export function dateToTimestamp(dataStr) {
 
 export function formatDate(isoString) {
   const date = new Date(isoString);
+  const now = new Date();
+
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // mês começa em 0
-  return `${hours}:${minutes} ${day}/${month}`;
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  // Verifica se é hoje (mesmo dia, mês e ano)
+  const isToday = date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+
+  // Verifica se é do ano atual
+  const isCurrentYear = date.getFullYear() === now.getFullYear();
+
+  if (isToday) {
+    return `${hours}:${minutes}`;
+  } else if (isCurrentYear) {
+    return `${day}/${month} ${hours}:${minutes}`;
+  } else {
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  }
 }
