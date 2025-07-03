@@ -321,16 +321,48 @@ export default function Place() {
                             }}>
                                 ⏱️ Duração
                             </span>
+                            
+                            {/* Botão - */}
+                            <button
+                                onClick={() => {
+                                    const newValue = Math.max(1, travelDuration - 1);
+                                    setTravelDuration(newValue);
+                                }}
+                                style={{
+                                    width: '24px',
+                                    height: '24px',
+                                    borderRadius: '50%',
+                                    background: 'rgba(255, 255, 255, 0.15)',
+                                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                                    color: 'white',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'all 0.2s ease',
+                                    outline: 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.25)';
+                                    e.target.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.15)';
+                                    e.target.style.transform = 'scale(1)';
+                                }}
+                            >
+                                −
+                            </button>
+
                             <input
                                 type="number"
                                 min={1}
                                 max={1440}
-                                defaultValue={travelDuration}
+                                value={travelDuration}
                                 onChange={(e) => {
-                                    clearTimeout(durationTimeout);
-                                    durationTimeout = setTimeout(() => {
-                                        setTravelDuration(Number(e.target.value));
-                                    }, 100);
+                                    setTravelDuration(Number(e.target.value));
                                 }}
                                 style={{
                                     width: '60px',
@@ -344,6 +376,41 @@ export default function Place() {
                                     outline: 'none'
                                 }}
                             />
+                            
+                            {/* Botão + */}
+                            <button
+                                onClick={() => {
+                                    const newValue = Math.min(1440, travelDuration + 1);
+                                    setTravelDuration(newValue);
+                                }}
+                                style={{
+                                    width: '24px',
+                                    height: '24px',
+                                    borderRadius: '50%',
+                                    background: 'rgba(255, 255, 255, 0.15)',
+                                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                                    color: 'white',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'all 0.2s ease',
+                                    outline: 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.25)';
+                                    e.target.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.15)';
+                                    e.target.style.transform = 'scale(1)';
+                                }}
+                            >
+                                +
+                            </button>
+                            
                             <span style={{
                                 color: 'rgba(255, 255, 255, 0.7)',
                                 fontSize: '12px'
