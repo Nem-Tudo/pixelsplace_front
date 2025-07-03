@@ -1,8 +1,7 @@
-import Head from "next/head";
 import styles from "./credits.module.css";
 import Link from "next/link";
 import { MainLayout } from "@/layout/MainLayout";
-
+import CustomHead from "@/components/CustomHead";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Credits() {
@@ -11,25 +10,11 @@ export default function Credits() {
 
   return (
     <>
-      <Head>
-        <title>{language.getString("PAGES.CREDITS.META_TITLE")}</title>
-        <meta name="description" content={language.getString("PAGES.CREDITS.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <meta name="theme-color" content="#80bbff" />
-        <link rel="icon" href="/favicon.ico" />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://pixelsplace.nemtudo.me/credits" />
-        <meta property="og:title" content={language.getString("PAGES.CREDITS.META_TITLE")} />
-        <meta property="og:description" content={language.getString("PAGES.CREDITS.META_DESCRIPTION")} />
-        <meta property="og:image" content="/logo.png" />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/credits" />
-        <meta property="twitter:title" content={language.getString("PAGES.CREDITS.META_TITLE")} />
-        <meta property="twitter:description" content={language.getString("PAGES.CREDITS.META_DESCRIPTION")}  />
-        <meta property="twitter:image" content="/logo.png" />
-      </Head>
+      <CustomHead 
+        title={language.getString("PAGES.CREDITS.META_TITLE")}
+        description={language.getString("PAGES.CREDITS.META_DESCRIPTION")}
+        url={"https://pixelsplace.nemtudo.me/credits"}
+      />
       <MainLayout>
         <main className={styles.main}>
           <div className={styles.logo}>

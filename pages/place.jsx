@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
@@ -23,6 +22,7 @@ import { usePopup } from "@/context/PopupContext";
 import { formatDate } from "@/src/dateFunctions";
 import playSound from "@/src/playSound";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas.jsx";
+import CustomHead from "@/components/CustomHead";
 
 export default function Place() {
   //contexts
@@ -281,25 +281,11 @@ export default function Place() {
 
   return (
     <>
-      <Head>
-        <title>{language.getString("PAGES.PLACE.META_TITLE")}</title>
-        <meta name="description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <meta name="theme-color" content="#80bbff" />
-        <link rel="icon" href="/favicon.ico" />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://pixelsplace.nemtudo.me/place" />
-        <meta property="og:title" content={language.getString("PAGES.PLACE.META_TITLE")} />
-        <meta property="og:description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")} />
-        <meta property="og:image" content="/logo.png" />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/place" />
-        <meta property="twitter:title" content={language.getString("PAGES.PLACE.META_TITLE")} />
-        <meta property="twitter:description" content={language.getString("PAGES.PLACE.META_DESCRIPTION")}  />
-        <meta property="twitter:image" content="/logo.png" />
-      </Head>
+      <CustomHead 
+        title={language.getString("PAGES.PLACE.META_TITLE")}
+        description={language.getString("PAGES.PLACE.META_DESCRIPTION")}
+        url={"https://pixelsplace.nemtudo.me/place"}
+      />
       <MainLayout>
         <section className={styles.overlayGui}>
           <div className={styles.top}>

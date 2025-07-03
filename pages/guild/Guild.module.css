@@ -75,6 +75,14 @@
           font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
           display: flex;
           align-items: center;
+          width: max-content;
+          max-width: 20dvw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          @media (max-width: 768px) {
+            max-width: 90dvw;
+          }
         }
       }
 

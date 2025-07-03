@@ -144,6 +144,8 @@ module.exports = {
             REMOVE_INSTRUCTION: "Caso você queira remover depois, basta clicar nas configurações do seu perfil",
         },
         USER_PROFILE: {
+            META_TITLE: 'Perfil de {{userDisplayName}} no PixelsPlace',
+            META_DESCRIPTION: 'Verifique as estatísticas e mais informações da jornada desse usuário no PixelsPlace.',
             PROFILE_BACKGROUND_ALT: "Papel de parede do usuário",
             USER_AVATAR_ALT: "Avatar do usuário",
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
@@ -198,6 +200,8 @@ module.exports = {
             CHIEF_EVIL_LINUX: 'Chief Backend e Forças do Mal (Linux)',
         },
         GUILD: {
+            META_TITLE: 'Página de {{guildName}} no PixelsPlace',
+            META_DESCRIPTION: 'Veja as estatísticas e se junte aos mais de {{guildUsersCount}} membros do {{guildName}} no PixelsPlace.',
             BACKGROUND_ALT: 'Plano de fundo do servidor',
             ICON_ALT: 'Ícone do servidor',
             PIXELS_PLACED: 'Pixels colocados',

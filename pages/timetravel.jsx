@@ -1,5 +1,4 @@
-import Head from "next/head";
-import { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
 import styles from "./timetravel.module.css";
@@ -9,6 +8,7 @@ import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/context/LanguageContext';
+import CustomHead from "@/components/CustomHead";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
 
 
@@ -90,25 +90,11 @@ export default function Place() {
 
     return (
         <>
-            <Head>
-                <title>{language.getString("COMMON.TIME_TRAVEL")}</title>
-                <meta name="description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
-                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-                <meta name="theme-color" content="#80bbff" />
-                <link rel="icon" href="/favicon.ico" />
-
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://pixelsplace.nemtudo.me/timetravel" />
-                <meta property="og:title" content={language.getString("COMMON.TIME_TRAVEL")} />
-                <meta property="og:description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
-                <meta property="og:image" content="/logo.png" />
-
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/timetravel" />
-                <meta property="twitter:title" content={language.getString("COMMON.TIME_TRAVEL")} />
-                <meta property="twitter:description" content={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")} />
-                <meta property="twitter:image" content="/logo.png" />
-            </Head>
+            <CustomHead 
+                title={language.getString("PAGES.TIME_TRAVEL.META_TITLE")}
+                description={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")}
+                url={"https://pixelsplace.nemtudo.me/timetravel"}
+            />
             <MainLayout>
                 {
                     !canvasConfig.width && !apiError && <BillboardContent centerscreen={true} type="normal-white"> <Loading width={"50px"} /></BillboardContent>

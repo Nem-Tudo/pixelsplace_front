@@ -2,22 +2,19 @@ import styles from "./admin.module.css";
 import settings from "@/settings.js";
 import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState, useRef, use } from "react";
+import { useEffect, useState, useRef } from "react";
 import Cookies from 'js-cookie'
-import Head from "next/head";
 import checkFlags from "@/src/checkFlags";
 import CustomButton from '@/components/CustomButton';
 import { useRouter } from "next/router";
 import PixelIcon from "@/components/PixelIcon";
-import { hexToNumber } from "@/src/colorFunctions";
-import { dateToString, dateToTimestamp } from "@/src/dateFunctions";
+import { dateToString } from "@/src/dateFunctions";
 import copyText from "@/src/copyText";
 import updateStateKey from "@/src/updateStateKey";
 import Verified from "@/components/Verified";
 import { usePopup } from '@/context/PopupContext';
 import ToggleSwitch from "@/components/ToggleSwitch";
-import { useLanguage } from "@/context/LanguageContext";
-
+import CustomHead from "@/components/CustomHead";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -249,26 +246,11 @@ export default function AdminPage() {
   if (chosenPage === "canvas") {
     return (
       <>
-        <Head>
-          <title>{language.getString("PAGES.ADMIN.META_TITLE")}</title>
-          <meta name="description" content={language.getString("PAGES.ADMIN.META_DESCRIPTION")} />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-          <meta name="theme-color" content="#80bbff" />
-          <link rel="icon" href="/favicon.ico" />
-
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://pixelsplace.nemtudo.me/admin" />
-          <meta property="og:title" content={language.getString("PAGES.ADMIN.META_TITLE")} />
-          <meta property="og:description" content={language.getString("PAGES.ADMIN.META_DESCRIPTION")} />
-          <meta property="og:image" content="/logo.png" />
-
-          <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:url" content="https://pixelsplace.nemtudo.me/admin" />
-          <meta property="twitter:title" content={language.getString("PAGES.ADMIN.META_TITLE")} />
-          <meta property="twitter:description" content={language.getString("PAGES.ADMIN.META_DESCRIPTION")} />
-          <meta property="twitter:image" content="/logo.png" />
-        </Head>
-
+        <CustomHead 
+          title={language.getString("PAGES.ADMIN.META_TITLE")}
+          description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
+          url={"https://pixelsplace.nemtudo.me/admin?page=canvas"}
+        />
         <MainLayout>
           <main className={styles.main}>
             <h1>Administração do Canvas</h1>
@@ -527,12 +509,11 @@ export default function AdminPage() {
   else if (chosenPage === "general") {
     return (
       <>
-        <Head>
-          <title>PixelsPlace</title>
-          <meta name="description" content="Participe do PixelsPlace!" />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+        <CustomHead 
+          title={language.getString("PAGES.ADMIN.META_TITLE")}
+          description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
+          url={"https://pixelsplace.nemtudo.me/admin?page=general"}
+        />
         <MainLayout>
           <main className={styles.main}>
             <h1>Administração Geral</h1>
@@ -670,12 +651,11 @@ export default function AdminPage() {
   else if (chosenPage === "users") {
     return (
       <>
-        <Head>
-          <title>PixelsPlace</title>
-          <meta name="description" content="Participe do PixelsPlace!" />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+        <CustomHead 
+          title={language.getString("PAGES.ADMIN.META_TITLE")}
+          description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
+          url={"https://pixelsplace.nemtudo.me/admin?page=users"}
+        />
         <MainLayout>
           <main className={styles.main}>
             <h1>Administração de Usuários</h1>
