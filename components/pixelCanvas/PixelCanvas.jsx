@@ -194,7 +194,7 @@ const PixelCanvas = forwardRef(({
             }
             setTimeout(() => {
                 ctx.putImageData(imageData, 0, 0);
-            }, 1);
+            }, 50);
         }
 
         // Configurar escala
