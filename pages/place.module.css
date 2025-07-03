@@ -111,7 +111,7 @@
             border: var(--outline);
             overflow-x: hidden;
 
-            @media (max-height: 768px) {
+            @media (max-width: 768px) {
                 border-radius: 0;
                 width: 100dvw;
                 margin-bottom: 0;
