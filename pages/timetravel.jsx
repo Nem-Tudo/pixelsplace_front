@@ -147,6 +147,7 @@ export default function Place() {
                                         setTravelMultiplier(Number(e.target.value));
                                     }, 100);
                                 }}
+                                className="time-travel-slider"
                                 style={{
                                     width: '100%',
                                     height: '8px',
@@ -161,31 +162,7 @@ export default function Place() {
                                     outline: 'none'
                                 }}
                             />
-                            <style jsx>{`
-                                input[type="range"]::-webkit-slider-thumb {
-                                    appearance: none;
-                                    width: 20px;
-                                    height: 20px;
-                                    border-radius: 50%;
-                                    background: white;
-                                    cursor: pointer;
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                                    transition: all 0.2s ease;
-                                }
-                                input[type="range"]::-webkit-slider-thumb:hover {
-                                    transform: scale(1.1);
-                                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-                                }
-                                input[type="range"]::-moz-range-thumb {
-                                    width: 20px;
-                                    height: 20px;
-                                    border-radius: 50%;
-                                    background: white;
-                                    cursor: pointer;
-                                    border: none;
-                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                                }
-                            `}</style>
+
                         </div>
                         <div style={{
                             color: 'white',
@@ -352,10 +329,36 @@ export default function Place() {
                     />
                 </div>
 
-                <style jsx>{`
+                <style jsx global>{`
                     @keyframes pulse {
                         0%, 100% { opacity: 1; }
                         50% { opacity: 0.5; }
+                    }
+                    
+                    .time-travel-slider::-webkit-slider-thumb {
+                        appearance: none;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: white;
+                        cursor: pointer;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                        transition: all 0.2s ease;
+                    }
+                    
+                    .time-travel-slider::-webkit-slider-thumb:hover {
+                        transform: scale(1.1);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                    }
+                    
+                    .time-travel-slider::-moz-range-thumb {
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: white;
+                        cursor: pointer;
+                        border: none;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
                     }
                 `}</style>
             </MainLayout>
