@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
-
+import Head from "next/head";
 import updateStateKey from "@/src/updateStateKey";
 import CustomButton from "@/components/CustomButton";
 import { getBrightness } from "@/src/colorFunctions";
@@ -72,6 +72,14 @@ export default function Guild({ guild: guildobject, error, errormessage }) {
 
   return (
     <>
+      <Head>
+        <title>Página de {guild?.name} no PixelsPlace</title>
+        <meta name="description" content={`Veja as estatísticas e se junte aos mais de ${guild?.stats?.usersCount} membros desse servidor participante do PixelsPlace.`} />
+        <meta name="author" content={`${guild?.name}`} />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+        <meta name="theme-color" content="#80bbff" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <MainLayout>
         <main className={styles.main}>
 
@@ -99,7 +107,7 @@ export default function Guild({ guild: guildobject, error, errormessage }) {
             <div className={styles.moreInfo}>
 
               <div className={styles.infoBox} id={styles.pixelsInfo}>
-                {language.getString("PAGES.GUILD.PIXELS_PLACED")}: {guild.stats.pixelsPlacedCount}
+                {language.getString("PAGES.GUILD.PIXELS_PLACED")}: {guild.stats.pixelsPlacedCount} <br />
                 {language.getString("PAGES.GUILD.MEMBER_COUNT")}: {guild.stats.usersCount}
               </div>
 

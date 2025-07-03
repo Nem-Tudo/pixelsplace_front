@@ -10,7 +10,7 @@ import { MdOutlineModeEditOutline } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import Link from "next/link";
 import checkFlags from "@/src/checkFlags";
-
+import Head from "next/head";
 import updateStateKey from "@/src/updateStateKey";
 import CustomButton from "@/components/CustomButton";
 import { getBrightness } from "@/src/colorFunctions";
@@ -185,6 +185,16 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   )
 
   return (
+  <>
+    <Head>
+      <title>Perfil de {user?.display_name} no PixelsPlace</title>
+      <meta name="description" content={user?.profile?.aboutme ? user.profile.aboutme : "Verifique as estatísticas e mais informações da jornada desse usuário no PixelsPlace."} />
+      <meta name="author" content={`${user.display_name}`} />
+      <meta name="og:image" content={settings.avatarURL(user.id, user.avatar)} />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+      <meta name="theme-color" content="#80bbff" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <MainLayout>
       <main
         className={styles.main}
@@ -344,5 +354,6 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
       </main>
     </MainLayout>
+  </>
   );
 }
