@@ -41,6 +41,17 @@ export default function Place() {
         return endTime;
     };
 
+    // Função para calcular o período coberto pela duração
+    const calculatePeriodRange = () => {
+        if (!canvasConfig.cooldown_free) return { min: null, max: null };
+        
+        const currentTime = new Date(Date.now() - (canvasConfig.cooldown_free || 5) * 1000);
+        const totalMinutesBack = 99 * travelDuration; // 99 pontos no slider (100% até 1%)
+        const minTime = new Date(currentTime.getTime() - totalMinutesBack * 60 * 1000);
+        
+        return { min: minTime, max: currentTime };
+    };
+
     const formatDate = (date) => {
         if (!date) return '';
         
@@ -50,6 +61,18 @@ export default function Place() {
         const minutes = date.getMinutes().toString().padStart(2, '0');
         
         return `${day}/${month} ${hours}:${minutes}`;
+    };
+
+    const formatDateFull = (date) => {
+        if (!date) return '';
+        
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
     async function fetchCanvas(duration, multiplier, history = false, initializeSettings) {
@@ -94,6 +117,8 @@ export default function Place() {
 
     const isAlready = () => !apiError && !loading && canvasConfig.width
 
+    const periodRange = calculatePeriodRange();
+
     if (!loggedUser?.premium)
         return (
             <MainLayout>
@@ -122,6 +147,43 @@ export default function Place() {
                         </button>
                     </BillboardContent>
                 }
+
+                {/* Período de Cobertura */}
+                {periodRange.min && periodRange.max && (
+                    <div style={{
+                        position: 'fixed',
+                        bottom: '240px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        background: 'rgba(0, 0, 0, 0.85)',
+                        backdropFilter: 'blur(8px)',
+                        borderRadius: '16px',
+                        padding: '12px 20px',
+                        zIndex: 999,
+                        boxShadow: '0 6px 25px rgba(0, 0, 0, 0.25)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        maxWidth: '90vw',
+                        textAlign: 'center'
+                    }}>
+                        <div style={{
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            fontSize: '11px',
+                            fontWeight: '500',
+                            marginBottom: '4px'
+                        }}>
+                            Período Disponível
+                        </div>
+                        <div style={{
+                            color: 'white',
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            fontFamily: 'monospace',
+                            letterSpacing: '0.3px'
+                        }}>
+                            {formatDateFull(periodRange.min)} → {formatDateFull(periodRange.max)}
+                        </div>
+                    </div>
+                )}
 
                 {/* Controles de Viagem no Tempo */}
                 <div style={{
@@ -169,7 +231,7 @@ export default function Place() {
                         <Tippy
                             content={
                                 <div style={{
-                                    maxWidth: '300px',
+                                    maxWidth: '320px',
                                     padding: '12px',
                                     fontSize: '13px',
                                     lineHeight: '1.5',
@@ -181,17 +243,19 @@ export default function Place() {
                                     <div style={{ marginBottom: '8px' }}>
                                         <strong>Slider de Tempo:</strong><br/>
                                         • <strong>100%</strong> = Momento atual<br/>
-                                        • <strong>0%</strong> = Mais longe no passado
+                                        • <strong>99%</strong> = [duração] minutos atrás<br/>
+                                        • <strong>50%</strong> = [duração × 50] minutos atrás<br/>
+                                        • <strong>1%</strong> = [duração × 99] minutos atrás
                                     </div>
                                     <div style={{ marginBottom: '8px' }}>
                                         <strong>Duração:</strong><br/>
-                                        • Define a janela de tempo em minutos<br/>
-                                        • Ex: 10 min = últimos 10 minutos
+                                        • Define o intervalo entre cada ponto<br/>
+                                        • Ex: 10 min = cada 1% do slider = 10 min no passado
                                     </div>
                                     <div style={{ marginBottom: '8px' }}>
                                         <strong>Histórico:</strong><br/>
                                         • <strong>Ativado:</strong> Mostra tudo até aquele momento<br/>
-                                        • <strong>Desativado:</strong> Apenas mudanças na janela
+                                        • <strong>Desativado:</strong> Apenas mudanças no intervalo
                                     </div>
                                     <div style={{ 
                                         background: 'rgba(255, 255, 255, 0.1)', 
@@ -199,7 +263,9 @@ export default function Place() {
                                         borderRadius: '6px',
                                         fontSize: '12px'
                                     }}>
-                                        💡 <strong>Dica:</strong> Use 50% e 30 min para ver como estava há algumas horas!
+                                        💡 <strong>Exemplos:</strong><br/>
+                                        • Duração 5 min + 80% = 100 min atrás<br/>
+                                        • Duração 30 min + 90% = 300 min (5h) atrás
                                     </div>
                                 </div>
                             }
@@ -244,16 +310,51 @@ export default function Place() {
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '15px'
+                        gap: '12px'
                     }}>
                         <div style={{
                             color: 'white',
                             fontSize: '14px',
                             fontWeight: '500',
-                            minWidth: '60px'
+                            minWidth: '55px'
                         }}>
                             🕐 Tempo
                         </div>
+                        
+                        {/* Botão - do Slider */}
+                        <button
+                            onClick={() => {
+                                const newValue = Math.max(0, travelMultiplier - 1);
+                                setTravelMultiplier(newValue);
+                            }}
+                            style={{
+                                width: '28px',
+                                height: '28px',
+                                borderRadius: '50%',
+                                background: 'rgba(255, 255, 255, 0.15)',
+                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                                color: 'white',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease',
+                                outline: 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = 'rgba(255, 255, 255, 0.25)';
+                                e.target.style.transform = 'scale(1.05)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'rgba(255, 255, 255, 0.15)';
+                                e.target.style.transform = 'scale(1)';
+                            }}
+                        >
+                            −
+                        </button>
+
                         <div style={{
                             flex: 1,
                             position: 'relative'
@@ -262,11 +363,12 @@ export default function Place() {
                                 type="range"
                                 min={0}
                                 max={100}
-                                defaultValue={100}
+                                value={travelMultiplier}
                                 onChange={(e) => {
                                     clearTimeout(multiplierTimeout);
+                                    setTravelMultiplier(Number(e.target.value));
                                     multiplierTimeout = setTimeout(() => {
-                                        setTravelMultiplier(Number(e.target.value));
+                                        // Aplicar mudanças após delay se necessário
                                     }, 100);
                                 }}
                                 className="time-travel-slider"
@@ -284,8 +386,42 @@ export default function Place() {
                                     outline: 'none'
                                 }}
                             />
-
                         </div>
+
+                        {/* Botão + do Slider */}
+                        <button
+                            onClick={() => {
+                                const newValue = Math.min(100, travelMultiplier + 1);
+                                setTravelMultiplier(newValue);
+                            }}
+                            style={{
+                                width: '28px',
+                                height: '28px',
+                                borderRadius: '50%',
+                                background: 'rgba(255, 255, 255, 0.15)',
+                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                                color: 'white',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease',
+                                outline: 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = 'rgba(255, 255, 255, 0.25)';
+                                e.target.style.transform = 'scale(1.05)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'rgba(255, 255, 255, 0.15)';
+                                e.target.style.transform = 'scale(1)';
+                            }}
+                        >
+                            +
+                        </button>
+
                         <div style={{
                             color: 'white',
                             fontSize: '12px',
@@ -305,7 +441,8 @@ export default function Place() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '20px',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        flexWrap: 'wrap'
                     }}>
                         
                         {/* Duração */}
@@ -548,6 +685,17 @@ export default function Place() {
                         cursor: pointer;
                         border: none;
                         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                    }
+
+                    @media (max-width: 480px) {
+                        .time-travel-controls {
+                            padding: 15px 20px !important;
+                            minWidth: 280px !important;
+                        }
+                        
+                        .time-travel-controls > div {
+                            gap: 8px !important;
+                        }
                     }
                 `}</style>
             </MainLayout>
