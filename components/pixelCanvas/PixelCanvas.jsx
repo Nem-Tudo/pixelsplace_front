@@ -577,7 +577,7 @@ const PixelCanvas = forwardRef(({
 
     return (
         <div
-            className={`${styles.pixelCanvasContainer} ${className}`}
+            className={`${styles.canvasContainer} ${className}`}
             style={style}
             {...props}
         >
