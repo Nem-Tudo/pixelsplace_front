@@ -748,7 +748,7 @@ export default function AdminPage() {
                 <main>
                   <img src={settings.avatarURL(user.id, user.avatar)} style={{ width: "50px", borderRadius: "12px" }} />
                   <section>
-                    <span>Nome: {user?.display_name} (@{user?.username}) <Verified verified={user?.premium} /></span>
+                    <span>Nome: {user?.display_name} (@{user?.username}) <Verified verified={user?.premium || user?.flags.includes("VERIFIED")} /></span>
                     <span>Criação: {dateToString(user?.createdAt)}</span>
                     <span>Ultimo Pixel: {dateToString(user?.lastPaintPixel)}</span>
                   </section>

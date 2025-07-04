@@ -347,7 +347,7 @@ export default function Place() {
                         <Link href={`/user/${showingPixelInfo.u}`}>
                           {showingPixelInfo.author.username}
                         </Link>{" "}
-                        <Verified verified={showingPixelInfo.author.premium} />
+                        <Verified verified={showingPixelInfo.author.premium || showingPixelInfo.author.flags.includes("VERIFIED")} />
                       </span>
                       {
                         showingPixelInfo.author.settings.selected_guild ? <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
