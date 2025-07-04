@@ -1,8 +1,24 @@
+#main {
+    width: 100dvw;
+    height: calc(100dvh - 72px);
+    overflow: hidden;
+    position: relative;
+    touch-action: none;
+    background: #eaeaea;
+    user-select: none;
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+    }
+}
+
 #canvas {
     touch-action: none;
     box-shadow: var(--shadow);
 }
-
 
 .overlaygui {
     position: fixed;

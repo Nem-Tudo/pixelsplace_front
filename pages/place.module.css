@@ -72,6 +72,10 @@
         display: flex;
         justify-content: center;
 
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            justify-content: flex-end;
+        }
+
         .pixelPlacement {
             display: flex;
             flex-direction: column;
@@ -81,6 +85,10 @@
             max-width: fit-content;
             width: 99dvw;
             margin-bottom: 5px;
+
+            @media screen and (max-height: 500px) and (orientation: landscape) {
+                margin-right: 5px;
+            }
 
             .placePixel {
                 width: fit-content;
@@ -115,6 +123,7 @@
                 border-radius: 0;
                 width: 100dvw;
                 margin-bottom: 0;
+                margin-right: 0;
             }
 
             @media screen and (max-height: 500px) and (orientation: landscape) {

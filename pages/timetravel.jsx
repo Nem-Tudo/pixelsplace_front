@@ -641,14 +641,7 @@ export default function Place() {
                 </div>
 
                 {/* Canvas */}
-                <div style={{
-                    width: "100dvw",
-                    height: "calc(100dvh - 72px)",
-                    overflow: "hidden",
-                    position: "relative",
-                    background: "whitesmoke",
-                    display: isAlready() ? "unset" : "none"
-                }}>
+                <div id={styles.main}>
                     <PixelCanvas
                         ref={canvasRef}
                         fetchCanvas={fetchCanvas}
