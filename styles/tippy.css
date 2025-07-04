@@ -61,7 +61,6 @@
     backdrop-filter: unset;
     border-radius: 12px;
     user-select: none;
-    cursor: pointer;
     transition: var(--smooth-transition);
     box-shadow: var(--shadow);
     padding: 0;
@@ -90,10 +89,15 @@
             align-items: center;
             flex-direction: row;
             gap: 8px;
+            cursor: pointer;
 
             span {
                 color: var(--color-text);
             }
+        }
+
+        > section {
+            cursor: default;
         }
 
         > :not(div[data-tippy-root]):not(section):hover {
