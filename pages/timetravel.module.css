@@ -40,9 +40,10 @@
     }
 
     @media screen and (max-height: 500px) and (orientation: landscape) {
-        width: 100vw;
-        margin: 0;
         border-radius: 0;
+        width: 100dvw;
+        max-width: 100dvw;
+        margin: 0;
     }
 
     section {
