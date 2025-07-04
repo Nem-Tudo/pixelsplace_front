@@ -14,6 +14,7 @@ import 'tippy.js/dist/tippy.css';
 import styles from "./timetravel.module.css";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import PixelIcon from "@/components/PixelIcon";
+import CustomButton from "@/components/CustomButton";
 
 export default function TimeTravel() {
     const { token, loggedUser } = useAuth()
@@ -219,19 +220,11 @@ export default function TimeTravel() {
 
                             <div>
                                 {/* Botão - */}
-                                <button
+                                <CustomButton
                                     onClick={() => setPercentage(Math.max(0, percentage - 1))}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-                                        e.target.style.transform = 'scale(1.05)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.15)';
-                                        e.target.style.transform = 'scale(1)';
-                                    }}
                                 >
                                     −
-                                </button>
+                                </CustomButton>
 
                                 <input
                                     type="range"
@@ -242,19 +235,11 @@ export default function TimeTravel() {
                                 />
 
                                 {/* Botão + */}
-                                <button
+                                <CustomButton
                                     onClick={() => setPercentage(Math.min(100, percentage + 1))}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-                                        e.target.style.transform = 'scale(1.05)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.15)';
-                                        e.target.style.transform = 'scale(1)';
-                                    }}
                                 >
                                     +
-                                </button>
+                                </CustomButton>
                             </div>
                         </div>
 
