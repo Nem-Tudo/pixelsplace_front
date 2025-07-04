@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { MainLayout } from "@/layout/MainLayout";
 import settings from "@/settings";
 import { useAuth } from "@/context/AuthContext";
+import { usePopup } from "@/context/PopupContext";
 import { useRouter } from 'next/router'
 import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
@@ -18,6 +19,7 @@ import CustomButton from "@/components/CustomButton";
 
 export default function TimeTravel() {
     const { token, loggedUser } = useAuth()
+    const { openPopup } = usePopup()
     const router = useRouter()
     const { language } = useLanguage();
 
@@ -153,7 +155,7 @@ export default function TimeTravel() {
         } catch (e) {
             setApiError(true)
             console.log("Error on fetch canvas", e)
-            alert(`Error on fetch canvas`, e)
+            openPopup('error', {message: `Error on fetch canvas ${e}`})
         }
     }
 
@@ -276,6 +278,7 @@ export default function TimeTravel() {
                                     onChange={(e) => setEndDate(e.target.value)}
                                 />
                                 <CustomButton
+                                    padding={1}
                                     onClick={setNowAsEndDate}
                                     label={'Agora'}
                                 />

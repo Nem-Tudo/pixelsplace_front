@@ -48,6 +48,14 @@
         .nerdDate {
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            min-width: min-content;
+            flex-wrap: wrap;
+
+            div {
+                display: flex;
+                flex-wrap: wrap;
+            }
         }
 
         .sliderWrapper {
