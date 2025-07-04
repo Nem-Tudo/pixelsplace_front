@@ -77,15 +77,16 @@
 
 select, input[type=text], input[type=number], input[type=datetime-local], input[type=date], textarea {
   border: var(--outline);
-  box-shadow: var(--shadow);
+  filter: drop-shadow(var(--shadow));
+  box-shadow: inset 0px 0px 8px 1px #ffffff00;
   transition: var(--smooth-transition);
   background: unset;
   border-radius: 4px;
 }
 
-/* select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
-  scale: var(--hover-scale);
-} */
+select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
+  box-shadow: inset 0px 0px 8px 3px #ffffff1a;
+}
 
 body {
   overflow-x: hidden;
