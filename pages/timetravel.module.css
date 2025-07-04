@@ -17,7 +17,7 @@
 
 .controls {
     position: fixed;
-    bottom: 5px;
+    bottom: 0;
     z-index: 2;
     background: var(--frosted-glass);
     padding: 10px;
@@ -30,12 +30,19 @@
     gap: 10px;
     width: 99dvw;
     justify-self: flex-end;
+    margin-bottom: 5px;
 
     @media (max-width: 768px) {
         border-radius: 0;
         width: 100dvw;
         max-width: 100dvw;
         margin: 0;
+    }
+
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 100vw;
+        margin: 0;
+        border-radius: 0;
     }
 
     section {
