@@ -29,6 +29,7 @@ export default function Place() {
     const [canvasConfig, setCanvasConfig] = useState({});
     const [travelMultiplier, setTravelMultiplier] = useState(100);
     const [travelDuration, setTravelDuration] = useState(10);
+    const [fakeMultiplier, setFakeMultiplier] = useState(1);
     const [includeHistory, setIncludeHistory] = useState(true);
 
     // Função para calcular a data sendo exibida
@@ -77,14 +78,15 @@ export default function Place() {
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
-    async function fetchCanvas(duration, multiplier, history = false, initializeSettings) {
+    async function fetchCanvas(duration, multiplier, fakeMultiplier, history = false, initializeSettings) {
         try {
             multiplier = Number(multiplier);
             duration = Number(duration);
+            fakeMultiplier = Number(fakeMultiplier);
 
             const [settingsRes, pixelsRes] = await Promise.all([
                 fetch(`${settings.apiURL}/canvas`),
-                fetch(`${settings.apiURL}/canvas/timetravel?duration=${duration}&multiplier=${multiplier}&includeHistory=${history}`, {
+                fetch(`${settings.apiURL}/canvas/timetravel?duration=${duration*fakeMultiplier}&multiplier=${multiplier}&includeHistory=${history}`, {
                     headers: {
                         "Authorization": Cookies.get("authorization")
                     }
@@ -108,9 +110,9 @@ export default function Place() {
     useEffect(() => {
         if (firstTime.current) {
             firstTime.current = false;
-            fetchCanvas(travelDuration, travelMultiplier, includeHistory);
+            fetchCanvas(travelDuration, travelMultiplier, fakeMultiplier, includeHistory);
         } else {
-            fetchCanvas(travelDuration, travelMultiplier, includeHistory, {
+            fetchCanvas(travelDuration, travelMultiplier, fakeMultiplier, includeHistory, {
                 renderImageTimeout: 1,
                 changeTransform: false,
             });
@@ -626,7 +628,7 @@ export default function Place() {
                             setTravelDuration(Number(e.target.value));
                         }}
                     />
-                    <select value={travelMultiplier} onChange={(e) => setTravelMultiplier(Number(e.target.value))}>
+                    <select value={fakeMultiplier} onChange={(e) => setFakeMultiplier(Number(e.target.value))}>
                         <option value="1">
                             minutos
                         </option>
