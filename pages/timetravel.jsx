@@ -211,7 +211,7 @@ export default function TimeTravel() {
                 }
 
                 {/* Controles de Viagem no Tempo */}
-                <div className={styles.controls}>
+                {!loading && <div className={`${styles.controls} showBottom`}>
 
                     {/* Preview da Data */}
                     <section>
@@ -304,7 +304,7 @@ export default function TimeTravel() {
                         onClick={(e) => setNerdMode(!nerdMode)}
                         className={styles.nerdModeToggle}
                     />
-                </div>
+                </div>}
 
                 {/* Canvas */}
                 {!loading && <div id={styles.main}>
