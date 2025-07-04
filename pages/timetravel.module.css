@@ -1,112 +1,31 @@
-#canvas {
-    touch-action: none;
-    box-shadow: var(--shadow);
-}
-
-
-.overlaygui {
-    position: fixed;
-    top: 0;
-    left: 0;
+#main {
     width: 100dvw;
-    height: 100dvh;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    pointer-events: none;
-}
-
-.overlaygui .bottom {
-    margin-top: auto;
-    pointer-events: all;
-}
-
-.bottom {
-    position: fixed;
-    bottom: 0;
-    align-self: center;
-    width: 100dvw;
-    color: var(--color-muted);
-    background: var(--frosted-glass);
-    backdrop-filter: var(--frosted-glass-blur);
-    border: var(--outline);
-    padding: 16px 12px;
-    box-shadow: var(--shadow);
-    font-family: sans-serif;
-    z-index: 1000;
-    margin: 5px;
-    border-radius: 22px;
-    width: fit-content;
+    height: calc(100dvh - 72px);
     overflow: hidden;
-    border: var(--outline);
+    position: relative;
+    touch-action: none;
+    background: #eaeaea;
+    user-select: none;
 
-    @media (max-width: 768px) {
-        border-radius: 0;
-        margin: 0;
-        width: 100dvw;
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
     }
 }
 
-.bottom > div:first-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 12px;
-    color: white;
-}
-
-#timeModeCheck {
-    display: none;
-}
-#timeModeCheck + label {
-    background-color: var(--color-muted);
+.controls {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    background: var(--frosted-glass);
     padding: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    cursor: pointer;
-    border: var(--outline);
+    margin-bottom: 5px;
+    border-radius: 12px;
     box-shadow: var(--shadow);
-}
-#timeModeCheck:checked + label {
-    background-color: var(--color-accent);
-}
-#timeModeCheck + label + label {
-    background-color: var(--color-accent);
-    padding: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    cursor: pointer;
-    border: var(--outline);
-    box-shadow: var(--shadow);
-}
-#timeModeCheck:checked + label + label {
-    background-color: var(--color-muted);
-}
-
-.bottom > div:last-child {
+    backdrop-filter: var(--frosted-glass-blur);
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    color: var(--color-muted);
-}
-
-.bottom input[type="number"] {
-    width: 60px;
-    padding: 4px;
-    margin-left: 4px;
-    border: 1px solid var(--color-accent);
-    border-radius: 4px;
-}
-
-.bottom input[type="range"] {
-    width: 80dvw;
-    max-width: 400px;
-    margin: 0 8px;
-}
-
-.bottom span {
-    font-size: 14px;
-    color: var(--color-muted);
+    gap: 10px;
 }
