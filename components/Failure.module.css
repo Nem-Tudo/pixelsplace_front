@@ -4,8 +4,7 @@
     overflow: hidden;
     position: relative;
     touch-action: none;
-    background: radial-gradient(circle at 60% 100%, #2b0b0b, #0d0404);
-    animation: gradmove 2s linear infinite;
+    background: radial-gradient(circle at 60% 100%, #2d000d, #0d0404);
     user-select: none;
     display: flex;
     align-items: center;
