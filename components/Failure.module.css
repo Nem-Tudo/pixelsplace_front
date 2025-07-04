@@ -4,7 +4,8 @@
     overflow: hidden;
     position: relative;
     touch-action: none;
-    background: radial-gradient(circle at 60% 100%, #2b0b0b, #0d0404);
+    background: radial-gradient(circle at var(--grad-pos) 100%, #2b0b0b, #0d0404);
+    animation: gradmove 2s linear infinite;
     user-select: none;
     display: flex;
     align-items: center;
@@ -33,5 +34,15 @@
 
     h1 {
         font-family: 'Dogica Pixel';
+    }
+}
+
+@keyframes gradmove {
+    from {
+        --grad-pos: 0%;
+    }
+
+    to {
+        --grad-pos: 100%
     }
 }
