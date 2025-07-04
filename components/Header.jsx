@@ -186,9 +186,6 @@ export default function Header() {
                                         }
                                     </select>
                                 </section>
-                                <Link href={"/auth/discord"} style={{ '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
-                                    <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
-                                </Link>
                                 <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                     <>
                                         <label htmlFor="PreferenceSfxToggle">
@@ -230,9 +227,12 @@ export default function Header() {
                                         </div>
                                     </Tippy>
                                 }
+                                <Link href={"/auth/discord"} style={{ '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
+                                    <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
+                                </Link>
                                 {
-                                    usingBuildOverride && <Link href={"/buildoverride?t=main"}>
-                                        <span style={{ color: "red", '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
+                                    usingBuildOverride && <Link href={"/buildoverride?t=main"} style={{ color: "red", '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
+                                        <span>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
                                     </Link>
                                 }
 
