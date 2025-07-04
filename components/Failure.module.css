@@ -1,51 +1,16 @@
-.centerscreen {
+#main {
     width: 100dvw;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    height: calc(100dvh - 72px);
+    overflow: hidden;
+    position: relative;
+    touch-action: none;
+    background: #eaeaea;
+    user-select: none;
 
-.messageDiv {
-    color: white;
-    padding: 10px 15px;
-    border-radius: 100dvw;
-    width: fit-content;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-
-    .main, .content {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    @media screen and (max-height: 500px) and (orientation: landscape) {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
     }
-
-    .expand {
-        cursor: pointer;
-    }
-
-    button {
-        background-color: rgba(255, 255, 255, 0.404);
-        border: var(--outline);
-        padding: 7px 15px;
-        border-radius: 100dvw;
-        cursor: pointer;
-        outline: none;
-        transition: var(--smooth-transition);
-        box-shadow: var(--shadow);
-    }
-    button:hover {
-        background-color: rgba(255, 255, 255, 0.507);
-        scale: var(--hover-scale);
-    }
-}
-
-.warn {
-    background: linear-gradient(45deg, #ff5a00, #ff9600);
-    color: black;
-}
-
-.normal-white {
-    color: white;
 }
