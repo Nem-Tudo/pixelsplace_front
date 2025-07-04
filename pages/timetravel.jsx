@@ -642,9 +642,9 @@ export default function Place() {
                 </div>
 
                 {/* Viagem no tempo desvacada */}
-                <div>
-                    <input type="number" />
-                    <select>
+                <div className={styles.control}>
+                    <input type="number" value="1" />
+                    <select value="1">
                         <option value="1">
                             minutos
                         </option>

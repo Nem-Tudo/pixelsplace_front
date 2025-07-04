@@ -14,3 +14,18 @@
         top: 0;
     }
 }
+
+.controls {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    background: var(--frosted-glass);
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    backdrop-filter: var(--frosted-glass-blur);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
