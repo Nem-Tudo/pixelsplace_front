@@ -620,7 +620,7 @@ const PixelCanvas = forwardRef(({
             <div>
                 {
                     !settings.disableCanvasTools && checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
-                        <Tippy animation="scale-extreme" theme="pixelsplace_dropdown" placement="top" trigger="click" interactive={true} content={<>
+                        <Tippy arrow={false} animation="scale-extreme" theme="pixelsplace_dropdown" placement="top" trigger="click" interactive={true} content={<>
                             <section>
                                 <span>Buffer Width </span>
                                 <input type="number" value={tools_canvasConfigCustom?.width || canvasConfig.width} onChange={e => {

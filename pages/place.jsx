@@ -350,12 +350,9 @@ export default function Place() {
                         <Verified verified={showingPixelInfo.author.premium || showingPixelInfo.author.flags.includes("VERIFIED")} />
                       </span>
                       {
-                        showingPixelInfo.author.settings.selected_guild ? <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
+                        showingPixelInfo?.author?.settings?.selected_guild && <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
                           {showingPixelInfo.author.settings.selectedGuild.name}
-                        </Link > : <span>
-                          {language.getString("COMMON.SERVER") + " "}
-                          {language.getString("COMMON.NOT_SELECTED")}
-                        </span>
+                        </Link >
                       }
 
                     </div>

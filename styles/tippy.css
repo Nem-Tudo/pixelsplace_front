@@ -97,7 +97,7 @@
         }
 
         > section {
-            cursor: default;
+            cursor: default !important;
         }
 
         > :not(div[data-tippy-root]):not(section):hover {

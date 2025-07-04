@@ -222,6 +222,7 @@
         a {
             color: #9dcaff;
             text-decoration: none;
+            text-align: center;
         }
         a:hover {
             text-decoration: underline;
