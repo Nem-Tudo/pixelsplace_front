@@ -77,27 +77,14 @@
 
 select, input[type=text], input[type=number], input[type=datetime-local], input[type=date], textarea {
   border: var(--outline);
-  box-shadow: var(--shadow);
+  filter: drop-shadow(var(--shadow));
+  box-shadow: inset 0px 0px 8px 1px #ffffff00;
   transition: var(--smooth-transition);
   background: unset;
   border-radius: 4px;
-  position: relative;
 }
 
-select::after, input[type=text]::after, input[type=number]::after, input[type=datetime-local]::after, input[type=date]::after, textarea::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: var(--smooth-transition);
-  box-shadow: inset 0px 0px 8px 1px #ffffff00;
-}
-
-select:hover::after, input[type=text]:hover::after, input[type=datetime-local]:hover::after, input[type=date]:hover::after, input[type=number]:hover::after, textarea:hover::after {
+select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
   box-shadow: inset 0px 0px 8px 3px #ffffff1a;
 }
 
