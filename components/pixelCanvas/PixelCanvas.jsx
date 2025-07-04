@@ -298,6 +298,77 @@ const PixelCanvas = forwardRef(({
         return bytes;
     }
 
+    async function pipCanvas() {
+        try {
+            const canvas = canvasRef.current;
+            if (!canvas) {
+                throw new Error("Canvas não encontrado");
+            }
+
+            // Fator de escala para manter o aspecto pixelizado
+            const pixelScale = 10; // Cada pixel vira 10x10 pixels
+
+            // Criar canvas auxiliar em resolução maior
+            const auxCanvas = document.createElement('canvas');
+            auxCanvas.width = canvas.width * pixelScale;
+            auxCanvas.height = canvas.height * pixelScale;
+            const auxCtx = auxCanvas.getContext('2d');
+
+            // Configurar renderização pixelizada no contexto
+            auxCtx.imageSmoothingEnabled = false;
+            auxCtx.webkitImageSmoothingEnabled = false;
+            auxCtx.mozImageSmoothingEnabled = false;
+            auxCtx.msImageSmoothingEnabled = false;
+
+            // Função para atualizar o canvas auxiliar
+            const updateAuxCanvas = () => {
+                auxCtx.clearRect(0, 0, auxCanvas.width, auxCanvas.height);
+                // Desenhar o canvas original escalado sem suavização
+                auxCtx.drawImage(canvas, 0, 0, auxCanvas.width, auxCanvas.height);
+            };
+
+            // Atualizar uma vez antes de capturar
+            updateAuxCanvas();
+
+            // Criar stream do canvas auxiliar
+            const stream = auxCanvas.captureStream(1);
+
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.autoplay = true;
+            video.muted = true;
+            video.playsInline = true;
+
+            await new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => reject(new Error("Timeout")), 5000);
+                video.addEventListener('loadedmetadata', () => {
+                    clearTimeout(timeout);
+                    resolve();
+                });
+            });
+
+            await video.play();
+
+            // Atualizar o canvas auxiliar periodicamente
+            const refreshInterval = setInterval(updateAuxCanvas, 100);
+
+            // Iniciar PiP
+            const pipWindow = await video.requestPictureInPicture();
+
+            // Limpar interval quando PiP for fechado
+            video.addEventListener('leavepictureinpicture', () => {
+                clearInterval(refreshInterval);
+                console.log("PiP fechado");
+            });
+
+            console.log("PiP pixelizado iniciado");
+
+        } catch (error) {
+            console.error("Erro no PiP:", error);
+            alert(`Erro no PiP: ${error.message}`);
+        }
+    }
+
     // Atualizar outline do pixel selecionado
     useEffect(() => {
         if (!settings.showSelectedPixelOutline) return;
@@ -672,6 +743,9 @@ const PixelCanvas = forwardRef(({
                                     transform.current.scale = transform.current.minScale;
                                     centerCanvas();
                                 }}>Resetar tudo</CustomButton>
+                            </section>
+                            <section>
+                                <CustomButton onClick={() => pipCanvas()} label="Pipar" />
                             </section>
                         </>}>
                             <PixelIcon codename={'cog'} className={styles.canvasTools} />
