@@ -5,14 +5,15 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/router'
 import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import { useLanguage } from '@/context/LanguageContext';
 import CustomHead from "@/components/CustomHead";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import styles from "./timetravel.module.css";
-import ToggleSwitch from "@/components/ToggleSwitch"
+import ToggleSwitch from "@/components/ToggleSwitch";
+import PixelIcon from "@/components/PixelIcon";
 
 export default function TimeTravel() {
     const { token, loggedUser } = useAuth()
