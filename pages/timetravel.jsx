@@ -11,6 +11,7 @@ import CustomHead from "@/components/CustomHead";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import styles from "./timetravel.module.css";
 
 let durationTimeout;
 let multiplierTimeout;
