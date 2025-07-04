@@ -29,6 +29,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    width: 99dvw;
 
     @media (max-width: 768px) {
         border-radius: 0;
@@ -47,10 +48,15 @@
             flex-direction: column;
         }
 
-        .slider {
+        .sliderWrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
+
+            .slider {
+                display: flex;
+                flex-direction: row;
+            }
         }
     }
 

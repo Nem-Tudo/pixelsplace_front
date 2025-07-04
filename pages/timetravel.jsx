@@ -233,12 +233,12 @@ export default function TimeTravel() {
                         </div>}
 
                         {/* Slider de Porcentagem */}
-                        <div className={styles.slider}>
+                        <div className={styles.sliderWrapper}>
                             {nerdMode && <div>
                                 {percentage}%
                             </div>}
 
-                            <div>
+                            <div className={styles.slider}>
                                 {/* Botão - */}
                                 <CustomButton
                                     padding={1}
@@ -276,17 +276,10 @@ export default function TimeTravel() {
                                     value={endDate}
                                     onChange={(e) => setEndDate(e.target.value)}
                                 />
-                                <button
+                                <CustomButton
                                     onClick={setNowAsEndDate}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.15)';
-                                    }}
-                                >
-                                    Agora
-                                </button>
+                                    label={'Agora'}
+                                />
                             </div>
                         </div>}
 
