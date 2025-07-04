@@ -1,10 +1,11 @@
-import { useState } from "react";
 import styles from "./Failure.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
-export default function Failure({ children, message="Um erro impossibilitou o carregamento da página." }) {
-
-    const [expanded, setExpanded] = useState(false)
+export default function Failure({
+    children,
+    message="Um erro impossibilitou o carregamento da página.",
+    details
+}) {
 
     return <main id={styles.main}>
 
@@ -13,6 +14,9 @@ export default function Failure({ children, message="Um erro impossibilitou o ca
         <div>
             <h1>Sentimos muito...</h1>
             <p>{message}</p>
+            {details && <h3>
+                {details}
+            </h3>}
         </div>
 
         <footer id={styles.actionRow}>

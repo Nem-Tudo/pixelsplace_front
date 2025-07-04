@@ -4,7 +4,6 @@
     overflow: hidden;
     position: relative;
     touch-action: none;
-    background: radial-gradient(circle at 60% 100%, #2d000d, #0d0404);
     user-select: none;
     display: flex;
     align-items: center;
@@ -42,12 +41,4 @@
         font-size: smaller;
     }
 
-    #actionRow {
-        display: flex;
-        gap: 8px;
-
-        svg {
-            width: 1.5rem !important;
-        }
-    }
 }

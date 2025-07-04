@@ -4,7 +4,8 @@ import settings from "@/settings";
 import { useAuth } from "@/context/AuthContext";
 import { usePopup } from "@/context/PopupContext";
 import { useRouter } from 'next/router'
-import BillboardContent from "@/components/BillboardContent";
+import Billboard from "@/components/Billboard";
+import Failure from "@/components/Failure";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie';
 import { useLanguage } from '@/context/LanguageContext';
@@ -197,17 +198,14 @@ export default function TimeTravel() {
             />
             <MainLayout>
                 {!canvasConfig.width && !apiError &&
-                    <BillboardContent centerscreen={true} type="normal-white">
+                    <Billboard>
                         <Loading width={"50px"} />
-                    </BillboardContent>
+                    </Billboard>
                 }
                 {apiError &&
-                    <BillboardContent centerscreen={true} type="warn" expand={String(apiError)}>
-                        <span>{language.getString("PAGES.TIME_TRAVEL.API_ERROR")}</span>
-                        <button onClick={() => location.reload()}>
-                            {language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")}
-                        </button>
-                    </BillboardContent>
+                    <Failure message={language.getString("PAGES.TIME_TRAVEL.API_ERROR")} details={String(apiError)}>
+                        <CustomButton color={'#ffffff54'} icon={'reload'} padding={2} icon={'reload'} label={language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")} onClick={() => location.reload()} />
+                    </Failure>
                 }
 
                 {/* Controles de Viagem no Tempo */}
