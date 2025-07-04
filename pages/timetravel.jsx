@@ -285,7 +285,7 @@ export default function TimeTravel() {
                     </section>
 
                     {/* Controles */}
-                    <section>
+                    {nerdMode && <section>
                         <span>
                             Incluir Histórico
                         </span>
@@ -293,15 +293,14 @@ export default function TimeTravel() {
                             checked={includeHistory}
                             onChange={(e) => setIncludeHistory(e.target.checked)}
                         />
+                    </section>}
 
-                        <span>
-                            Modo nerd
-                        </span>
-                        <ToggleSwitch
-                            checked={nerdMode}
-                            onChange={(e) => setNerdMode(e.target.checked)}
-                        />
-                    </section>
+                    {/* Nerd mode toggle */}
+                    <PixelIcon 
+                        codename={nerdMode? 'close' : 'check'}
+                        onClick={(e) => setNerdMode(e.target.checked)}
+                        className={styles.nerdModeToggle}
+                    />
                 </div>
 
                 {/* Canvas */}

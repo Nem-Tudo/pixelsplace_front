@@ -41,4 +41,10 @@
         align-items: center;
         gap: 8px;
     }
+
+    .nerdModeToggle {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
 }
