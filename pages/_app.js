@@ -4,7 +4,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale-extreme.css';
 import 'tippy.js/animations/shift-toward-extreme.css';
 import "@/styles/tippy.css";
-import '../styles/nProgress.css'
+import '@/styles/nProgress.css'
 
 import { AuthProvider } from '../context/AuthContext';
 import { LanguageProvider } from '../context/LanguageContext';
