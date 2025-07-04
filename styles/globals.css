@@ -83,9 +83,9 @@ select, input[type=text], input[type=number], input[type=datetime-local], input[
   border-radius: 4px;
 }
 
-/* select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
-  scale: var(--hover-scale);
-} */
+select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
+  box-shadow: inset 0px 0px 8px 2px #ffffff1a;
+}
 
 body {
   overflow-x: hidden;

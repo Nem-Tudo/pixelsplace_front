@@ -102,7 +102,7 @@
 .colorContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 
   .colorItem {
     display: flex;
