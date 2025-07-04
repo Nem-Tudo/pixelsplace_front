@@ -151,7 +151,7 @@ export default function TimeTravel() {
 
             const buffer = await pixelsRes.arrayBuffer();
             const bytes = new Uint8Array(buffer);
-            canvasRef.current.initializeCanvas(bytes, canvasSettings, {}, initializeSettings);
+            canvasRef?.current?.initializeCanvas(bytes, canvasSettings, {}, initializeSettings);
         } catch (e) {
             setApiError(true)
             console.log("Error on fetch canvas", e)
