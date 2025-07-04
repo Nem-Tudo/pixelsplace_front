@@ -5,14 +5,16 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/router'
 import BillboardContent from "@/components/BillboardContent";
 import Loading from "@/components/Loading";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import { useLanguage } from '@/context/LanguageContext';
 import CustomHead from "@/components/CustomHead";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import styles from "./timetravel.module.css";
-import ToggleSwitch from "@/components/ToggleSwitch"
+import ToggleSwitch from "@/components/ToggleSwitch";
+import PixelIcon from "@/components/PixelIcon";
+import CustomButton from "@/components/CustomButton";
 
 export default function TimeTravel() {
     const { token, loggedUser } = useAuth()
@@ -28,6 +30,7 @@ export default function TimeTravel() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [includeHistory, setIncludeHistory] = useState(true);
+    const [nerdMode, setNerdMode] = useState(false);
 
     // Inicializar datas com valores padrão
     useEffect(() => {
@@ -190,17 +193,15 @@ export default function TimeTravel() {
                 <div className={styles.controls}>
 
                     {/* Preview da Data */}
-                    <div>
-                        <div>
-                            📅 {formatDisplayDate(calculateDisplayedDate()) || 'Carregando...'}
-                        </div>
-                    </div>
+                    <section>
+                        {formatDisplayDate(calculateDisplayedDate()) || 'Carregando...'}
+                    </section>
 
                     {/* Controle Principal - Inputs de Data */}
-                    <div>
+                    <section>
 
                         {/* Data Inicial */}
-                        <div>
+                        {nerdMode && <div>
                             <label>
                                 Data Inicial
                             </label>
@@ -209,7 +210,7 @@ export default function TimeTravel() {
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                             />
-                        </div>
+                        </div>}
 
                         {/* Slider de Porcentagem */}
                         <div>
@@ -219,19 +220,11 @@ export default function TimeTravel() {
 
                             <div>
                                 {/* Botão - */}
-                                <button
+                                <CustomButton
                                     onClick={() => setPercentage(Math.max(0, percentage - 1))}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-                                        e.target.style.transform = 'scale(1.05)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.15)';
-                                        e.target.style.transform = 'scale(1)';
-                                    }}
                                 >
                                     −
-                                </button>
+                                </CustomButton>
 
                                 <input
                                     type="range"
@@ -242,24 +235,16 @@ export default function TimeTravel() {
                                 />
 
                                 {/* Botão + */}
-                                <button
+                                <CustomButton
                                     onClick={() => setPercentage(Math.min(100, percentage + 1))}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.25)';
-                                        e.target.style.transform = 'scale(1.05)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'rgba(255, 255, 255, 0.15)';
-                                        e.target.style.transform = 'scale(1)';
-                                    }}
                                 >
                                     +
-                                </button>
+                                </CustomButton>
                             </div>
                         </div>
 
                         {/* Data Final */}
-                        <div>
+                        {nerdMode && <div>
                             <label>
                                 Data Final
                             </label>
@@ -281,20 +266,27 @@ export default function TimeTravel() {
                                     Agora
                                 </button>
                             </div>
-                        </div>
-                    </div>
+                        </div>}
 
-                    {/* Toggle História */}
-                    <div>
+                    </section>
+
+                    {/* Controles */}
+                    {nerdMode && <section>
                         <span>
-                            📚 Incluir Histórico
+                            Incluir Histórico
                         </span>
                         <ToggleSwitch
-                            type="checkbox"
                             checked={includeHistory}
                             onChange={(e) => setIncludeHistory(e.target.checked)}
                         />
-                    </div>
+                    </section>}
+
+                    {/* Nerd mode toggle */}
+                    <PixelIcon 
+                        codename={nerdMode? 'close' : 'check'}
+                        onClick={(e) => setNerdMode(e.target.checked)}
+                        className={styles.nerdModeToggle}
+                    />
                 </div>
 
                 {/* Canvas */}
