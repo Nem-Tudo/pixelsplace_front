@@ -249,9 +249,9 @@ export default function TimeTravel() {
                                 <input
                                     type="range"
                                     min={0}
-                                    max={10000}
-                                    value={percentage*100}
-                                    onChange={(e) => setPercentage(Number(e.target.value)/100)}
+                                    max={100000}
+                                    value={percentage*1000}
+                                    onChange={(e) => setPercentage(Number(e.target.value)/1000)}
                                 />
 
                                 {/* Botão + */}
