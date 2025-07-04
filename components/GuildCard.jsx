@@ -8,6 +8,7 @@ import settings from "@/settings";
 import Verified from "@/components/Verified";
 import CustomButton from "@/components/CustomButton";
 import { usePopup } from '@/context/PopupContext';
+import updateStateKey from "@/src/updateStateKey";
 
 
 export default function GuildCard({ guild, index, ...props }) {
@@ -43,7 +44,7 @@ export default function GuildCard({ guild, index, ...props }) {
 };
 
     useEffect(() => {
-        setUserServer(loggedUser?.selected_guild)
+        setUserServer(loggedUser.settings.selected_guild);
     }, [loggedUser])
 
     const className = [
@@ -52,7 +53,7 @@ export default function GuildCard({ guild, index, ...props }) {
     ].join(' ');
     
     return (
-        <div {...props} key={index || {}} className={className} style={index && userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
+        <div {...props} key={index || ''} className={className} style={index && userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
             <img
                 className={styles.guildIcon}
                 src={settings.guildIconURL(guild.id, guild.icon)}
@@ -75,6 +76,7 @@ export default function GuildCard({ guild, index, ...props }) {
                                 await fetchWithAuth("/users/@me/settings", "PATCH", {
                                     selected_guild: guild?.id
                                 });
+                                updateStateKey(setUserServer, userServer, ["settings.selected_guild", guild?.id]);
                                 console.log("Enviado");
                         }
                 }
