@@ -222,7 +222,7 @@ export default function TimeTravel() {
                     <section>
 
                         {/* Data Inicial */}
-                        {nerdMode && <div className={styles.nerdDate}>
+                        {nerdMode && <div className={styles.nerdDate} style={{alignItems: 'flex-end'}}>
                             <label>
                                 Data Inicial
                             </label>
@@ -267,7 +267,7 @@ export default function TimeTravel() {
                         </div>
 
                         {/* Data Final */}
-                        {nerdMode && <div className={styles.nerdDate}>
+                        {nerdMode && <div className={styles.nerdDate} style={{alignItems: 'flex-start'}}>
                             <label>
                                 Data Final
                             </label>
