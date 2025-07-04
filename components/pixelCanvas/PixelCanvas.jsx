@@ -315,7 +315,7 @@ const PixelCanvas = forwardRef(({
             }
 
             // Fator de escala para manter o aspecto pixelizado
-            const pixelScale = 10; // Cada pixel vira 10x10 pixels
+            const pixelScale = 20; // Cada pixel vira []x[] pixels
 
             // Criar canvas auxiliar em resolução maior
             const auxCanvas = document.createElement('canvas');
@@ -386,7 +386,6 @@ const PixelCanvas = forwardRef(({
 
             // Limpar interval quando PiP for fechado
             video.addEventListener('leavepictureinpicture', () => {
-                clearInterval(refreshInterval);
                 updateAuxCanvasRef.current = null; // Limpar a referência
                 console.log("PiP fechado");
             });
