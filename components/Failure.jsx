@@ -7,9 +7,14 @@ export default function Failure({ children, message="" }) {
     const [expanded, setExpanded] = useState(false)
 
     return <main id={styles.main}>
+
         <PixelIcon codename={'alert'} />
-        <h1>Sentimos muito...</h1>
-        <p>Um erro impossibilitou o carregamento da página.</p>
+
+        <div>
+            <h1>Sentimos muito...</h1>
+            <p>{'Um erro impossibilitou o carregamento da página.', message}</p>
+        </div>
+
         {children}
     </main>
 }
