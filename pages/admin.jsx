@@ -267,24 +267,24 @@ export default function AdminPage() {
       <input checked={chosenPage === 'canvas'} type={"radio"} name={"pagina"} id={"pagina_canvas"} value={"canvas"} onChange={() => setChosenPage('canvas')} />
       <label htmlFor={"pagina_canvas"}>
         <PixelIcon codename={'frame'} />
-        Canvas
+        <span className="mobileHidden_500">Canvas</span>
       </label>
 
       <input checked={chosenPage === 'general'} type={"radio"} name={"pagina"} id={"pagina_general"} value={"general"} onChange={() => setChosenPage('general')} />
       <label htmlFor={"pagina_general"}>
         <PixelIcon codename={'sliders-2'} />
-        Geral
+        <span className="mobileHidden_500">Geral</span>
       </label>
 
       <input checked={chosenPage === 'users'} type={"radio"} name={"pagina"} id={"pagina_users"} value={"users"} onChange={() => setChosenPage('users')} />
       <label htmlFor={"pagina_users"}>
         <PixelIcon codename={'user'} />
-        Usuários
+        <span className="mobileHidden_500">Usuários</span>
       </label>
       <input checked={chosenPage === 'auditlogs'} type={"radio"} name={"pagina"} id={"auditlogs"} value={"auditlogs"} onChange={() => setChosenPage('auditlogs')} />
       <label htmlFor={"auditlogs"}>
-        <PixelIcon codename={'note'} />
-        Logs
+        <PixelIcon codename={'script-text'} />
+        <span className="mobileHidden_500">Registros</span>
       </label>
     </div>
   )
