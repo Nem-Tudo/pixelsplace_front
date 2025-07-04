@@ -173,6 +173,10 @@ export default function TimeTravel() {
         }
     }, [startDate, endDate, percentage, includeHistory]);
 
+    useEffect(() => {
+        setNowAsEndDate();
+    }, [setNowAsEndDate]);
+
     if (!loggedUser?.premium)
         return (
             <>
@@ -305,13 +309,13 @@ export default function TimeTravel() {
                 </div>
 
                 {/* Canvas */}
-                <div id={styles.main}>
+                {!loading && <div id={styles.main}>
                     <PixelCanvas
                         ref={canvasRef}
                         fetchCanvas={fetchCanvas}
                         onRightClickPixel={(x, y) => showPixelInfo(x, y)}
                     />
-                </div>
+                </div>}
             </MainLayout>
         </>
     );
