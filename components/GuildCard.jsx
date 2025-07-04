@@ -43,7 +43,7 @@ export default function GuildCard({ guild, index, ...props }) {
 };
 
     useEffect(() => {
-        setUserServer(loggedUser?.settings.selected_guild)
+        setUserServer(loggedUser?.selected_guild)
     }, [loggedUser])
 
     const className = [

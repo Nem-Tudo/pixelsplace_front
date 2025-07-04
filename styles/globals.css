@@ -84,7 +84,7 @@ select, input[type=text], input[type=number], textarea {
 }
 
 select:hover, input[type=text]:hover, input[type=number]:hover, textarea:hover {
-  scale: var(--hover-scale);
+  /* scale: var(--hover-scale); */
 }
 
 body {

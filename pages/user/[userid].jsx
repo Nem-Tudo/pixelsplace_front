@@ -247,7 +247,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             <div className={styles.name}>
               <h1 className={styles.displayName}>
                 {user?.display_name}
-                <Verified verified={user?.premium} /*PQP NT Q COISA FEIA *//>
+                <Verified verified={user?.premium || user?.flags.includes("VERIFIED")}/>
                 {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ?
                   <Tippy arrow={false} content={'Opções de administrador'} placement="top">
                     <Link href={'/admin?page=users&Search='+user?.id}>
@@ -310,7 +310,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </div>
             }
             {user.settings.selected_guild && (
-              <GuildCard guild={user.settings.selected_guild} id={styles.guildCard} className={styles.infoBox} />
+              <GuildCard guild={user.settings.selectedGuild} id={styles.guildCard} className={styles.infoBox} />
             )}
             <div className={styles.infoBox} id={styles.pixelsInfo}>
               <p className={styles.pixelsText}>
