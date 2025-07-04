@@ -114,7 +114,7 @@ export default function TimeTravel() {
 
             const [settingsRes, pixelsRes] = await Promise.all([
                 fetch(`${settings.apiURL}/canvas`),
-                fetch(`${settings.apiURL}/canvas/timetravel?startDate=${startTimestamp}&endDate=${endTimestamp}&percentage=${percentageValue}&includeHistory=${history}`, {
+                fetch(`${settings.apiURL}/canvas/timetravel/pixels?startDate=${startTimestamp}&endDate=${endTimestamp}&percentage=${percentageValue}&includeHistory=${history}`, {
                     headers: {
                         "Authorization": Cookies.get("authorization")
                     }
