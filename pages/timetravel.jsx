@@ -204,7 +204,7 @@ export default function TimeTravel() {
                 }
                 {apiError &&
                     <Failure message={language.getString("PAGES.TIME_TRAVEL.API_ERROR")} details={String(apiError)}>
-                        <CustomButton color={'#ffffff54'} icon={'reload'} padding={2} icon={'reload'} label={language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")} onClick={() => location.reload()} />
+                        <CustomButton color={'#ffffff54'} icon={'reload'} padding={2} label={language.getString("PAGES.TIME_TRAVEL.RELOAD_BUTTON")} onClick={() => location.reload()} />
                     </Failure>
                 }
 
