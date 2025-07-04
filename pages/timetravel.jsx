@@ -192,7 +192,7 @@ export default function Place() {
                     position: 'fixed',
                     bottom: '20px',
                     left: '50%',
-                    transform: 'translateY(-45px)',
+                    transform: 'translateX(-50%) translateY(-45px)',
                     background: 'rgba(0, 0, 0, 0.9)',
                     backdropFilter: 'blur(10px)',
                     borderRadius: '20px',
@@ -626,7 +626,7 @@ export default function Place() {
                             setTravelDuration(Number(e.target.value));
                         }}
                     />
-                    <select value="1">
+                    <select value={travelMultiplier} onChange={() => setTravelMultiplier(Number(e.target.value))}>
                         <option value="1">
                             minutos
                         </option>
