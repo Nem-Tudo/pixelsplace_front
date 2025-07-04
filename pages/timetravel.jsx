@@ -12,6 +12,7 @@ import PixelCanvas from "@/components/pixelCanvas/PixelCanvas";
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import styles from "./timetravel.module.css";
+import ToggleSwitch from "@/components/ToggleSwitch"
 
 let durationTimeout;
 let multiplierTimeout;
@@ -643,7 +644,13 @@ export default function Place() {
 
                 {/* Viagem no tempo desvacada */}
                 <div className={styles.control}>
-                    <input type="number" value="1" />
+                    <input
+                        type="number"
+                        value={travelDuration}
+                        onChange={(e) => {
+                            setTravelDuration(Number(e.target.value));
+                        }}
+                    />
                     <select value="1">
                         <option value="1">
                             minutos
@@ -656,6 +663,8 @@ export default function Place() {
                         </option>
                     </select>
                     atrás
+                    Histórico
+                    <ToggleSwitch checked={includeHistory} onChange={(e) => setIncludeHistory(e.target.checked)}/>
                 </div>
 
                 {/* Canvas */}
