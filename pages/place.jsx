@@ -351,10 +351,9 @@ export default function Place() {
                       </span>
                       {
                         showingPixelInfo.author.settings.selected_guild ? <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
-                          {language.getString("COMMON.SERVER") + ": "}
                           {showingPixelInfo.author.settings.selectedGuild.name}
                         </Link > : <span>
-                          {language.getString("COMMON.SERVER") + ": "}
+                          {language.getString("COMMON.SERVER") + " "}
                           {language.getString("COMMON.NOT_SELECTED")}
                         </span>
                       }

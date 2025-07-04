@@ -164,7 +164,7 @@ export default function Header() {
                                 <Link href={`/user/${loggedUser?.id}`}>
                                     <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                 </Link>
-                                <div>
+                                <section>
                                     {/* {language.getString('COMMON.LANGUAGE')} */}
                                     {/* Dont translate */}
                                     <span>Language</span>
@@ -185,21 +185,21 @@ export default function Header() {
                                             ))
                                         }
                                     </select>
-                                </div>
+                                </section>
                                 <Link href={"/auth/discord"} style={{ '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
                                     <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                     <>
-                                        <div>
+                                        <label htmlFor="PreferenceSfxToggle">
                                             <span>{language.getString("COMMON.SOUND_EFFECTS")}</span>
-                                            <ToggleSwitch defaultChecked={localStorage.getItem("preferences.sound_effects_disabled") != "true"} onChange={(e) => {
+                                            <ToggleSwitch id="PreferenceSfxToggle" defaultChecked={localStorage.getItem("preferences.sound_effects_disabled") != "true"} onChange={(e) => {
                                                 localStorage.setItem("preferences.sound_effects_disabled", !e.target.checked)
                                             }} />
-                                        </div>
+                                        </label>
                                     </>
                                 )}>
-                                    <div style={{ '--hover-color': '#35a4ff', '--hover-color-text': '#ffffff' }}>
+                                    <div>
                                         <span>{language.getString("COMMON.PREFERENCES")}</span>
                                         <PixelIcon codename={'chevron-right'} />
                                     </div>
@@ -207,9 +207,9 @@ export default function Header() {
                                 {
                                     checkFlags(loggedUser?.flags, "CHANGE_VIEW_MODE") && <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                         <>
-                                            <div>
+                                            <label htmlFor="ViewAsUserToggle">
                                                 <span>{language.getString("COMPONENTS.HEADER.VIEW_AS_USER")}</span>
-                                                <ToggleSwitch checked={loggedUser?.flags?.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")} onChange={() => {
+                                                <ToggleSwitch id="ViewAsUserToggle" checked={loggedUser?.flags?.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")} onChange={() => {
                                                     if (!loggedUser.flags.includes("CHANGE_VIEW_MODE_VIEWING_AS_USER")) {
                                                         setRealUserFlags(loggedUser.flags)
                                                         updateUserKey(["flags", ["CHANGE_VIEW_MODE", "CHANGE_VIEW_MODE_VIEWING_AS_USER"]])
@@ -217,14 +217,14 @@ export default function Header() {
                                                         updateUserKey(["flags", realUserFlags])
                                                     }
                                                 }} />
-                                            </div>
-                                            <div>
+                                            </label>
+                                            <label htmlFor="ViewAsPremiumToggle">
                                                 <span>{language.getString("COMMON.PREMIUM")}</span>
-                                                <ToggleSwitch onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium} />
-                                            </div>
+                                                <ToggleSwitch id="ViewAsPremiumToggle" onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium} />
+                                            </label>
                                         </>
                                     )}>
-                                        <div style={{ '--hover-color': '#35a4ff', '--hover-color-text': '#ffffff' }}>
+                                        <div>
                                             <span>{language.getString("COMPONENTS.HEADER.VIEW_SETTINGS")}</span>
                                             <PixelIcon codename={'chevron-right'} />
                                         </div>

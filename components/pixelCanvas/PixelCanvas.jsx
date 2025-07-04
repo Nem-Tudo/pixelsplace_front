@@ -621,7 +621,7 @@ const PixelCanvas = forwardRef(({
                 {
                     !settings.disableCanvasTools && checkFlags(loggedUser?.flags, "CANVAS_TOOLS") && <>
                         <Tippy animation="scale-extreme" theme="pixelsplace_dropdown" placement="top" trigger="click" interactive={true} content={<>
-                            <div>
+                            <section>
                                 <span>Buffer Width </span>
                                 <input type="number" value={tools_canvasConfigCustom?.width || canvasConfig.width} onChange={e => {
                                     if (tools_canvasConfigCustom === null) tools_setInitialBytes(getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig))
@@ -633,8 +633,8 @@ const PixelCanvas = forwardRef(({
                                     tools_setCanvasConfigCustom(newConfig)
                                     replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), newConfig, 1);
                                 }} />
-                            </div>
-                            <div>
+                            </section>
+                            <section>
                                 <span>Buffer Height </span>
                                 <input type="number" value={tools_canvasConfigCustom?.height || canvasConfig.height} onChange={e => {
                                     if (tools_canvasConfigCustom === null) tools_setInitialBytes(getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig))
@@ -646,8 +646,8 @@ const PixelCanvas = forwardRef(({
                                     tools_setCanvasConfigCustom(newConfig)
                                     replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), newConfig, 1);
                                 }} />
-                            </div>
-                            <div>
+                            </section>
+                            <section>
                                 <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     const bytes = tools_initialBytes || getCanvasBytes(canvasRef.current.getContext("2d"), canvasConfig);
                                     replaceCanvasBytes(bytes, canvasRef.current.getContext("2d"), canvasConfig, 1);
@@ -659,31 +659,22 @@ const PixelCanvas = forwardRef(({
                                     if (isNaN(multipler)) return alert("deve ser um número")
                                     downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
                                 }}>Download</CustomButton>
-                            </div>
-                            <div>
-                                <CustomButton hierarchy={3} padding={1} onClick={() => {
-                                    centerCanvas()
-                                }}>centralizar</CustomButton>
+                            </section>
+                            <section>
                                 <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     transform.current.scale = transform.current.minScale;
                                     applyTransform()
-                                }}>resetar escala</CustomButton>
+                                }}>Resetar escala</CustomButton>
+                                <CustomButton hierarchy={3} padding={1} onClick={() => {
+                                    centerCanvas()
+                                }}>Centralizar</CustomButton>
                                 <CustomButton hierarchy={3} padding={1} onClick={() => {
                                     transform.current.scale = transform.current.minScale;
                                     centerCanvas();
-                                }}>resetar tudo</CustomButton>
-                            </div>
+                                }}>Resetar tudo</CustomButton>
+                            </section>
                         </>}>
-                            <PixelIcon codename={'cog'} style={{
-                                right: 0,
-                                bottom: 0,
-                                position: "absolute",
-                                margin: "10px",
-                                cursor: "pointer",
-                                pointerEvents: "all",
-                                zIndex: 20,
-                                cursor: "pointer" 
-                            }} />
+                            <PixelIcon codename={'cog'} className={styles.canvasTools} />
                         </Tippy>
                     </>
                 }
