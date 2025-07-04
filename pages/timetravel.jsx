@@ -221,7 +221,7 @@ export default function TimeTravel() {
                     <section>
 
                         {/* Data Inicial */}
-                        {nerdMode && <div>
+                        {nerdMode && <div className={styles.nerdDate}>
                             <label>
                                 Data Inicial
                             </label>
@@ -233,14 +233,15 @@ export default function TimeTravel() {
                         </div>}
 
                         {/* Slider de Porcentagem */}
-                        <div>
-                            <div>
+                        <div className={styles.slider}>
+                            {nerdMode && <div>
                                 {percentage}%
-                            </div>
+                            </div>}
 
                             <div>
                                 {/* Botão - */}
                                 <CustomButton
+                                    padding={1}
                                     onClick={() => setPercentage(Math.max(0, percentage - 1))}
                                 >
                                     −
@@ -256,6 +257,7 @@ export default function TimeTravel() {
 
                                 {/* Botão + */}
                                 <CustomButton
+                                    padding={1}
                                     onClick={() => setPercentage(Math.min(100, percentage + 1))}
                                 >
                                     +
@@ -264,7 +266,7 @@ export default function TimeTravel() {
                         </div>
 
                         {/* Data Final */}
-                        {nerdMode && <div>
+                        {nerdMode && <div className={styles.nerdDate}>
                             <label>
                                 Data Final
                             </label>

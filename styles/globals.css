@@ -75,7 +75,7 @@
   transition: var(--smooth-transition);
 }
 
-select, input[type=text], input[type=number], textarea {
+select, input[type=text], input[type=number], input[type=datetime-local], input[type=date], textarea {
   border: var(--outline);
   box-shadow: var(--shadow);
   transition: var(--smooth-transition);
@@ -83,8 +83,8 @@ select, input[type=text], input[type=number], textarea {
   border-radius: 4px;
 }
 
-select:hover, input[type=text]:hover, input[type=number]:hover, textarea:hover {
-  /* scale: var(--hover-scale); */
+select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
+  scale: var(--hover-scale);
 }
 
 body {
