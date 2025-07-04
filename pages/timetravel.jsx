@@ -152,9 +152,16 @@ export default function TimeTravel() {
 
     if (!loggedUser?.premium)
         return (
-            <MainLayout>
-                <span>{language.getString("COMMON.NO_PERMISSION")}</span>
-            </MainLayout>
+            <>
+                <CustomHead
+                    title={language.getString("PAGES.TIME_TRAVEL.META_TITLE")}
+                    description={language.getString("PAGES.TIME_TRAVEL.META_DESCRIPTION")}
+                    url={"https://pixelsplace.nemtudo.me/timetravel"}
+                />
+                <MainLayout>
+                    <span>{language.getString("COMMON.NO_PERMISSION")}</span>
+                </MainLayout>
+            </>
         );
 
     return (
