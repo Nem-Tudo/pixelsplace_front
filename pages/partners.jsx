@@ -27,13 +27,6 @@ export default function Partners({ guilds, error, errormessage }) {
     const { loggedUser } = useAuth()
     const { language } = useLanguage();
 
-    const [hovered, setHovered] = useState(null);
-    const [userServer, setUserServer] = useState(null);
-
-    useEffect(() => {
-        setUserServer(loggedUser?.settings.selectedGuild)
-    }, [loggedUser])
-
     if (error) return (
         <>
             <div>
@@ -61,8 +54,8 @@ export default function Partners({ guilds, error, errormessage }) {
 
                 <div className={styles.servers}>
                     {!checkFlags(loggedUser?.flags, "VIEW_PARTNERS") && <span>{language.getString("PAGES.PARTNERS.SECRET")}</span>}
-                    {checkFlags(loggedUser?.flags, "VIEW_PARTNERS") && guilds.slice(0, 30).map((guild, index) => (
-                        <GuildCard guild={guild} index={index} />
+                    {checkFlags(loggedUser?.flags, "VIEW_PARTNERS") && guilds.map((guild, index) => (
+                        <GuildCard showStar="ALWAYS" guild={guild} key={index} />
                     ))}
                 </div>
             </main>

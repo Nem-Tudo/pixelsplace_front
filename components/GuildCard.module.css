@@ -41,9 +41,10 @@
             justify-content: flex-start;
 
             span {
-                max-width: 85%;
+                max-width: 256px;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                margin-right: 7px;
             }
         }
 
@@ -57,6 +58,7 @@
     .guildStar {
         display: flex;
         align-self: start;
+        cursor: pointer;
         
         svg {
             width: 1.5rem;

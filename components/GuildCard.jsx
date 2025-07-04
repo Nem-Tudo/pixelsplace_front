@@ -11,49 +11,49 @@ import { usePopup } from '@/context/PopupContext';
 import updateStateKey from "@/src/updateStateKey";
 
 
-export default function GuildCard({ guild, index, ...props }) {
-    const { loggedUser, token } = useAuth()
+export default function GuildCard({ guild, showStar = "ONLY_IF_SELECTED", ...props }) { //showStar: ALWAYS / NEVER / ONLY_IF_SELECTED
+    const { loggedUser, token, updateUserKey } = useAuth()
     const { language } = useLanguage();
 
     const [hovered, setHovered] = useState(null);
-    const [userServer, setUserServer] = useState(null);
 
     const { openPopup } = usePopup();
-    const [loadingFetch, setLoadingFetch] = useState(false);
 
-    
     const fetchWithAuth = async (url, method, body) => {
-    try {
-        setLoadingFetch(true);
-        const res = await fetch(`${settings.apiURL}${url}`, {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-        },
-        body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Erro na requisição.");
-        return data;
-    } catch (err) {
-        openPopup("error", { message: `${err.message}` });
-    } finally {
-        setLoadingFetch(false);
-    }
-};
-
-    useEffect(() => {
-        setUserServer(loggedUser.settings.selected_guild);
-    }, [loggedUser])
+        try {
+            const res = await fetch(`${settings.apiURL}${url}`, {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: token,
+                },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+            return data;
+        } catch (err) {
+            openPopup("error", { message: `${err.message}` });
+        } finally {
+        }
+    };
 
     const className = [
         styles.guildCard,
         props.className || ''
     ].join(' ');
-    
+
+    async function updateUserGuild(guildid) {
+        const response = await fetchWithAuth("/users/@me/settings", "PATCH", {
+            selected_guild: guildid
+        });
+
+        updateUserKey(["settings.selected_guild", response.settings.selected_guild])
+
+    }
+
     return (
-        <div {...props} key={index || ''} className={className} style={index && userServer === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
+        <div {...props} className={className} style={loggedUser?.settings.selected_guild === guild.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
             <img
                 className={styles.guildIcon}
                 src={settings.guildIconURL(guild.id, guild.icon)}
@@ -62,7 +62,7 @@ export default function GuildCard({ guild, index, ...props }) {
             <div className={styles.guildInfo}>
                 <h2 className={styles.guildName} translate="no">
                     <span>{guild.name}</span>
-                    <Verified verified={guild.flags.includes("VERIFIED")}/>
+                    <Verified verified={guild.flags.includes("VERIFIED")} />
                 </h2>
                 <footer className={styles.buttonsContainer}>
                     <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.JOIN")} href={guild.invite} target="_blank" rel="norreferer" />
@@ -72,21 +72,17 @@ export default function GuildCard({ guild, index, ...props }) {
             <div
                 onMouseEnter={() => setHovered(guild.id)}
                 onMouseLeave={() => setHovered(null)}
-                onClick={async () => { setUserServer(guild.id);
-                                await fetchWithAuth("/users/@me/settings", "PATCH", {
-                                    selected_guild: guild?.id
-                                });
-                                updateStateKey(setUserServer, userServer, ["settings.selected_guild", guild?.id]);
-                                console.log("Enviado");
-                        }
+                onClick={() => { updateUserGuild(guild.id) }
                 }
                 className={styles.guildStar}
             >
-                {userServer === guild.id
-                    ? <BsFillStarFill />
-                    : hovered === guild.id
-                        ? <BsStarHalf />
-                        : <BsStar />
+                {
+                    showStar != "NEVER" && <>{loggedUser?.settings.selected_guild === guild.id
+                        ? <BsFillStarFill />
+                        : (showStar != "ONLY_IF_SELECTED") && (hovered === guild.id
+                            ? <BsStarHalf />
+                            : <BsStar />)
+                    }</>
                 }
             </div>
         </div>
