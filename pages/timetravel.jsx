@@ -156,7 +156,7 @@ export default function Place() {
                         position: 'fixed',
                         bottom: '240px',
                         left: '50%',
-                        transform: 'translateX(-50%)',
+                        transform: 'translateX(-50%) translateX(-50%) translateY(-45px);',
                         background: 'rgba(0, 0, 0, 0.85)',
                         backdropFilter: 'blur(8px)',
                         borderRadius: '16px',
@@ -618,7 +618,7 @@ export default function Place() {
                 </div>
 
                 {/* Viagem no tempo desvacada */}
-                {!loading && <div className={`${styles.control} showBottom`}>
+                {!loading && <div className={`${styles.controls} showBottom`}>
                     <input
                         type="number"
                         value={travelDuration}
@@ -639,7 +639,7 @@ export default function Place() {
                     </select>
                     atrás
                     Apenas mudanças
-                    <ToggleSwitch checked={!includeHistory} onChange={(e) => setIncludeHistory(e.target.checked)}/>
+                    <ToggleSwitch checked={!includeHistory} onChange={(e) => setIncludeHistory(!e.target.checked)}/>
                 </div>}
 
                 {/* Canvas */}
