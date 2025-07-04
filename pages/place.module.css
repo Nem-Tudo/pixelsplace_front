@@ -84,13 +84,14 @@
             justify-items: center;
             max-width: fit-content;
             width: 99dvw;
-            margin-bottom: 5px;
 
             .placePixel {
                 width: fit-content;
+                margin-bottom: 5px;
 
                 @media screen and (max-height: 500px) and (orientation: landscape) {
                     border-radius: 99px;
+                    margin: 10px;
                 }
             }
 
@@ -118,6 +119,7 @@
             border-radius: 22px;
             border: var(--outline);
             overflow-x: hidden;
+            margin-bottom: 5px;
 
             @media (max-width: 768px) {
                 border-radius: 0;
@@ -132,6 +134,10 @@
                 bottom: 0px;
                 border-radius: 22px 0 0 0;
                 margin: 0;
+            }
+
+            .placePixel {
+                border-radius: 12px !important;
             }
 
             .colors {
