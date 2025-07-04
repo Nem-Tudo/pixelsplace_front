@@ -187,7 +187,9 @@ export default function TimeTravel() {
                 </MainLayout>
             </>
         );
-
+    
+    if(loading) return;
+    
     return (
         <>
             <CustomHead
@@ -211,7 +213,7 @@ export default function TimeTravel() {
                 }
 
                 {/* Controles de Viagem no Tempo */}
-                {!loading && <div className={`${styles.controls} showBottom`}>
+                <div className={`${styles.controls} showBottom`}>
 
                     {/* Preview da Data */}
                     <section>
@@ -304,16 +306,16 @@ export default function TimeTravel() {
                         onClick={(e) => setNerdMode(!nerdMode)}
                         className={styles.nerdModeToggle}
                     />
-                </div>}
+                </div>
 
                 {/* Canvas */}
-                {!loading && <div id={styles.main}>
+                <div id={styles.main}>
                     <PixelCanvas
                         ref={canvasRef}
                         fetchCanvas={fetchCanvas}
                         onRightClickPixel={(x, y) => showPixelInfo(x, y)}
                     />
-                </div>}
+                </div>
             </MainLayout>
         </>
     );
