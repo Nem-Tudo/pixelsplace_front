@@ -888,7 +888,9 @@ export default function AdminPage() {
         </MainLayout>
       </>
     );
-  } else if (chosenPage === "auditlogs") {
+  } 
+  
+  else if (chosenPage === "auditlogs") {
     return (
       <>
         <CustomHead
@@ -898,22 +900,28 @@ export default function AdminPage() {
         />
         <MainLayout>
           <main className={styles.main}>
-            <h1>Logs</h1>
+            <h1>Registros</h1>
             {PageSelector}
-            <div>
-              <h2>Filtros</h2>
-              <div>
-                <span>Ação</span>
-                <input type="text" value={auditLogsQuery.action} onChange={e => updateStateKey(setAuditLogsQuery, auditLogsQuery, ["action", e.target.value])} />
-              </div>
-              <div>
-                <span>ID Admin</span>
-                <input type="text" value={auditLogsQuery.idAdmin} onChange={e => updateStateKey(setAuditLogsQuery, auditLogsQuery, ["idAdmin", e.target.value])} />
-              </div>
-              <div>
-                <CustomButton label="Buscar" onClick={() => fetchAuditLogs(true)} />
-              </div>
-            </div>
+
+            <fieldset>
+              <legend>
+                <strong>Busca filtrada</strong>
+              </legend>
+              <main>
+                <section>
+                  <label>Ação:</label>
+                  <input type="text" value={auditLogsQuery.action} onChange={e => updateStateKey(setAuditLogsQuery, auditLogsQuery, ["action", e.target.value])} />
+                </section>
+                <section>
+                  <label>ID Admin:</label>
+                  <input type="text" value={auditLogsQuery.idAdmin} onChange={e => updateStateKey(setAuditLogsQuery, auditLogsQuery, ["idAdmin", e.target.value])} />
+                </section>
+              </main>
+              <footer className={styles.buttonsContainer}>
+                <CustomButton icon="search" label="Buscar" onClick={() => fetchAuditLogs(true)} />
+              </footer>
+            </fieldset>
+
             <div className={styles.auditLogsGrid}>
               {auditLogs.map(log => (
                 <div
