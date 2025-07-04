@@ -180,139 +180,40 @@ export default function TimeTravel() {
                 }
 
                 {/* Controles de Viagem no Tempo */}
-                <div style={{
-                    position: 'fixed',
-                    bottom: '20px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: 'rgba(0, 0, 0, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: '20px',
-                    padding: '20px 30px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '20px',
-                    minWidth: '600px',
-                    maxWidth: '90vw',
-                    zIndex: 1000,
-                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                }}>
+                <div className={styles.controls}>
 
                     {/* Preview da Data */}
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px',
-                        marginBottom: '10px'
-                    }}>
-                        <div style={{
-                            color: 'white',
-                            fontSize: '16px',
-                            fontWeight: '600',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            borderRadius: '12px',
-                            padding: '8px 16px',
-                            border: '1px solid rgba(255, 255, 255, 0.2)',
-                            fontFamily: 'monospace',
-                            letterSpacing: '0.5px'
-                        }}>
+                    <div>
+                        <div>
                             📅 {formatDisplayDate(calculateDisplayedDate()) || 'Carregando...'}
                         </div>
                     </div>
 
                     {/* Controle Principal - Inputs de Data */}
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '15px',
-                        justifyContent: 'space-between'
-                    }}>
+                    <div>
 
                         {/* Data Inicial */}
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '5px'
-                        }}>
-                            <label style={{
-                                color: 'rgba(255, 255, 255, 0.8)',
-                                fontSize: '12px',
-                                fontWeight: '500'
-                            }}>
+                        <div>
+                            <label>
                                 Data Inicial
                             </label>
                             <input
                                 type="datetime-local"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                style={{
-                                    padding: '8px 12px',
-                                    borderRadius: '8px',
-                                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                                    background: 'rgba(255, 255, 255, 0.1)',
-                                    color: 'white',
-                                    fontSize: '13px',
-                                    outline: 'none',
-                                    fontFamily: 'monospace'
-                                }}
                             />
                         </div>
 
-                        {/* Seta */}
-                        <div style={{
-                            color: 'rgba(255, 255, 255, 0.6)',
-                            fontSize: '20px',
-                            marginTop: '15px'
-                        }}>
-                            →
-                        </div>
-
                         {/* Slider de Porcentagem */}
-                        <div style={{
-                            flex: 1,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '8px'
-                        }}>
-                            <div style={{
-                                color: 'white',
-                                fontSize: '14px',
-                                fontWeight: '600',
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                borderRadius: '8px',
-                                padding: '4px 12px'
-                            }}>
+                        <div>
+                            <div>
                                 {percentage}%
                             </div>
 
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                width: '100%'
-                            }}>
+                            <div>
                                 {/* Botão - */}
                                 <button
                                     onClick={() => setPercentage(Math.max(0, percentage - 1))}
-                                    style={{
-                                        width: '28px',
-                                        height: '28px',
-                                        borderRadius: '50%',
-                                        background: 'rgba(255, 255, 255, 0.15)',
-                                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                                        color: 'white',
-                                        fontSize: '16px',
-                                        fontWeight: '600',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        transition: 'all 0.2s ease',
-                                        outline: 'none'
-                                    }}
                                     onMouseEnter={(e) => {
                                         e.target.style.background = 'rgba(255, 255, 255, 0.25)';
                                         e.target.style.transform = 'scale(1.05)';
@@ -331,40 +232,11 @@ export default function TimeTravel() {
                                     max={100}
                                     value={percentage}
                                     onChange={(e) => setPercentage(Number(e.target.value))}
-                                    style={{
-                                        flex: 1,
-                                        height: '8px',
-                                        borderRadius: '4px',
-                                        background: `linear-gradient(to right, 
-                                            #4ade80 0%, 
-                                            #3b82f6 ${percentage}%, 
-                                            #374151 ${percentage}%, 
-                                            #374151 100%)`,
-                                        appearance: 'none',
-                                        cursor: 'pointer',
-                                        outline: 'none'
-                                    }}
                                 />
 
                                 {/* Botão + */}
                                 <button
                                     onClick={() => setPercentage(Math.min(100, percentage + 1))}
-                                    style={{
-                                        width: '28px',
-                                        height: '28px',
-                                        borderRadius: '50%',
-                                        background: 'rgba(255, 255, 255, 0.15)',
-                                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                                        color: 'white',
-                                        fontSize: '16px',
-                                        fontWeight: '600',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        transition: 'all 0.2s ease',
-                                        outline: 'none'
-                                    }}
                                     onMouseEnter={(e) => {
                                         e.target.style.background = 'rgba(255, 255, 255, 0.25)';
                                         e.target.style.transform = 'scale(1.05)';
@@ -379,62 +251,19 @@ export default function TimeTravel() {
                             </div>
                         </div>
 
-                        {/* Seta */}
-                        <div style={{
-                            color: 'rgba(255, 255, 255, 0.6)',
-                            fontSize: '20px',
-                            marginTop: '15px'
-                        }}>
-                            →
-                        </div>
-
                         {/* Data Final */}
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '5px'
-                        }}>
-                            <label style={{
-                                color: 'rgba(255, 255, 255, 0.8)',
-                                fontSize: '12px',
-                                fontWeight: '500'
-                            }}>
+                        <div>
+                            <label>
                                 Data Final
                             </label>
-                            <div style={{
-                                display: 'flex',
-                                gap: '5px'
-                            }}>
+                            <div>
                                 <input
                                     type="datetime-local"
                                     value={endDate}
                                     onChange={(e) => setEndDate(e.target.value)}
-                                    style={{
-                                        padding: '8px 12px',
-                                        borderRadius: '8px',
-                                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                                        background: 'rgba(255, 255, 255, 0.1)',
-                                        color: 'white',
-                                        fontSize: '13px',
-                                        outline: 'none',
-                                        fontFamily: 'monospace'
-                                    }}
                                 />
                                 <button
                                     onClick={setNowAsEndDate}
-                                    style={{
-                                        padding: '8px 12px',
-                                        borderRadius: '8px',
-                                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                                        background: 'rgba(255, 255, 255, 0.15)',
-                                        color: 'white',
-                                        fontSize: '12px',
-                                        fontWeight: '500',
-                                        cursor: 'pointer',
-                                        outline: 'none',
-                                        transition: 'all 0.2s ease',
-                                        whiteSpace: 'nowrap'
-                                    }}
                                     onMouseEnter={(e) => {
                                         e.target.style.background = 'rgba(255, 255, 255, 0.25)';
                                     }}
@@ -449,61 +278,15 @@ export default function TimeTravel() {
                     </div>
 
                     {/* Toggle História */}
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px'
-                    }}>
-                        <span style={{
-                            color: 'white',
-                            fontSize: '14px',
-                            fontWeight: '500'
-                        }}>
+                    <div>
+                        <span>
                             📚 Incluir Histórico
                         </span>
-                        <label style={{
-                            position: 'relative',
-                            display: 'inline-block',
-                            width: '44px',
-                            height: '24px',
-                            cursor: 'pointer'
-                        }}>
-                            <input
-                                type="checkbox"
-                                checked={includeHistory}
-                                onChange={(e) => setIncludeHistory(e.target.checked)}
-                                style={{
-                                    opacity: 0,
-                                    width: 0,
-                                    height: 0
-                                }}
-                            />
-                            <span style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                background: includeHistory ? '#4ade80' : '#374151',
-                                borderRadius: '12px',
-                                transition: 'all 0.3s ease',
-                                boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.2)'
-                            }}>
-                                <span style={{
-                                    position: 'absolute',
-                                    content: '""',
-                                    height: '18px',
-                                    width: '18px',
-                                    left: includeHistory ? '23px' : '3px',
-                                    bottom: '3px',
-                                    background: 'white',
-                                    borderRadius: '50%',
-                                    transition: 'all 0.3s ease',
-                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
-                                }} />
-                            </span>
-                        </label>
+                        <ToggleSwitch
+                            type="checkbox"
+                            checked={includeHistory}
+                            onChange={(e) => setIncludeHistory(e.target.checked)}
+                        />
                     </div>
                 </div>
 
