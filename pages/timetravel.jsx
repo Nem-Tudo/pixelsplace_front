@@ -117,7 +117,7 @@ export default function Place() {
                 changeTransform: false,
             });
         }
-    }, [travelDuration, travelMultiplier, includeHistory]);
+    }, [travelDuration, travelMultiplier, fakeMultiplier, includeHistory]);
 
     const isAlready = () => !apiError && !loading && canvasConfig.width
 
