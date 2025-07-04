@@ -234,7 +234,7 @@
 /* Grid de logs de auditoria */
 .auditLogsGrid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
 
   /* Card do log de auditoria */
@@ -258,7 +258,7 @@
 
     /* Ação do log */
     .auditLogAction {
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: #ffffff;
       margin: 0;
