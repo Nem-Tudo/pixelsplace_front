@@ -9,14 +9,14 @@
 
     @media screen and (max-height: 500px) and (orientation: landscape) {
         width: 100vw;
-        height: 100dvh;
-        position: fixed;
+        height: 100vh;
+        position: absolute;
         top: 0;
     }
 }
 
 .controls {
-    position: absolute;
+    position: fixed;
     bottom: 5px;
     z-index: 2;
     background: var(--frosted-glass);
