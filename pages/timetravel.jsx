@@ -63,6 +63,26 @@ export default function TimeTravel() {
 
     }
 
+    //Mostrar informações deu im pixel
+    async function showPixelInfo(x, y) {
+        const request = await fetch(
+            `${settings.apiURL}/canvas/timetravel/pixel?x=${x}&y=${y}&endDate=${calculateDisplayedDate().getTime()}`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": Cookies.get("authorization")
+                }
+            }
+        ).catch((e) => {
+            console.log("Erro ao obter pixel: ", e);
+            alert(e)
+        });
+        if (!request.ok) return alert("erro", request.status)
+
+        const data = await request.json();
+        alert(JSON.stringify(data))
+    }
+
     // Função para formatar data para input datetime-local
     const formatDateForInput = (date) => {
         const year = date.getFullYear();
@@ -282,8 +302,8 @@ export default function TimeTravel() {
                     </section>}
 
                     {/* Nerd mode toggle */}
-                    <PixelIcon 
-                        codename={nerdMode? 'close' : 'plus'}
+                    <PixelIcon
+                        codename={nerdMode ? 'close' : 'plus'}
                         onClick={(e) => setNerdMode(!nerdMode)}
                         className={styles.nerdModeToggle}
                     />
@@ -294,6 +314,7 @@ export default function TimeTravel() {
                     <PixelCanvas
                         ref={canvasRef}
                         fetchCanvas={fetchCanvas}
+                        onRightClickPixel={(x, y) => showPixelInfo(x, y)}
                     />
                 </div>
             </MainLayout>
