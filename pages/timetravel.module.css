@@ -26,6 +26,19 @@
     box-shadow: var(--shadow);
     backdrop-filter: var(--frosted-glass-blur);
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+        max-width: 100dvw;
+        margin: 0;
+    }
+
+    section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 }

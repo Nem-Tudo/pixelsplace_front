@@ -28,6 +28,7 @@ export default function TimeTravel() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [includeHistory, setIncludeHistory] = useState(true);
+    const [nerdMode, setNerdMode] = useState(false);
 
     // Inicializar datas com valores padrão
     useEffect(() => {
@@ -190,17 +191,15 @@ export default function TimeTravel() {
                 <div className={styles.controls}>
 
                     {/* Preview da Data */}
-                    <div>
-                        <div>
-                            📅 {formatDisplayDate(calculateDisplayedDate()) || 'Carregando...'}
-                        </div>
-                    </div>
+                    <section>
+                        {formatDisplayDate(calculateDisplayedDate()) || 'Carregando...'}
+                    </section>
 
                     {/* Controle Principal - Inputs de Data */}
-                    <div>
+                    <section>
 
                         {/* Data Inicial */}
-                        <div>
+                        {nerdMode && <div>
                             <label>
                                 Data Inicial
                             </label>
@@ -209,7 +208,7 @@ export default function TimeTravel() {
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                             />
-                        </div>
+                        </div>}
 
                         {/* Slider de Porcentagem */}
                         <div>
@@ -259,7 +258,7 @@ export default function TimeTravel() {
                         </div>
 
                         {/* Data Final */}
-                        <div>
+                        {nerdMode && <div>
                             <label>
                                 Data Final
                             </label>
@@ -281,20 +280,28 @@ export default function TimeTravel() {
                                     Agora
                                 </button>
                             </div>
-                        </div>
-                    </div>
+                        </div>}
 
-                    {/* Toggle História */}
-                    <div>
+                    </section>
+
+                    {/* Controles */}
+                    <section>
                         <span>
-                            📚 Incluir Histórico
+                            Incluir Histórico
                         </span>
                         <ToggleSwitch
-                            type="checkbox"
                             checked={includeHistory}
                             onChange={(e) => setIncludeHistory(e.target.checked)}
                         />
-                    </div>
+
+                        <span>
+                            Modo nerd
+                        </span>
+                        <ToggleSwitch
+                            checked={nerdMode}
+                            onChange={(e) => setNerdMode(e.target.checked)}
+                        />
+                    </section>
                 </div>
 
                 {/* Canvas */}
