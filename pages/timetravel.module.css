@@ -32,6 +32,7 @@
 
     @media (max-width: 768px) {
         border-radius: 0;
+        width: 100dvw;
         max-width: 100dvw;
         margin: 0;
     }
@@ -40,11 +41,27 @@
         display: flex;
         align-items: center;
         gap: 8px;
+
+        .nerdDate {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 
     .nerdModeToggle {
         position: absolute;
         top: 5px;
         right: 5px;
+        cursor: pointer;
+        transition: var(--smooth-transition);
+    }
+    .nerdModeToggle:hover {
+        scale: var(--hover-scale);
     }
 }
