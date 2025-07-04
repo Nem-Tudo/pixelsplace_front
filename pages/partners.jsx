@@ -31,7 +31,7 @@ export default function Partners({ guilds, error, errormessage }) {
     const [userServer, setUserServer] = useState(null);
 
     useEffect(() => {
-        setUserServer(loggedUser?.settings.selected_guild)
+        setUserServer(loggedUser?.settings.selectedGuild)
     }, [loggedUser])
 
     if (error) return (

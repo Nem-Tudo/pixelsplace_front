@@ -309,7 +309,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </div>
             }
             {user.settings.selected_guild && (
-              <GuildCard guild={user.settings.selected_guild} id={styles.guildCard} className={styles.infoBox} />
+              <GuildCard guild={user.settings.selectedGuild} id={styles.guildCard} className={styles.infoBox} />
             )}
             <div className={styles.infoBox} id={styles.pixelsInfo}>
               <p className={styles.pixelsText}>
