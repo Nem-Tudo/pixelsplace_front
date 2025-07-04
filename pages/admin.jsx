@@ -922,62 +922,68 @@ export default function AdminPage() {
               </footer>
             </fieldset>
 
-            <div className={styles.auditLogsGrid}>
-              {auditLogs.map(log => (
-                <div
-                  key={log.id}
-                  className={styles.auditLogCard}
-                >
-                  <div className={styles.auditLogHeader}>
-                    <h2 className={styles.auditLogAction}>
-                      {log.action}
-                    </h2>
+            <fieldset>
+              <legend>
+                <strong>Registros</strong>
+              </legend>
+              <main className={styles.auditLogsGrid}>
+                {auditLogs.map(log => (
+                  <div
+                    key={log.id}
+                    className={styles.auditLogCard}
+                  >
+                    <div className={styles.auditLogHeader}>
+                      <h2 className={styles.auditLogAction}>
+                        {log.action}
+                      </h2>
 
-                    <span className={styles.auditLogDate}>
-                      {formatDate(log.createdAt)}
-                    </span>
-                  </div>
-
-                  <div className={styles.auditLogInfo}>
-                    <span className={styles.auditLogAdmin}>
-                      <span className={styles.auditLogIndicator}></span>
-                      <strong>Admin:</strong> {log.admin.username} ({log.idAdmin})
-                    </span>
-                    {
-                      log.details._targetUser && <span className={styles.auditLogTarget}>
-                        <span className={styles.auditLogIndicator}></span>
-                        <strong>Alvo:</strong><Link href={`/user/${log.details._targetUser.id}`}>{log.details._targetUser.username}</Link>({log.details._targetUser.id})
+                      <span className={styles.auditLogDate}>
+                        {formatDate(log.createdAt)}
                       </span>
-                    }
-                  </div>
+                    </div>
 
-                  <div className={styles.auditLogDetails}>
-                    <h3 className={styles.auditLogDetailsTitle}>
-                      Detalhes
-                    </h3>
+                    <div className={styles.auditLogInfo}>
+                      <span className={styles.auditLogAdmin}>
+                        <span className={styles.auditLogIndicator}></span>
+                        <strong>Admin:</strong> {log.admin.username} ({log.idAdmin})
+                      </span>
+                      {
+                        log.details._targetUser && <span className={styles.auditLogTarget}>
+                          <span className={styles.auditLogIndicator}></span>
+                          <strong>Alvo:</strong><Link href={`/user/${log.details._targetUser.id}`}>{log.details._targetUser.username}</Link>({log.details._targetUser.id})
+                        </span>
+                      }
+                    </div>
 
-                    <div className={styles.auditLogDetailsContent}>
-                      {Object.entries(log.details).filter(([k]) => !k.startsWith("_")).map(([key, value]) => (
-                        <div
-                          key={key}
-                          className={styles.auditLogDetailItem}
-                        >
-                          <span className={styles.auditLogDetailKey}>
-                            {key.replace(/([A-Z])/g, ' $1').trim()}:
-                          </span>
-                          <span className={`${styles.auditLogDetailValue} ${typeof value === 'string' && value.length > 20 ? styles.auditLogDetailValueMono : ''}`}>
-                            {formatDetailValue(value)}
-                          </span>
-                        </div>
-                      ))}
+                    <div className={styles.auditLogDetails}>
+                      <h3 className={styles.auditLogDetailsTitle}>
+                        Detalhes
+                      </h3>
+
+                      <div className={styles.auditLogDetailsContent}>
+                        {Object.entries(log.details).filter(([k]) => !k.startsWith("_")).map(([key, value]) => (
+                          <div
+                            key={key}
+                            className={styles.auditLogDetailItem}
+                          >
+                            <span className={styles.auditLogDetailKey}>
+                              {key.replace(/([A-Z])/g, ' $1').trim()}:
+                            </span>
+                            <span className={`${styles.auditLogDetailValue} ${typeof value === 'string' && value.length > 20 ? styles.auditLogDetailValueMono : ''}`}>
+                              {formatDetailValue(value)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <CustomButton disabled={!auditLogsQuery.showLoadMore} onClick={() => {
-                fetchAuditLogs()
-              }} label={auditLogsQuery.showLoadMore ? "Carregar mais" : "Você chegou ao final"} />
-            </div>
+                ))}
+                <CustomButton disabled={!auditLogsQuery.showLoadMore} onClick={() => {
+                  fetchAuditLogs()
+                }} label={auditLogsQuery.showLoadMore ? "Carregar mais" : "Você chegou ao final"} />
+              </main>
+            </fieldset>
+
           </main>
         </MainLayout>
       </>
