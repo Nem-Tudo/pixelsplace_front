@@ -36,6 +36,12 @@
         font-family: 'Dogica Pixel';
     }
 
+    h3 {
+        user-select: all;
+        opacity: 75%;
+        font-size: smaller;
+    }
+
     #actionRow {
         display: flex;
         gap: 8px;

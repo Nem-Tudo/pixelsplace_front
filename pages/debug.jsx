@@ -20,7 +20,10 @@ export default function DebugPage(props) {
                 url={"https://pixelsplace.nemtudo.me/premium"}
             />
             <MainLayout>
-                <Failure message="Descrição do erro" />
+                <Failure details={'n deu certgo algo llol'}>
+                    <CustomButton color={'#ffffff54'} hierarchy={2} padding={2} label={'Tentar novamente'} onClick={() => location.reload()} />
+                    <CustomButton color={'#ffffff54'} padding={2} icon={'reload'} label={'Recarregar página'} onClick={() => location.reload()} />
+                </Failure>
             </MainLayout>
         </>
     );

@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
 import { useRouter } from 'next/router';
 import BillboardContent from "@/components/BillboardContent";
+import Failure from "@/components/Failure";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Verified from "@/components/Verified";
@@ -499,10 +500,9 @@ export default function Place() {
 
         {/* API Error */}
         {apiError && (
-          <BillboardContent centerscreen={true} type="warn" expand={String(apiError)}>
-            <span>{language.getString("PAGES.PLACE.ERROR_MAIN_API_CONNECT")}</span>
-            <CustomButton label={language.getString("COMMON.RELOAD")} onClick={() => location.reload()} />
-          </BillboardContent>
+          <Failure message={language.getString("PAGES.PLACE.ERROR_MAIN_API_CONNECT")} details={String(apiError)}>
+            <CustomButton color={'#ffffff54'} icon={'reload'} padding={2} label={language.getString("COMMON.RELOAD")} onClick={() => location.reload()} />
+          </Failure>
         )}
 
         {/* WebSocket Connecting */}
@@ -514,23 +514,17 @@ export default function Place() {
 
         {/* WebSocket Error */}
         {socketerror && !socketconnected && !socketconnecting && !apiError && canvasConfig.width && (
-          <BillboardContent centerscreen={true} type="warn" expand={socketerror.message}>
-            <span>{language.getString("PAGES.PLACE.ERROR_FAILED_WEBSOCKET")}</span>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <CustomButton label={language.getString("COMMON.TRY_AGAIN")} onClick={socketreconnect} />
-              <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
-            </div>
-          </BillboardContent>
+          <Failure message={language.getString("PAGES.PLACE.ERROR_FAILED_WEBSOCKET")} details={socketerror.message}>
+            <CustomButton color={'#ffffff54'} hierarchy={2} padding={2} label={language.getString("COMMON.TRY_AGAIN")} onClick={socketreconnect} />
+            <CustomButton color={'#ffffff54'} padding={2} icon={'reload'} label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
+          </Failure>
         )}
 
         {/* WebSocket Disconnected */}
         {socketdisconnectforced && (
-          <BillboardContent centerscreen={true} type="warn">
-            <span>{language.getString("PAGES.PLACE.WEBSOCKET_KICKED")}</span>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
-            </div>
-          </BillboardContent>
+          <Failure message={language.getString("PAGES.PLACE.WEBSOCKET_KICKED")}>
+            <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
+          </Failure>
         )}
 
         <div id={styles.main}
