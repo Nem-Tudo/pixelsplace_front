@@ -626,7 +626,7 @@ export default function Place() {
                             setTravelDuration(Number(e.target.value));
                         }}
                     />
-                    <select value={travelMultiplier} onChange={() => setTravelMultiplier(Number(e.target.value))}>
+                    <select value={travelMultiplier} onChange={(e) => setTravelMultiplier(Number(e.target.value))}>
                         <option value="1">
                             minutos
                         </option>
