@@ -3,8 +3,9 @@ import { MainLayout } from "@/layout/MainLayout";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import CustomHead from "@/components/CustomHead";
+import BillboardContent from "@/components/BillboardContent";
 
-export default function Premium(props) {
+export default function DebugPage(props) {
 
     const { loggedUser } = useAuth();
     const { language } = useLanguage();
@@ -17,9 +18,12 @@ export default function Premium(props) {
                 url={"https://pixelsplace.nemtudo.me/premium"}
             />
             <MainLayout>
-                <div>
-                    <h1>PREMIUM!! :D</h1>
-                </div>
+                <BillboardContent centerscreen={true} type="warn">
+                    <span>{language.getString("PAGES.PLACE.WEBSOCKET_KICKED")}</span>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                    <CustomButton label={language.getString("COMMON.RELOAD_PAGE")} onClick={() => location.reload()} />
+                    </div>
+                </BillboardContent>
             </MainLayout>
         </>
     );
