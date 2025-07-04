@@ -46,5 +46,9 @@
     #actionRow {
         display: flex;
         gap: 8px;
+
+        svg {
+            width: 1.5rem !important;
+        }
     }
 }
