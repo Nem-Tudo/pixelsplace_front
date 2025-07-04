@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./Failure.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
@@ -7,8 +6,6 @@ export default function Failure({
     message="Um erro impossibilitou o carregamento da página.",
     details
 }) {
-
-    const [expanded, setExpanded] = useState(false)
 
     return <main id={styles.main}>
 

@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { socket, useSocketConnection } from "@/src/socket";
 import { useRouter } from 'next/router';
-import BillboardContent from "@/components/BillboardContent";
+import Billboard from "@/components/Billboard";
 import Failure from "@/components/Failure";
 import Loading from "@/components/Loading";
 import Link from "next/link";
@@ -492,10 +492,9 @@ export default function Place() {
 
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
-          <BillboardContent centerscreen={true} type="normal-white">
-            {" "}
+          <Billboard>
             <Loading width={"50px"} />{" "}
-          </BillboardContent>
+          </Billboard>
         )}
 
         {/* API Error */}
@@ -507,9 +506,9 @@ export default function Place() {
 
         {/* WebSocket Connecting */}
         {socketconnecting && !apiError && canvasConfig?.width && (
-          <BillboardContent centerscreen={true} type="normal-white">
+          <Billboard>
             <Loading width={"50px"} />
-          </BillboardContent>
+          </Billboard>
         )}
 
         {/* WebSocket Error */}

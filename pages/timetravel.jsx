@@ -4,7 +4,7 @@ import settings from "@/settings";
 import { useAuth } from "@/context/AuthContext";
 import { usePopup } from "@/context/PopupContext";
 import { useRouter } from 'next/router'
-import BillboardContent from "@/components/BillboardContent";
+import Billboard from "@/components/Billboard";
 import Failure from "@/components/Failure";
 import Loading from "@/components/Loading";
 import Cookies from 'js-cookie';
@@ -198,9 +198,9 @@ export default function TimeTravel() {
             />
             <MainLayout>
                 {!canvasConfig.width && !apiError &&
-                    <BillboardContent centerscreen={true} type="normal-white">
+                    <Billboard>
                         <Loading width={"50px"} />
-                    </BillboardContent>
+                    </Billboard>
                 }
                 {apiError &&
                     <Failure message={language.getString("PAGES.TIME_TRAVEL.API_ERROR")} details={String(apiError)}>
