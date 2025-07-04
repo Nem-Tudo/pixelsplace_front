@@ -640,6 +640,23 @@ export default function Place() {
                     </div>
                 </div>
 
+                {/* Viagem no tempo desvacada */}
+                <div>
+                    <input type="number" />
+                    <select>
+                        <option value="1">
+                            minutos
+                        </option>
+                        <option value="60">
+                            horas
+                        </option>
+                        <option value="1440">
+                            dias
+                        </option>
+                    </select>
+                    atrás
+                </div>
+
                 {/* Canvas */}
                 <div id={styles.main}>
                     <PixelCanvas
