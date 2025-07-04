@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import CustomHead from "@/components/CustomHead";
 import BillboardContent from "@/components/BillboardContent";
+import CustomButton from "@/components/CustomButton";
 
 export default function DebugPage(props) {
 
