@@ -20,7 +20,7 @@ export default function DebugPage(props) {
                 url={"https://pixelsplace.nemtudo.me/premium"}
             />
             <MainLayout>
-                <Failure title="Erro" message="Descrição do erro" />
+                <Failure message="Descrição do erro" />
             </MainLayout>
         </>
     );
