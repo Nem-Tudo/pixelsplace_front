@@ -3,7 +3,7 @@
   width: 100dvw;
 
   h1 {
-    font-size: min(4dvw,3rem);
+    font-size: min(4dvw, 3rem);
     margin-bottom: 20px;
     text-align: center;
     color: var(--color-muted);
@@ -66,7 +66,9 @@
     font-size: 1rem;
   }
 
-  input[type="number"], input[type="text"], textarea {
+  input[type="number"],
+  input[type="text"],
+  textarea {
     width: 100%;
     padding: 10px;
     background-color: var(--color-input-bg);
@@ -96,7 +98,7 @@
   color: var(--color-muted);
 }
 
-.colorContainer{
+.colorContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -134,7 +136,7 @@
       font-size: larger;
       line-height: 1.6;
     }
-    
+
     h3 {
       line-height: 1.6;
       opacity: 50%;
@@ -142,7 +144,7 @@
   }
 }
 
-.flagList{
+.flagList {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -150,7 +152,7 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  .flag{
+  .flag {
     background-color: var(--color-mid);
     width: fit-content;
     height: fit-content;
@@ -167,13 +169,16 @@
     box-shadow: var(--shadow);
     gap: 3px;
   }
+
   .flag:has(svg:hover) {
     background-color: red;
   }
+
   .flag:hover {
     transform: translateY(-2px);
   }
-  .flag svg{
+
+  .flag svg {
     cursor: pointer;
   }
 }
@@ -217,8 +222,149 @@
     scale: var(--hover-scale);
   }
 
-  input:checked + label {
+  input:checked+label {
     background-color: var(--color-accent);
     color: white;
   }
+}
+
+
+/* logs rs */
+
+/* Grid de logs de auditoria */
+.auditLogsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+/* Card do log de auditoria */
+.auditLogCard {
+  padding: 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff08, #ffffff04);
+  border: 1px solid #ffffff10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.auditLogCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #ffffff12, #ffffff08);
+}
+
+/* Header do card */
+.auditLogHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+/* Ação do log */
+.auditLogAction {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  background: linear-gradient(45deg, #60a5fa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Data do log */
+.auditLogDate {
+  font-size: 0.85rem;
+  color: #ffffff80;
+  background-color: #ffffff10;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+/* Seção de informações */
+.auditLogInfo {
+  display: flex;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  background: #ffffff08;
+  border-radius: 8px;
+  border: 1px solid #ffffff10;
+  flex-direction: column;
+}
+
+/* Admin e alvo */
+.auditLogAdmin,
+.auditLogTarget {
+  font-size: 0.9rem;
+  color: #ffffff90;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Indicador colorido */
+.auditLogIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  display: inline-block;
+}
+
+/* Seção de detalhes */
+.auditLogDetails {
+  margin-bottom: 12px;
+}
+
+/* Título dos detalhes */
+.auditLogDetailsTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff90;
+  margin: 0 0 12px 0;
+  border-bottom: 1px solid #ffffff20;
+  padding-bottom: 6px;
+}
+
+/* Conteúdo dos detalhes */
+.auditLogDetailsContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Item de detalhe */
+.auditLogDetailItem {
+  padding: 8px 12px;
+  background: #ffffff06;
+  border-radius: 6px;
+  border: 1px solid #ffffff08;
+}
+
+/* Chave do detalhe */
+.auditLogDetailKey {
+  font-size: 0.85rem;
+  color: #ffffff70;
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Valor do detalhe */
+.auditLogDetailValue {
+  font-size: 0.9rem;
+  color: #ffffff;
+  word-break: break-word;
+}
+
+/* Valor monoespaçado */
+.auditLogDetailValueMono {
+  font-family: monospace;
 }

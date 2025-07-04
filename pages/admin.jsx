@@ -8,7 +8,7 @@ import checkFlags from "@/src/checkFlags";
 import CustomButton from '@/components/CustomButton';
 import { useRouter } from "next/router";
 import PixelIcon from "@/components/PixelIcon";
-import { dateToString } from "@/src/dateFunctions";
+import { dateToString, formatDate } from "@/src/dateFunctions";
 import copyText from "@/src/copyText";
 import updateStateKey from "@/src/updateStateKey";
 import Verified from "@/components/Verified";
@@ -16,6 +16,7 @@ import { usePopup } from '@/context/PopupContext';
 import ToggleSwitch from "@/components/ToggleSwitch";
 import CustomHead from "@/components/CustomHead";
 import { useLanguage } from "@/context/LanguageContext";
+import Link from "next/link";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -41,6 +42,9 @@ export default function AdminPage() {
   const [showColorsArray, setShowingColorsArray] = useState(false);
 
   const [freeColorsInput, setFreeColorsInput] = useState("");
+
+  const [auditLogs, setAuditLogs] = useState([]);
+  const [auditLogsQuery, setAuditLogsQuery] = useState({ action: "", idAdmin: "", skip: 0, limit: 50 });
 
   const { openPopup } = usePopup()
 
@@ -96,7 +100,7 @@ export default function AdminPage() {
     if (router.isReady) {
       const pageFromUrl = router.query.page;
       const idUserSearch = router.query.Search;
-      const validPages = ['canvas', 'general', 'users'];
+      const validPages = ['canvas', 'general', 'users', "auditlogs"];
 
       if (pageFromUrl && validPages.includes(pageFromUrl)) {
         setChosenPage(pageFromUrl);
@@ -158,6 +162,11 @@ export default function AdminPage() {
     }
   }, [chosenPage, router.isReady]);
 
+  useEffect(() => {
+    if (chosenPage != "auditlogs") return;
+    fetchAuditLogs()
+  }, [chosenPage])
+
   const fetchWithAuth = async (url, method, body) => {
     try {
       setLoading(true);
@@ -178,6 +187,33 @@ export default function AdminPage() {
       setLoading(false);
     }
   };
+
+  async function fetchAuditLogs(reset = false) {
+    if (reset) {
+      auditLogsQuery.limit = 50;
+      auditLogsQuery.skip = 0;
+      setAuditLogsQuery(auditLogsQuery)
+    }
+
+    const response = await fetchWithAuth(
+      `/admin/auditlogs?limit=${auditLogsQuery.limit}&skip=${auditLogsQuery.skip}&${auditLogsQuery.action
+        ? `filter_action=${encodeURIComponent(auditLogsQuery.action)}&`
+        : ""
+      }${auditLogsQuery.idAdmin
+        ? `filter_user=${encodeURIComponent(auditLogsQuery.idAdmin)}&`
+        : ""
+      }`
+    );
+
+    if (response.length === 0) return alert("Você chegou ao final!")
+    auditLogsQuery.skip = auditLogs.length + response.length;
+    if (reset) {
+      setAuditLogs(response)
+    } else {
+      setAuditLogs([...auditLogs, ...response])
+    }
+    setAuditLogsQuery(auditLogsQuery)
+  }
 
   // Arrastar:
   const dragItem = useRef();
@@ -241,13 +277,18 @@ export default function AdminPage() {
         <PixelIcon codename={'user'} />
         Usuários
       </label>
+      <input checked={chosenPage === 'auditlogs'} type={"radio"} name={"pagina"} id={"auditlogs"} value={"auditlogs"} onChange={() => setChosenPage('auditlogs')} />
+      <label htmlFor={"auditlogs"}>
+        <PixelIcon codename={'note'} />
+        Logs
+      </label>
     </div>
   )
 
   if (chosenPage === "canvas") {
     return (
       <>
-        <CustomHead 
+        <CustomHead
           title={language.getString("PAGES.ADMIN.META_TITLE")}
           description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
           url={"https://pixelsplace.nemtudo.me/admin?page=canvas"}
@@ -510,7 +551,7 @@ export default function AdminPage() {
   else if (chosenPage === "general") {
     return (
       <>
-        <CustomHead 
+        <CustomHead
           title={language.getString("PAGES.ADMIN.META_TITLE")}
           description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
           url={"https://pixelsplace.nemtudo.me/admin?page=general"}
@@ -652,7 +693,7 @@ export default function AdminPage() {
   else if (chosenPage === "users") {
     return (
       <>
-        <CustomHead 
+        <CustomHead
           title={language.getString("PAGES.ADMIN.META_TITLE")}
           description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
           url={"https://pixelsplace.nemtudo.me/admin?page=users"}
@@ -843,12 +884,138 @@ export default function AdminPage() {
         </MainLayout>
       </>
     );
+  } else if (chosenPage === "auditlogs") {
+    return (
+      <>
+        <CustomHead
+          title={language.getString("PAGES.ADMIN.META_TITLE")}
+          description={language.getString("PAGES.ADMIN.META_DESCRIPTION")}
+          url={"https://pixelsplace.nemtudo.me/admin?page=users"}
+        />
+        <MainLayout>
+          <main className={styles.main}>
+            <h1>Logs</h1>
+            {PageSelector}
+            <div>
+              <h2>Filtros</h2>
+              <div>
+                <span>Ação</span>
+                <input type="text" value={auditLogsQuery.action} onChange={e => updateStateKey(setAuditLogsQuery, auditLogsQuery, ["action", e.target.value])} />
+              </div>
+              <div>
+                <span>ID Admin</span>
+                <input type="text" value={auditLogsQuery.idAdmin} onChange={e => updateStateKey(setAuditLogsQuery, auditLogsQuery, ["idAdmin", e.target.value])} />
+              </div>
+              <div>
+                <CustomButton label="Buscar" onClick={() => fetchAuditLogs(true)} />
+              </div>
+            </div>
+            <div className={styles.auditLogsGrid}>
+              {auditLogs.map(log => (
+                <div
+                  key={log.id}
+                  className={styles.auditLogCard}
+                >
+                  <div className={styles.auditLogHeader}>
+                    <h2 className={styles.auditLogAction}>
+                      {log.action}
+                    </h2>
 
+                    <span className={styles.auditLogDate}>
+                      {formatDate(log.createdAt)}
+                    </span>
+                  </div>
+
+                  <div className={styles.auditLogInfo}>
+                    <span className={styles.auditLogAdmin}>
+                      <span className={styles.auditLogIndicator}></span>
+                      <strong>Admin:</strong> {log.admin.username} ({log.idAdmin})
+                    </span>
+                    {
+                      log.details._targetUser && <span className={styles.auditLogTarget}>
+                        <span className={styles.auditLogIndicator}></span>
+                        <strong>Alvo:</strong><Link href={`/user/${log.details._targetUser.id}`}>{log.details._targetUser.username}</Link>({log.details._targetUser.id})
+                      </span>
+                    }
+                  </div>
+
+                  <div className={styles.auditLogDetails}>
+                    <h3 className={styles.auditLogDetailsTitle}>
+                      Detalhes
+                    </h3>
+
+                    <div className={styles.auditLogDetailsContent}>
+                      {Object.entries(log.details).filter(([k]) => !k.startsWith("_")).map(([key, value]) => (
+                        <div
+                          key={key}
+                          className={styles.auditLogDetailItem}
+                        >
+                          <span className={styles.auditLogDetailKey}>
+                            {key.replace(/([A-Z])/g, ' $1').trim()}:
+                          </span>
+                          <span className={`${styles.auditLogDetailValue} ${typeof value === 'string' && value.length > 20 ? styles.auditLogDetailValueMono : ''}`}>
+                            {formatDetailValue(value)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <CustomButton onClick={() => {
+                fetchAuditLogs()
+              }} label="Carregar mais" />
+            </div>
+          </main>
+        </MainLayout>
+      </>
+    );
   }
 
   function removeItemFromArray(arr, index) {
     if (index < 0 || index >= arr.length) return arr;
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
+  }
+
+  function formatDetailValue(value) {
+    if (value === null || value === undefined) {
+      return 'N/A';
+    }
+
+    if (Array.isArray(value)) {
+      return value.length > 0 ? value.join(', ') : 'N/A';
+    }
+
+    if (typeof value === 'object') {
+      return JSON.stringify(value, null, 2);
+    }
+
+    if (typeof value === 'boolean') {
+      return value ? 'Sim' : 'Não';
+    }
+
+    if (typeof value === 'number') {
+      return value.toLocaleString('pt-BR');
+    }
+
+    if (typeof value === 'string') {
+      // Se for muito longo, trunca
+      if (value.length > 100) {
+        return value.substring(0, 100) + '...';
+      }
+
+      // Se parecer ser uma data ISO
+      if (value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)) {
+        return formatDate(value);
+      }
+
+      // Se parecer ser um ID/UUID
+      if (value.match(/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i)) {
+        return value.substring(0, 8) + '...';
+      }
+    }
+
+    return String(value);
   }
 
 }
