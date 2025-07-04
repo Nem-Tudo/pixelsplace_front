@@ -9,7 +9,7 @@
 
     @media screen and (max-height: 500px) and (orientation: landscape) {
         width: 100vw;
-        height: 100dvh;
+        height: 100vh;
         position: relative;
         top: 0;
     }
@@ -29,6 +29,7 @@
     align-items: center;
     gap: 10px;
     width: 99dvw;
+    justify-self: flex-end;
 
     @media (max-width: 768px) {
         border-radius: 0;
