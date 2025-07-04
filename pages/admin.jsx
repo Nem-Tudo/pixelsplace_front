@@ -44,7 +44,7 @@ export default function AdminPage() {
   const [freeColorsInput, setFreeColorsInput] = useState("");
 
   const [auditLogs, setAuditLogs] = useState([]);
-  const [auditLogsQuery, setAuditLogsQuery] = useState({ action: "", idAdmin: "", skip: 0, limit: 50 });
+  const [auditLogsQuery, setAuditLogsQuery] = useState({ action: "", idAdmin: "", skip: 0, limit: 50, showLoadMore: true });
 
   const { openPopup } = usePopup()
 
@@ -192,6 +192,7 @@ export default function AdminPage() {
     if (reset) {
       auditLogsQuery.limit = 50;
       auditLogsQuery.skip = 0;
+      auditLogsQuery.showLoadMore = true;
       setAuditLogsQuery(auditLogsQuery)
     }
 
@@ -205,7 +206,10 @@ export default function AdminPage() {
       }`
     );
 
-    if (response.length === 0) return alert("Você chegou ao final!")
+    if (response.length < auditLogsQuery.limit) {
+      auditLogsQuery.showLoadMore = false;
+      setAuditLogsQuery(auditLogsQuery);
+    }
     auditLogsQuery.skip = auditLogs.length + response.length;
     if (reset) {
       setAuditLogs(response)
@@ -962,9 +966,9 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
-              <CustomButton onClick={() => {
+              <CustomButton disabled={!auditLogsQuery.showLoadMore} onClick={() => {
                 fetchAuditLogs()
-              }} label="Carregar mais" />
+              }} label={auditLogsQuery.showLoadMore ? "Carregar mais" : "Você chegou ao final"} />
             </div>
           </main>
         </MainLayout>
