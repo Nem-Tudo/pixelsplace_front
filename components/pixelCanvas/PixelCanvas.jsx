@@ -42,13 +42,22 @@ const PixelCanvas = forwardRef(({
     const { loggedUser } = useAuth()
 
     // States
+    const [, forceUpdate] = useState(0);
     const [selectedPixel, setSelectedPixelState] = useState(null);
     const [canvasConfig, setCanvasConfig] = useState({ width: 0, height: 0 });
     const [isInitialized, setIsInitialized] = useState(false);
-    const [, forceUpdate] = useState(0);
+    const [bottomBarText, setBottomBarText] = useState("");
 
     const [tools_canvasConfigCustom, tools_setCanvasConfigCustom] = useState(null);
     const [tools_initialBytes, tools_setInitialBytes] = useState(null);
+
+    const updateAuxCanvasRef = useRef(null);
+
+    useEffect(() => {
+        if (updateAuxCanvasRef.current) {
+            updateAuxCanvasRef.current(bottomBarText);
+        }
+    }, [bottomBarText]);
 
     // Aplicar transformações
     const applyTransform = () => {
@@ -321,14 +330,37 @@ const PixelCanvas = forwardRef(({
             auxCtx.msImageSmoothingEnabled = false;
 
             // Função para atualizar o canvas auxiliar
-            const updateAuxCanvas = () => {
+            const updateAuxCanvas = (bottomText) => {
                 auxCtx.clearRect(0, 0, auxCanvas.width, auxCanvas.height);
+
                 // Desenhar o canvas original escalado sem suavização
                 auxCtx.drawImage(canvas, 0, 0, auxCanvas.width, auxCanvas.height);
+
+                // Pegar o valor atual do bottomBarText do React
+                // Desenhar bottomBarText se diferente de "0:00"
+                if (bottomText && bottomText !== "") {
+                    const barHeight = 150;
+                    const fontSize = 80;
+
+                    // Desenhar barra preta na parte inferior
+                    auxCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                    auxCtx.fillRect(0, auxCanvas.height - barHeight, auxCanvas.width, barHeight);
+
+                    // Configurar texto
+                    auxCtx.fillStyle = 'white';
+                    auxCtx.font = `bold ${fontSize}px Arial`;
+                    auxCtx.textAlign = 'center';
+                    auxCtx.textBaseline = 'middle';
+
+                    // Desenhar texto centralizado na barra
+                    const textY = auxCanvas.height - (barHeight / 2);
+                    auxCtx.fillText(bottomText, auxCanvas.width / 2, textY);
+                }
             };
 
+            updateAuxCanvasRef.current = updateAuxCanvas;
             // Atualizar uma vez antes de capturar
-            updateAuxCanvas();
+            updateAuxCanvas(bottomBarText);
 
             // Criar stream do canvas auxiliar
             const stream = auxCanvas.captureStream(1);
@@ -349,15 +381,13 @@ const PixelCanvas = forwardRef(({
 
             await video.play();
 
-            // Atualizar o canvas auxiliar periodicamente
-            const refreshInterval = setInterval(updateAuxCanvas, 100);
-
             // Iniciar PiP
-            const pipWindow = await video.requestPictureInPicture();
+            await video.requestPictureInPicture();
 
             // Limpar interval quando PiP for fechado
             video.addEventListener('leavepictureinpicture', () => {
                 clearInterval(refreshInterval);
+                updateAuxCanvasRef.current = null; // Limpar a referência
                 console.log("PiP fechado");
             });
 
@@ -664,7 +694,8 @@ const PixelCanvas = forwardRef(({
         setTransform: (newTransform) => {
             Object.assign(transform.current, newTransform);
             applyTransform();
-        }
+        },
+        updateBottomBarText: (text) => setBottomBarText(text)
     }));
 
     // Função para calcular coordenadas do clique

@@ -149,13 +149,18 @@ export default function Place() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Playsound quando o cooldown chega a zero
+  // timeleft mudando
   useEffect(() => {
+
+    //tocar o som
     if (timeLeft === "0:01") {
       setTimeout(() => {
         playSound("CooldownOverAlert")
       }, 1 * 1000)
     }
+
+    //pip
+    canvasRef.current.updateBottomBarText(timeLeft != "0:00" ? timeLeft : "")
   }, [timeLeft])
 
   //inicializar funções dos sockets
@@ -459,7 +464,7 @@ export default function Place() {
                           </div>
                         </>
                       }>
-                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{ '--selected-color': `${numberToHex(selectedColor)}` }} onClick={(e) => {
+                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{ '--selected-color': `${numberToHex(selectedColor)}` }} onChange={() => {}} onClick={(e) => {
                           e.preventDefault();
                           openPopup("premium_required");
                         }} />
