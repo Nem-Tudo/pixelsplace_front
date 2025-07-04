@@ -40,7 +40,6 @@ export default function TimeTravel() {
 
         // Definir como 00:00 do dia anterior e 00:00 do dia atual
         yesterday.setHours(0, 0, 0, 0);
-        now.setHours(0, 0, 0, 0);
 
         setStartDate(formatDateForInput(yesterday));
         setEndDate(formatDateForInput(now));
@@ -173,10 +172,6 @@ export default function TimeTravel() {
         }
     }, [startDate, endDate, percentage, includeHistory]);
 
-    useEffect(() => {
-        setNowAsEndDate();
-    }, [setNowAsEndDate]);
-
     if (!loggedUser?.premium)
         return (
             <>
@@ -254,9 +249,9 @@ export default function TimeTravel() {
                                 <input
                                     type="range"
                                     min={0}
-                                    max={100}
-                                    value={percentage}
-                                    onChange={(e) => setPercentage(Number(e.target.value))}
+                                    max={10000}
+                                    value={percentage*100}
+                                    onChange={(e) => setPercentage(Number(e.target.value)/100)}
                                 />
 
                                 {/* Botão + */}
