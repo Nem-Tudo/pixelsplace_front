@@ -28,9 +28,9 @@ export default function Credits() {
       role: "Designer"
     },
     {
-      name: 'Kuriel',
-      id: '354233941550694400',
-      role: "Developer backend"
+      name: 'Ryan',
+      id: '370348361460613130',
+      role: "Development Supporter"
     }
 
   ];
@@ -53,9 +53,9 @@ export default function Credits() {
       role: language.getString("PAGES.CREDITS.GOAT")
     },
     {
-      name: 'Kuriel',
-      id: '354233941550694400',
-      role: language.getString("PAGES.CREDITS.CHIEF_EVIL_LINUX")
+      name: 'Ryan',
+      id: '370348361460613130',
+      role: "Voz do Bot"
     }
 
   ];
