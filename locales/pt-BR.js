@@ -37,7 +37,8 @@ module.exports = {
         VERIFIED: "Verificado(a)",
         JOIN: 'Juntar-se',
         PREFERENCES: "Preferências",
-        SOUND_EFFECTS: "Efeitos sonoros"
+        SOUND_EFFECTS: "Efeitos sonoros",
+        NOW: "Agora",
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
@@ -165,10 +166,9 @@ module.exports = {
             META_DESCRIPTION: "Acesse o histórico e a evolução do PixelsPlace, pixel por pixel!",
             API_ERROR: "Ocorreu um erro ao se conectar com a api principal",
             RELOAD_BUTTON: "Recarregar",
-            FULL_HISTORY: "Todo o histórico",
-            CHANGES_ONLY: "Apenas as mudanças",
-            MARCH_LABEL: "Marcha (m):",
-            MULTIPLIER_LABEL: "Multiplicador:",
+            STARTING_DATE: "Data inicial",
+            ENDING_DATE: "Data final",
+            HISTORY: "Pixels anteriores ao período determinado",
         },
         PLACE: {
             META_TITLE: "PixelsPlace",

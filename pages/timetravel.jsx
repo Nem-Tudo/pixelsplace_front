@@ -215,7 +215,7 @@ export default function TimeTravel() {
 
                     {/* Preview da Data */}
                     <section>
-                        {formatDisplayDate(calculateDisplayedDate()) || 'Carregando...'}
+                        {formatDisplayDate(calculateDisplayedDate()) || language.getString('COMMON.LOADING')}
                     </section>
 
                     {/* Controle Principal - Inputs de Data */}
@@ -224,7 +224,7 @@ export default function TimeTravel() {
                         {/* Data Inicial */}
                         {nerdMode && <div className={styles.nerdDate} style={{alignItems: 'flex-end'}}>
                             <label>
-                                Data Inicial
+                                {language.getString('PAGES.TIME_TRAVEL.STARTING_DATE')}
                             </label>
                             <input
                                 type="datetime-local"
@@ -269,7 +269,7 @@ export default function TimeTravel() {
                         {/* Data Final */}
                         {nerdMode && <div className={styles.nerdDate} style={{alignItems: 'flex-start'}}>
                             <label>
-                                Data Final
+                                {language.getString('PAGES.TIME_TRAVEL.ENDING_DATE')}
                             </label>
                             <div>
                                 <input
@@ -280,7 +280,7 @@ export default function TimeTravel() {
                                 <CustomButton
                                     padding={1}
                                     onClick={setNowAsEndDate}
-                                    label={'Agora'}
+                                    label={language.getString('COMMON.NOW')}
                                 />
                             </div>
                         </div>}
@@ -290,7 +290,7 @@ export default function TimeTravel() {
                     {/* Controles */}
                     {nerdMode && <section>
                         <span>
-                            Incluir Histórico
+                            {language.getString('PAGES.TIME_TRAVEL.HISTORY')}
                         </span>
                         <ToggleSwitch
                             checked={includeHistory}
