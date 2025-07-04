@@ -219,7 +219,7 @@ export default function TimeTravel() {
                     </section>
 
                     {/* Controle Principal - Inputs de Data */}
-                    <section>
+                    <section style={nerdMode ? {alignItems: 'flex-start'} : {}}>
 
                         {/* Data Inicial */}
                         {nerdMode && <div className={styles.nerdDate} style={{alignItems: 'flex-end'}}>

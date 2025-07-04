@@ -56,6 +56,10 @@
                 display: flex;
                 flex-wrap: wrap;
             }
+
+            input[type=datetime-local] {
+                max-width: 20dvw;
+            }
         }
 
         .sliderWrapper {
