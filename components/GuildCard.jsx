@@ -71,7 +71,7 @@ export default function GuildCard({ guild, index, ...props }) {
             <div
                 onMouseEnter={() => setHovered(guild.id)}
                 onMouseLeave={() => setHovered(null)}
-                onClick={async () => { setUserServer(guild?.id);
+                onClick={async () => { setUserServer(guild.id);
                                 await fetchWithAuth("/users/@me/settings", "PATCH", {
                                     selected_guild: guild?.id
                                 });
