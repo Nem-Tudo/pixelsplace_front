@@ -99,7 +99,7 @@ export default function BuildSwitcher() {
             const response = await request.json();
             if (!request.ok) {
                 console.log(response, request);
-                return alert(`${language.getString("COMPONENTS.BUILD_SWITCHER.ERROR_FETCH_BRANCH")}: ${response.error || language.getString("COMPONENTS.BUILD_SWITCHER.UNKNOWN_ERROR")}`);
+                return console.log(`${language.getString("COMPONENTS.BUILD_SWITCHER.ERROR_FETCH_BRANCH")}: ${response.error || language.getString("COMPONENTS.BUILD_SWITCHER.UNKNOWN_ERROR")}`);
             }
 
             setCurrentBranch(response.branch);
