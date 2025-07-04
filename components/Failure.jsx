@@ -15,6 +15,8 @@ export default function Failure({ children, message="Um erro impossibilitou o ca
             <p>{message}</p>
         </div>
 
-        {children}
+        <footer id={styles.actionRow}>
+            {children}
+        </footer>
     </main>
 }
