@@ -283,8 +283,8 @@ export default function TimeTravel() {
 
                     {/* Nerd mode toggle */}
                     <PixelIcon 
-                        codename={nerdMode? 'close' : 'check'}
-                        onClick={(e) => setNerdMode(e.target.checked)}
+                        codename={nerdMode? 'close' : 'plus'}
+                        onClick={(e) => setNerdMode(!nerdMode)}
                         className={styles.nerdModeToggle}
                     />
                 </div>
