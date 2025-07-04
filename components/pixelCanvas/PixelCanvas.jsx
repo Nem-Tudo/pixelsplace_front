@@ -4,9 +4,9 @@ import checkFlags from "@/src/checkFlags";
 import { useAuth } from "@/context/AuthContext";
 import Tippy from "@tippyjs/react";
 import downloadCanvasImage from "@/src/downloadCanvasImage";
-import { FaGear } from "react-icons/fa6";
 import CustomButton from "@/components/CustomButton";
 import PixelIcon from "@/components/PixelIcon";
+import { CgInpicture } from "react-icons/cg";
 
 const PixelCanvas = forwardRef(({
     onChangeSelectedPixel,
@@ -945,6 +945,9 @@ const PixelCanvas = forwardRef(({
                             aspectRatio: `auto ${canvasConfig.width} / ${canvasConfig.height}`,
                         }}
                     />
+                    <div className={styles.bottomCanvasTools}>
+                        <CgInpicture />
+                    </div>
                 </div>
             </div>
         </>
