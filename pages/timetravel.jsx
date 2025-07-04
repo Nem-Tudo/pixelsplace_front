@@ -615,35 +615,10 @@ export default function Place() {
                             </label>
                         </div>
                     </div>
-
-                    {/* Indicador de Status */}
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px',
-                        paddingTop: '8px',
-                        borderTop: '1px solid rgba(255, 255, 255, 0.1)'
-                    }}>
-                        <div style={{
-                            width: '8px',
-                            height: '8px',
-                            borderRadius: '50%',
-                            background: loading ? '#f59e0b' : '#4ade80',
-                            animation: loading ? 'pulse 2s infinite' : 'none'
-                        }} />
-                        <span style={{
-                            color: 'rgba(255, 255, 255, 0.8)',
-                            fontSize: '11px',
-                            fontWeight: '500'
-                        }}>
-                            {loading ? 'Carregando...' : 'Viagem no Tempo Ativa'}
-                        </span>
-                    </div>
                 </div>
 
                 {/* Viagem no tempo desvacada */}
-                <div className={styles.control}>
+                {!loading && <div className={`${styles.control} showBottom`}>
                     <input
                         type="number"
                         value={travelDuration}
@@ -663,9 +638,9 @@ export default function Place() {
                         </option>
                     </select>
                     atrás
-                    Histórico
-                    <ToggleSwitch checked={includeHistory} onChange={(e) => setIncludeHistory(e.target.checked)}/>
-                </div>
+                    Apenas mudanças
+                    <ToggleSwitch checked={!includeHistory} onChange={(e) => setIncludeHistory(e.target.checked)}/>
+                </div>}
 
                 {/* Canvas */}
                 <div id={styles.main}>
@@ -674,50 +649,6 @@ export default function Place() {
                         fetchCanvas={fetchCanvas}
                     />
                 </div>
-
-                <style jsx global>{`
-                    @keyframes pulse {
-                        0%, 100% { opacity: 1; }
-                        50% { opacity: 0.5; }
-                    }
-                    
-                    .time-travel-slider::-webkit-slider-thumb {
-                        appearance: none;
-                        width: 20px;
-                        height: 20px;
-                        border-radius: 50%;
-                        background: white;
-                        cursor: pointer;
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                        transition: all 0.2s ease;
-                    }
-                    
-                    .time-travel-slider::-webkit-slider-thumb:hover {
-                        transform: scale(1.1);
-                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-                    }
-                    
-                    .time-travel-slider::-moz-range-thumb {
-                        width: 20px;
-                        height: 20px;
-                        border-radius: 50%;
-                        background: white;
-                        cursor: pointer;
-                        border: none;
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                    }
-
-                    @media (max-width: 480px) {
-                        .time-travel-controls {
-                            padding: 15px 20px !important;
-                            minWidth: 280px !important;
-                        }
-                        
-                        .time-travel-controls > div {
-                            gap: 8px !important;
-                        }
-                    }
-                `}</style>
             </MainLayout>
         </>
     );
