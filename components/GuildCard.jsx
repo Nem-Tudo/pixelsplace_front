@@ -7,13 +7,40 @@ import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
 import Verified from "@/components/Verified";
 import CustomButton from "@/components/CustomButton";
+import { usePopup } from '@/context/PopupContext';
+
 
 export default function GuildCard({ guild, index, ...props }) {
-    const { loggedUser } = useAuth()
+    const { loggedUser, token } = useAuth()
     const { language } = useLanguage();
 
     const [hovered, setHovered] = useState(null);
     const [userServer, setUserServer] = useState(null);
+
+    const { openPopup } = usePopup();
+    const [loadingFetch, setLoadingFetch] = useState(false);
+
+    
+    const fetchWithAuth = async (url, method, body) => {
+    try {
+        setLoadingFetch(true);
+        const res = await fetch(`${settings.apiURL}${url}`, {
+        method,
+        headers: {
+            "Content-Type": "application/json",
+            authorization: token,
+        },
+        body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+        return data;
+    } catch (err) {
+        openPopup("error", { message: `${err.message}` });
+    } finally {
+        setLoadingFetch(false);
+    }
+};
 
     useEffect(() => {
         setUserServer(loggedUser?.settings.selected_guild)
@@ -44,7 +71,13 @@ export default function GuildCard({ guild, index, ...props }) {
             <div
                 onMouseEnter={() => setHovered(guild.id)}
                 onMouseLeave={() => setHovered(null)}
-                onClick={() => setUserServer(guild.id)}
+                onClick={async () => { setUserServer(guild?.id);
+                                await fetchWithAuth("/users/@me/settings", "PATCH", {
+                                    selected_guild: guild?.id
+                                });
+                                console.log("Enviado");
+                        }
+                }
                 className={styles.guildStar}
             >
                 {userServer === guild.id

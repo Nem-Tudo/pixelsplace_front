@@ -72,6 +72,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   useEffect(() => {
     if (router.query.userid && userobject) {
       setUser(userobject);
+    console.log(user);
       setSavedUser(userobject);
       // Reset edit states quando mudar de usuário
       setEditStates({

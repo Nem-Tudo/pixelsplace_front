@@ -45,6 +45,7 @@ export default function Guild({ guild: guildobject, error, errormessage }) {
   const { loggedUser, loading, token } = useAuth();
   const { language } = useLanguage();
   const { openPopup } = usePopup();
+  const [loadingFetch, setLoadingFetch] = useState(false);
 
   const [guild, setGuild] = useState(guildobject);
 
@@ -60,6 +61,27 @@ export default function Guild({ guild: guildobject, error, errormessage }) {
       </>
     )
   }
+
+  const fetchWithAuth = async (url, method, body) => {
+    try {
+      setLoadingFetch(true);
+      const res = await fetch(`${settings.apiURL}${url}`, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+      return data;
+    } catch (err) {
+      openPopup("error", { message: `${err.message}` });
+    } finally {
+      setLoadingFetch(false);
+    }
+  };
 
   if (!guild) return (
     <>
@@ -101,6 +123,14 @@ export default function Guild({ guild: guildobject, error, errormessage }) {
               </div>
 
               <CustomButton label={language.getString('COMMON.JOIN')} href={guild.invite} />
+              {(loggedUser?.settings.selected_guild == guild?.id) ? <></>:  <CustomButton label={'Apoiar'}
+                            icon={'heart'} color="#27b84d"
+                            onClick={async () => {
+                              await fetchWithAuth("/users/@me/settings", "PATCH", {
+                                selected_guild: guild?.id
+                              })
+                            }}
+              />}
             </div>
 
             <div className={styles.moreInfo}>
