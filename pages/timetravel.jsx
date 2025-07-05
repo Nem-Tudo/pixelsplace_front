@@ -183,7 +183,9 @@ export default function TimeTravel() {
                     url={"https://pixelsplace.nemtudo.me/timetravel"}
                 />
                 <MainLayout>
-                    <span>{language.getString("COMMON.NO_PERMISSION")}</span>
+                    <Failure message={language.getString("COMMON.NO_PERMISSION_PAGE")}>
+                        <CustomButton color={'#ffffff54'} icon={'home'} padding={2} label={language.getString("PAGES.INDEX.NAME")} href={"/"} />
+                    </Failure>
                 </MainLayout>
             </>
         );
@@ -198,7 +200,7 @@ export default function TimeTravel() {
             <MainLayout>
                 {!canvasConfig.width && !apiError &&
                     <Billboard>
-                        <Loading width={"50px"} />
+                        <Loading />
                     </Billboard>
                 }
                 {apiError &&

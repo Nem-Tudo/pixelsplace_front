@@ -23,6 +23,7 @@ module.exports = {
         REDIRECTING: "Redirecionando...",
         LOADING: "Carregando...",
         NO_PERMISSION: "Você não tem permissão para fazer isso",
+        NO_PERMISSION_PAGE: "A página especificada não existe ou você não tem acesso a ela",
         NOT_SELECTED: "Não selecionado",
         USER: "Usuário",
         SERVER: "Servidor",
@@ -140,6 +141,7 @@ module.exports = {
         INDEX: {
             META_TITLE: "PixelsPlace",
             META_DESCRIPTION: "Participe do PixelsPlace!",
+            NAME: "Página inicial",
             LOGO_ALT: "logo",
             SERVERS: "Servidores",
             START: "Começar!",

@@ -17,6 +17,8 @@ import ToggleSwitch from "@/components/ToggleSwitch";
 import CustomHead from "@/components/CustomHead";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import Billboard from "@/components/Billboard";
+import Loading from "@/components/Loading";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -249,7 +251,9 @@ export default function AdminPage() {
   if (!checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE"))
     return (
       <MainLayout>
-        <span style={{ marginTop: '10px' }}>Você não tem permissão para acessar essa página.</span>
+        <Failure message={language.getString("COMMON.NO_PERMISSION_PAGE")}>
+          <CustomButton color={'#ffffff54'} icon={'home'} padding={2} label={language.getString("PAGES.INDEX.NAME")} href={"/"} />
+        </Failure>
       </MainLayout>
     );
 
@@ -257,7 +261,9 @@ export default function AdminPage() {
   if (!chosenPage) {
     return (
       <MainLayout>
-        <div>Carregando...</div>
+        <Billboard>
+          <Loading />
+        </Billboard>
       </MainLayout>
     );
   }

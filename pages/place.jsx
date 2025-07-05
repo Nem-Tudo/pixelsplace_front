@@ -497,7 +497,7 @@ export default function Place() {
         {/* Loading canvas */}
         {!canvasConfig?.width && !apiError && (
           <Billboard>
-            <Loading width={"50px"} />{" "}
+            <Loading />
           </Billboard>
         )}
 
@@ -511,7 +511,7 @@ export default function Place() {
         {/* WebSocket Connecting */}
         {socketconnecting && !apiError && canvasConfig?.width && (
           <Billboard>
-            <Loading width={"50px"} />
+            <Loading />
           </Billboard>
         )}
 
