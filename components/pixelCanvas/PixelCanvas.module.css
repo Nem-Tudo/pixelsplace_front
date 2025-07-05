@@ -13,6 +13,8 @@
     left: 0;
     transform-origin: 0 0;
     overflow: hidden;
+    /* Ensure proper touch handling */
+    touch-action: none;
 }
 
 .mainCanvas {
@@ -26,11 +28,6 @@
     pointer-events: none;
 }
 
-/* Ensure proper touch handling */
-.canvasWrapper {
-    touch-action: none;
-}
-
 .canvasTools {
     right: 0;
     bottom: 0px;
@@ -42,12 +39,13 @@
     filter: drop-shadow(var(--shadow));
 }
 
-.bottomCanvasTools{
+.bottomCanvasTools {
     margin-top: 7px;
     color: var(--color-text-dark);
     display: flex;
     gap: 5px;
-    .tool{
+    touch-action: auto;
+    .tool {
         cursor: pointer;
         filter: drop-shadow(var(--shadow));
     }
