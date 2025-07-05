@@ -28,11 +28,11 @@ Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeComplete", nProgress.done);
 Router.events.on("routeChangeError", nProgress.done);
 
-useEffect(() => {
-    initSounds();
-}, []);
-
 export default function App({ Component, pageProps }) {
+  useEffect(() => {
+    initSounds();
+  }, []);
+  
   useEffect(() => {
     // Registra o Service Worker apenas no cliente e em produção
     if (typeof window !== 'undefined' &&
