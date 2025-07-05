@@ -4,11 +4,21 @@
     "display": "fullscreen",
     "start_url": "/place",
     "theme_color": "#0075d5",
-    "background_color": "#0075d5",
+    "background_color": "#ffffff",
     "icons": [
         {
             "src": "/logo.png",
             "sizes": "500x500",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ]

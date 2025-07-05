@@ -4,7 +4,9 @@ const OFFLINE_PAGE = '/offline.html';
 // Recursos essenciais para cache
 const ESSENTIAL_RESOURCES = [
   OFFLINE_PAGE,
-  '/manifest.json', // Se você tiver um PWA manifest
+  '/manifest.json',
+  '/logo.png',
+  '/favicon.ico',
 ];
 
 // Instalar: cacheia recursos essenciais
