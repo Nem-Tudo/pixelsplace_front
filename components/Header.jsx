@@ -192,16 +192,9 @@ export default function Header() {
                                             <span>{language.getString("COMMON.THEME")}</span>
                                             <select
                                                 id="theme"
-                                                value='DARK'
-                                                onChange={(e) => {}}
+                                                value={localStorage.getItem("preferences.theme") || 'DARK'}
+                                                onChange={(e) => {localStorage.setItem("preferences.theme", e.target.value)}}
                                             >
-                                                {/*
-                                                    availableLanguages.map((ling) => (
-                                                        <option key={ling} value={ling}>
-                                                            {ling.toUpperCase()}
-                                                        </option>
-                                                    ))
-                                                */}
                                                 <option value="DARK">Dark</option>
                                                 <option value="LIGHT">Light</option>
                                                 <option value="BLACKOUT">Blackout</option>
