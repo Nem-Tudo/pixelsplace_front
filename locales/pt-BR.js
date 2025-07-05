@@ -32,7 +32,7 @@ module.exports = {
         RELOAD: "Recarregar",
         RELOAD_PAGE: "Recarregar página",
         BACK: "Voltar",
-        LANGUAGE: "Linguagem", // USAR "Language" em TODOS os outros idiomas
+        LANGUAGE: "Language", // USAR "Language" em TODOS os outros idiomas
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
         JOIN: 'Juntar-se',
@@ -47,6 +47,9 @@ module.exports = {
         LIGHT: 'Claro',
         BLACKOUT: 'Blecaute',
         OLD: 'Tempos sombrios',
+    },
+    DEFAULTS: {
+        ABOUTME: "Olá! Eu estou usando o PixelsPlace!"
     },
     COMPONENTS: {
         BUILD_SWITCHER: {

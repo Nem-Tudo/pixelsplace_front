@@ -37,6 +37,9 @@ module.exports = {
         VERIFIED: "Verified",
         JOIN: "Join",
     },
+    DEFAULTS: {
+        ABOUTME: "Hey there! I am using PixelsPlace!"
+    },
     COMPONENTS: {
         BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "Error fetching builds",
