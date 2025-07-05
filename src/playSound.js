@@ -1,36 +1,29 @@
-let audios = {}; // escopo global, mas vazio até inicializar
-
-// Inicializa os áudios no cliente
-export function initSounds() {
-    if (typeof window === 'undefined') return; // garante que só roda no browser
-
-    const audioFiles = ['ColorPick', 'CooldownOverAlert', 'Fail', 'PixelPlace'];
-    audios = {}; // reseta para garantir
-
-    audioFiles.forEach(name => {
-        audios[name] = new Audio(`/sfx/${name}.mp3`);
-    });
-}
-
 /**
  * Toca um som para o usuário
- * @param {string} sound - Nome do áudio (ex.: 'PixelPlace')
- * @param {Object} settings - Opções ao tocar
- * @param {string} [settings.extension="mp3"] - Extensão do arquivo
- * @param {boolean} [settings.bypassPreference=false] - Ignora preferências
+ * @param {string} sound - Nome do áudio dentro da pasta de efeitos sonoros (@/public/sfx) 
+ * @param {Object} settings - Opções a ser consideradas quando for tocar
+ * @param {string} [settings.extension=mp3] - Extensão do arquivo na pasta de efeitos sonoros
+ * @param {boolean} [settings.bypassPreference=false] - Se o som deve ser forçado mesmo caso o usuário tenha desabilitado nas preferências 
  */
 export default function playSound(sound, settings = { extension: "mp3", bypassPreference: false }) {
-    if (typeof window === 'undefined') return; // no SSR não faz nada
+    if (!settings.bypassPreference) if (localStorage.getItem("preferences.sound_effects_disabled") == "true") return;
 
-    if (!settings.bypassPreference && localStorage.getItem("preferences.sound_effects_disabled") === "true") {
-        return;
-    }
-
-    const audio = audios[sound];
-    if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(err => console.warn(`Erro ao tocar som ${sound}:`, err));
-    } else {
-        console.warn(`Som não inicializado: ${sound}`);
-    }
+    const audio = new Audio(`/sfx/${sound}.${settings.extension}`);
+    audio.play()
 }
+
+/*
+// Pré-carrega os áudios
+const audios = {
+    'ColorPick.mp3': new Audio(`/sfx/ColorPick.mp3`),
+    'CooldownOverAlert.mp3': new Audio(`/sfx/CooldownOverAlert.mp3`),
+    'Fail.mp3': new Audio(`/sfx/Fail.mp3`),
+    'PixelPlace.mp3': new Audio(`/sfx/PixelPlace.mp3`),
+}
+
+export default function playSound(sound, settings = { extension: "mp3", bypassPreference: false }) {
+    if (!settings.bypassPreference && localStorage.getItem("preferences.sound_effects_disabled") == "true") return;
+
+    audios[`${sound}.${settings.extension}`].play()
+}
+*/
