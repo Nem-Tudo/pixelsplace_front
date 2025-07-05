@@ -176,6 +176,7 @@
 
         // Parte visual
         if(localStorage.getItem('theme')) document.getElementById("main").dataset.theme = localStorage.getItem('theme');
+        
         // Parte funcional
 
         // Monitora status da conexão
@@ -548,7 +549,7 @@
 
         // Desenha a grade
         function drawGrid() {
-            ctx.strokeStyle = "#666";
+            ctx.strokeStyle = "#66666666";
             ctx.lineWidth = 1;
             for (let i = 0; i <= 16; i++) {
                 ctx.beginPath();
