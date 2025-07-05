@@ -477,6 +477,7 @@ export default function AdminPage() {
               </legend>
               <textarea
                 rows={6}
+                placeholder="console.log(nt.cow)..."
                 value={evalCode}
                 onChange={(e) => setEvalCode(e.target.value)}
               />
@@ -504,6 +505,7 @@ export default function AdminPage() {
               </legend>
               <textarea
                 rows={3}
+                placeholder={`Desejo ${['uma boa meia noite', 'uma boa madrugada', 'um bom dia', 'uma boa tarde', 'uma boa noite'][Math.ceil(((new Date).getHours())/24*4)]} a todos jogadores do PixelsPlace.`}
                 value={alertMessage}
                 onChange={(e) => setAlertMessage(e.target.value)}
               />
