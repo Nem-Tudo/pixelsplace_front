@@ -26,7 +26,7 @@ export default function TimeTravel() {
 
     const canvasRef = useRef(null);
 
-    const [apiError, setApiError] = useState(false);
+    const [apiError, setApiError] = useState('');
     const [loading, setLoading] = useState(true);
     const [canvasConfig, setCanvasConfig] = useState({});
     const [percentage, setPercentage] = useState(100);
@@ -154,9 +154,8 @@ export default function TimeTravel() {
             const bytes = new Uint8Array(buffer);
             canvasRef?.current?.initializeCanvas(bytes, canvasSettings, {}, initializeSettings);
         } catch (e) {
-            setApiError(true)
+            setApiError(`Error on fetch canvas: ${e}`)
             console.log("Error on fetch canvas", e)
-            openPopup('error', {message: `Error on fetch canvas ${e}`})
         }
     }
 

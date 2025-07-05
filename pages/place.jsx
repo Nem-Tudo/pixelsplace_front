@@ -42,7 +42,7 @@ export default function Place() {
   const pixelInfoRef = useRef(null);
 
   //general states
-  const [apiError, setApiError] = useState(false);
+  const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -233,9 +233,8 @@ export default function Place() {
       const bytes = new Uint8Array(buffer);
       canvasRef.current.initializeCanvas(bytes, canvasSettings, router.query);
     } catch (e) {
-      setApiError(true)
+      setApiError(`Error on fetch canvas: ${e}`)
       console.log("Error on fetch canvas", e)
-      alert(`Error on fetch canvas`, e)
     }
   }
 
