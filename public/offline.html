@@ -5,8 +5,111 @@
     <meta charset="UTF-8" />
     <title>PixelsPlace - Offline</title>
     <style>
+        /* Variáveis globais (consistência) */
+        :root {
+        /* Cores */
+        --color-outline: hsla(0deg, 0%, 100%, 10%);
+        --color-accent: hsl(207, 100%, 42%);
+        --color-accent-hover: hsl(211, 100%, 36%);
+        --color-experimental-accent: hsl(47, 100%, 42%);
+        --color-experimental-accent-hover: hsl(47, 100%, 36%);
+        --color-darker: hsl(217.99, 100%, 44.9%);
+        --color-mid-hover: hsl(223, 29%, 31%);
+        --color-mid: hsl(222, 26%, 22%);
+        --color-input-bg: hsl(225, 36%, 17%);
+        --color-darkest: hsl(222, 40%, 13%);
+        --color-bg: var(--color-darkest);
+        --color-muted: hsl(212, 100%, 75%);
+        --color-text-dark: hsla(0, 0%, 25%, 75%);
+        --color-text-light: hsla(0, 0%, 100%, 75%);
+        --color-hover: rgb(228, 228, 228);
+        --color-canvas-bg: hsl(0, 0%, 92%);
+        --color-header: var(--color-muted);
+        /* Degradês */
+        --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
+        /* Atributos */
+        --shadow: 2px 2px 7px hsla(0, 0%, 0%, 14.1%);
+        --outline: 1px solid var(--color-outline);
+        --smooth-transition: all .4s ease;
+        /* Valores */
+        --hover-scale: 1.05;
+        --frosted-glass-blur: blur(5px);
+        }
+
+        /* Temas */
+        [data-theme=TRUE_DARK] {
+        --color-bg: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
+        --color-canvas-bg: var(--color-bg);
+        --color-text-dark: var(--color-text-light);
+        --color-hover: hsl(0, 0%, 13%);
+        --frosted-glass: linear-gradient(45deg, hsl(0deg 0% 16% / 50%), hsl(0deg 0% 18.29% / 81%))
+        }
+        [data-theme=LIGHT] {
+        --color-outline: hsl(0deg 0% 0% / 12%);
+        --color-mid-hover: hsl(0, 0%, 100%);
+        --color-hover: hsl(0, 0%, 100%);
+        --color-mid: hsl(0, 0%, 100%);
+        --color-input-bg: hsl(0, 0%, 100%);
+        --color-darkest: hsl(0deg 0% 100%);
+        --color-muted: var(--color-accent);
+        --color-canvas-bg: hsl(0, 0%, 100%);
+        --color-text-light: var(--color-text-dark);
+        --color-header: var(--frosted-glass);
+        }
+        [data-theme=BLACKOUT] {
+        --color-outline: hsla(0, 0%, 100%, 0.1);
+        --color-mid-hover: hsl(0, 0%, 13%);
+        --color-hover: hsl(0, 0%, 13%);
+        --color-mid: hsl(0, 0%, 0%);
+        --color-input-bg: hsl(0, 0%, 0%);
+        --color-darkest: hsl(0, 0%, 0%);
+        --color-canvas-bg: var(--color-bg);
+        --color-text-dark: var(--color-text-light);
+        --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
+        --color-header: var(--frosted-glass);
+        }
+        [data-theme=OLD] {
+        --color-header: #7f99cb;
+        --color-darkest: #293146;
+        --color-mid: #141c2f;
+        --color-muted: #9dcaff;
+        --color-accent: #0075d5;
+        --color-accent-hover: #0054e5;
+        --frosted-glass: white;
+        --color-outline: transparent;
+        --color-canvas-bg: rgb(204, 204, 204);
+
+        * {
+            border-radius: 8px !important;
+            font-family: Arial !important;
+            font-size: small;
+        }
+        }
+        [data-theme=ARCADE] {
+        --color-outline: hsla(0, 0%, 100%, 0.1);
+        --color-mid-hover: hsl(0, 0%, 13%);
+        --color-hover: hsl(0, 0%, 13%);
+        --color-mid: hsl(0, 0%, 0%);
+        --color-input-bg: hsl(0, 0%, 0%);
+        --color-darkest: hsl(0, 0%, 0%);
+        --color-canvas-bg: var(--color-bg);
+        --color-text-dark: var(--color-text-light);
+        --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
+        --color-header: var(--frosted-glass);
+        --outline: 2px solid var(--color-outline);
+        --color-accent: hsl(125, 100%, 64%);
+        --color-muted: hsla(125, 100%, 64%, 0.649);
+        
+        * {
+            border-radius: 0 !important;
+            font-family: 'Dogica Pixel' !important;
+            font-size: x-small;
+            line-height: 1.2;
+        }
+        }
+
         body {
-            background: #333;
+            background: var(--color-bg);
             color: #fff;
             font-family: sans-serif;
             display: flex;
@@ -33,13 +136,29 @@
         }
 
         #canvas {
+            display: grid;
+            grid-template-columns: repeat(16, 20px);
+            grid-template-rows: repeat(16, 20px);
+            gap: 0;
             border: 1px solid #fff;
             cursor: crosshair;
+        }
+
+        .pixel {
+            width: 20px;
+            height: 20px;
+            background: #000;
+            cursor: pointer;
+            box-shadow: inset 0px 0px 8px 1px #ffffff00;
+            transition: var(--smooth-transition);
+        }
+        .pixel:hover {
+            box-shadow: inset 0px 0px 8px 3px #ffffff1a;
         }
     </style>
 </head>
 
-<body>
+<body id="main">
     <h1>Pixel Art</h1>
     <p id="status"></p>
     <p id="hurryMessage"></p>
@@ -55,6 +174,8 @@
 
     <script>
 
+        // Parte visual
+        if(localStorage.getItem('theme')) document.getElementById("main").dataset.theme = localStorage.getItem('theme');
         // Parte funcional
 
         // Monitora status da conexão
