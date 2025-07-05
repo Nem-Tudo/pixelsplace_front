@@ -39,6 +39,7 @@ module.exports = {
         PREFERENCES: "Preferências",
         SOUND_EFFECTS: "Efeitos sonoros",
         NOW: "Agora",
+        THEME: "Tema",
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
