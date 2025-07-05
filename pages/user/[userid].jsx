@@ -325,7 +325,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             </div>
           </div>
 {
-loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={() => {
+loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={async () => {
 const name = prompt("Nome")
 const handle = prompt("Handle (alfanumérico e _)");
 const icon_url = prompt("Icon url");
