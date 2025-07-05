@@ -30,7 +30,7 @@ export async function getServerSideProps({ req, query }) {
   }
 
   try {
-    const res = await fetch(`${settings.apiURL}/users/${query.userid}?parseGuild=true`, {
+    const res = await fetch(`${settings.apiURL}/users/${query.userid}?parseGuild=true&parseFaction=true&parseFactionMember=true`, {
       headers: { 'Content-Type': 'application/json', Authorization: getCookie("authorization") },
     });
     const data = await res.json();
@@ -72,7 +72,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   useEffect(() => {
     if (router.query.userid && userobject) {
       setUser(userobject);
-    console.log(user);
+      console.log(user);
       setSavedUser(userobject);
       // Reset edit states quando mudar de usuário
       setEditStates({
@@ -187,194 +187,212 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   )
 
   return (
-  <>
-    <CustomHead 
-      title={language.getString("PAGES.USER_PROFILE.META_TITLE", { userDisplayName: user?.display_name })}
-      description={user?.profile?.aboutme ? user.profile.aboutme : language.getString("PAGES.USER_PROFILE.META_DESCRIPTION")}
-      url={`https://pixelsplace.nemtudo.me/user/${user?.id}`}
-      imageUrl={settings.avatarURL(user.id, user.avatar)}
-    />
-    <MainLayout>
-      <main
-        className={styles.main}
-        style={user.premium ? {
-          '--user-color-primary': `${user.profile.color_primary}`,
-          '--user-color-secondary': `${user.profile.color_secundary}`,
-          '--user-color-text': `${profileTheme.text}`,
-          '--user-color-border': `${profileTheme.border}`,
-          '--user-color-background-item': `${profileTheme.backgroundItem}`
-        } : {}}
-      >
+    <>
+      <CustomHead
+        title={language.getString("PAGES.USER_PROFILE.META_TITLE", { userDisplayName: user?.display_name })}
+        description={user?.profile?.aboutme ? user.profile.aboutme : language.getString("PAGES.USER_PROFILE.META_DESCRIPTION")}
+        url={`https://pixelsplace.nemtudo.me/user/${user?.id}`}
+        imageUrl={settings.avatarURL(user.id, user.avatar)}
+      />
+      <MainLayout>
+        <main
+          className={styles.main}
+          style={user.premium ? {
+            '--user-color-primary': `${user.profile.color_primary}`,
+            '--user-color-secondary': `${user.profile.color_secundary}`,
+            '--user-color-text': `${profileTheme.text}`,
+            '--user-color-border': `${profileTheme.border}`,
+            '--user-color-background-item': `${profileTheme.backgroundItem}`
+          } : {}}
+        >
 
-        <div className={styles.wallpaper}>
-          {!loading && loggedUser?.id === user?.id ? (
-            <>
-              <PremiumButton
-                as="icon"
-                icon={
-                  <PixelIcon
-                    codename={'edit'}
-                    className={styles.editPencil}
-                    onClick={() => switchEdit("profile_banner_url")}
-                  />
-                }
-              ></PremiumButton>
+          <div className={styles.wallpaper}>
+            {!loading && loggedUser?.id === user?.id ? (
+              <>
+                <PremiumButton
+                  as="icon"
+                  icon={
+                    <PixelIcon
+                      codename={'edit'}
+                      className={styles.editPencil}
+                      onClick={() => switchEdit("profile_banner_url")}
+                    />
+                  }
+                ></PremiumButton>
 
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-          <img
-            src={user?.premium ? (user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg') : ''}
-            alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
-          />
-        </div>
-
-        <div className={styles.page}>
-
-          <div className={styles.profile}>
-            <div className={styles.avatar}>
-              <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
-            </div>
-
-            <div className={styles.name}>
-              <h1 className={styles.displayName}>
-                {user?.display_name}
-                <Verified verified={user?.premium || user?.flags.includes("VERIFIED")}/>
-                {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ?
-                  <Tippy arrow={false} content={'Opções de administrador'} placement="top">
-                    <Link href={'/admin?page=users&Search='+user?.id}>
-                      <PixelIcon codename={'cog'}/>
-                    </Link> 
-                  </Tippy>
-                : ''}
-              </h1>  
-              <p className={styles.userName}>@{user?.username} </p>
-            </div>
-
-            {user && Badges({ list: user?.flags?.map(flag => flag) }) != null &&
-              <div className={[styles.badges, styles.infoBox].join(" ")}>
-                <Badges list={user?.flags?.map(flag => flag)} />
-              </div>
-            }
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+            <img
+              src={user?.premium ? (user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg') : ''}
+              alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
+            />
           </div>
 
-          <div className={styles.moreInfo}>
-            {user && user.profile && user.profile.aboutme &&
-              <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
-                {editStates.profile_aboutme ? (
-                  <><textarea
-                    value={user.profile.aboutme}
-                    onChange={(e) => {
-                      updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
-                    }}
-                    rows={4}
-                  />
-                    <PremiumButton
-                      as="icon"
-                      icon={
-                        <PixelIcon
-                          codename={'save'}
-                          className={styles.editPencil}
-                          onClick={() => { saveChanges(); switchEdit("profile_aboutme"); }}
-                        />
-                      }
+          <div className={styles.page}>
+
+            <div className={styles.profile}>
+              <div className={styles.avatar}>
+                <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
+              </div>
+
+              <div className={styles.name}>
+                <h1 className={styles.displayName}>
+                  {user?.display_name}
+                  <Verified verified={user?.premium || user?.flags.includes("VERIFIED")} />
+                  {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") ?
+                    <Tippy arrow={false} content={'Opções de administrador'} placement="top">
+                      <Link href={'/admin?page=users&Search=' + user?.id}>
+                        <PixelIcon codename={'cog'} />
+                      </Link>
+                    </Tippy>
+                    : ''}
+                </h1>
+                <p className={styles.userName}>@{user?.username} </p>
+              </div>
+
+              {user && Badges({ list: user?.flags?.map(flag => flag) }) != null &&
+                <div className={[styles.badges, styles.infoBox].join(" ")}>
+                  <Badges list={user?.flags?.map(flag => flag)} />
+                </div>
+              }
+            </div>
+
+            <div className={styles.moreInfo}>
+              {user && user.profile &&
+                <div className={styles.infoBox} id={styles.description} ref={aboutmeRef}>
+                  {editStates.profile_aboutme ? (
+                    <><textarea
+                      value={user.profile.aboutme}
+                      onChange={(e) => {
+                        updateStateKey(setUser, user, ["profile.aboutme", e.target.value])
+                      }}
+                      rows={4}
                     />
-                  </>
-                ) : (
-                  <span>
-                    {!loading && loggedUser?.id === user?.id ? (
                       <PremiumButton
                         as="icon"
                         icon={
                           <PixelIcon
-                            codename={'edit'}
+                            codename={'save'}
                             className={styles.editPencil}
-                            onClick={() => switchEdit("profile_aboutme")}
+                            onClick={() => { saveChanges(); switchEdit("profile_aboutme"); }}
                           />
                         }
                       />
-                    ) : (
-                      <></>
-                    )}
-                    {user.profile.aboutme}
-                  </span>
-                )}
+                    </>
+                  ) : (
+                    <span>
+                      {!loading && loggedUser?.id === user?.id ? (
+                        <PremiumButton
+                          as="icon"
+                          icon={
+                            <PixelIcon
+                              codename={'edit'}
+                              className={styles.editPencil}
+                              onClick={() => switchEdit("profile_aboutme")}
+                            />
+                          }
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {user.profile.aboutme || language.getString("DEFAULTS.ABOUTME")}
+                    </span>
+                  )}
+                </div>
+              }
+              {user.settings.selected_guild && (
+                <GuildCard guild={user.settings.selectedGuild} id={styles.guildCard} className={styles.infoBox} />
+              )}
+              <div className={styles.infoBox} id={styles.pixelsInfo}>
+                <p className={styles.pixelsText}>
+                  {language.getString("PAGES.USER_PROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
+                </p>
+                <PremiumButton
+                  color={profileTheme.text}
+                  onClick={() => openPopup("not_implemented_yet")}
+                >
+                  {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
+                </PremiumButton>
+              </div>
+              {
+                user?.faction && user?.factionMember && <div className={styles.infoBox}>
+                  <h2>Facção:</h2>
+                  <img style={{width: "60px", clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"}} src={user.faction.icon_url || "/assets/avatar.png"} />
+                  <span>{user.faction.name}</span>
+                  <span>#{user.faction.handle}</span>
+                  <span>{user.faction.public ? <span style={{color: "green"}}>Pública</span> : <span style={{color: "red"}}>Privada</span>}</span>
+                  
+                  {/* MEMBER / MOD / OWNER */}
+                  <span>Cargo: {user.factionMember.role}</span>
+                  <span>{user.faction.stats.membersCount} membros</span>
+                  {
+                    // Será que aqui é o melhor lugar mesmo? Talvez uma página de faction, sla
+                    user.id === loggedUser?.id && user.factionMember.role != "OWNER-dps-deixa-só-owner" && <CustomButton onClick={() => alert("nn feito - fetch POST /factions/:factionId/leave passando o token")} label="Sair" color="#ff0000"/>
+                  }
+                </div>
+              }
+            </div>
+            {
+              loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={async () => {
+                const name = prompt("Nome")
+                const handle = prompt("Handle (alfanumérico e _)");
+                const icon_url = prompt("Icon url") || null;
+
+                const request = await fetch(`${settings.apiURL}/factions`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                  },
+                  body: JSON.stringify({ name, handle, icon_url })
+                })
+                const response = await request.json();
+                if (!request.ok) {
+                  console.log(response, request)
+                  return openPopup("error", { message: `Erro ao criar: ${response.message}` })
+                }
+                alert(JSON.stringify(response));
+                updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
+
+              }} />
+            }
+            {
+              loggedUser?.id === user?.id && <div className={styles.editUserColors}>
+                <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
+                  updateStateKey(setUser, user, ["profile.color_primary", e.target.value])
+                }} />
+                <input type="color" id={styles.editSecondaryColor} value={user.profile.color_secundary} onChange={(e) => {
+                  updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
+                }} />
+                <PixelIcon codename={'fill-half'} className={styles.paintIcon} />
               </div>
             }
-            {user.settings.selected_guild && (
-              <GuildCard guild={user.settings.selectedGuild} id={styles.guildCard} className={styles.infoBox} />
-            )}
-            <div className={styles.infoBox} id={styles.pixelsInfo}>
-              <p className={styles.pixelsText}>
-                {language.getString("PAGES.USER_PROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
-              </p>
-              <PremiumButton
-                color={profileTheme.text}
-                onClick={() => openPopup("not_implemented_yet")}
-              >
-                {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
-              </PremiumButton>
-            </div>
+
           </div>
-{
-loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={async () => {
-const name = prompt("Nome")
-const handle = prompt("Handle (alfanumérico e _)");
-const icon_url = prompt("Icon url");
 
-    const request = await fetch(`${settings.apiURL}/factions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token
-      },
-      body: JSON.stringify({name, handle, icon_url})
-    })
-    const response = await request.json();
-    if (!request.ok) {
-      console.log(response, request)
-      return openPopup("error", { message: `Erro ao criar: ${response.message}` })
-    }
-alert(JSON.stringify(response));
-
-}}/>
-}
           {
-            loggedUser?.id === user?.id && <div className={styles.editUserColors}>
-              <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
-                updateStateKey(setUser, user, ["profile.color_primary", e.target.value])
-              }} />
-              <input type="color" id={styles.editSecondaryColor} value={user.profile.color_secundary} onChange={(e) => {
-                updateStateKey(setUser, user, ["profile.color_secundary", e.target.value])
-              }} />
-              <PixelIcon codename={'fill-half'} className={styles.paintIcon} />
-            </div>
+            JSON.stringify(user) != JSON.stringify(savedUser) && (
+              <CustomButton
+                className={styles.saveChanges}
+                color={"#33b32e"}
+                label={language.getString("COMMON.SAVE_CHANGES")}
+                icon={'save'}
+                onClick={() => saveChanges()}
+              />
+            )
           }
 
-        </div>
-
-        {
-          JSON.stringify(user) != JSON.stringify(savedUser) && (
-            <CustomButton
-              className={styles.saveChanges}
-              color={"#33b32e"}
-              label={language.getString("COMMON.SAVE_CHANGES")}
-              icon={'save'}
-              onClick={() => saveChanges()}
-            />
-          )
-        }
-
-      </main>
-    </MainLayout>
-  </>
+        </main>
+      </MainLayout >
+    </>
   );
 }
