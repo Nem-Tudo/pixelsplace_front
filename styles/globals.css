@@ -65,8 +65,8 @@
 
 /* Temas */
 [data-theme=TRUE_DARK] {
-  --color-canvas-bg: transparent;
   --color-bg: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
+  --color-canvas-bg: var(--color-bg);
   --color-text-dark: var(--color-text-light);
   --color-hover: hsl(0, 0%, 13%);
   --frosted-glass: linear-gradient(45deg, hsl(0deg 0% 16% / 50%), hsl(0deg 0% 18.29% / 81%))
@@ -90,7 +90,7 @@
   --color-mid: hsl(0, 0%, 0%);
   --color-input-bg: hsl(0, 0%, 0%);
   --color-darkest: hsl(0, 0%, 0%);
-  --color-canvas-bg: transparent;
+  --color-canvas-bg: var(--color-bg);
   --color-text-dark: var(--color-text-light);
   --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
   --color-header: var(--frosted-glass);
