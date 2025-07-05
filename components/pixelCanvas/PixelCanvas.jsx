@@ -516,8 +516,8 @@ const PixelCanvas = forwardRef(({
 
         // Touch Events
         const handleTouchStart = (e) => {
-            e.preventDefault();
-
+            // e.preventDefault();
+            
             if (e.touches.length === 1) {
                 isDragging = true;
                 isPinching = false;
@@ -950,7 +950,7 @@ const PixelCanvas = forwardRef(({
                         <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.PIP')} placement="top">
                             <PixelIcon codename={'picture-in-picture-alt'} className={styles.tool} onClick={() => pipCanvas()} />
                         </Tippy>
-                        
+
                         {
                             loggedUser?.premium && <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.DOWNLOAD')} placement="top">
                                 <PixelIcon codename={'download'} className={styles.tool} onClick={() => {
@@ -959,7 +959,7 @@ const PixelCanvas = forwardRef(({
                                     const multipler = Number(multiplierdata || 10)
                                     if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
                                     downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
-                                }}/>
+                                }} />
                             </Tippy>
                         }
                     </div>
