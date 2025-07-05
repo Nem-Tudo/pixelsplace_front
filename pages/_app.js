@@ -9,7 +9,7 @@ import '@/styles/nProgress.css'
 import { AuthProvider } from '../context/AuthContext';
 import { LanguageProvider } from '../context/LanguageContext';
 import PopupProvider from "@/context/PopupContext";
-
+import { ThemeProvider } from 'next-themes';
 
 import { Router } from "next/router"
 import nProgress from 'nprogress'
@@ -22,9 +22,11 @@ export default function App({ Component, pageProps }) {
   return <>
     <AuthProvider>
       <LanguageProvider>
-        <PopupProvider>
-          <Component {...pageProps} />
-        </PopupProvider>
+        <ThemeProvider>
+          <PopupProvider>
+            <Component {...pageProps} />
+          </PopupProvider>
+        </ThemeProvider>
       </LanguageProvider>
     </AuthProvider>
   </>;

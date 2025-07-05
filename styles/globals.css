@@ -59,14 +59,14 @@
 }
 
 /* Temas */
-main[data-theme=LIGHT] {
+[data-theme=LIGHT] {
   --color-outline: hsla(0, 0%, 0%, 0.1);
   --color-mid-hover: hsl(0, 0%, 100%);
   --color-mid: hsl(0, 0%, 100%);
   --color-input-bg: hsl(0, 0%, 100%);
   --color-darkest: hsl(223, 12%, 88%);
 }
-main[data-theme=BLACKOUT] {
+[data-theme=BLACKOUT] {
   --color-outline: hsla(0, 0%, 100%, 0.1);
   --color-mid-hover: hsl(0, 0%, 13%);
   --color-mid: hsl(0, 0%, 0%);
