@@ -45,6 +45,7 @@
   --color-mid: hsl(222, 26%, 22%);
   --color-input-bg: hsl(225, 36%, 17%);
   --color-darkest: hsl(222, 40%, 13%);
+  --color-bg: var(--color-darkest);
   --color-muted: hsl(212, 100%, 75%);
   --color-text: hsla(0, 0%, 25%, 75%);
   --color-canvas-bg: #eaeaea;
@@ -62,7 +63,7 @@
 /* Temas */
 [data-theme=TRUE_DARK] {
   --color-canvas-bg: transparent;
-  --color-darkest: transparent;
+  --color-bg: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
 }
 [data-theme=LIGHT] {
   --color-outline: hsl(0deg 0% 0% / 12%);
@@ -71,6 +72,7 @@
   --color-input-bg: hsl(0, 0%, 100%);
   --color-darkest: hsl(0deg 0% 100%);
   --color-muted: var(--color-accent);
+  --color-canvas-bg: hsl(0, 0%, 100%);
 }
 [data-theme=BLACKOUT] {
   --color-outline: hsla(0, 0%, 100%, 0.1);
@@ -78,6 +80,7 @@
   --color-mid: hsl(0, 0%, 0%);
   --color-input-bg: hsl(0, 0%, 0%);
   --color-darkest: hsl(0, 0%, 0%);
+  --color-canvas-bg: transparent;
 }
 
 ::-webkit-scrollbar {
