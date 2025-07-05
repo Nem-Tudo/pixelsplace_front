@@ -534,17 +534,23 @@
             ]
         };
 
+        const maxTime = 10;
+        let remainingTime = maxTime;
+
         // Desenho predefinido (16x16 matriz)
         let dificuldade = Math.round(Math.random() * 2);
         let desenho = Math.round(Math.random() * (drawings[['facil', 'medio', 'dificil'][dificuldade]].length - 1))
         document.getElementById('hurryMessage').innerHTML =
             `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
-
+        document.getElementById('hurryTimer').innerHTML = `${maxTime} segundos restantes`;
         let drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
 
-        // Parte minigame
-
-        let remainingTime = 30;
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let currentColor = "red";
+        let isDrawing = false;
+        const pixelSize = 21;
+        const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)"];
 
         // Contador de tempo
         setInterval(() => {
@@ -556,20 +562,14 @@
             desenho = Math.round(Math.random() * (drawings[['facil', 'medio', 'dificil'][dificuldade]].length - 1))
             document.getElementById('hurryMessage').innerHTML =
                 `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
-
+            document.getElementById('hurryTimer').innerHTML = `${maxTime} segundos restantes`;
             drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
 
-            remainingTime = 30;
+            remainingTime = maxTime;
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
             drawBackground();
             drawGrid();
-        }, 30000);
-
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        let currentColor = "red";
-        let isDrawing = false;
-        const pixelSize = 21;
-        const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)"];
+        }, maxTime*1000);
 
         // Desenha o fundo baseado no desenho predefinido
         function drawBackground() {
