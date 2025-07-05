@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import settings from '@/settings'
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/context/LanguageContext';
 
+/**
+ * Elemento principal para a seleção e troca de Builds
+ */
 export default function BuildSwitcher() {
     const { language } = useLanguage();
 

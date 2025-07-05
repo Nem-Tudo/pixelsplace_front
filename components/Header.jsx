@@ -11,6 +11,9 @@ import PixelIcon from "@/components/PixelIcon"
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useTheme } from 'next-themes';
 
+/**
+ * Header superior do site
+ */
 export default function Header() {
     const { language, changeLanguage, lang, availableLanguages } = useLanguage();
     const { loggedUser, updateUserKey } = useAuth();

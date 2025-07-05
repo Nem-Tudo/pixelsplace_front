@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { MdClose } from "react-icons/md";
-import Link from "next/link";
-import PremiumButton from "@/components/PremiumButton";
 import CustomButton from "@/components/CustomButton";
-import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import localStyles from "@/components/popups/admin/BuildAdd.module.css";
 import PixelIcon from "@/components/PixelIcon";
@@ -13,8 +9,12 @@ import { usePopup } from '@/context/PopupContext';
 import settings from "@/settings.js";
 import { useAuth } from "@/context/AuthContext";
 
+/**
+ * Pop-up administrativo de criação de nova Build baseada em uma branch do github
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ */
 export default function AdminBuildAdd({ closePopup }) {
-    const { language } = useLanguage();
 
     const [branch, setBranch] = useState("");
     const [forceOnLink, setForceOnLink] = useState(false);

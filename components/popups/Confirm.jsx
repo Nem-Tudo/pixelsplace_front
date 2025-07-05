@@ -7,6 +7,13 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
+/**
+ * Pop-up de confirmação (substituição da função nativa confirm() do javascript)
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {string} properties.message - Mensagem a ser exibida pro usuário
+ * @param {() => {}} properties.execute - Função a ser executada se o usuário confirmar
+ */
 export default function Confirm({ closePopup, message, execute }) {
     const { language } = useLanguage();
 

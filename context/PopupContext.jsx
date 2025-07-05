@@ -5,7 +5,17 @@ import { createContext, useContext, useState, useCallback, useEffect, useRef } f
 const PopupContext = createContext({
     showingPopup: null,
     setShowingPopup: () => { },
+
+    /**
+     * Exibe um pop-up focalizado na tela atual
+     * @param {string} popupType - O popup que será exibido 
+     * @param {Object} settings - Passagem de propriedades pro pop-up
+     */
     openPopup: () => { },
+
+    /**
+     * Fechar popup sendo exibido no momento
+     */
     closePopup: () => { },
 });
 

@@ -1,3 +1,7 @@
+/**
+ * Copia um texto para a área de transferência do usuário
+ * @param {string} text 
+ */
 export default function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
     return navigator.clipboard.writeText(text);

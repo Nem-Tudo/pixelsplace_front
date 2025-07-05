@@ -1,3 +1,9 @@
+/**
+ * Escurece uma cor
+ * @param {string} hex - Código hexadecimal da cor inicial 
+ * @param {number} [amount=20] - Quantidade que a cor deve ser escurecida [Padrão: 20]
+ * @returns {string} Código hexadecimal escurecido em amount
+ */
 export function darkenHex(hex, amount = 20) {
   // Remove o # se presente
   hex = hex.replace('#', '');
@@ -16,6 +22,12 @@ export function darkenHex(hex, amount = 20) {
   return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
 }
 
+/**
+ * Clareia uma cor
+ * @param {number} colorNum - Número da cor 
+ * @param {number} [amount=0.2] - Quantidade que a cor deve ser clareada [Padrão: 0.2]
+ * @returns {number} Número da cor clareada
+ */
 export function lightenColor(colorNum, amount = 0.2) {
   const r = (colorNum >> 16) & 0xff;
   const g = (colorNum >> 8) & 0xff;
@@ -30,14 +42,29 @@ export function lightenColor(colorNum, amount = 0.2) {
   return (newR << 16) + (newG << 8) + newB;
 }
 
+/**
+ * Transforma uma cor hexadecimal em número
+ * @param {string} hex - Código hexadecimal da cor
+ * @returns {number} Número da cor
+ */
 export function hexToNumber(hex) {
   return parseInt(hex.replace("#", ""), 16);
 }
 
+/**
+ * Transforma um número de cor em código hexadecimal
+ * @param {number} [num=0] - Número da cor 
+ * @returns {string} Código hexadecimal da cor
+ */
 export function numberToHex(num = 0) {
   return "#" + num.toString(16).padStart(6, "0");
 }
 
+/**
+ * Obtém o nível de brilho de uma cor
+ * @param {string} hexColor - Código hexadecimal da cor 
+ * @returns {number} Porcentagem de luminosidade
+ */
 export function getBrightness(hexColor) {
   if(!hexColor) return 0 
   // Remove o # se houver
@@ -58,6 +85,10 @@ export function getBrightness(hexColor) {
   return brightness;
 }
 
+/**
+ * Transforma uma cor hexadecimal em um objeto com valores HSL
+ * @param {string} hex - Código hexadecimal da cor 
+ */
 export function hexToHsl(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     r = parseInt(result[1], 16);
@@ -83,6 +114,12 @@ export function hexToHsl(hex) {
   };
 }
 
+/**
+ * Transforma uma cor hexadecimal em um código HSL utilizável no CSS
+ * @param {string} hex - Código hexadecimal da cor
+ * @param {boolean} [valuesOnly=false] - Se apenas os valores internos devem ser retornados (sem o hsl())
+ * @returns {string} String tipo 'hsl(0deg, 0%, 0%)'
+ */
 export function hexToCssHsl(hex, valuesOnly = false) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   var r = parseInt(result[1], 16);

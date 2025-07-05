@@ -3,6 +3,11 @@ import Tippy from "@tippyjs/react";
 import { useLanguage } from '@/context/LanguageContext';
 import { MdVerified } from "react-icons/md";
 
+/**
+ * Exibe o ícone de verificado caso a verificação seja true
+ * @param {Object} properties - Passagem de propriedades pro componente
+ * @param {boolean} properties.verified - Verificação de verificado
+ */
 export default function Verified({ verified }) {
     const { language } = useLanguage();
 

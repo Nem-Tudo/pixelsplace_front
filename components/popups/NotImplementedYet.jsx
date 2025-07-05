@@ -1,11 +1,12 @@
-import { useEffect, useRef } from "react";
-import { MdClose } from "react-icons/md";
-import Link from "next/link";
-import PremiumButton from "@/components/PremiumButton";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 
+/**
+ * Pop-up exibido para indicar que uma funcionalidade do site ainda não está pronta
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ */
 export default function NotImplementedYet({ closePopup }) {
     const { language } = useLanguage();
 
