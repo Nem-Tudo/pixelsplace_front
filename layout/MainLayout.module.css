@@ -1,5 +1,5 @@
 .main {
-    background: var(--color-darkest);
+    background: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
     color: var(--color-muted);
     min-height: calc(100dvh - 72px);
     display: flex;
