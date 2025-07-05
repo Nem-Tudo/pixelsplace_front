@@ -1,10 +1,10 @@
 // Pré-carrega os áudios
-const audios = {
-    'ColorPick.mp3': new Audio(`/sfx/ColorPick.mp3`),
-    'CooldownOverAlert.mp3': new Audio(`/sfx/CooldownOverAlert.mp3`),
-    'Fail.mp3': new Audio(`/sfx/Fail.mp3`),
-    'PixelPlace.mp3': new Audio(`/sfx/PixelPlace.mp3`),
-}
+const audioFiles = ['ColorPick', 'CooldownOverAlert', 'Fail', 'PixelPlace'];
+const audios = {};
+
+audioFiles.forEach(name => {
+    audios[`${name}.mp3`] = new Audio(`/sfx/${name}.mp3`);
+});
 
 /**
  * Toca um som para o usuário
@@ -16,5 +16,13 @@ const audios = {
 export default function playSound(sound, settings = { extension: "mp3", bypassPreference: false }) {
     if (!settings.bypassPreference && localStorage.getItem("preferences.sound_effects_disabled") == "true") return;
 
-    audios[`${sound}.${settings.extension}`].play()
+    const key = `${sound}.${settings.extension}`;
+    const audio = audios[key];
+
+    if (audio) {
+        audio.currentTime = 0; // opcional: reinicia o som se já estiver tocando
+        audio.play();
+    } else {
+        console.warn(`Som não pré-carregado: ${key}`);
+    }
 }
