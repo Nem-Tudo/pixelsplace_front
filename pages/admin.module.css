@@ -164,7 +164,7 @@
     justify-content: center;
     border-radius: 100dvh;
     padding: 2px 8px;
-    color: hsla(0, 0%, 100%, 75%);
+    color: var(--color-text-light);
     border: var(--outline);
     transition: var(--smooth-transition);
     user-select: none;
