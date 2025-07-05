@@ -12,8 +12,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100dvw;
+            height: 100dvh;
             margin: 0;
-            padding: 20px;
+            box-sizing: border-box;
+            justify-content: center;
         }
 
         #palette {
@@ -55,10 +58,44 @@
         <div class="color" style="background: yellow;" data-color="yellow"></div>
         <div class="color" style="background: green;" data-color="green"></div>
         <div class="color" style="background: white;" data-color="white"></div>
+        <div class="color" style="background: black;" data-color="black"></div>
     </div>
     <div id="canvas"></div>
 
     <script>
+
+        // Parte funcional
+
+        // Monitora status da conexão
+        function updateStatus() {
+            const status = document.getElementById('status');
+            if (navigator.onLine) {
+                status.textContent = '✅ Online';
+                status.className = 'status online';
+            } else {
+                status.textContent = '❌ Offline';
+                status.className = 'status';
+            }
+        }
+
+        // Verifica status inicial
+        updateStatus();
+
+        // Monitora mudanças na conexão
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+
+        // Auto-reload quando voltar online
+        window.addEventListener('online', function () {
+            setTimeout(() => {
+                if (confirm('Conexão restaurada! Deseja recarregar a página?')) {
+                    window.location.reload();
+                }
+            }, 1000);
+        });
+
+        // Parte minigame
+
         // === DESENHOS FÁCEIS (7 desenhos) ===
         // Coração simples
         const heart = [
@@ -382,7 +419,7 @@
 
         const canvas = document.getElementById("canvas");
         let currentColor = "red";
-        const defaultColors = ["transparent", "black", "red", "green", "blue", "yellow"];
+        const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)"];
 
         // Cria pixels baseado no desenho
         drawing.forEach(row => {
@@ -407,34 +444,6 @@
             if (e.target.classList.contains("pixel")) {
                 e.target.style.background = currentColor;
             }
-        });
-
-        // Monitora status da conexão
-        function updateStatus() {
-            const status = document.getElementById('status');
-            if (navigator.onLine) {
-                status.textContent = '✅ Online';
-                status.className = 'status online';
-            } else {
-                status.textContent = '❌ Offline';
-                status.className = 'status';
-            }
-        }
-
-        // Verifica status inicial
-        updateStatus();
-
-        // Monitora mudanças na conexão
-        window.addEventListener('online', updateStatus);
-        window.addEventListener('offline', updateStatus);
-
-        // Auto-reload quando voltar online
-        window.addEventListener('online', function () {
-            setTimeout(() => {
-                if (confirm('Conexão restaurada! Deseja recarregar a página?')) {
-                    window.location.reload();
-                }
-            }, 1000);
         });
     </script>
 </body>
