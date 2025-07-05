@@ -85,7 +85,7 @@
     }
 
     span {
-        color: white;
+        color: var(--color-text-light);
     }
 
     .item {
@@ -106,7 +106,7 @@
             bottom: -4px;
             height: 2px;
             width: 0%;
-            background: white;
+            background: var(--color-text-light);
             /* ou um gradiente se quiser */
             transition: width 0.3s ease;
         }
@@ -167,8 +167,7 @@
 
         .userName {
             font-weight: 500;
-            color: #ffffff;
-            /* width: 0px; */
+            color: var(--color-text-light);
             max-width: min-content;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -185,8 +184,7 @@
             bottom: -4px;
             height: 2px;
             width: 0%;
-            background: white;
-            /* ou um gradiente se quiser */
+            background: var(--color-text-light);
             transition: width 0.3s ease;
         }
 

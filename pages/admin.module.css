@@ -73,7 +73,7 @@
     width: 100%;
     padding: 10px;
     background-color: var(--color-input-bg);
-    color: var(--color-text-dark);
+    color: var(--color-text-light);
     border: var(--outline);
     border-radius: 12px;
     font-size: 1rem;
@@ -131,6 +131,7 @@
     padding: 10px;
     border-radius: 22px;
     box-shadow: var(--shadow);
+    border: var(--outline);
 
     h2 {
       font-weight: bold;

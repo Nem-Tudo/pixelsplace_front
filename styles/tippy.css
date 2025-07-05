@@ -101,11 +101,11 @@
         }
 
         > :not(div[data-tippy-root]):not(section):hover {
-            background-color: var(--hover-color, rgb(228, 228, 228));
-            color: var(--hover-color-text, var(--color-text));
+            background-color: var(--hover-color, var(--color-mid-hover));
+            color: var(--hover-color-text, var(--color-text-light));
             
             span {
-                color: var(--hover-color-text, var(--color-text));
+                color: var(--hover-color-text, var(--color-text-light));
             }
         }
     }

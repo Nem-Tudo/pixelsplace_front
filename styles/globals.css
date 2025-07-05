@@ -78,6 +78,7 @@
   --color-muted: var(--color-accent);
   --color-canvas-bg: hsl(0, 0%, 100%);
   --color-text-light: var(--color-text-dark);
+  --color-header: var(--frosted-glass);
 }
 [data-theme=BLACKOUT] {
   --color-outline: hsla(0, 0%, 100%, 0.1);
@@ -88,6 +89,7 @@
   --color-canvas-bg: transparent;
   --color-text-dark: var(--color-text-light);
   --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
+  --color-header: var(--frosted-glass);
 }
 
 ::-webkit-scrollbar {

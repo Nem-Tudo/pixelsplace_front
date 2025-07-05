@@ -48,6 +48,7 @@
             flex-direction: column;
             max-width: 100%;
             gap: 20px;
+            color: var(--color-text-dark);
 
             input[type="text"], input[type="datetime-local"], textarea {
                 border: var(--outline);
