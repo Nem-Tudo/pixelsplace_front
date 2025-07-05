@@ -17,6 +17,7 @@ import ToggleSwitch from "@/components/ToggleSwitch";
 import CustomHead from "@/components/CustomHead";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import Failure from "@/components/Failure";
 import Billboard from "@/components/Billboard";
 import Loading from "@/components/Loading";
 
