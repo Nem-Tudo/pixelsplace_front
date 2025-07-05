@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Sem Conexão</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .status.online {
+            background: #4ecdc4;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .tips {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .tips h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .tips ul {
+            color: #666;
+            padding-left: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🌐</div>
+        
+        <h1>Você está offline - PixelsPlace</h1>
+        
+        <div class="status" id="status">
+            ❌ Sem conexão
+        </div>
+        
+        <p>
+            Não foi possível carregar a página. Verifique sua conexão com a internet e tente novamente.
+        </p>
+        
+        <button onclick="window.location.reload()">
+            🔄 Tentar novamente
+        </button>
+        
+        <button onclick="window.history.back()">
+            ← Voltar
+        </button>
+        
+        <div class="tips">
+            <h3>💡 Dicas para resolver:</h3>
+            <ul>
+                <li>Verifique se o Wi-Fi está conectado</li>
+                <li>Teste sua conexão em outro site</li>
+                <li>Reinicie o roteador se necessário</li>
+                <li>Aguarde alguns segundos e tente novamente</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Monitora status da conexão
+        function updateStatus() {
+            const status = document.getElementById('status');
+            if (navigator.onLine) {
+                status.textContent = '✅ Online';
+                status.className = 'status online';
+            } else {
+                status.textContent = '❌ Offline';
+                status.className = 'status';
+            }
+        }
+        
+        // Verifica status inicial
+        updateStatus();
+        
+        // Monitora mudanças na conexão
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+        
+        // Auto-reload quando voltar online
+        window.addEventListener('online', function() {
+            setTimeout(() => {
+                if (confirm('Conexão restaurada! Deseja recarregar a página?')) {
+                    window.location.reload();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
