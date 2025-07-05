@@ -180,7 +180,7 @@ module.exports = {
             RELOAD_BUTTON: "Recarregar",
             STARTING_DATE: "Data inicial",
             ENDING_DATE: "Data final",
-            HISTORY: "Pixels anteriores ao período determinado",
+            HISTORY: "Incluir pixels anteriores ao período determinado",
         },
         PLACE: {
             META_TITLE: "PixelsPlace",
