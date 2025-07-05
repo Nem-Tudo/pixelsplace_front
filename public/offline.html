@@ -7,109 +7,113 @@
     <style>
         /* Variáveis globais (consistência) */
         :root {
-        /* Cores */
-        --color-outline: hsla(0deg, 0%, 100%, 10%);
-        --color-accent: hsl(207, 100%, 42%);
-        --color-accent-hover: hsl(211, 100%, 36%);
-        --color-experimental-accent: hsl(47, 100%, 42%);
-        --color-experimental-accent-hover: hsl(47, 100%, 36%);
-        --color-darker: hsl(217.99, 100%, 44.9%);
-        --color-mid-hover: hsl(223, 29%, 31%);
-        --color-mid: hsl(222, 26%, 22%);
-        --color-input-bg: hsl(225, 36%, 17%);
-        --color-darkest: hsl(222, 40%, 13%);
-        --color-bg: var(--color-darkest);
-        --color-muted: hsl(212, 100%, 75%);
-        --color-text-dark: hsla(0, 0%, 25%, 75%);
-        --color-text-light: hsla(0, 0%, 100%, 75%);
-        --color-hover: rgb(228, 228, 228);
-        --color-canvas-bg: hsl(0, 0%, 92%);
-        --color-header: var(--color-muted);
-        /* Degradês */
-        --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
-        /* Atributos */
-        --shadow: 2px 2px 7px hsla(0, 0%, 0%, 14.1%);
-        --outline: 1px solid var(--color-outline);
-        --smooth-transition: all .4s ease;
-        /* Valores */
-        --hover-scale: 1.05;
-        --frosted-glass-blur: blur(5px);
+            /* Cores */
+            --color-outline: hsla(0deg, 0%, 100%, 10%);
+            --color-accent: hsl(207, 100%, 42%);
+            --color-accent-hover: hsl(211, 100%, 36%);
+            --color-experimental-accent: hsl(47, 100%, 42%);
+            --color-experimental-accent-hover: hsl(47, 100%, 36%);
+            --color-darker: hsl(217.99, 100%, 44.9%);
+            --color-mid-hover: hsl(223, 29%, 31%);
+            --color-mid: hsl(222, 26%, 22%);
+            --color-input-bg: hsl(225, 36%, 17%);
+            --color-darkest: hsl(222, 40%, 13%);
+            --color-bg: var(--color-darkest);
+            --color-muted: hsl(212, 100%, 75%);
+            --color-text-dark: hsla(0, 0%, 25%, 75%);
+            --color-text-light: hsla(0, 0%, 100%, 75%);
+            --color-hover: rgb(228, 228, 228);
+            --color-canvas-bg: hsl(0, 0%, 92%);
+            --color-header: var(--color-muted);
+            /* Degradês */
+            --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
+            /* Atributos */
+            --shadow: 2px 2px 7px hsla(0, 0%, 0%, 14.1%);
+            --outline: 1px solid var(--color-outline);
+            --smooth-transition: all .4s ease;
+            /* Valores */
+            --hover-scale: 1.05;
+            --frosted-glass-blur: blur(5px);
         }
 
         /* Temas */
         [data-theme=TRUE_DARK] {
-        --color-bg: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
-        --color-canvas-bg: var(--color-bg);
-        --color-text-dark: var(--color-text-light);
-        --color-hover: hsl(0, 0%, 13%);
-        --frosted-glass: linear-gradient(45deg, hsl(0deg 0% 16% / 50%), hsl(0deg 0% 18.29% / 81%));
+            --color-bg: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
+            --color-canvas-bg: var(--color-bg);
+            --color-text-dark: var(--color-text-light);
+            --color-hover: hsl(0, 0%, 13%);
+            --frosted-glass: linear-gradient(45deg, hsl(0deg 0% 16% / 50%), hsl(0deg 0% 18.29% / 81%));
         }
-        [data-theme=LIGHT] {
-        --color-outline: hsl(0deg 0% 0% / 12%);
-        --color-mid-hover: hsl(0, 0%, 100%);
-        --color-hover: hsl(0, 0%, 100%);
-        --color-mid: hsl(0, 0%, 100%);
-        --color-input-bg: hsl(0, 0%, 100%);
-        --color-darkest: hsl(0deg 0% 100%);
-        --color-muted: var(--color-accent);
-        --color-canvas-bg: hsl(0, 0%, 100%);
-        --color-text-light: var(--color-text-dark);
-        --color-header: var(--frosted-glass);
-        --color-bg: var(--color-darkest);
-        }
-        [data-theme=BLACKOUT] {
-        --color-outline: hsla(0, 0%, 100%, 0.1);
-        --color-mid-hover: hsl(0, 0%, 13%);
-        --color-hover: hsl(0, 0%, 13%);
-        --color-mid: hsl(0, 0%, 0%);
-        --color-input-bg: hsl(0, 0%, 0%);
-        --color-darkest: hsl(0, 0%, 0%);
-        --color-canvas-bg: var(--color-bg);
-        --color-text-dark: var(--color-text-light);
-        --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
-        --color-header: var(--frosted-glass);
-        --color-bg: var(--color-darkest);
-        }
-        [data-theme=OLD] {
-        --color-header: #7f99cb;
-        --color-darkest: #293146;
-        --color-mid: #141c2f;
-        --color-muted: #9dcaff;
-        --color-accent: #0075d5;
-        --color-accent-hover: #0054e5;
-        --frosted-glass: white;
-        --color-outline: transparent;
-        --color-canvas-bg: rgb(204, 204, 204);
-        --color-bg: var(--color-darkest);
 
-        * {
-            border-radius: 8px !important;
-            font-family: Arial !important;
-            font-size: small;
+        [data-theme=LIGHT] {
+            --color-outline: hsl(0deg 0% 0% / 12%);
+            --color-mid-hover: hsl(0, 0%, 100%);
+            --color-hover: hsl(0, 0%, 100%);
+            --color-mid: hsl(0, 0%, 100%);
+            --color-input-bg: hsl(0, 0%, 100%);
+            --color-darkest: hsl(0deg 0% 100%);
+            --color-muted: var(--color-accent);
+            --color-canvas-bg: hsl(0, 0%, 100%);
+            --color-text-light: var(--color-text-dark);
+            --color-header: var(--frosted-glass);
+            --color-bg: var(--color-darkest);
         }
+
+        [data-theme=BLACKOUT] {
+            --color-outline: hsla(0, 0%, 100%, 0.1);
+            --color-mid-hover: hsl(0, 0%, 13%);
+            --color-hover: hsl(0, 0%, 13%);
+            --color-mid: hsl(0, 0%, 0%);
+            --color-input-bg: hsl(0, 0%, 0%);
+            --color-darkest: hsl(0, 0%, 0%);
+            --color-canvas-bg: var(--color-bg);
+            --color-text-dark: var(--color-text-light);
+            --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
+            --color-header: var(--frosted-glass);
+            --color-bg: var(--color-darkest);
         }
+
+        [data-theme=OLD] {
+            --color-header: #7f99cb;
+            --color-darkest: #293146;
+            --color-mid: #141c2f;
+            --color-muted: #9dcaff;
+            --color-accent: #0075d5;
+            --color-accent-hover: #0054e5;
+            --frosted-glass: white;
+            --color-outline: transparent;
+            --color-canvas-bg: rgb(204, 204, 204);
+            --color-bg: var(--color-darkest);
+
+            * {
+                border-radius: 8px !important;
+                font-family: Arial !important;
+                font-size: small;
+            }
+        }
+
         [data-theme=ARCADE] {
-        --color-outline: hsla(0, 0%, 100%, 0.1);
-        --color-mid-hover: hsl(0, 0%, 13%);
-        --color-hover: hsl(0, 0%, 13%);
-        --color-mid: hsl(0, 0%, 0%);
-        --color-input-bg: hsl(0, 0%, 0%);
-        --color-darkest: hsl(0, 0%, 0%);
-        --color-canvas-bg: var(--color-bg);
-        --color-text-dark: var(--color-text-light);
-        --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
-        --color-header: var(--frosted-glass);
-        --outline: 2px solid var(--color-outline);
-        --color-accent: hsl(125, 100%, 64%);
-        --color-muted: hsla(125, 100%, 64%, 0.649);
-        --color-bg: var(--color-darkest);
-        
-        * {
-            border-radius: 0 !important;
-            font-family: 'Dogica Pixel' !important;
-            font-size: x-small;
-            line-height: 1.2;
-        }
+            --color-outline: hsla(0, 0%, 100%, 0.1);
+            --color-mid-hover: hsl(0, 0%, 13%);
+            --color-hover: hsl(0, 0%, 13%);
+            --color-mid: hsl(0, 0%, 0%);
+            --color-input-bg: hsl(0, 0%, 0%);
+            --color-darkest: hsl(0, 0%, 0%);
+            --color-canvas-bg: var(--color-bg);
+            --color-text-dark: var(--color-text-light);
+            --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
+            --color-header: var(--frosted-glass);
+            --outline: 2px solid var(--color-outline);
+            --color-accent: hsl(125, 100%, 64%);
+            --color-muted: hsla(125, 100%, 64%, 0.649);
+            --color-bg: var(--color-darkest);
+
+            * {
+                border-radius: 0 !important;
+                font-family: 'Dogica Pixel' !important;
+                font-size: x-small;
+                line-height: 1.2;
+            }
         }
 
         body {
@@ -154,6 +158,7 @@
             transition: var(--smooth-transition);
             box-shadow: var(--shadow);
         }
+
         .color:hover {
             scale: var(--hover-scale);
         }
@@ -166,13 +171,18 @@
 </head>
 
 <body id="main">
-    <h1>Pixels Place</h1>
+    <h1 style="color: var(--color-muted)">Pixels Place</h1>
 
-    <div class="container">
+    <div class="container" style="background: transparent; padding: 50px;">
         <p id="status"></p>
+        <h2>Sem conexão com a internet! ;-;</h2>
+        <span>Você voltou pra idade da pedra? A mãe desligou o Wi-Fi? Roubaram o fio da sua casa?</span>
+        <span>Bom, não importa o motivo</span>
+        <span>Aqui vai um joguinho pra você se divertir por enquanto</span>
+        <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
     </div>
 
-    <div class="container">
+    <div class="container" style="margin-top: 15px;">
         <p id="hurryMessage"></p>
         <p id="hurryTimer"></p>
         <div id="palette">
@@ -189,8 +199,8 @@
     <script>
 
         // Parte visual
-        if(localStorage.getItem('theme')) document.getElementById("main").dataset.theme = localStorage.getItem('theme');
-        
+        if (localStorage.getItem('theme')) document.getElementById("main").dataset.theme = localStorage.getItem('theme');
+
         // Parte funcional
 
         // Monitora status da conexão
@@ -569,7 +579,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             drawBackground();
             drawGrid();
-        }, maxTime*1000);
+        }, maxTime * 1000);
 
         // Desenha o fundo baseado no desenho predefinido
         function drawBackground() {
