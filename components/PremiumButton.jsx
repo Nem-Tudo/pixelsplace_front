@@ -55,7 +55,7 @@ export default function PremiumButton({
     );
     return (
       <>
-        <Component href={href} className={[styles.button, styles.secondary, styles.regularPadding, "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+        <Component href={href} className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
           <div className="glassEffect" />
           {children}
         </Component>
@@ -85,7 +85,7 @@ export default function PremiumButton({
   );
   return (
     <>
-      <Component className={[styles.button, styles.secondary, styles.regularPadding, "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+      <Component className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
         <div className="glassEffect" />
         {children}
       </Component>
