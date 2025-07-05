@@ -36,7 +36,6 @@
 :root {
   /* Cores */
   --color-outline: hsla(0deg, 0%, 100%, 10%);
-  --color-header-bottom: hsl(205, 76%, 57%);
   --color-accent: hsl(207, 100%, 42%);
   --color-accent-hover: hsl(211, 100%, 36%);
   --color-experimental-accent: hsl(47, 100%, 42%);
@@ -57,6 +56,22 @@
   /* Valores */
   --hover-scale: 1.05;
   --frosted-glass-blur: blur(5px);
+}
+
+/* Temas */
+main[data-theme=LIGHT] {
+  --color-outline: hsla(0, 0%, 0%, 0.1);
+  --color-mid-hover: hsl(0, 0%, 100%);
+  --color-mid: hsl(0, 0%, 100%);
+  --color-input-bg: hsl(0, 0%, 100%);
+  --color-darkest: hsl(223, 12%, 88%);
+}
+main[data-theme=BLACKOUT] {
+  --color-outline: hsla(0, 0%, 100%, 0.1);
+  --color-mid-hover: hsl(0, 0%, 13%);
+  --color-mid: hsl(0, 0%, 0%);
+  --color-input-bg: hsl(0, 0%, 0%);
+  --color-darkest: hsl(0, 0%, 0%);
 }
 
 ::-webkit-scrollbar {

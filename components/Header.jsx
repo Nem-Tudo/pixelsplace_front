@@ -193,7 +193,10 @@ export default function Header() {
                                             <select
                                                 id="theme"
                                                 value={localStorage.getItem("preferences.theme") || 'DARK'}
-                                                onChange={(e) => {localStorage.setItem("preferences.theme", e.target.value)}}
+                                                onChange={(e) => {
+                                                    localStorage.setItem("preferences.theme", e.target.value); 
+                                                    location.reload();
+                                                }}
                                             >
                                                 <option value="DARK">Dark</option>
                                                 <option value="LIGHT">Light</option>
