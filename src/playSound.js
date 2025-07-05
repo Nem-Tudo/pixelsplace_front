@@ -1,28 +1,36 @@
-// Pré-carrega os áudios
-const audioFiles = ['ColorPick', 'CooldownOverAlert', 'Fail', 'PixelPlace'];
-const audios = {};
+let audios = {}; // escopo global, mas vazio até inicializar
 
-audioFiles.forEach(name => {
-    audios[`${name}.mp3`] = new Audio(`/sfx/${name}.mp3`);
-});
+// Inicializa os áudios no cliente
+export function initSounds() {
+    if (typeof window === 'undefined') return; // garante que só roda no browser
+
+    const audioFiles = ['ColorPick', 'CooldownOverAlert', 'Fail', 'PixelPlace'];
+    audios = {}; // reseta para garantir
+
+    audioFiles.forEach(name => {
+        audios[name] = new Audio(`/sfx/${name}.mp3`);
+    });
+}
 
 /**
  * Toca um som para o usuário
- * @param {string} sound - Nome do áudio dentro da pasta de efeitos sonoros (@/public/sfx) 
- * @param {Object} settings - Opções a ser consideradas quando for tocar
- * @param {string} [settings.extension=mp3] - Extensão do arquivo na pasta de efeitos sonoros
- * @param {boolean} [settings.bypassPreference=false] - Se o som deve ser forçado mesmo caso o usuário tenha desabilitado nas preferências 
+ * @param {string} sound - Nome do áudio (ex.: 'PixelPlace')
+ * @param {Object} settings - Opções ao tocar
+ * @param {string} [settings.extension="mp3"] - Extensão do arquivo
+ * @param {boolean} [settings.bypassPreference=false] - Ignora preferências
  */
 export default function playSound(sound, settings = { extension: "mp3", bypassPreference: false }) {
-    if (!settings.bypassPreference && localStorage.getItem("preferences.sound_effects_disabled") == "true") return;
+    if (typeof window === 'undefined') return; // no SSR não faz nada
 
-    const key = `${sound}.${settings.extension}`;
-    const audio = audios[key];
+    if (!settings.bypassPreference && localStorage.getItem("preferences.sound_effects_disabled") === "true") {
+        return;
+    }
 
+    const audio = audios[sound];
     if (audio) {
-        audio.currentTime = 0; // opcional: reinicia o som se já estiver tocando
-        audio.play();
+        audio.currentTime = 0;
+        audio.play().catch(err => console.warn(`Erro ao tocar som ${sound}:`, err));
     } else {
-        console.warn(`Som não pré-carregado: ${key}`);
+        console.warn(`Som não inicializado: ${sound}`);
     }
 }

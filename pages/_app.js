@@ -14,9 +14,15 @@ import { ThemeProvider } from 'next-themes';
 import { Router } from "next/router"
 import nProgress from 'nprogress'
 
+import { initSounds } from '@/src/playSound';
+
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeComplete", nProgress.done);
 Router.events.on("routeChangeError", nProgress.done);
+
+useEffect(() => {
+    initSounds();
+}, []);
 
 export default function App({ Component, pageProps }) {
   return <>
