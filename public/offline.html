@@ -520,7 +520,7 @@
             "0000000000000000"
         ];
         // Array com todos os desenhos organizados por dificuldade
-        const drawings = {
+        const allDrawings = {
             facil: [
                 { name: "Coração", drawing: heart },
                 { name: "Sol", drawing: sun },
@@ -543,18 +543,14 @@
                 { name: "Dragão", drawing: dragon }
             ]
         };
+        let drawings = allDrawings;
 
-        const maxTime = 10;
+        const maxTime = 1;
         let remainingTime = maxTime;
 
         // Desenho predefinido (16x16 matriz)
-        let dificuldade = Math.round(Math.random() * 2);
-        let desenho = Math.round(Math.random() * (drawings[['facil', 'medio', 'dificil'][dificuldade]].length - 1))
-        document.getElementById('hurryMessage').innerHTML =
-            `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
-        document.getElementById('hurryTimer').innerHTML = `${maxTime} segundos restantes`;
-        let drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
-
+        let drawing;
+        
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         let currentColor = "red";
@@ -562,24 +558,56 @@
         const pixelSize = 21;
         const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)"];
 
+        function sortearDesenho() {
+            // Verifica se ainda há desenhos
+            const dificuldadesDisponiveis = Object.keys(drawings).filter(diff => drawings[diff].length > 0);
+
+            if (dificuldadesDisponiveis.length === 0) {
+                document.getElementById('hurryMessage').innerHTML = "🎉 Você desenhou todos!";
+                document.getElementById('hurryTimer').innerHTML = "";
+                clearInterval(intervalTimer);
+                clearInterval(intervalReset);
+                return;
+            }
+
+            // Sorteia dificuldade
+            const diffIndex = Math.floor(Math.random() * dificuldadesDisponiveis.length);
+            const dificuldade = dificuldadesDisponiveis[diffIndex];
+
+            // Sorteia desenho dentro da dificuldade
+            const desenhoIndex = Math.floor(Math.random() * drawings[dificuldade].length);
+            const selecionado = drawings[dificuldade][desenhoIndex];
+
+            // Remove desenho sorteado da lista
+            drawings[dificuldade].splice(desenhoIndex, 1);
+
+            // Atualiza mensagem
+            document.getElementById('hurryMessage').innerHTML =
+                `Rápido! Desenhe ${selecionado.name} (nível ${dificuldade})`;
+            document.getElementById('hurryTimer').innerHTML = `${maxTime} segundos restantes`;
+
+            // Atualiza o desenho atual
+            drawing = selecionado.drawing;
+
+            // Redesenha canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawGrid();
+        }
+
         // Contador de tempo
-        setInterval(() => {
+        let intervalTimer = setInterval(() => {
             remainingTime -= 1;
             document.getElementById('hurryTimer').innerHTML = `${remainingTime} segundos restantes`;
         }, 1000);
-        setInterval(() => {
-            dificuldade = Math.round(Math.random() * 2);
-            desenho = Math.round(Math.random() * (drawings[['facil', 'medio', 'dificil'][dificuldade]].length - 1))
-            document.getElementById('hurryMessage').innerHTML =
-                `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
-            document.getElementById('hurryTimer').innerHTML = `${maxTime} segundos restantes`;
-            drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
 
+        let intervalReset = setInterval(() => {
             remainingTime = maxTime;
-            ctx.clearRect(0, 0, canvas.width, canvas.height)
-            drawBackground();
-            drawGrid();
-        }, maxTime * 1000);
+            sortearDesenho();
+        }, (maxTime * 1000) + 1000);
+
+        // Primeira chamada
+        sortearDesenho();
 
         // Desenha o fundo baseado no desenho predefinido
         function drawBackground() {
