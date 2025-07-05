@@ -32,7 +32,7 @@ module.exports = {
         RELOAD: "Recarregar",
         RELOAD_PAGE: "Recarregar página",
         BACK: "Voltar",
-        LANGUAGE: "Idioma",
+        LANGUAGE: "Linguagem", // USAR "Language" em TODOS os outros idiomas
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
         JOIN: 'Juntar-se',

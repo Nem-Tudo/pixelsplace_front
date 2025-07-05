@@ -113,11 +113,11 @@ export default function BuildSwitcher() {
     return (
         <div style={{
             padding: '10px',
-            border: '1px solid hsla(0deg, 0%, 100%, 20%)',
+            border: 'var(--outline)',
             borderRadius: '12px',
             margin: '10px 0',
-            background: 'whitesmoke',
-            color: 'black',
+            background: 'var(--frosted-glass)',
+            color: 'var(--color-text-dark)',
             boxShadow: '2px 2px 7px #00000024'
         }}>
             {currentBuild.id !== "main" && (

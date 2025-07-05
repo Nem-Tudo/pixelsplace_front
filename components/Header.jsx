@@ -167,9 +167,7 @@ export default function Header() {
                                     <span>{language.getString("COMPONENTS.HEADER.PROFILE")}</span>
                                 </Link>
                                 <section>
-                                    {/* {language.getString('COMMON.LANGUAGE')} */}
-                                    {/* Dont translate */}
-                                    <span>Language</span>
+                                    <span>{language.getString('COMMON.LANGUAGE')}</span>
                                     <select
                                         id="language"
                                         value={lang}

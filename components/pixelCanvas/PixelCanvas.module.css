@@ -43,7 +43,7 @@
 
 .bottomCanvasTools{
     margin-top: 7px;
-    color: black;
+    color: var(--color-text-dark);
     display: flex;
     gap: 5px;
     .tool{
