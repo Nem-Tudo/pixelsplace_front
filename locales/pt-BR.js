@@ -23,7 +23,7 @@ module.exports = {
         REDIRECTING: "Redirecionando...",
         LOADING: "Carregando...",
         NO_PERMISSION: "Você não tem permissão para fazer isso",
-        NO_PERMISSION_PAGE: "A página especificada não existe ou você não tem acesso a ela.",
+        NO_PERMISSION_PAGE: "Você não tem permissão para acessar esta página.",
         NOT_SELECTED: "Não selecionado",
         USER: "Usuário",
         SERVER: "Servidor",
