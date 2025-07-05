@@ -243,12 +243,12 @@ export default function Header() {
                                         </div>
                                     </Tippy>
                                 }
-                                <Link href={"/auth/discord"} style={{ '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
-                                    <span>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
+                                <Link href={"/auth/discord"} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
+                                    <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
-                                    usingBuildOverride && <Link href={"/buildoverride?t=main"} style={{ color: "red", '--hover-color': '#ff0000', '--hover-color-text': '#ffffff' }}>
-                                        <span>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
+                                    !usingBuildOverride && <Link href={"/buildoverride?t=main"} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
+                                        <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>
                                     </Link>
                                 }
 
