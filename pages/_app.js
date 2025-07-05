@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
   return <>
     <AuthProvider>
       <LanguageProvider>
-        <ThemeProvider defaultTheme='DARK' themes={['DARK', 'TRUEDARK', 'LIGHT', 'BLACKOUT']}>
+        <ThemeProvider defaultTheme='DARK' themes={['DARK', 'TRUE_DARK', 'LIGHT', 'BLACKOUT']}>
           <PopupProvider>
             <Component {...pageProps} />
           </PopupProvider>

@@ -10,7 +10,7 @@
     overflow: hidden;
     position: relative;
     touch-action: none;
-    background: #eaeaea;
+    background: var(--color-canvas-bg);
     user-select: none;
 
     @media screen and (max-height: 500px) and (orientation: landscape) {

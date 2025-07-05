@@ -41,6 +41,12 @@ module.exports = {
         NOW: "Agora",
         THEME: "Tema",
     },
+    THEMES: {
+        DARK: 'Padrão',
+        TRUE_DARK: 'Escuro',
+        LIGHT: 'Claro',
+        BLACKOUT: 'Blecaute',
+    },
     COMPONENTS: {
         BUILD_SWITCHER: {
             ERROR_FETCH_BUILDS: "Erro ao buscar builds",

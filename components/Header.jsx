@@ -199,10 +199,10 @@ export default function Header() {
                                                     setTheme(e.target.value)
                                                 }}
                                             >
-                                                <option value="DARK">Default</option>
-                                                <option value="DARK">True Dark</option>
-                                                <option value="LIGHT">Light</option>
-                                                <option value="BLACKOUT">Blackout</option>
+                                                <option value="DARK">{language.getString('THEMES.DARK')}</option>
+                                                <option value="TRUE_DARK">{language.getString('THEMES.TRUE_DARK')}</option>
+                                                <option value="LIGHT">{language.getString('THEMES.LIGHT')}</option>
+                                                <option value="BLACKOUT">{language.getString('THEMES.BLACKOUT')}</option>
                                             </select>
                                         </section>
                                         <label htmlFor="PreferenceSfxToggle">
