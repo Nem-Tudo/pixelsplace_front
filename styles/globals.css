@@ -61,11 +61,6 @@
   /* Valores */
   --hover-scale: 1.05;
   --frosted-glass-blur: blur(5px);
-
-  select option {
-    background: var(--frosted-glass);
-    color: var(--color-text-dark);
-  }
 }
 
 /* Temas */
@@ -129,6 +124,11 @@ select, input[type=text], input[type=number], input[type=datetime-local], input[
 
 select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
   box-shadow: inset 0px 0px 8px 3px #ffffff1a;
+}
+
+select option {
+  background: var(--color-mid, white);
+  color: var(--color-text-dark, black);
 }
 
 body {
