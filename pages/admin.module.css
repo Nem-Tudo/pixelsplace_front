@@ -73,7 +73,7 @@
     width: 100%;
     padding: 10px;
     background-color: var(--color-input-bg);
-    color: var(--color-text);
+    color: var(--color-text-dark);
     border: var(--outline);
     border-radius: 12px;
     font-size: 1rem;

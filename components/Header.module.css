@@ -1,5 +1,5 @@
 .header {
-    background: var(--color-muted);
+    background: var(--color-header);
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
@@ -11,7 +11,7 @@
     z-index: 10;
     position: relative;
     text-shadow: 1px 1px 7px #00000026;
-    color: white;
+    color: var(--color-text-light);
     transition: var(--smooth-transition);
 
     @media (max-width: 500px) {

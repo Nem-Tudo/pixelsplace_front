@@ -180,7 +180,7 @@
     background: var(--frosted-glass);
     backdrop-filter: var(--frosted-glass-blur);
     box-shadow: var(--shadow);
-    color: var(--color-text);
+    color: var(--color-text-dark);
     border: var(--outline);
     max-width: 350px;
     margin: 0 25px 0 auto;
