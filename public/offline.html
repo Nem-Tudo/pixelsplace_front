@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>PixelsPlace - Offline</title>
     <style>
         /* Variáveis globais (consistência) */
@@ -124,7 +125,7 @@
             flex-direction: column;
             align-items: center;
             width: 100dvw;
-            height: 100dvh;
+            min-height: 100dvh;
             box-sizing: border-box;
             justify-content: center;
             user-select: none;
@@ -173,16 +174,21 @@
 <body id="main">
     <h1 style="color: var(--color-muted)">Pixels Place</h1>
 
-    <div class="container" style="background: transparent; padding: 50px;">
+    <div class="container">
         <p id="status"></p>
-        <h2>Sem conexão com a internet! ;-;</h2>
-        <span>Você voltou pra idade da pedra? A mãe desligou o Wi-Fi? Roubaram o fio da sua casa?</span>
-        <span>Bom, não importa o motivo</span>
-        <span>Aqui vai um joguinho pra você se divertir por enquanto</span>
-        <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
+        <div class="offlineOnly">
+            <h2>Sem conexão com a internet! ;-;</h2>
+            <span>Você voltou pra idade da pedra? A mãe desligou o Wi-Fi? Roubaram o fio da sua casa?</span>
+            <span>Bom, não importa o motivo</span>
+            <span>Aqui vai um joguinho pra você se divertir por enquanto</span>
+            <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
+        </div>
+        <div class="onlineOnly">
+            Eba voltou a internet
+        </div>
     </div>
 
-    <div class="container" style="margin-top: 15px;">
+    <div class="container" id="gameContainer">
         <p id="hurryMessage"></p>
         <p id="hurryTimer"></p>
         <div id="palette">
@@ -563,8 +569,10 @@
             const dificuldadesDisponiveis = Object.keys(drawings).filter(diff => drawings[diff].length > 0);
 
             if (dificuldadesDisponiveis.length === 0) {
-                document.getElementById('hurryMessage').innerHTML = "🎉 Você desenhou todos!";
-                document.getElementById('hurryTimer').innerHTML = "";
+                document.getElementById('gameContainer').innerHTML = `
+                    🎉 Você desenhou todos!
+                    <button onClick="location.reload()">Tentar de novo</button>
+                `;
                 clearInterval(intervalTimer);
                 clearInterval(intervalReset);
                 return;
