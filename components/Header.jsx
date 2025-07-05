@@ -199,7 +199,8 @@ export default function Header() {
                                                     setTheme(e.target.value)
                                                 }}
                                             >
-                                                <option value="DARK">Dark</option>
+                                                <option value="DARK">Default</option>
+                                                <option value="DARK">True Dark</option>
                                                 <option value="LIGHT">Light</option>
                                                 <option value="BLACKOUT">Blackout</option>
                                             </select>
