@@ -42,7 +42,7 @@
         --color-canvas-bg: var(--color-bg);
         --color-text-dark: var(--color-text-light);
         --color-hover: hsl(0, 0%, 13%);
-        --frosted-glass: linear-gradient(45deg, hsl(0deg 0% 16% / 50%), hsl(0deg 0% 18.29% / 81%))
+        --frosted-glass: linear-gradient(45deg, hsl(0deg 0% 16% / 50%), hsl(0deg 0% 18.29% / 81%));
         }
         [data-theme=LIGHT] {
         --color-outline: hsl(0deg 0% 0% / 12%);
@@ -55,6 +55,7 @@
         --color-canvas-bg: hsl(0, 0%, 100%);
         --color-text-light: var(--color-text-dark);
         --color-header: var(--frosted-glass);
+        --color-bg: var(--color-darkest);
         }
         [data-theme=BLACKOUT] {
         --color-outline: hsla(0, 0%, 100%, 0.1);
@@ -67,6 +68,7 @@
         --color-text-dark: var(--color-text-light);
         --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
         --color-header: var(--frosted-glass);
+        --color-bg: var(--color-darkest);
         }
         [data-theme=OLD] {
         --color-header: #7f99cb;
@@ -78,6 +80,7 @@
         --frosted-glass: white;
         --color-outline: transparent;
         --color-canvas-bg: rgb(204, 204, 204);
+        --color-bg: var(--color-darkest);
 
         * {
             border-radius: 8px !important;
@@ -99,6 +102,7 @@
         --outline: 2px solid var(--color-outline);
         --color-accent: hsl(125, 100%, 64%);
         --color-muted: hsla(125, 100%, 64%, 0.649);
+        --color-bg: var(--color-darkest);
         
         * {
             border-radius: 0 !important;
@@ -109,68 +113,78 @@
         }
 
         body {
-            background: var(--color-bg);
-            color: #fff;
+            background: var(--color-bg, var(--color-darkest));
+            color: var(--color-text-light);
             font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100dvw;
             height: 100dvh;
-            margin: 0;
             box-sizing: border-box;
             justify-content: center;
+            user-select: none;
+            gap: 10px;
         }
 
-        #palette {
-            margin-bottom: 10px;
+        * {
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: linear-gradient(135deg, #ffffff08, #ffffff04);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            border: var(--outline);
+            align-items: center;
         }
 
         .color {
             display: inline-block;
-            width: 24px;
-            height: 24px;
-            margin: 0 5px;
-            border: 2px solid #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 12px;
+            border: var(--outline);
             cursor: pointer;
+            transition: var(--smooth-transition);
+            box-shadow: var(--shadow);
+        }
+        .color:hover {
+            scale: var(--hover-scale);
         }
 
         #canvas {
-            display: grid;
-            grid-template-columns: repeat(16, 20px);
-            grid-template-rows: repeat(16, 20px);
-            gap: 0;
-            border: 1px solid #fff;
+            border: var(--outline);
             cursor: crosshair;
-        }
-
-        .pixel {
-            width: 20px;
-            height: 20px;
-            background: #000;
-            cursor: pointer;
-            box-shadow: inset 0px 0px 8px 1px #ffffff00;
-            transition: var(--smooth-transition);
-        }
-        .pixel:hover {
-            box-shadow: inset 0px 0px 8px 3px #ffffff1a;
         }
     </style>
 </head>
 
 <body id="main">
-    <h1>Pixel Art</h1>
-    <p id="status"></p>
-    <p id="hurryMessage"></p>
-    <div id="palette">
-        <div class="color" style="background: red;" data-color="red"></div>
-        <div class="color" style="background: blue;" data-color="blue"></div>
-        <div class="color" style="background: yellow;" data-color="yellow"></div>
-        <div class="color" style="background: green;" data-color="green"></div>
-        <div class="color" style="background: white;" data-color="white"></div>
-        <div class="color" style="background: black;" data-color="black"></div>
+    <h1>Pixels Place</h1>
+
+    <div class="container">
+        <p id="status"></p>
     </div>
-    <canvas id="canvas" width="336" height="336"></canvas>
+
+    <div class="container">
+        <p id="hurryMessage"></p>
+        <p id="hurryTimer"></p>
+        <div id="palette">
+            <div class="color" style="background: red;" data-color="red"></div>
+            <div class="color" style="background: blue;" data-color="blue"></div>
+            <div class="color" style="background: yellow;" data-color="yellow"></div>
+            <div class="color" style="background: green;" data-color="green"></div>
+            <div class="color" style="background: white;" data-color="white"></div>
+            <div class="color" style="background: black;" data-color="black"></div>
+        </div>
+        <canvas id="canvas" width="336" height="336"></canvas>
+    </div>
 
     <script>
 
@@ -206,8 +220,6 @@
                 }
             }, 1000);
         });
-
-        // Parte minigame
 
         // === DESENHOS FÁCEIS (7 desenhos) ===
         // Coração simples
@@ -528,7 +540,29 @@
         document.getElementById('hurryMessage').innerHTML =
             `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
 
-        const drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
+        let drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
+
+        // Parte minigame
+
+        let remainingTime = 30;
+
+        // Contador de tempo
+        setInterval(() => {
+            remainingTime -= 1;
+            document.getElementById('hurryTimer').innerHTML = `${remainingTime} segundos restantes`;
+        }, 1000);
+        setInterval(() => {
+            dificuldade = Math.round(Math.random() * 2);
+            desenho = Math.round(Math.random() * (drawings[['facil', 'medio', 'dificil'][dificuldade]].length - 1))
+            document.getElementById('hurryMessage').innerHTML =
+                `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
+
+            drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
+
+            remainingTime = 30;
+            drawBackground();
+            drawGrid();
+        }, 30000);
 
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
