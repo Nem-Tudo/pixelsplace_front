@@ -1,5 +1,5 @@
 .main {
-    background-color: var(--color-bg);
+    background: var(--color-bg);
     color: var(--color-muted);
     min-height: calc(100dvh - 72px);
     display: flex;

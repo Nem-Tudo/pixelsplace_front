@@ -47,7 +47,8 @@
   --color-darkest: hsl(222, 40%, 13%);
   --color-bg: var(--color-darkest);
   --color-muted: hsl(212, 100%, 75%);
-  --color-text: hsla(0, 0%, 25%, 75%);
+  --color-text-dark: hsla(0, 0%, 25%, 75%);
+  --color-text-light: hsla(0, 0%, 100%, 75%);
   --color-canvas-bg: #eaeaea;
   /* Degradês */
   --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 96.08%, 96.86%), hsla(0deg, 0%, 100%, 90.98%));
@@ -64,6 +65,7 @@
 [data-theme=TRUE_DARK] {
   --color-canvas-bg: transparent;
   --color-bg: radial-gradient(circle at 60% 100%, var(--color-darkest), #0a0d16);
+  --color-text-dark: var(--color-text-light);
 }
 [data-theme=LIGHT] {
   --color-outline: hsl(0deg 0% 0% / 12%);
@@ -73,6 +75,7 @@
   --color-darkest: hsl(0deg 0% 100%);
   --color-muted: var(--color-accent);
   --color-canvas-bg: hsl(0, 0%, 100%);
+  --color-text-light: var(--color-text-dark);
 }
 [data-theme=BLACKOUT] {
   --color-outline: hsla(0, 0%, 100%, 0.1);
@@ -81,6 +84,7 @@
   --color-input-bg: hsl(0, 0%, 0%);
   --color-darkest: hsl(0, 0%, 0%);
   --color-canvas-bg: transparent;
+  --color-text-dark: var(--color-text-light);
 }
 
 ::-webkit-scrollbar {
