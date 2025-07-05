@@ -33,17 +33,8 @@
         }
 
         #canvas {
-            display: grid;
-            grid-template-columns: repeat(16, 20px);
-            grid-template-rows: repeat(16, 20px);
-            gap: 1px;
-        }
-
-        .pixel {
-            width: 20px;
-            height: 20px;
-            background: #000;
-            cursor: pointer;
+            border: 1px solid #fff;
+            cursor: crosshair;
         }
     </style>
 </head>
@@ -60,7 +51,7 @@
         <div class="color" style="background: white;" data-color="white"></div>
         <div class="color" style="background: black;" data-color="black"></div>
     </div>
-    <div id="canvas"></div>
+    <canvas id="canvas" width="336" height="336"></canvas>
 
     <script>
 
@@ -410,27 +401,69 @@
         };
 
         // Desenho predefinido (16x16 matriz)
-        let dificuldade = Math.round(Math.random()*2);
-        let desenho = Math.round(Math.random()* (drawings[['facil','medio','dificil'][dificuldade]].length-1) )
-        document.getElementById('hurryMessage').innerHTML = 
-        `Rápido! Desenhe ${drawings[['facil','medio','dificil'][dificuldade]][desenho].name} (nível ${['facil','medio','dificil'][dificuldade]})`;
+        let dificuldade = Math.round(Math.random() * 2);
+        let desenho = Math.round(Math.random() * (drawings[['facil', 'medio', 'dificil'][dificuldade]].length - 1))
+        document.getElementById('hurryMessage').innerHTML =
+            `Rápido! Desenhe ${drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].name} (nível ${['facil', 'medio', 'dificil'][dificuldade]})`;
 
-        const drawing = drawings[['facil','medio','dificil'][dificuldade]][desenho].drawing;
+        const drawing = drawings[['facil', 'medio', 'dificil'][dificuldade]][desenho].drawing;
 
         const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
         let currentColor = "red";
+        let isDrawing = false;
+        const pixelSize = 21;
         const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)"];
 
-        // Cria pixels baseado no desenho
-        drawing.forEach(row => {
-            row.split("").forEach(cell => {
-                const pixel = document.createElement("div");
-                pixel.className = "pixel";
-                pixel.style.background = defaultColors[parseInt(cell)]
-                pixel.dataset.base = pixel.style.background;
-                canvas.appendChild(pixel);
+        // Desenha o fundo baseado no desenho predefinido
+        function drawBackground() {
+            drawing.forEach((row, y) => {
+                row.split("").forEach((cell, x) => {
+                    ctx.fillStyle = defaultColors[parseInt(cell)];
+                    ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+                });
             });
-        });
+        }
+
+        // Desenha a grade
+        function drawGrid() {
+            ctx.strokeStyle = "#666";
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 16; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * pixelSize, 0);
+                ctx.lineTo(i * pixelSize, 16 * pixelSize);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, i * pixelSize);
+                ctx.lineTo(16 * pixelSize, i * pixelSize);
+                ctx.stroke();
+            }
+        }
+
+        // Função para pintar um pixel
+        function paintPixel(x, y) {
+            const pixelX = Math.floor(x / pixelSize);
+            const pixelY = Math.floor(y / pixelSize);
+            if (pixelX >= 0 && pixelX < 16 && pixelY >= 0 && pixelY < 16) {
+                ctx.fillStyle = currentColor;
+                ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
+            }
+        }
+
+        // Obtém coordenadas do mouse relativas ao canvas
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        // Inicializa o canvas
+        drawBackground();
+        drawGrid();
 
         // Seleção de cor
         document.querySelectorAll(".color").forEach(c => {
@@ -439,11 +472,49 @@
             });
         });
 
-        // Pintura
-        canvas.addEventListener("click", e => {
-            if (e.target.classList.contains("pixel")) {
-                e.target.style.background = currentColor;
+        // Mouse events
+        canvas.addEventListener("mousedown", (e) => {
+            isDrawing = true;
+            const pos = getMousePos(e);
+            paintPixel(pos.x, pos.y);
+        });
+
+        canvas.addEventListener("mousemove", (e) => {
+            if (isDrawing) {
+                const pos = getMousePos(e);
+                paintPixel(pos.x, pos.y);
             }
+        });
+
+        canvas.addEventListener("mouseup", () => {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener("mouseleave", () => {
+            isDrawing = false;
+        });
+
+        // Touch events para dispositivos móveis
+        canvas.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            isDrawing = true;
+            const touch = e.touches[0];
+            const pos = getMousePos(touch);
+            paintPixel(pos.x, pos.y);
+        });
+
+        canvas.addEventListener("touchmove", (e) => {
+            e.preventDefault();
+            if (isDrawing) {
+                const touch = e.touches[0];
+                const pos = getMousePos(touch);
+                paintPixel(pos.x, pos.y);
+            }
+        });
+
+        canvas.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            isDrawing = false;
         });
     </script>
 </body>
