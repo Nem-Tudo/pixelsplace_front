@@ -85,7 +85,7 @@ export function MainLayout({ children }) {
     return (
         <>
             <Header />
-            <main className={styles.main}>
+            <main className={styles.main} data-theme={localStorage?.getItem("preferences.theme") || 'DARK'}>
                 {children}
             </main>
         </>
