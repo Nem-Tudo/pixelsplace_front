@@ -32,10 +32,17 @@
 
 .canvasTools {
     right: 0;
-    bottom: 75px;
+    bottom: 0px;
     position: fixed;
     margin: 10px;
     cursor: pointer;
     pointer-events: all;
     z-index: 20;
+}
+
+.bottomCanvasTools{
+    color: black;
+    .tool{
+        cursor: pointer;
+    }
 }

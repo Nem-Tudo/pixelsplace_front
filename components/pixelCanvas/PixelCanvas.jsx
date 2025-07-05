@@ -339,8 +339,8 @@ const PixelCanvas = forwardRef(({
                 // Pegar o valor atual do bottomBarText do React
                 // Desenhar bottomBarText se diferente de "0:00"
                 if (bottomText && bottomText !== "") {
-                    const barHeight = 150;
-                    const fontSize = 80;
+                    const barHeight = 15 * pixelScale;
+                    const fontSize = 8 * pixelScale;
 
                     // Desenhar barra preta na parte inferior
                     auxCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
@@ -946,7 +946,9 @@ const PixelCanvas = forwardRef(({
                         }}
                     />
                     <div className={styles.bottomCanvasTools}>
-                        <CgInpicture />
+                        <div className={styles.tool} onClick={() => pipCanvas()}>
+                            <CgInpicture />
+                        </div>
                     </div>
                 </div>
             </div>
