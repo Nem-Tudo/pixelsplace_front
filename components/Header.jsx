@@ -9,12 +9,14 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from "@/context/AuthContext"
 import PixelIcon from "@/components/PixelIcon"
 import ToggleSwitch from "@/components/ToggleSwitch";
+import { useTheme } from 'next-themes';
 
 export default function Header() {
     const { language, changeLanguage, lang, availableLanguages } = useLanguage();
     const { loggedUser, updateUserKey } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
+    const { theme, setTheme } = useTheme();
 
     useEffect(() => {
         if (Cookies.get("active-build-token")) {
@@ -192,10 +194,9 @@ export default function Header() {
                                             <span>{language.getString("COMMON.THEME")}</span>
                                             <select
                                                 id="theme"
-                                                value={localStorage.getItem("preferences.theme") || 'DARK'}
+                                                value={theme}
                                                 onChange={(e) => {
-                                                    localStorage.setItem("preferences.theme", e.target.value); 
-                                                    location.reload();
+                                                    setTheme(e.target.value)
                                                 }}
                                             >
                                                 <option value="DARK">Dark</option>
