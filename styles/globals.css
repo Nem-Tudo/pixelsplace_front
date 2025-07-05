@@ -35,7 +35,7 @@
 /* Variáveis globais (consistência) */
 :root {
   /* Cores */
-  --color-outline: hsla(0deg, 0%, 100%, 20%);
+  --color-outline: hsla(0deg, 0%, 100%, 10%);
   --color-header-bottom: hsl(205, 76%, 57%);
   --color-accent: hsl(207, 100%, 42%);
   --color-accent-hover: hsl(211, 100%, 36%);
