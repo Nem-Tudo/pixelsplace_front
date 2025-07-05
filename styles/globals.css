@@ -95,6 +95,17 @@
   --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
   --color-header: var(--frosted-glass);
 }
+[data-theme=OLD] {
+  --color-header: #7f99cb;
+  --color-darkest: #293146;
+  --color-mid: #141c2f;
+  --color-muted: #9dcaff;
+  --color-accent: #0075d5;
+  --color-accent-hover: #0054e5;
+  --frosted-glass: white;
+  --outline: none;
+  --color-canvas-bg: rgb(204, 204, 204);
+}
 
 ::-webkit-scrollbar {
   height: 7px;

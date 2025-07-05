@@ -201,6 +201,7 @@ export default function Header() {
                                                 <option value="TRUE_DARK">{language.getString('THEMES.TRUE_DARK')}</option>
                                                 <option value="LIGHT">{language.getString('THEMES.LIGHT')}</option>
                                                 <option value="BLACKOUT">{language.getString('THEMES.BLACKOUT')}</option>
+                                                {checkFlags(loggedUser?.flags, "ADMIN_VIEWPAGE") && <option value="OLD">{language.getString('THEMES.OLD')}</option>}
                                             </select>
                                         </section>
                                         <label htmlFor="PreferenceSfxToggle">

@@ -46,6 +46,7 @@ module.exports = {
         TRUE_DARK: 'Escuro',
         LIGHT: 'Claro',
         BLACKOUT: 'Blecaute',
+        OLD: 'Tempos sombrios',
     },
     COMPONENTS: {
         BUILD_SWITCHER: {
