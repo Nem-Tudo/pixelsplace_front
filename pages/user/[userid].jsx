@@ -74,11 +74,20 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
       setUser(userobject);
       console.log(user);
       setSavedUser(userobject);
+
       // Reset edit states quando mudar de usuário
       setEditStates({
         profile_aboutme: false,
         profile_banner_url: false,
       });
+
+      // Só faz replace se a URL atual for diferente da desejada
+      const currentPath = router.asPath;
+      const desiredPath = `/user/${userobject.username}`;
+
+      if (!currentPath.includes(userobject.username)) {
+        router.replace(desiredPath, undefined, { shallow: true });
+      }
     }
   }, [router.query.userid, userobject]);
 
