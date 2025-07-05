@@ -1,17 +1,18 @@
-import { useEffect, useRef } from "react";
-import { MdClose } from "react-icons/md";
-import Link from "next/link";
-import PremiumButton from "@/components/PremiumButton";
+import { useEffect } from "react";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
-import { usePopup } from '@/context/PopupContext';
 import playSound from "@/src/playSound";
 
+/**
+ * Pop-up de exibição de erro
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {string} properties.message - Mensagem a ser exibida pro usuário
+ */
 export default function Error({ closePopup, message }) {
     const { language } = useLanguage();
-    const { openPopup } = usePopup();
 
     if (!message) message = language.getString("POPUPS.ERROR.UNKNOWN");
 

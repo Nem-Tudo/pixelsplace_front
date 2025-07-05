@@ -1,12 +1,14 @@
-import { useEffect, useRef } from "react";
-import { MdClose } from "react-icons/md";
-import Link from "next/link";
-import PremiumButton from "@/components/PremiumButton";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
+/**
+ * Pop-up de exibição de êxito (sucesso)
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {string} properties.message - Mensagem a ser exibida pro usuário
+ */
 export default function Success({ closePopup, message }) {
     const { language } = useLanguage();
 

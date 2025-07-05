@@ -4,6 +4,20 @@ import styles from "@/components/CustomButton.module.css";
 import { darkenHex } from "@/src/colorFunctions";
 import PixelIcon from '@/components/PixelIcon';
 
+/**
+ * Botão personalizado, em substituição ao button nativo
+ * @param {Object} properties - Passagem de propriedades pro botão
+ * @param {JSX.Element} [properties.children] - Elementos internos do botão (opcional)
+ * @param {string} [properties.label] - Texto principal do botão (opcional)
+ * @param {string} [properties.href] - Link que o botão redireciona (opcional)
+ * @param {string} [properties.color] - Código hexadecimal da cor do botão (opcional)
+ * @param {() => {}} [properties.onClick] - Função executada ao clicar no botão (opcional)
+ * @param {number} [properties.hierarchy] - Botão primário (1), secundário (2) ou terciário (3) (opcional)
+ * @param {number} [properties.padding] - Nível de padding do botão (opcional)
+ * @param {boolean} [properties.disabled] - Botão desabilitado ou habilitado (opcional)
+ * @param {string} [properties.icon] - Codinome do ícone (PixelIcon) do botão (opcional)
+ * @param {any} [properties.props] - Outras propriedades HTML (opcional)
+ */
 export default function CustomButton({
     children,
     label = '',

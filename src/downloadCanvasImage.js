@@ -2,7 +2,7 @@
  * Faz o download de uma imagem a partir de um elemento canvas
  * @param {HTMLCanvasElement} canvas - O elemento canvas a ser baixado
  * @param {string} imageName - Nome do arquivo (com ou sem extensão)
- * @param {number} multiplier - Multiplicador do tamanho (padrão: 1)
+ * @param {number} [multiplier=1] - Multiplicador do tamanho de cada pixel [padrão: 1]
  */
 export default function downloadCanvasImage(canvas, imageName, multiplier = 1) {
     // Validação dos parâmetros

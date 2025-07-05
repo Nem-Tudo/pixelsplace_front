@@ -1,3 +1,6 @@
+/**
+ * Animação de carregamento
+ */
 export default function Loading({width}){
     return <>
         <div>

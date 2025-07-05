@@ -2,12 +2,17 @@ import { useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
-import { useLanguage } from '@/context/LanguageContext';
 import { usePopup } from '@/context/PopupContext';
 import { hexToNumber } from '@/src/colorFunctions';
 
+/**
+ * Pop-up administrativo de adição de nova cor gratuita
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {[]} properties.freeColors - Array atual de cores gratuitas
+ * @param {() => {}} properties.setFreeColors - Função de setar cores gratuitas
+ */
 export default function AdminColorAdd({ closePopup, freeColors, setFreeColors }) {
-    const { language } = useLanguage();
     const { openPopup } = usePopup();
 
     const [color, setColor] = useState("#000000");

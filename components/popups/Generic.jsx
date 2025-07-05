@@ -7,6 +7,12 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 
+/**
+ * Pop-up genérico (em substituição da função nativa alert() do javascript)
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {string} properties.message - Mensagem a ser exibida pro usuário
+ */
 export default function Generic({ closePopup, message }) {
     const { language } = useLanguage();
 

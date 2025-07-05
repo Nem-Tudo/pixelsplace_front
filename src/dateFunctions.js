@@ -1,3 +1,8 @@
+/**
+ * Transforma um objeto Date em uma data em string
+ * @param {Date} date 
+ * @returns String da data no padrão brasileiro (HH:mm DD/MM/AAAA)
+ */
 export function dateToString(date) {
   if (!date) return "N/A";
   const d = new Date(date);
@@ -11,6 +16,11 @@ export function dateToString(date) {
   });
 }
 
+/**
+ * Transforma uma string de data em um timestamp
+ * @param {*} dataStr String da data (Espera um formato como "24/06/25 14:30")
+ * @returns Timestamp da data
+ */
 export function dateToTimestamp(dataStr) {
   // Espera um formato como "24/06/25 14:30"
   const [data, hora] = dataStr.split(" ");
@@ -24,6 +34,11 @@ export function dateToTimestamp(dataStr) {
   return date.getTime(); // ou date.valueOf()
 }
 
+/**
+ * Formata uma data baseada numa string ISO
+ * @param {string} isoString - String ISO da data 
+ * @returns Data formatada no estilo brasileiro "HH:mm DD/MM/AAAA"
+ */
 export function formatDate(isoString) {
   const date = new Date(isoString);
   const now = new Date();

@@ -1,6 +1,6 @@
 import styles from "@/components/popups/DisplayPopup.module.css"
 
-//import popups
+// Popups
 import PremiumRequired from "./PremiumRequired";
 import Error from "./Error";
 import NotImplementedYet from "./NotImplementedYet";
@@ -12,6 +12,13 @@ import AdminColorAdd from "./admin/ColorAdd";
 import AdminFlagAdd from "./admin/FlagAdd";
 import AdminKick from "./admin/Kick";
 
+/**
+ * Função padrão para exibir pop-ups usando o contexto
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {JSON} properties.showingPopup - Propriedades do pop-up
+ * @param {string} properties.popupDivRef - Div de referência onde o pop-up será exibido
+ * @param {string} properties.closePopup - Código de fechamento do pop-up
+ */
 export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) {
 
     // Mapeamento de popups para componentes
@@ -27,7 +34,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "admin_flag_add": <AdminFlagAdd closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_kick": <AdminKick closePopup={closePopup} {...showingPopup?.settings} />,
     };
-    
+
     showingPopup?.settings?.timeout &&
     (setTimeout(() => {
         closePopup()

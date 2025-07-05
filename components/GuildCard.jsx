@@ -1,17 +1,22 @@
 import styles from "@/components/GuildCard.module.css";
 import PixelIcon from "@/components/PixelIcon";
-import { BsArrowLeft, BsStar, BsStarHalf, BsFillStarFill } from "react-icons/bs";
-import React, { useEffect, useState } from 'react';
+import { BsStar, BsStarHalf, BsFillStarFill } from "react-icons/bs";
+import React, { useState } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
 import settings from "@/settings";
 import Verified from "@/components/Verified";
 import CustomButton from "@/components/CustomButton";
 import { usePopup } from '@/context/PopupContext';
-import updateStateKey from "@/src/updateStateKey";
 
-
-export default function GuildCard({ guild, showStar = "ONLY_IF_SELECTED", ...props }) { //showStar: ALWAYS / NEVER / ONLY_IF_SELECTED
+/**
+ * Cartão de servidor
+ * @param {Object} properties - Passagem de propriedades pro componente
+ * @param {JSON} properties.guild - Servidor a ser exibido
+ * @param {'ALWAYS' | 'NEVER' | 'ONLY_IF_SELECTED'} [properties.showStar=ONLY_IF_SELECTED] - Condição em que a estrela de seleção de servidor deve ser exibida
+ * @param {any} [properties.props] - Outras propriedades HTML (opcional)
+ */
+export default function GuildCard({ guild, showStar = "ONLY_IF_SELECTED", ...props }) {
     const { loggedUser, token, updateUserKey } = useAuth()
     const { language } = useLanguage();
 

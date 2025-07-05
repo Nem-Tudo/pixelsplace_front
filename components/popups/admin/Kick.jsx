@@ -2,11 +2,15 @@ import { useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
-import { useLanguage } from '@/context/LanguageContext';
 import { usePopup } from '@/context/PopupContext';
 
+/**
+ * Pop-up administrativo de confirmação de desconexão de usuário
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {JSON} properties.user - Usuário que será desconectado se confirmado
+ */
 export default function AdminKick({ closePopup, user }) {
-  const { language } = useLanguage();
   const { openPopup } = usePopup();
   const [reason, setReason] = useState("");
 

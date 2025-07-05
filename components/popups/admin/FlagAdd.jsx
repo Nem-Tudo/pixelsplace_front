@@ -5,6 +5,14 @@ import PixelIcon from "@/components/PixelIcon";
 import { useLanguage } from '@/context/LanguageContext';
 import { usePopup } from '@/context/PopupContext';
 
+/**
+ * Pop-up administrativo de adição de nova flag a usuário
+ * @param {Object} properties - Passagem de propriedades pro pop-up
+ * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
+ * @param {JSON} properties.user - Usuário que será desconectado se confirmado
+ * @param {() => {}} properties.setUser - Função de setar usuário
+ * @param {() => {}} properties.updateStateKey - Função de atualização de estado de chave
+ */
 export default function AdminFlagAdd({ closePopup, user, setUser, updateStateKey }) {
   const { language } = useLanguage();
   const { openPopup } = usePopup();

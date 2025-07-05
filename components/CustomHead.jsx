@@ -1,9 +1,17 @@
 import Head from "next/head";
 
+/**
+ * Head tematizado do site
+ * @param {Object} properties - Passagem de propriedades pro head
+ * @param {string} [properties.title] - Título da página (opcional)
+ * @param {string} [properties.description] - Descrição da página (opcional)
+ * @param {string} [properties.url] - Link da página (opcional)
+ * @param {string} [properties.imageUrl] - Link da imagem da página (opcional)
+ */
 export default function CustomHead({
     title = "PixelsPlace",
     description = "Se junte ao PixelsPlace!",
-    url = {url},
+    url = 'https://pixelsplace.nemtudo.me',
     imageUrl = "/logo.png"
 }) {
 
