@@ -105,8 +105,11 @@
   --frosted-glass: white;
   --color-outline: transparent;
   --color-canvas-bg: rgb(204, 204, 204);
+
   * {
     border-radius: 8px !important;
+    font-family: Arial !important;
+    font-size: small;
   }
 }
 [data-theme=ARCADE] {
@@ -123,10 +126,12 @@
   --outline: 2px solid var(--color-outline);
   --color-accent: hsl(125, 100%, 64%);
   --color-muted: hsla(125, 100%, 64%, 0.649);
+  
   * {
     border-radius: 0 !important;
     font-family: 'Dogica Pixel' !important;
     font-size: x-small;
+    line-height: 1.2;
   }
 }
 
