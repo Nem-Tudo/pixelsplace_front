@@ -106,6 +106,23 @@
   --color-outline: transparent;
   --color-canvas-bg: rgb(204, 204, 204);
 }
+[data-theme=ARCADE] {
+  --color-outline: hsla(0, 0%, 100%, 0.1);
+  --color-mid-hover: hsl(0, 0%, 13%);
+  --color-hover: hsl(0, 0%, 13%);
+  --color-mid: hsl(0, 0%, 0%);
+  --color-input-bg: hsl(0, 0%, 0%);
+  --color-darkest: hsl(0, 0%, 0%);
+  --color-canvas-bg: var(--color-bg);
+  --color-text-dark: var(--color-text-light);
+  --frosted-glass: linear-gradient(45deg, hsla(0deg, 0%, 4%, 96.86%), hsla(0deg, 0%, 0%, 90.98%));
+  --color-header: var(--frosted-glass);
+  --outline: 2px solid var(--color-outline);
+  * {
+    border-radius: 0 !important;
+    font-family: 'Dogica Pixel' !important;
+  }
+}
 
 ::-webkit-scrollbar {
   height: 7px;

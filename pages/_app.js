@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <ThemeProvider defaultTheme='DARK' themes={['DARK', 'TRUE_DARK', 'LIGHT', 'BLACKOUT', 'OLD']}>
+    <ThemeProvider defaultTheme='DARK' themes={['DARK', 'TRUE_DARK', 'LIGHT', 'BLACKOUT', 'OLD', 'ARCADE']}>
       <AuthProvider>
         <LanguageProvider>
           <PopupProvider>
