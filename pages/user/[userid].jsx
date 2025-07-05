@@ -324,7 +324,29 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </PremiumButton>
             </div>
           </div>
+{
+loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={() => {
+const name = prompt("Nome")
+const handle = prompt("Handle (alfanumérico e _)");
+const icon_url = prompt("Icon url");
 
+    const request = await fetch(`${settings.apiURL}/factions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify({name, handle, icon_url})
+    })
+    const response = await request.json();
+    if (!request.ok) {
+      console.log(response, request)
+      return openPopup("error", { message: `Erro ao criar: ${response.message}` })
+    }
+alert(JSON.stringify(response));
+
+}}/>
+}
           {
             loggedUser?.id === user?.id && <div className={styles.editUserColors}>
               <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
