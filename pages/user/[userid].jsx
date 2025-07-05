@@ -101,7 +101,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   const aboutmeRef = useRef(null);
 
   useEffect(() => {
-    if (user.premium) {
+    if (user?.premium) {
       const bright = getBrightness(user.profile.color_primary);
       if (bright > 0.7) { //Cor degradê MUITO clara
         setProfileTheme(THEME.WHITE);
