@@ -2,12 +2,11 @@ import { useRef, useEffect, useState, forwardRef, useImperativeHandle } from "re
 import styles from "./PixelCanvas.module.css";
 import checkFlags from "@/src/checkFlags";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from '@/context/LanguageContext';
 import Tippy from "@tippyjs/react";
 import downloadCanvasImage from "@/src/downloadCanvasImage";
 import CustomButton from "@/components/CustomButton";
 import PixelIcon from "@/components/PixelIcon";
-import { CgInpicture } from "react-icons/cg";
-import { MdDownload } from "react-icons/md";
 
 const PixelCanvas = forwardRef(({
     onChangeSelectedPixel,
@@ -40,7 +39,8 @@ const PixelCanvas = forwardRef(({
         maxScale: 80,
     });
 
-    const { loggedUser } = useAuth()
+    const { loggedUser } = useAuth();
+    const { language } = useLanguage();
 
     // States
     const [, forceUpdate] = useState(0);
@@ -947,19 +947,20 @@ const PixelCanvas = forwardRef(({
                         }}
                     />
                     <div className={styles.bottomCanvasTools}>
-                        <div className={styles.tool} onClick={() => pipCanvas()}>
-                            <CgInpicture />
-                        </div>
+                        <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.PIP')} placement="top">
+                            <PixelIcon codename={'picture-in-picture-alt'} className={styles.tool} onClick={() => pipCanvas()} />
+                        </Tippy>
+                        
                         {
-                            loggedUser?.premium && <div className={styles.tool} onClick={() => {
-                                const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
-                                if (multiplierdata === null) return;
-                                const multipler = Number(multiplierdata || 10)
-                                if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
-                                downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
-                            }}>
-                                <MdDownload />
-                            </div>
+                            loggedUser?.premium && <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.DOWNLOAD')} placement="top">
+                                <PixelIcon codename={'download'} className={styles.tool} onClick={() => {
+                                    const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
+                                    if (multiplierdata === null) return;
+                                    const multipler = Number(multiplierdata || 10)
+                                    if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
+                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                                }}/>
+                            </Tippy>
                         }
                     </div>
                 </div>

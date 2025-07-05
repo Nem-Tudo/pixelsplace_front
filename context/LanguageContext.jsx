@@ -50,6 +50,11 @@ class TranslationManager {
         );
     }
 
+    /**
+     * Recebe a tradução adequada de uma frase baseada na sua estrutura dos locales
+     * @param {string} key - A frase a ser adquirida
+     * @param {string} params - Valores das placeholders
+     */
     getString(key, params = {}) {
         const template = this.getTemplate(key, params.count);
         return this.interpolate(template, params);

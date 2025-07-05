@@ -39,6 +39,7 @@
     cursor: pointer;
     pointer-events: all;
     z-index: 20;
+    filter: drop-shadow(var(--shadow));
 }
 
 .bottomCanvasTools{

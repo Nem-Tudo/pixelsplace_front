@@ -83,6 +83,10 @@ module.exports = {
             JOIN: "Entrar",
             VISIT: "Visitar",
         },
+        PIXEL_CANVAS: {
+            PIP: 'Ativar Picture-in-picture',
+            DOWNLOAD: 'Baixar como imagem',
+        },
     },
     POPUPS: {
         PREMIUM_REQUIRED: {
