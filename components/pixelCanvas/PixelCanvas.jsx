@@ -7,6 +7,7 @@ import downloadCanvasImage from "@/src/downloadCanvasImage";
 import CustomButton from "@/components/CustomButton";
 import PixelIcon from "@/components/PixelIcon";
 import { CgInpicture } from "react-icons/cg";
+import { MdDownload } from "react-icons/md";
 
 const PixelCanvas = forwardRef(({
     onChangeSelectedPixel,
@@ -949,6 +950,17 @@ const PixelCanvas = forwardRef(({
                         <div className={styles.tool} onClick={() => pipCanvas()}>
                             <CgInpicture />
                         </div>
+                        {
+                            loggedUser?.premium && <div className={styles.tool} onClick={() => {
+                                const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
+                                if (multiplierdata === null) return;
+                                const multipler = Number(multiplierdata || 10)
+                                if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
+                                downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                            }}>
+                                <MdDownload />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

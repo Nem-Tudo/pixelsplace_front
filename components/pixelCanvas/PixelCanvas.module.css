@@ -41,7 +41,10 @@
 }
 
 .bottomCanvasTools{
+    margin-top: 7px;
     color: black;
+    display: flex;
+    gap: 5px;
     .tool{
         cursor: pointer;
     }
