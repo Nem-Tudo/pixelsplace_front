@@ -103,7 +103,7 @@
   --color-accent: #0075d5;
   --color-accent-hover: #0054e5;
   --frosted-glass: white;
-  --outline: none;
+  --color-outline: transparent;
   --color-canvas-bg: rgb(204, 204, 204);
 }
 
