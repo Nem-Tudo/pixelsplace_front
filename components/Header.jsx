@@ -188,6 +188,25 @@ export default function Header() {
                                 </section>
                                 <Tippy theme="pixelsplace_dropdown" arrow={false} placement="left" trigger="click" interactive={true} animation="scale-extreme" content={(
                                     <>
+                                        <section>
+                                            <span>{language.getString("COMMON.THEME")}</span>
+                                            <select
+                                                id="theme"
+                                                value='DARK'
+                                                onChange={(e) => {}}
+                                            >
+                                                {/*
+                                                    availableLanguages.map((ling) => (
+                                                        <option key={ling} value={ling}>
+                                                            {ling.toUpperCase()}
+                                                        </option>
+                                                    ))
+                                                */}
+                                                <option value="DARK">Dark</option>
+                                                <option value="LIGHT">Light</option>
+                                                <option value="BLACKOUT">Blackout</option>
+                                            </select>
+                                        </section>
                                         <label htmlFor="PreferenceSfxToggle">
                                             <span>{language.getString("COMMON.SOUND_EFFECTS")}</span>
                                             <ToggleSwitch id="PreferenceSfxToggle" defaultChecked={localStorage.getItem("preferences.sound_effects_disabled") != "true"} onChange={(e) => {

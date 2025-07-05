@@ -126,11 +126,11 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: var(--color-mid);
+    background: linear-gradient(135deg, #ffffff08, #ffffff04);
+    backdrop-filter: blur(10px);
     padding: 10px;
     border-radius: 22px;
     box-shadow: var(--shadow);
-    border: var(--outline);
 
     h2 {
       font-weight: bold;
@@ -242,7 +242,7 @@
     padding: 20px;
     border-radius: 12px;
     background: linear-gradient(135deg, #ffffff08, #ffffff04);
-    border: 1px solid #ffffff10;
+    border: var(--outline);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
