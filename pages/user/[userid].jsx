@@ -326,17 +326,18 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               {
                 user?.faction && user?.factionMember && <div className={styles.infoBox}>
                   <h2>Facção:</h2>
-                  <img style={{width: "60px", clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"}} src={user.faction.icon_url || "/assets/avatar.png"} />
+                  <img style={{ width: "60px", clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }} src={user.faction.icon_url || "/assets/avatar.png"} />
                   <span>{user.faction.name}</span>
                   <span>#{user.faction.handle}</span>
-                  <span>{user.faction.public ? <span style={{color: "green"}}>Pública</span> : <span style={{color: "red"}}>Privada</span>}</span>
-                  
+                  <span>{user.faction.public ? <span style={{ color: "green" }}>Pública</span> : <span style={{ color: "red" }}>Privada</span>}</span>
+
                   {/* MEMBER / MOD / OWNER */}
                   <span>Cargo: {user.factionMember.role}</span>
                   <span>{user.faction.stats.membersCount} membros</span>
+                  <span>{user.faction.stats.pixelsPlacedCount} pixels</span>
                   {
                     // Será que aqui é o melhor lugar mesmo? Talvez uma página de faction, sla
-                    user.id === loggedUser?.id && user.factionMember.role != "OWNER-dps-deixa-só-owner" && <CustomButton onClick={() => alert("nn feito - fetch POST /factions/:factionId/leave passando o token")} label="Sair" color="#ff0000"/>
+                    user.id === loggedUser?.id && user.factionMember.role != "OWNER-dps-deixa-só-owner" && <CustomButton onClick={() => alert("nn feito - fetch POST /factions/:factionId/leave passando o token")} label="Sair" color="#ff0000" />
                   }
                 </div>
               }
