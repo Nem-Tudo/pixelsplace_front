@@ -127,7 +127,7 @@ select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[ty
 }
 
 select option {
-  background: var(--color-mid, white);
+  background: var(--color-hover, white);
   color: var(--color-text-dark, black);
 }
 
