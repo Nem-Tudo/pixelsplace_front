@@ -191,9 +191,23 @@
             background-color: var(--color-accent);
             color: white;
             border: var(--outline);
+
+            svg {
+                width: 1.5rem;
+            }
         }
         button:hover {
             scale: var(--hover-scale);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            svg {
+                width: 24px;
+            }
         }
     </style>
 </head>
@@ -241,12 +255,12 @@
         function updateStatus() {
             const status = document.getElementById('status');
             if (navigator.onLine) {
-                status.textContent = '✅ Online';
+                status.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"> <path d="M16 4h6v16h-6V4ZM2 14h6v6H2v-6Zm13-4H9v10h6V10Z"/> </svg> Online';
                 status.className = 'status online';
                 document.querySelectorAll('.onlineOnly').forEach(element => {element.classList.add('visible')});
                 document.querySelectorAll('.offlineOnly').forEach(element => {element.classList.remove('visible')});
             } else {
-                status.textContent = '❌ Offline';
+                status.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"> <path d="M4 2H2v2h2v2H2v2h2V6h2v2h2V6H6V4h2V2H6v2H4V2Zm12 2v16h6V4h-6Zm2 2h2v12h-2V6Zm-9 4v10h6V10H9Zm2 8v-6h2v6h-2Zm-3-4v6H2v-6h6Zm-2 4v-2H4v2h2Z"/> </svg> Offline';
                 status.className = 'status';
                 document.querySelectorAll('.onlineOnly').forEach(element => {element.classList.remove('visible')});
                 document.querySelectorAll('.offlineOnly').forEach(element => {element.classList.add('visible')});
@@ -603,7 +617,7 @@
             if (dificuldadesDisponiveis.length === 0) {
                 document.getElementById('gameContainer').innerHTML = `
                     🎉 Você desenhou todos!
-                    <button onClick="location.reload()">Tentar de novo</button>
+                    <button onClick="location.reload()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M16 2h-2v2h2v2H4v2H2v5h2V8h12v2h-2v2h2v-2h2V8h2V6h-2V4h-2V2zM6 20h2v2h2v-2H8v-2h12v-2h2v-5h-2v5H8v-2h2v-2H8v2H6v2H4v2h2v2z" fill="currentColor"/> </svg> Tentar de novo</button>
                 `;
                 clearInterval(intervalTimer);
                 clearInterval(intervalReset);
