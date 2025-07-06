@@ -158,6 +158,11 @@ const PixelCanvas = forwardRef(({
             ctx.fillRect(x, y, 1, 1);
             ctx.restore();
         }
+        if (!loading) requestAnimationFrame(() => {
+            if (updateAuxCanvasRef.current) {
+                updateAuxCanvasRef.current(bottomBarText);
+            }
+        })
     };
 
     // Inicializar canvas
@@ -517,7 +522,7 @@ const PixelCanvas = forwardRef(({
         // Touch Events
         const handleTouchStart = (e) => {
             // e.preventDefault();
-            
+
             if (e.touches.length === 1) {
                 isDragging = true;
                 isPinching = false;
