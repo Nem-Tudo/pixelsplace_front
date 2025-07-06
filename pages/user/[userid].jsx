@@ -355,6 +355,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={async () => {
                 const name = prompt("Nome")
                 const handle = prompt("Handle (alfanumérico e _)");
+                const description = prompt("description (escreve algo ai kk)");
                 const icon_url = prompt("Icon url") || null;
 
                 const request = await fetch(`${settings.apiURL}/factions`, {
@@ -363,7 +364,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                     "Content-Type": "application/json",
                     "Authorization": token
                   },
-                  body: JSON.stringify({ name, handle, icon_url })
+                  body: JSON.stringify({ name, handle, description, icon_url })
                 })
                 const response = await request.json();
                 if (!request.ok) {
