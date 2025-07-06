@@ -217,7 +217,8 @@ export default function Faction({ faction: factionobject, error, errormessage })
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {members.map((member) => {
                       return (
-                        <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }} onClick={() => router.push(`/user/${member.user.username}`)}>
+                        <Link href={"/user/"+member.user.username}>
+                        <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }} >
                           <img
                             src={member.user.avatar ? settings.avatarURL(member.user.id, member.user.avatar) : "/assets/avatar.png"}
                             alt=""
@@ -226,6 +227,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                           <p>{member.user.username || `User ${member.userId}`}</p>
                           <span style={{ background: "#679467", padding: "3px 6px", borderRadius: "3px" }}>{member.role}</span>
                         </div>
+                        </Link>
                       );
                     })}
                   </div>
