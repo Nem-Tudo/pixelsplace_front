@@ -212,10 +212,14 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            color: #e03b49;
 
             svg {
                 width: 24px;
             }
+        }
+        .status.online {
+            color: #3be072 !important;
         }
     </style>
 </head>
@@ -227,14 +231,14 @@
     <div class="container">
         <p id="status"></p>
         <div class="offlineOnly">
-            <h2 style="margin: 13px auto;margin-bottom: 33px;">Sem conexão com a internet! ;-;</h2>
+            <h2>Sem conexão com a internet! ;-;</h2>
             <span>Você voltou pra idade da pedra? A mãe desligou o Wi-Fi? Roubaram o fio da sua casa?</span>
             <span>Bom, não importa o motivo</span>
             <span>Aqui vai um joguinho pra você se divertir por enquanto</span>
-            <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
+            <span style="opacity: 75%">E relaxa, vamos avisar se sua internet voltar ;)</span>
         </div>
         <div class="onlineOnly">
-            <h2 style="margin: 13px auto;margin-bottom: 33px;">Conectado à internet! :D</h2>
+            <h2>Conectado à internet! :D</h2>
             <span>Não se preocupe, você só para de jogar quando quiser.</span>
         </div>
     </div>
@@ -266,13 +270,11 @@
             if (navigator.onLine) {
                 status.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"> <path d="M16 4h6v16h-6V4ZM2 14h6v6H2v-6Zm13-4H9v10h6V10Z"/> </svg> Online';
                 status.className = 'status online';
-                status.style.color = "green"
                 document.querySelectorAll('.onlineOnly').forEach(element => { element.classList.add('visible') });
                 document.querySelectorAll('.offlineOnly').forEach(element => { element.classList.remove('visible') });
             } else {
                 status.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"> <path d="M4 2H2v2h2v2H2v2h2V6h2v2h2V6H6V4h2V2H6v2H4V2Zm12 2v16h6V4h-6Zm2 2h2v12h-2V6Zm-9 4v10h6V10H9Zm2 8v-6h2v6h-2Zm-3-4v6H2v-6h6Zm-2 4v-2H4v2h2Z"/> </svg> Offline';
                 status.className = 'status';
-                status.style.color = "red"
                 document.querySelectorAll('.onlineOnly').forEach(element => { element.classList.remove('visible') });
                 document.querySelectorAll('.offlineOnly').forEach(element => { element.classList.add('visible') });
             }
