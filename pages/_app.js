@@ -32,12 +32,10 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     initSounds();
   }, []);
-  
+
   useEffect(() => {
-    // Registra o Service Worker apenas no cliente e em produção
     if (typeof window !== 'undefined' &&
-      'serviceWorker' in navigator &&
-      process.env.NODE_ENV === 'production') {
+      'serviceWorker' in navigator) {
 
       navigator.serviceWorker.register('/sw.js', {
         scope: '/',

@@ -11,18 +11,20 @@ const ESSENTIAL_RESOURCES = [
 
 // Instalar: cacheia recursos essenciais
 self.addEventListener('install', (event) => {
+  console.log('SW: Nova versão instalando...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(ESSENTIAL_RESOURCES))
-      .then(() => self.skipWaiting())
+      .then(() => self.skipWaiting()) // Força ativação imediata
   );
 });
 
 // Ativar: remove caches antigos
 self.addEventListener('activate', (event) => {
+  console.log('SW: Removendo versões antigas...');
   event.waitUntil(
     caches.keys()
-      .then(cacheNames => 
+      .then(cacheNames =>
         Promise.all(
           cacheNames
             .filter(name => name !== CACHE_NAME)
