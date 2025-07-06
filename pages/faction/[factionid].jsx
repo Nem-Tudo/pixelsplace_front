@@ -26,15 +26,19 @@ export async function getServerSideProps({ req, query }) {
     return match ? decodeURIComponent(match[2]) : undefined;
   }
 
-  try {
+try {
     const res = await fetch(`${settings.apiURL}/factions/${query.factionid}`, {
-      headers: { 'Content-Type': 'application/json', Authorization: getCookie("authorization") },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getCookie("authorization"),
+      },
     });
+
     const data = await res.json();
 
-    if (res.status === 404) return { props: { faction: null } }
-
+    if (res.status === 404) return { props: { faction: null } };
     if (!res.ok) return { props: { error: true, errormessage: data.message } };
+
     return { props: { faction: data } };
   } catch (e) {
     return { props: { error: true, errormessage: e.message } };
@@ -48,6 +52,49 @@ export default function Faction({ faction: factionobject, error, errormessage })
   const [loadingFetch, setLoadingFetch] = useState(false);
 
   const [faction, setFaction] = useState(factionobject);
+  const [members, setMembers] = useState([]);
+  const [users, setUsers] = useState({});
+
+  useEffect(() => {
+    if (faction?.id) {
+      loadFactionMembers(faction.id);
+    }
+  }, [faction?.id]);
+
+  async function loadFactionMembers(factionId) {
+    try {
+      const res = await fetch(`https://apipixelsplace.nemtudo.me/factions/${factionId}/members`);
+      const data = await res.json();
+      setMembers(data);
+
+      const userData = {};
+      await Promise.all(
+        data.map(async (member) => {
+          const user = await getUser(member.userId);
+          if (user) {
+            userData[member.userId] = user;
+          }
+        })
+      );
+
+      setUsers(userData);
+    } catch (err) {
+      console.error("Erro ao buscar membros:", err);
+    }
+  }
+
+  async function getUser(id) {
+    const res = await fetch(`${settings.apiURL}/users/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    });
+
+    if (res.status === 404) return null;
+    return await res.json();
+  }
 
   if (error) {
     return (
@@ -136,7 +183,10 @@ export default function Faction({ faction: factionobject, error, errormessage })
                 {/* {language.getString("PAGES.GUILD.PIXELS_PLACED")}: {faction.stats.pixelsPlacedCount} <br /> */}
                 <div /*fake user */ style={{display: 'flex', flexDirection: 'row'}}>
                 <img src="https://commandbat.com.br/homepage/img/projects/imgproject2.png" alt="" style={{width: '15px', borderRadius: '50%',}}/>
-                <p>Dono Fake</p>
+                {( async () => {
+                  const owner = await getUser(faction?.ownerId);
+                  return <p>{owner?.display_name}</p>;
+                })()}
                 </div>
               </div>
             </div>
@@ -145,22 +195,19 @@ export default function Faction({ faction: factionobject, error, errormessage })
               <div className={styles.infoBox}  id={styles.listUsers} style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start !important',}}>
                 <h1 style={{alignSelf: 'center',}}>Lista De membros   {faction.stats.membersCount}/{faction.stats.membersCount}</h1>
                 <div  style={{display: 'flex', flexDirection: 'column'}}>
-                <div /*fake user */ style={{display: 'flex', flexDirection: 'row'}}>
-                <img src="https://commandbat.com.br/homepage/img/projects/imgproject2.png" alt="" style={{width: '15px', borderRadius: '50%',}}/>
-                <p>User Fake 1</p>
-                </div>
-                <div /*fake user */ style={{display: 'flex', flexDirection: 'row'}}>
-                <img src="https://commandbat.com.br/homepage/img/projects/imgproject2.png" alt="" style={{width: '15px', borderRadius: '50%',}}/>
-                <p>User Fake 2</p>
-                </div>
-                <div /*fake user */ style={{display: 'flex', flexDirection: 'row'}}>
-                <img src="https://commandbat.com.br/homepage/img/projects/imgproject2.png" alt="" style={{width: '15px', borderRadius: '50%',}}/>
-                <p>User Fake 3</p>
-                </div>
-                <div /*fake user */ style={{display: 'flex', flexDirection: 'row'}}>
-                <img src="https://commandbat.com.br/homepage/img/projects/imgproject2.png" alt="" style={{width: '15px', borderRadius: '50%',}}/>
-                <p>User Fake 4</p>
-                </div>
+                 {members.map((member) => {
+          const user = users[member.userId];
+          return (
+            <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }}>
+              <img
+                src={user?.avatar || 'https://commandbat.com.br/homepage/img/projects/imgproject2.png'}
+                alt=""
+                style={{ width: '15px', borderRadius: '50%' }}
+              />
+              <p>{user?.username || `User ${member.userId}`}</p>
+            </div>
+          );
+        })}
                 </div>
               </div>
                 <div className={styles.infoBox}  id={styles.previewCanva} style={{justifyContent: 'center',}}>
