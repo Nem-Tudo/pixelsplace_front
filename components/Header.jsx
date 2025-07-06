@@ -10,6 +10,7 @@ import { useAuth } from "@/context/AuthContext"
 import PixelIcon from "@/components/PixelIcon"
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useTheme } from 'next-themes';
+import CustomButton from "./CustomButton"
 
 /**
  * Header superior do site
@@ -246,6 +247,12 @@ export default function Header() {
                                                 <span>{language.getString("COMMON.PREMIUM")}</span>
                                                 <ToggleSwitch id="ViewAsPremiumToggle" onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium} />
                                             </label>
+                                            <CustomButton onClick={() => {
+                                                const userflags = loggedUser.flags;
+                                                const newFlags = prompt("Editar flags (apenas visualmente)", String(userflags))
+                                                if(!newFlags) return;
+                                                updateUserKey(["flags", newFlags.split(",")])
+                                            }} label="Edit Flags" />
                                         </>
                                     )}>
                                         <div>

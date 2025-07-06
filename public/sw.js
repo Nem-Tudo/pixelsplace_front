@@ -80,7 +80,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Ignora requests que não podem ser cacheados
   if (!isCacheableRequest(event.request)) {
-    console.log('Service Worker: Ignorando request não cacheável:', event.request.url);
+    // console.log('Service Worker: Ignorando request não cacheável:', event.request.url);
     return; // Deixa o request passar normalmente
   }
   
