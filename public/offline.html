@@ -132,6 +132,8 @@
             justify-content: center;
             user-select: none;
             gap: 10px;
+            max-width: 100dvw;
+            overflow-x: hidden;
         }
 
         * {
@@ -199,7 +201,7 @@
             text-align: center;
             padding: 10px 12px;
             background-color: var(--color-accent);
-            color: white;
+            color: var(--color-text-light);
             border: var(--outline);
 
             svg {
@@ -229,10 +231,9 @@
         .snake-segment {
             width: 30px;
             height: 30px;
-            border-radius: 12px;
+            border-radius: 0;
             border: var(--outline);
             display: inline-block;
-            margin: 2px;
             background: #ccc;
         }
 
@@ -249,6 +250,13 @@
 
         #snakeGameplay {
             text-align: center;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #colorSelector {
+            display: flex;
+            flex-direction: column;
         }
 
         #snakeCanvas {
@@ -257,7 +265,17 @@
         }
 
         #gameSelector div {
+            display: flex;
             flex-direction: row;
+            gap: 8px;
+
+            button {
+                background: transparent;
+                box-shadow: inset 0px 0px 8px 1px #ffffff00;
+            }
+            button:hover {
+                box-shadow: inset 0px 0px 8px 1px #ffffff1a;
+            }
         }
     </style>
 </head>
@@ -282,10 +300,10 @@
     </div>
     
     <div class="container" id="gameSelector">
-        <h2>Escolha um jogo:</h2>
+        <h2>Escolha um minijogo</h2>
         <div>
-            <button onclick="startDrawingGame()">🎨 Desenho Rápido</button>
-            <button onclick="startSnakeGame()">🐍 Jogo da Cobrinha</button>
+            <button onclick="startDrawingGame()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M4 3H2v18h20V3H4zm16 2v14H4V5h16zm-6 4h-2v2h-2v2H8v2H6v2h2v-2h2v-2h2v-2h2v2h2v2h2v-2h-2v-2h-2V9zM8 7H6v2h2V7z" fill="currentColor"/> </svg> Desenho Rápido</button>
+            <button onclick="startSnakeGame()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm18 12V7H4v10h16zM8 9h2v2h2v2h-2v2H8v-2H6v-2h2V9zm6 0h2v2h-2V9zm4 4h-2v2h2v-2z" fill="currentColor"/> </svg> Jogo da Cobrinha</button>
         </div>
     </div>
 
@@ -331,7 +349,6 @@
             <p>Pontuação: <span id="score">0</span></p>
             <canvas id="snakeCanvas" width="400" height="400"></canvas>
             <p>Use as setas do teclado para mover</p>
-            <button onclick="backToGameSelector()">Voltar aos Jogos</button>
         </div>
     </div>
 
@@ -399,14 +416,14 @@
 
         function startSnakeGame() {
             gameRunning = "snake";
-            document.getElementById('snakeGame').style.display = 'block';
+            document.getElementById('snakeGame').style.display = 'flex';
             document.getElementById('drawingGame').style.display = 'none';
         }
 
         function backToGameSelector() {
             document.getElementById('snakeGame').style.display = 'none';
             document.getElementById('drawingGame').style.display = 'none';
-            document.getElementById('gameSelector').style.display = 'block';
+            document.getElementById('gameSelector').style.display = 'flex';
             if (gameRunning) {
                 gameRunning = null;
             }
@@ -431,7 +448,7 @@
         // Inicia o gameplay da cobrinha
         function startSnakeGameplay() {
             document.getElementById('colorSelector').style.display = 'none';
-            document.getElementById('snakeGameplay').style.display = 'block';
+            document.getElementById('snakeGameplay').style.display = 'flex';
 
             const canvas = document.getElementById('snakeCanvas');
             const ctx = canvas.getContext('2d');
@@ -578,6 +595,20 @@
                 ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
             }
 
+            ctx.strokeStyle = "#66666666";
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 20; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * gridSize, 0);
+                ctx.lineTo(i * gridSize, 20 * gridSize);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, i * gridSize);
+                ctx.lineTo(20 * gridSize, i * gridSize);
+                ctx.stroke();
+            }
+
             // Desenha a comida
             ctx.fillStyle = 'red';
             ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
@@ -586,7 +617,7 @@
         function gameOver() {
             gameRunning = null;
             alert(`Game Over! Pontuação: ${snakeScore}`);
-            document.getElementById('colorSelector').style.display = 'block';
+            document.getElementById('colorSelector').style.display = 'flex';
             document.getElementById('snakeGameplay').style.display = 'none';
         }
 
