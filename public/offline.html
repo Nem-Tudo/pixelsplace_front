@@ -597,11 +597,12 @@
         };
         let drawings = allDrawings;
 
-        const maxTime = 1;
+        const maxTime = 20; // segundos pra desenhar cada
         let remainingTime = maxTime;
 
         // Desenho predefinido (16x16 matriz)
         let drawing;
+        let hasTried = false;
         
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
@@ -616,8 +617,8 @@
 
             if (dificuldadesDisponiveis.length === 0) {
                 document.getElementById('gameContainer').innerHTML = `
-                    🎉 Você desenhou todos!
-                    <button onClick="location.reload()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M16 2h-2v2h2v2H4v2H2v5h2V8h12v2h-2v2h2v-2h2V8h2V6h-2V4h-2V2zM6 20h2v2h2v-2H8v-2h12v-2h2v-5h-2v5H8v-2h2v-2H8v2H6v2H4v2h2v2z" fill="currentColor"/> </svg> Tentar de novo</button>
+                    Você concluiu todos os desenhos!
+                    <button onClick="location.reload()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M16 2h-2v2h2v2H4v2H2v5h2V8h12v2h-2v2h2v-2h2V8h2V6h-2V4h-2V2zM6 20h2v2h2v-2H8v-2h12v-2h2v-5h-2v5H8v-2h2v-2H8v2H6v2H4v2h2v2z" fill="currentColor"/> </svg> Recarregar página</button>
                 `;
                 clearInterval(intervalTimer);
                 clearInterval(intervalReset);
@@ -633,7 +634,10 @@
             const selecionado = drawings[dificuldade][desenhoIndex];
 
             // Remove desenho sorteado da lista
-            drawings[dificuldade].splice(desenhoIndex, 1);
+            if(hasTried == true) {
+                drawings[dificuldade].splice(desenhoIndex, 1);
+                hasTried = false;
+            };
 
             // Atualiza mensagem
             document.getElementById('hurryMessage').innerHTML =
@@ -698,6 +702,7 @@
                 ctx.fillStyle = currentColor;
                 ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
             }
+            hasTried = true;
         }
 
         // Obtém coordenadas do mouse relativas ao canvas
