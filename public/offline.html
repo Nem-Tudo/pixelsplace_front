@@ -160,6 +160,7 @@
             cursor: pointer;
             transition: var(--smooth-transition);
             box-shadow: var(--shadow);
+            box-shadow: inset 0px 0px 8px 1px #ffffff00;
         }
 
         .color:hover {
@@ -167,7 +168,7 @@
         }
 
         .color.selected {
-            border: 2px white solid;
+            box-shadow: inset 0px 0px 8px 3px #ffffff1a;
         }
 
         #canvas {
@@ -219,6 +220,9 @@
             svg {
                 width: 24px;
             }
+        }
+        .status.online {
+            color: #3be072;
         }
 
         /* cobra */
@@ -281,12 +285,12 @@
         <p id="hurryMessage"></p>
         <p id="hurryTimer"></p>
         <div id="palette">
-            <div class="color" style="background: red;" data-color="red"></div>
-            <div class="color" style="background: blue;" data-color="blue"></div>
-            <div class="color" style="background: yellow;" data-color="yellow"></div>
-            <div class="color" style="background: green;" data-color="green"></div>
-            <div class="color" style="background: white;" data-color="white"></div>
-            <div class="color" style="background: black;" data-color="black"></div>
+            <div class="color" style="background: #000000;" data-color="#000000"></div>
+            <div class="color" style="background: #f00e38;" data-color="#f00e38"></div>
+            <div class="color" style="background: #09ad4a;" data-color="#09ad4a"></div>
+            <div class="color" style="background: #003eff;" data-color="#003eff"></div>
+            <div class="color" style="background: #ffe357;" data-color="#ffe357"></div>
+            <div class="color" style="background: #ffffff;" data-color="#ffffff"></div>
         </div>
         <canvas id="canvas" width="336" height="336"></canvas>
     </div>
@@ -929,10 +933,10 @@
 
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
-        let currentColor = "red";
+        let currentColor = "#f00e38";
         let isDrawing = false;
-        const pixelSize = 21;
-        const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)", "rgba(255,255,255,0.5)"];
+        const pixelSize = 21; // Vazio Preto Vermelho Verde Azul Amarelo Branco
+        const defaultColors = ["transparent", "#0000005c", "#f00e385c", "#09ad4a5c", "#003eff5c", "#ffe3575c", "#ffffff5c"];
 
         function sortearDesenho() {
             // Verifica se ainda há desenhos
