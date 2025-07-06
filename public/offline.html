@@ -255,6 +255,10 @@
             border: var(--outline);
             background: var(--color-canvas-bg);
         }
+
+        #gameSelector div {
+            flex-direction: row;
+        }
     </style>
 </head>
 
@@ -276,11 +280,15 @@
             <span>Não se preocupe, você só para de jogar quando quiser.</span>
         </div>
     </div>
+    
     <div class="container" id="gameSelector">
         <h2>Escolha um jogo:</h2>
-        <button onclick="startDrawingGame()">🎨 Desenho Rápido</button>
-        <button onclick="startSnakeGame()">🐍 Jogo da Cobrinha</button>
+        <div>
+            <button onclick="startDrawingGame()">🎨 Desenho Rápido</button>
+            <button onclick="startSnakeGame()">🐍 Jogo da Cobrinha</button>
+        </div>
     </div>
+
     <div class="container" id="drawingGame" style="display: none;">
         <p id="hurryMessage"></p>
         <p id="hurryTimer"></p>
@@ -296,7 +304,6 @@
     </div>
 
     <div class="container" id="snakeGame" style="display: none;">
-        <h2>Jogo da Cobrinha</h2>
         <div id="colorSelector">
             <p>Escolha as cores da sua cobrinha (5 pixels):</p>
             <div id="snakeColorPalette">
@@ -560,7 +567,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Fundo branco
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = 'transparent';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Desenha a cobra com as cores escolhidas
