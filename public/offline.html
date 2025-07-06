@@ -168,6 +168,33 @@
             border: var(--outline);
             cursor: crosshair;
         }
+
+        .onlineOnly, .offlineOnly {
+            display: none;
+        }
+        .onlineOnly.visible, .offlineOnly.visible {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            box-shadow: var(--shadow);
+            border-radius: 12px;
+            transition: var(--smooth-transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            padding: 10px 12px;
+            background-color: var(--color-accent);
+            color: white;
+            border: var(--outline);
+        }
+        button:hover {
+            scale: var(--hover-scale);
+        }
     </style>
 </head>
 
@@ -184,7 +211,8 @@
             <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
         </div>
         <div class="onlineOnly">
-            Eba voltou a internet
+            <h2>Conectado à internet! :D</h2>
+            <span>Não se preocupe, você só para de jogar quando quiser.</span>
         </div>
     </div>
 
@@ -215,9 +243,13 @@
             if (navigator.onLine) {
                 status.textContent = '✅ Online';
                 status.className = 'status online';
+                document.querySelectorAll('.onlineOnly').forEach(element => {element.classList.add('visible')});
+                document.querySelectorAll('.offlineOnly').forEach(element => {element.classList.remove('visible')});
             } else {
                 status.textContent = '❌ Offline';
                 status.className = 'status';
+                document.querySelectorAll('.onlineOnly').forEach(element => {element.classList.remove('visible')});
+                document.querySelectorAll('.offlineOnly').forEach(element => {element.classList.add('visible')});
             }
         }
 
