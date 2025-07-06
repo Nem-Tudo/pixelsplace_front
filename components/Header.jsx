@@ -58,7 +58,10 @@ export default function Header() {
         },
         minigames: {
             label: language.getString("COMPONENTS.HEADER.MINIGAMES"),
-            href: "/offline.html"
+            href: "/offline.html",
+            exclusive: {
+                flags: ["VIEW_OFFLINEPAGE"]
+            }
         }
     };
 
