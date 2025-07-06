@@ -161,9 +161,11 @@
             transition: var(--smooth-transition);
             box-shadow: var(--shadow);
         }
+
         .color:hover {
             scale: var(--hover-scale);
         }
+
         .color.selected {
             border: 2px white solid;
         }
@@ -369,8 +371,13 @@
         let snake = [];
         let food = {};
         let direction = 'right';
+        let nextDirection = 'right'; // Buffer para próxima direção
         let snakeScore = 0;
         let gameRunning = null;
+        let gameSpeed = 120; // Velocidade inicial mais rápida
+        let lastMoveTime = 0;
+        let inputBuffer = []; // Buffer de comandos
+        let maxBufferSize = 3;
 
         // Funções de navegação
         function startDrawingGame() {
@@ -430,29 +437,74 @@
             ];
 
             direction = 'right';
+            nextDirection = 'right';
             snakeScore = 0;
             gameRunning = "snake";
+            gameSpeed = 120;
+            lastMoveTime = 0;
+            inputBuffer = [];
 
             // Cria primeira comida
             createFood();
 
-            // Loop do jogo
-            gameLoop();
+            // Loop do jogo otimizado
+            requestAnimationFrame(gameLoop);
         }
 
         function createFood() {
-            food = {
-                x: Math.floor(Math.random() * 20),
-                y: Math.floor(Math.random() * 20)
-            };
+            let foodPosition;
+            do {
+                foodPosition = {
+                    x: Math.floor(Math.random() * 20),
+                    y: Math.floor(Math.random() * 20)
+                };
+            } while (snake.some(segment => segment.x === foodPosition.x && segment.y === foodPosition.y));
+
+            food = foodPosition;
         }
 
-        function gameLoop() {
-            if (gameRunning != "snake") return;
+        // Processa o buffer de input
+        function processInputBuffer() {
+            if (inputBuffer.length > 0) {
+                const newDirection = inputBuffer.shift();
+                if (isValidDirectionChange(direction, newDirection)) {
+                    nextDirection = newDirection;
+                }
+            }
+        }
 
-            const canvas = document.getElementById('snakeCanvas');
-            const ctx = canvas.getContext('2d');
-            const gridSize = 20;
+        // Verifica se a mudança de direção é válida
+        function isValidDirectionChange(current, next) {
+            const opposites = {
+                'up': 'down',
+                'down': 'up',
+                'left': 'right',
+                'right': 'left'
+            };
+            return opposites[current] !== next;
+        }
+
+        function gameLoop(currentTime) {
+            if (gameRunning !== "snake") return;
+
+            // Controla a velocidade do jogo
+            if (currentTime - lastMoveTime >= gameSpeed) {
+                updateGame();
+                lastMoveTime = currentTime;
+            }
+
+            // Renderiza sempre para suavidade
+            render();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function updateGame() {
+            // Processa input buffer
+            processInputBuffer();
+
+            // Atualiza direção
+            direction = nextDirection;
 
             // Move a cobra
             const head = { x: snake[0].x, y: snake[0].y };
@@ -483,27 +535,41 @@
             if (head.x === food.x && head.y === food.y) {
                 snakeScore++;
                 document.getElementById('score').textContent = snakeScore;
+
+                // Aumenta velocidade gradualmente
+                if (gameSpeed > 80) {
+                    gameSpeed = Math.max(80, gameSpeed - 2);
+                }
+
                 createFood();
             } else {
                 snake.pop();
             }
+        }
 
-            // Desenha tudo
+        function render() {
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            const gridSize = 20;
+
+            // Limpa apenas uma vez
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Fundo branco
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Desenha a cobra com as cores escolhidas
-            snake.forEach((segment, index) => {
-                const colorIndex = index % 5;
+            for (let i = 0; i < snake.length; i++) {
+                const segment = snake[i];
+                const colorIndex = i % 5;
                 ctx.fillStyle = snakeColors[colorIndex];
                 ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
-            });
+            }
 
             // Desenha a comida
             ctx.fillStyle = 'red';
             ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
-
-            setTimeout(gameLoop, 150);
         }
 
         function gameOver() {
@@ -513,15 +579,30 @@
             document.getElementById('snakeGameplay').style.display = 'none';
         }
 
-        // Controles do teclado
+        // Controles do teclado otimizados
         document.addEventListener('keydown', (e) => {
-            if (gameRunning != "snake") return;
+            if (gameRunning !== "snake") return;
 
+            let newDirection;
             switch (e.key) {
-                case 'ArrowUp': if (direction !== 'down') direction = 'up'; break;
-                case 'ArrowDown': if (direction !== 'up') direction = 'down'; break;
-                case 'ArrowLeft': if (direction !== 'right') direction = 'left'; break;
-                case 'ArrowRight': if (direction !== 'left') direction = 'right'; break;
+                case 'ArrowUp': newDirection = 'up'; break;
+                case 'ArrowDown': newDirection = 'down'; break;
+                case 'ArrowLeft': newDirection = 'left'; break;
+                case 'ArrowRight': newDirection = 'right'; break;
+                default: return;
+            }
+
+            e.preventDefault();
+
+            // Adiciona ao buffer se for um movimento válido
+            if (inputBuffer.length < maxBufferSize) {
+                const lastDirection = inputBuffer.length > 0 ? inputBuffer[inputBuffer.length - 1] : direction;
+                if (isValidDirectionChange(lastDirection, newDirection)) {
+                    // Evita duplicatas consecutivas
+                    if (inputBuffer.length === 0 || inputBuffer[inputBuffer.length - 1] !== newDirection) {
+                        inputBuffer.push(newDirection);
+                    }
+                }
             }
         });
 
