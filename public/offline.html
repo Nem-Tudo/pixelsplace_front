@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>PixelsPlace - Offline</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
         /* Variáveis globais (consistência) */
         :root {
@@ -130,6 +132,8 @@
             justify-content: center;
             user-select: none;
             gap: 10px;
+            max-width: 100dvw;
+            overflow-x: hidden;
         }
 
         * {
@@ -158,20 +162,127 @@
             cursor: pointer;
             transition: var(--smooth-transition);
             box-shadow: var(--shadow);
+            box-shadow: inset 0px 0px 8px 1px #ffffff00;
         }
 
         .color:hover {
             scale: var(--hover-scale);
         }
 
+        .color.selected {
+            box-shadow: inset 0px 0px 8px 3px #ffffff1a;
+        }
+
         #canvas {
             border: var(--outline);
             cursor: crosshair;
+        }
+
+        .onlineOnly,
+        .offlineOnly {
+            display: none;
+        }
+
+        .onlineOnly.visible,
+        .offlineOnly.visible {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            box-shadow: var(--shadow);
+            border-radius: 12px;
+            transition: var(--smooth-transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            padding: 10px 12px;
+            background-color: var(--color-accent);
+            color: white;
+            border: var(--outline);
+
+            svg {
+                width: 1.5rem;
+            }
+        }
+
+        button:hover {
+            scale: var(--hover-scale);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #e03b49;
+
+            svg {
+                width: 24px;
+            }
+        }
+        .status.online {
+            color: #3be072;
+        }
+
+        /* cobra */
+        .snake-segment {
+            width: 30px;
+            height: 30px;
+            border-radius: 0;
+            border: var(--outline);
+            display: inline-block;
+            background: #ccc;
+        }
+
+        #snakeColorPalette {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        #snakePreview {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        #snakeGameplay {
+            text-align: center;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #colorSelector {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #snakeCanvas {
+            border: var(--outline);
+            background: var(--color-canvas-bg);
+        }
+
+        #gameSelector div {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+
+            button {
+                background: transparent;
+                color: var(--color-text-light);
+                box-shadow: inset 0px 0px 8px 1px #ffffff00;
+            }
+            button:hover {
+                box-shadow: inset 0px 0px 8px 1px #ffffff1a;
+            }
         }
     </style>
 </head>
 
 <body id="main">
+    <img src="/logo.png" style="width: 50px;">
     <h1 style="color: var(--color-muted)">Pixels Place</h1>
 
     <div class="container">
@@ -181,26 +292,67 @@
             <span>Você voltou pra idade da pedra? A mãe desligou o Wi-Fi? Roubaram o fio da sua casa?</span>
             <span>Bom, não importa o motivo</span>
             <span>Aqui vai um joguinho pra você se divertir por enquanto</span>
-            <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
+            <span style="opacity: 75%">E relaxa, vamos avisar se sua internet voltar ;)</span>
         </div>
         <div class="onlineOnly">
-            Eba voltou a internet
+            <h2>Conectado à internet! :D</h2>
+            <span>Não se preocupe, você só para de jogar quando quiser.</span>
+        </div>
+    </div>
+    
+    <div class="container" id="gameSelector">
+        <h2>Escolha um minijogo</h2>
+        <div>
+            <button onclick="startDrawingGame()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M4 3H2v18h20V3H4zm16 2v14H4V5h16zm-6 4h-2v2h-2v2H8v2H6v2h2v-2h2v-2h2v-2h2v2h2v2h2v-2h-2v-2h-2V9zM8 7H6v2h2V7z" fill="currentColor"/> </svg> Desenho Rápido</button>
+            <button onclick="startSnakeGame()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h20v14H2V5zm18 12V7H4v10h16zM8 9h2v2h2v2h-2v2H8v-2H6v-2h2V9zm6 0h2v2h-2V9zm4 4h-2v2h2v-2z" fill="currentColor"/> </svg> Jogo da Cobrinha</button>
         </div>
     </div>
 
-    <div class="container" id="gameContainer">
+    <div class="container" id="drawingGame" style="display: none;">
         <p id="hurryMessage"></p>
         <p id="hurryTimer"></p>
         <div id="palette">
-            <div class="color" style="background: red;" data-color="red"></div>
-            <div class="color" style="background: blue;" data-color="blue"></div>
-            <div class="color" style="background: yellow;" data-color="yellow"></div>
-            <div class="color" style="background: green;" data-color="green"></div>
-            <div class="color" style="background: white;" data-color="white"></div>
-            <div class="color" style="background: black;" data-color="black"></div>
+            <div class="color" style="background: #000000;" data-color="#000000"></div>
+            <div class="color" style="background: #f00e38;" data-color="#f00e38"></div>
+            <div class="color" style="background: #09ad4a;" data-color="#09ad4a"></div>
+            <div class="color" style="background: #003eff;" data-color="#003eff"></div>
+            <div class="color" style="background: #ffe357;" data-color="#ffe357"></div>
+            <div class="color" style="background: #ffffff;" data-color="#ffffff"></div>
         </div>
         <canvas id="canvas" width="336" height="336"></canvas>
     </div>
+
+    <div class="container" id="snakeGame" style="display: none;">
+        <div id="colorSelector">
+            <p>Escolha as cores da sua cobrinha (5 pixels):</p>
+            <div id="snakeColorPalette">
+                <!-- 9 cores (excluindo vermelho) -->
+                <div class="color" style="background: blue;" data-color="blue"></div>
+                <div class="color" style="background: yellow;" data-color="yellow"></div>
+                <div class="color" style="background: green;" data-color="green"></div>
+                <div class="color" style="background: purple;" data-color="purple"></div>
+                <div class="color" style="background: orange;" data-color="orange"></div>
+                <div class="color" style="background: pink;" data-color="pink"></div>
+                <div class="color" style="background: cyan;" data-color="cyan"></div>
+                <div class="color" style="background: brown;" data-color="brown"></div>
+                <div class="color" style="background: gray;" data-color="gray"></div>
+            </div>
+            <div id="snakePreview">
+                <div class="snake-segment" data-segment="0"></div>
+                <div class="snake-segment" data-segment="1"></div>
+                <div class="snake-segment" data-segment="2"></div>
+                <div class="snake-segment" data-segment="3"></div>
+                <div class="snake-segment" data-segment="4"></div>
+            </div>
+            <button id="startSnakeBtn" onclick="startSnakeGameplay()">Começar Jogo!</button>
+        </div>
+        <div id="snakeGameplay" style="display: none;">
+            <p>Pontuação: <span id="score">0</span></p>
+            <canvas id="snakeCanvas" width="400" height="400"></canvas>
+            <p>Use as setas do teclado para mover</p>
+        </div>
+    </div>
+
 
     <script>
 
@@ -213,11 +365,15 @@
         function updateStatus() {
             const status = document.getElementById('status');
             if (navigator.onLine) {
-                status.textContent = '✅ Online';
+                status.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"> <path d="M16 4h6v16h-6V4ZM2 14h6v6H2v-6Zm13-4H9v10h6V10Z"/> </svg> Online';
                 status.className = 'status online';
+                document.querySelectorAll('.onlineOnly').forEach(element => { element.classList.add('visible') });
+                document.querySelectorAll('.offlineOnly').forEach(element => { element.classList.remove('visible') });
             } else {
-                status.textContent = '❌ Offline';
+                status.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"> <path d="M4 2H2v2h2v2H2v2h2V6h2v2h2V6H6V4h2V2H6v2H4V2Zm12 2v16h6V4h-6Zm2 2h2v12h-2V6Zm-9 4v10h6V10H9Zm2 8v-6h2v6h-2Zm-3-4v6H2v-6h6Zm-2 4v-2H4v2h2Z"/> </svg> Offline';
                 status.className = 'status';
+                document.querySelectorAll('.onlineOnly').forEach(element => { element.classList.remove('visible') });
+                document.querySelectorAll('.offlineOnly').forEach(element => { element.classList.add('visible') });
             }
         }
 
@@ -237,21 +393,277 @@
             }, 1000);
         });
 
+        // COBRA
+        // Variáveis do jogo da cobrinha
+        let snakeColors = ['#ccc', '#ccc', '#ccc', '#ccc', '#ccc'];
+        let selectedSegment = 0;
+        let snake = [];
+        let food = {};
+        let direction = 'right';
+        let nextDirection = 'right'; // Buffer para próxima direção
+        let snakeScore = 0;
+        let gameRunning = null;
+        let gameSpeed = 120; // Velocidade inicial mais rápida
+        let lastMoveTime = 0;
+        let inputBuffer = []; // Buffer de comandos
+        let maxBufferSize = 3;
+
+        // Funções de navegação
+        function startDrawingGame() {
+            document.getElementById('snakeGame').style.display = 'none';
+            document.getElementById('drawingGame').style.display = 'flex';
+            gameRunning = "drawn";
+        }
+
+        function startSnakeGame() {
+            gameRunning = "snake";
+            document.getElementById('snakeGame').style.display = 'flex';
+            document.getElementById('drawingGame').style.display = 'none';
+        }
+
+        function backToGameSelector() {
+            document.getElementById('snakeGame').style.display = 'none';
+            document.getElementById('drawingGame').style.display = 'none';
+            document.getElementById('gameSelector').style.display = 'flex';
+            if (gameRunning) {
+                gameRunning = null;
+            }
+        }
+
+        // Seletor de cores da cobrinha
+        document.querySelectorAll('#snakeColorPalette .color').forEach(color => {
+            color.addEventListener('click', () => {
+                snakeColors[selectedSegment] = color.dataset.color;
+                document.querySelector(`[data-segment="${selectedSegment}"]`).style.background = color.dataset.color;
+                selectedSegment = (selectedSegment + 1) % 5;
+
+                // Destaca o próximo segmento
+                document.querySelectorAll('.snake-segment').forEach(seg => seg.style.border = 'var(--outline)');
+                document.querySelector(`[data-segment="${selectedSegment}"]`).style.border = '3px solid var(--color-accent)';
+            });
+        });
+
+        // Destaca o primeiro segmento inicialmente
+        document.querySelector('[data-segment="0"]').style.border = '3px solid var(--color-accent)';
+
+        // Inicia o gameplay da cobrinha
+        function startSnakeGameplay() {
+            document.getElementById('colorSelector').style.display = 'none';
+            document.getElementById('snakeGameplay').style.display = 'flex';
+
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            const gridSize = 20;
+            const tileCount = canvas.width / gridSize;
+
+            // Inicializa a cobra
+            snake = [
+                { x: 10, y: 10 },
+                { x: 9, y: 10 },
+                { x: 8, y: 10 },
+                { x: 7, y: 10 },
+                { x: 6, y: 10 }
+            ];
+
+            direction = 'right';
+            nextDirection = 'right';
+            snakeScore = 0;
+            gameRunning = "snake";
+            gameSpeed = 120;
+            lastMoveTime = 0;
+            inputBuffer = [];
+
+            // Cria primeira comida
+            createFood();
+
+            // Loop do jogo otimizado
+            requestAnimationFrame(gameLoop);
+        }
+
+        function createFood() {
+            let foodPosition;
+            do {
+                foodPosition = {
+                    x: Math.floor(Math.random() * 20),
+                    y: Math.floor(Math.random() * 20)
+                };
+            } while (snake.some(segment => segment.x === foodPosition.x && segment.y === foodPosition.y));
+
+            food = foodPosition;
+        }
+
+        // Processa o buffer de input
+        function processInputBuffer() {
+            if (inputBuffer.length > 0) {
+                const newDirection = inputBuffer.shift();
+                if (isValidDirectionChange(direction, newDirection)) {
+                    nextDirection = newDirection;
+                }
+            }
+        }
+
+        // Verifica se a mudança de direção é válida
+        function isValidDirectionChange(current, next) {
+            const opposites = {
+                'up': 'down',
+                'down': 'up',
+                'left': 'right',
+                'right': 'left'
+            };
+            return opposites[current] !== next;
+        }
+
+        function gameLoop(currentTime) {
+            if (gameRunning !== "snake") return;
+
+            // Controla a velocidade do jogo
+            if (currentTime - lastMoveTime >= gameSpeed) {
+                updateGame();
+                lastMoveTime = currentTime;
+            }
+
+            // Renderiza sempre para suavidade
+            render();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function updateGame() {
+            // Processa input buffer
+            processInputBuffer();
+
+            // Atualiza direção
+            direction = nextDirection;
+
+            // Move a cobra
+            const head = { x: snake[0].x, y: snake[0].y };
+
+            switch (direction) {
+                case 'up': head.y--; break;
+                case 'down': head.y++; break;
+                case 'left': head.x--; break;
+                case 'right': head.x++; break;
+            }
+
+            // Verifica colisões
+            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                gameOver();
+                return;
+            }
+
+            for (let segment of snake) {
+                if (head.x === segment.x && head.y === segment.y) {
+                    gameOver();
+                    return;
+                }
+            }
+
+            snake.unshift(head);
+
+            // Verifica se comeu a comida
+            if (head.x === food.x && head.y === food.y) {
+                snakeScore++;
+                document.getElementById('score').textContent = snakeScore;
+
+                // Aumenta velocidade gradualmente
+                if (gameSpeed > 80) {
+                    gameSpeed = Math.max(80, gameSpeed - 2);
+                }
+
+                createFood();
+            } else {
+                snake.pop();
+            }
+        }
+
+        function render() {
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            const gridSize = 20;
+
+            // Limpa apenas uma vez
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Fundo branco
+            ctx.fillStyle = 'transparent';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Desenha a cobra com as cores escolhidas
+            for (let i = 0; i < snake.length; i++) {
+                const segment = snake[i];
+                const colorIndex = i % 5;
+                ctx.fillStyle = snakeColors[colorIndex];
+                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+            }
+
+            ctx.strokeStyle = "#66666666";
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 20; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * gridSize, 0);
+                ctx.lineTo(i * gridSize, 20 * gridSize);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, i * gridSize);
+                ctx.lineTo(20 * gridSize, i * gridSize);
+                ctx.stroke();
+            }
+
+            // Desenha a comida
+            ctx.fillStyle = 'red';
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+        }
+
+        function gameOver() {
+            gameRunning = null;
+            alert(`Game Over! Pontuação: ${snakeScore}`);
+            document.getElementById('colorSelector').style.display = 'flex';
+            document.getElementById('snakeGameplay').style.display = 'none';
+        }
+
+        // Controles do teclado otimizados
+        document.addEventListener('keydown', (e) => {
+            if (gameRunning !== "snake") return;
+
+            let newDirection;
+            switch (e.key) {
+                case 'ArrowUp': newDirection = 'up'; break;
+                case 'ArrowDown': newDirection = 'down'; break;
+                case 'ArrowLeft': newDirection = 'left'; break;
+                case 'ArrowRight': newDirection = 'right'; break;
+                default: return;
+            }
+
+            e.preventDefault();
+
+            // Adiciona ao buffer se for um movimento válido
+            if (inputBuffer.length < maxBufferSize) {
+                const lastDirection = inputBuffer.length > 0 ? inputBuffer[inputBuffer.length - 1] : direction;
+                if (isValidDirectionChange(lastDirection, newDirection)) {
+                    // Evita duplicatas consecutivas
+                    if (inputBuffer.length === 0 || inputBuffer[inputBuffer.length - 1] !== newDirection) {
+                        inputBuffer.push(newDirection);
+                    }
+                }
+            }
+        });
+
         // === DESENHOS FÁCEIS (7 desenhos) ===
         // Coração simples
         const heart = [
             "0000000000000000",
             "0000000000000000",
-            "0001100011000000",
-            "0011110111100000",
-            "0111111111110000",
-            "0111111111110000",
-            "0111111111110000",
-            "0011111111100000",
-            "0001111111000000",
-            "0000111110000000",
-            "0000011100000000",
-            "0000001000000000",
+            "0000000000000000",
+            "0000011001100000",
+            "0000122112210000",
+            "0001202222221000",
+            "0001222222221000",
+            "0001222222221000",
+            "0000122222210000",
+            "0000012222100000",
+            "0000001221000000",
+            "0000000110000000",
             "0000000000000000",
             "0000000000000000",
             "0000000000000000",
@@ -259,37 +671,37 @@
         ];
         // Sol
         const sun = [
-            "0000000100000000",
-            "0001000100010000",
-            "0000101010100000",
-            "0010001110001000",
-            "0001011111010000",
-            "0000155555100000",
-            "0101555555515010",
-            "0001555555510000",
-            "0001555555510000",
-            "0101555555515010",
-            "0000155555100000",
-            "0001011111010000",
-            "0010001110001000",
-            "0000101010100000",
-            "0001000100010000",
-            "0000000100000000"
+            "0000000000000000",
+            "0000000220000000",
+            "0020002222000200",
+            "0002222222222000",
+            "0002225555222000",
+            "0002255555522000",
+            "0022555555552200",
+            "0221111111111220",
+            "0222511155111220",
+            "0022555555552200",
+            "0002255555522000",
+            "0002225555222000",
+            "0002222222222000",
+            "0020002222000200",
+            "0000000220000000",
+            "0000000000000000"
         ];
         // Estrela
         const star = [
             "0000000000000000",
             "0000000000000000",
-            "0000001000000000",
-            "0000001000000000",
-            "0000011100000000",
-            "0001111111000000",
-            "0000111110000000",
-            "0001111111000000",
-            "0011111111100000",
-            "0001111111000000",
-            "0001100011000000",
-            "0011000001100000",
+            "0000000550000000",
+            "0000000550000000",
+            "0000005555000000",
+            "0000055555500000",
+            "0055551551555500",
+            "0005551551555000",
+            "0000055555500000",
+            "0000055555500000",
+            "0000555005550000",
+            "0000550000550000",
             "0000000000000000",
             "0000000000000000",
             "0000000000000000",
@@ -299,37 +711,37 @@
         const house = [
             "0000000000000000",
             "0000000000000000",
-            "0000001000000000",
-            "0000011100000000",
-            "0000111110000000",
-            "0001111111000000",
-            "0011111111100000",
-            "0111111111110000",
-            "0111111111110000",
-            "0111511115110000",
-            "0111511115110000",
-            "0111511115110000",
-            "0111111111110000",
-            "0111111111110000",
+            "0000000000000000",
+            "0000006000000000",
+            "0000026222200000",
+            "0000222226620000",
+            "0002222266662000",
+            "0000666666660000",
+            "0000666666660000",
+            "0000666661160000",
+            "0000666661160000",
+            "0000666661160000",
+            "0000000000000000",
+            "0000000000000000",
             "0000000000000000",
             "0000000000000000"
         ];
         // Árvore
         const tree = [
             "0000000000000000",
+            "0000003330000000",
+            "0000333333300000",
+            "0003333333330000",
+            "0003333333330000",
+            "0000333333300000",
+            "0000335353300000",
+            "0000035553000000",
+            "0000000500000000",
+            "0000005550000000",
+            "0000005550000000",
+            "0000055555000000",
+            "0000550005500000",
             "0000000000000000",
-            "0000003000000000",
-            "0000033300000000",
-            "0000333330000000",
-            "0003333333000000",
-            "0033333333300000",
-            "0333333333330000",
-            "0033333333300000",
-            "0003333333000000",
-            "0000333330000000",
-            "0000055500000000",
-            "0000055500000000",
-            "0000055500000000",
             "0000000000000000",
             "0000000000000000"
         ];
@@ -337,17 +749,17 @@
         const flower = [
             "0000000000000000",
             "0000000000000000",
-            "0000022200000000",
-            "0002222222000000",
-            "0022255522200000",
-            "0222555555220000",
-            "0222555555220000",
-            "0022255522200000",
-            "0002222222000000",
-            "0000022200000000",
-            "0000033300000000",
-            "0000033300000000",
-            "0000033300000000",
+            "0000000000000000",
+            "0000000000200000",
+            "0000000022220000",
+            "0000000222222000",
+            "0000000222220000",
+            "0000000222220000",
+            "0000330322200000",
+            "0000333300000000",
+            "0000333000000000",
+            "0003300000000000",
+            "0033000000000000",
             "0000000000000000",
             "0000000000000000",
             "0000000000000000"
@@ -392,7 +804,7 @@
             "0000000000000000"
         ];
         // Peixe
-        const fish = [
+        const spaceship = [
             "0000000000000000",
             "0000000000000000",
             "0011100000000000",
@@ -471,21 +883,21 @@
         // Caveira
         const skull = [
             "0000000000000000",
-            "0000111111000000",
-            "0001111111100000",
-            "0011111111110000",
-            "0111111111111000",
-            "0111511115111000",
-            "0111111111111000",
-            "0111151115111000",
-            "0111111111111000",
-            "0111111111111000",
-            "0111111111111000",
-            "0111151115111000",
-            "0111111111111000",
-            "0011111111110000",
-            "0001111111100000",
-            "0000111111000000"
+            "0000000000000000",
+            "0000011111100000",
+            "0000166666610000",
+            "0001666666661000",
+            "0001666666661000",
+            "0001611661161000",
+            "0001611661161000",
+            "0001666116661000",
+            "0000166666610000",
+            "0000161661610000",
+            "0000010110100000",
+            "0000000000000000",
+            "0000000000000000",
+            "0000000000000000",
+            "0000000000000000"
         ];
         // Robô
         const robot = [
@@ -538,7 +950,7 @@
             ],
             medio: [
                 { name: "Gato", drawing: cat },
-                { name: "Peixe", drawing: fish },
+                { name: "Nave espacial", drawing: spaceship },
                 { name: "Borboleta", drawing: butterfly },
                 { name: "Foguete", drawing: rocket },
                 { name: "Carro", drawing: car }
@@ -551,18 +963,19 @@
         };
         let drawings = allDrawings;
 
-        const maxTime = 1;
+        const maxTime = 30; // segundos pra desenhar cada
         let remainingTime = maxTime;
 
         // Desenho predefinido (16x16 matriz)
         let drawing;
-        
+        let hasTried = false;
+
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
-        let currentColor = "red";
+        let currentColor = "#f00e38";
         let isDrawing = false;
-        const pixelSize = 21;
-        const defaultColors = ["transparent", "rgba(0,0,0,0.5)", "rgba(255,0,0,0.5)", "rgba(0,255,0,0.5)", "rgba(0,0,255,0.5)", "rgba(255,255,0,0.5)"];
+        const pixelSize = 21; // Vazio Preto Vermelho Verde Azul Amarelo Branco
+        const defaultColors = ["transparent", "#0000005c", "#f00e385c", "#09ad4a5c", "#003eff5c", "#ffe3575c", "#ffffff5c"];
 
         function sortearDesenho() {
             // Verifica se ainda há desenhos
@@ -570,8 +983,8 @@
 
             if (dificuldadesDisponiveis.length === 0) {
                 document.getElementById('gameContainer').innerHTML = `
-                    🎉 Você desenhou todos!
-                    <button onClick="location.reload()">Tentar de novo</button>
+                    Você concluiu todos os desenhos!
+                    <button onClick="location.reload()"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M16 2h-2v2h2v2H4v2H2v5h2V8h12v2h-2v2h2v-2h2V8h2V6h-2V4h-2V2zM6 20h2v2h2v-2H8v-2h12v-2h2v-5h-2v5H8v-2h2v-2H8v2H6v2H4v2h2v2z" fill="currentColor"/> </svg> Recarregar página</button>
                 `;
                 clearInterval(intervalTimer);
                 clearInterval(intervalReset);
@@ -587,7 +1000,10 @@
             const selecionado = drawings[dificuldade][desenhoIndex];
 
             // Remove desenho sorteado da lista
-            drawings[dificuldade].splice(desenhoIndex, 1);
+            if (hasTried == true) {
+                drawings[dificuldade].splice(desenhoIndex, 1);
+                hasTried = false;
+            };
 
             // Atualiza mensagem
             document.getElementById('hurryMessage').innerHTML =
@@ -604,12 +1020,14 @@
         }
 
         // Contador de tempo
-        let intervalTimer = setInterval(() => {
+        var intervalTimer = setInterval(() => {
+            if (gameRunning != "drawn") return;
             remainingTime -= 1;
             document.getElementById('hurryTimer').innerHTML = `${remainingTime} segundos restantes`;
         }, 1000);
 
-        let intervalReset = setInterval(() => {
+        var intervalReset = setInterval(() => {
+            if (gameRunning != "drawn") return;
             remainingTime = maxTime;
             sortearDesenho();
         }, (maxTime * 1000) + 1000);
@@ -652,6 +1070,7 @@
                 ctx.fillStyle = currentColor;
                 ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
             }
+            hasTried = true;
         }
 
         // Obtém coordenadas do mouse relativas ao canvas
@@ -671,6 +1090,8 @@
         document.querySelectorAll(".color").forEach(c => {
             c.addEventListener("click", () => {
                 currentColor = c.dataset.color;
+                document.querySelectorAll('.selected').forEach(element => element.classList.remove('selected'));
+                c.classList.add('selected');
             });
         });
 

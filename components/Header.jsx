@@ -55,6 +55,10 @@ export default function Header() {
         credits: {
             label: language.getString("COMPONENTS.HEADER.CREDITS"),
             href: '/credits'
+        },
+        minigames: {
+            label: language.getString("COMPONENTS.HEADER.MINIGAMES"),
+            href: "/offline.html"
         }
     };
 

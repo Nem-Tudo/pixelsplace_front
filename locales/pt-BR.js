@@ -78,6 +78,7 @@ module.exports = {
             VIEW_AS_USER: "Ver como usuário",
             NORMAL_VIEW: "Visualização normal",
             VIEW_SETTINGS: "Opções de visualização",
+            MINIGAMES: "Minijogos",
         },
         BADGES: {
             ADMIN: "Administrador",

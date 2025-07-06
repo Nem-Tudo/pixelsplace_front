@@ -9,6 +9,30 @@ const ESSENTIAL_RESOURCES = [
   '/favicon.ico',
 ];
 
+// Função para verificar se uma URL pode ser cacheada
+function isCacheableRequest(request) {
+  const url = new URL(request.url);
+  
+  // Só permite http e https
+  if (!['http:', 'https:'].includes(url.protocol)) {
+    return false;
+  }
+  
+  // Evita cachear requests de extensões
+  if (url.protocol === 'chrome-extension:' || 
+      url.protocol === 'moz-extension:' || 
+      url.protocol === 'safari-extension:') {
+    return false;
+  }
+  
+  // Evita cachear requests para outros domínios (opcional)
+  if (url.origin !== self.location.origin) {
+    return false;
+  }
+  
+  return true;
+}
+
 // Instalar: cacheia recursos essenciais
 self.addEventListener('install', (event) => {
   console.log('Service Worker: Instalando...');
@@ -54,6 +78,12 @@ self.addEventListener('activate', (event) => {
 
 // Interceptar: estratégia Network First com fallback otimizado
 self.addEventListener('fetch', (event) => {
+  // Ignora requests que não podem ser cacheados
+  if (!isCacheableRequest(event.request)) {
+    console.log('Service Worker: Ignorando request não cacheável:', event.request.url);
+    return; // Deixa o request passar normalmente
+  }
+  
   // Só intercepta navegação de páginas (HTML)
   if (event.request.mode === 'navigate') {
     event.respondWith(
@@ -63,7 +93,7 @@ self.addEventListener('fetch', (event) => {
       })
       .then(response => {
         // Se a resposta for OK, pode cachear a página atual
-        if (response.ok) {
+        if (response.ok && isCacheableRequest(event.request)) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME)
             .then(cache => cache.put(event.request, responseClone))
@@ -90,10 +120,11 @@ self.addEventListener('fetch', (event) => {
           }
           return fetch(event.request)
             .then(response => {
-              if (response.ok) {
+              if (response.ok && isCacheableRequest(event.request)) {
                 const responseClone = response.clone();
                 caches.open(CACHE_NAME)
-                  .then(cache => cache.put(event.request, responseClone));
+                  .then(cache => cache.put(event.request, responseClone))
+                  .catch(error => console.log('Erro ao cachear:', error));
               }
               return response;
             });
