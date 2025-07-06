@@ -225,14 +225,14 @@
     <div class="container">
         <p id="status"></p>
         <div class="offlineOnly">
-            <h2>Sem conexão com a internet! ;-;</h2>
+            <h2 style="margin: 13px auto;margin-bottom: 33px;">Sem conexão com a internet! ;-;</h2>
             <span>Você voltou pra idade da pedra? A mãe desligou o Wi-Fi? Roubaram o fio da sua casa?</span>
             <span>Bom, não importa o motivo</span>
             <span>Aqui vai um joguinho pra você se divertir por enquanto</span>
             <span style="margin-top: 15px;">E relaxa, vamos avisar se sua internet voltar ;)</span>
         </div>
         <div class="onlineOnly">
-            <h2>Conectado à internet! :D</h2>
+            <h2 style="margin: 13px auto;margin-bottom: 33px;">Conectado à internet! :D</h2>
             <span>Não se preocupe, você só para de jogar quando quiser.</span>
         </div>
     </div>
@@ -610,7 +610,7 @@
         // Desenho predefinido (16x16 matriz)
         let drawing;
         let hasTried = false;
-        
+
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         let currentColor = "red";
@@ -641,7 +641,7 @@
             const selecionado = drawings[dificuldade][desenhoIndex];
 
             // Remove desenho sorteado da lista
-            if(hasTried == true) {
+            if (hasTried == true) {
                 drawings[dificuldade].splice(desenhoIndex, 1);
                 hasTried = false;
             };
