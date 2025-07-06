@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>PixelsPlace - Offline</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
         /* Variáveis globais (consistência) */
         :root {
@@ -169,10 +171,13 @@
             cursor: crosshair;
         }
 
-        .onlineOnly, .offlineOnly {
+        .onlineOnly,
+        .offlineOnly {
             display: none;
         }
-        .onlineOnly.visible, .offlineOnly.visible {
+
+        .onlineOnly.visible,
+        .offlineOnly.visible {
             display: flex;
             flex-direction: column;
         }
@@ -192,6 +197,7 @@
             color: white;
             border: var(--outline);
         }
+
         button:hover {
             scale: var(--hover-scale);
         }
@@ -199,6 +205,7 @@
 </head>
 
 <body id="main">
+    <img src="/logo.png" style="width: 50px;">
     <h1 style="color: var(--color-muted)">Pixels Place</h1>
 
     <div class="container">
@@ -243,13 +250,13 @@
             if (navigator.onLine) {
                 status.textContent = '✅ Online';
                 status.className = 'status online';
-                document.querySelectorAll('.onlineOnly').forEach(element => {element.classList.add('visible')});
-                document.querySelectorAll('.offlineOnly').forEach(element => {element.classList.remove('visible')});
+                document.querySelectorAll('.onlineOnly').forEach(element => { element.classList.add('visible') });
+                document.querySelectorAll('.offlineOnly').forEach(element => { element.classList.remove('visible') });
             } else {
                 status.textContent = '❌ Offline';
                 status.className = 'status';
-                document.querySelectorAll('.onlineOnly').forEach(element => {element.classList.remove('visible')});
-                document.querySelectorAll('.offlineOnly').forEach(element => {element.classList.add('visible')});
+                document.querySelectorAll('.onlineOnly').forEach(element => { element.classList.remove('visible') });
+                document.querySelectorAll('.offlineOnly').forEach(element => { element.classList.add('visible') });
             }
         }
 
@@ -588,7 +595,7 @@
 
         // Desenho predefinido (16x16 matriz)
         let drawing;
-        
+
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         let currentColor = "red";
