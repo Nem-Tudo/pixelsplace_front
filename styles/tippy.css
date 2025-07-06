@@ -1,6 +1,6 @@
 :root {
     --tippy-border-radius: 12px;
-    --tippy-color: rgba(0, 0, 0, 0.553);
+    --tippy-color: rgb(14, 14, 14);
     --tippy-text-color: #ffffff;
 }
 
@@ -8,7 +8,7 @@
     background-color: var(--tippy-color);
     border-radius: var(--tippy-border-radius);
     backdrop-filter: var(--frosted-glass-blur);
-    padding: 4px 8px;
+    padding: 8px 12px;
     border: var(--outline);
     box-shadow: var(--shadow);
 }

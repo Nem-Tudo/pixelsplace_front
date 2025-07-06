@@ -10,6 +10,7 @@
   gap: 8px;
   text-align: center;
 }
+
 .button:hover {
   scale: var(--hover-scale);
 }
@@ -20,6 +21,7 @@
   color: white;
   border: var(--outline);
 }
+
 .button.primary:hover {
   background-color: var(--btn-color-hover, var(--color-accent-hover));
 }
@@ -29,6 +31,7 @@
   color: var(--btn-color, var(--color-accent));
   border: 1px solid var(--btn-color, var(--color-accent));
 }
+
 .button.secondary:hover {
   background-color: var(--btn-color-hover, var(--color-accent-hover));
   border: var(--outline);
@@ -46,9 +49,11 @@
 .button.lowestPadding {
   padding: 5px 10px;
 }
+
 .button.lowerPadding {
   padding: 10px 12px;
 }
+
 .button.regularPadding {
   padding: 18px;
 }
@@ -59,4 +64,8 @@
   opacity: 0.6;
   cursor: not-allowed;
   scale: 1;
+}
+
+.button:disabled:hover {
+  background-color: var(--btn-color, var(--color-accent));
 }

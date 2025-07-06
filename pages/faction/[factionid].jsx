@@ -17,6 +17,7 @@ import GuildCard from "@/components/GuildCard";
 import { usePopup } from '@/context/PopupContext';
 import Badges from "@/components/Badges";
 import CustomHead from "@/components/CustomHead";
+import Tippy from "@tippyjs/react";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -46,11 +47,11 @@ export async function getServerSideProps({ req, query }) {
 }
 
 export default function Faction({ faction: factionobject, error, errormessage }) {
-  const { token } = useAuth();
+  const { token, loggedUser } = useAuth();
   const { language } = useLanguage();
   const { openPopup } = usePopup();
+  const router = useRouter();
 
-  const [loadingFetch, setLoadingFetch] = useState(false);
   const [faction, setFaction] = useState(factionobject);
   const [members, setMembers] = useState([]);
 
@@ -60,8 +61,40 @@ export default function Faction({ faction: factionobject, error, errormessage })
     }
   }, [faction?.id]);
 
+  useEffect(() => {
+    if (router.query.factionid && factionobject) {
+      setFaction(factionobject);
+      console.log(factionobject);
+
+      // Só faz replace se a URL atual for diferente da desejada
+      const currentPath = router.asPath;
+      const desiredPath = `/faction/${factionobject.handle}`;
+
+      if (!currentPath.includes(factionobject.handle)) {
+        router.replace(desiredPath, undefined, { shallow: true });
+      }
+    }
+  }, [router.query.userid, factionobject]);
+
+  const fetchWithAuth = async (url, method, body) => {
+    try {
+      const res = await fetch(`${settings.apiURL}${url}`, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+      return data;
+    } catch (err) {
+      openPopup("error", { message: `${err.message}` });
+    }
+  };
+
   async function loadFactionMembers(factionId) {
-    return;
     try {
       const res = await fetch(`https://apipixelsplace.nemtudo.me/factions/${factionId}/members?parseUser=true`);
       const data = await res.json();
@@ -116,7 +149,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
 
             <div className={styles.profile}>
               <div className={styles.iconFac}>
-                <img src={faction?.icon_url} alt={language.getString("PAGES.FACTION.ICON_ALT")} />
+                <img src={faction?.icon_url || "/assets/avatar.png"} alt={language.getString("PAGES.FACTION.ICON_ALT")} />
               </div>
 
               <div className={styles.name}>
@@ -124,7 +157,31 @@ export default function Faction({ faction: factionobject, error, errormessage })
                 <p className={styles.userName}>#{faction?.handle}</p>
               </div>
 
-              <CustomButton label={language.getString('COMMON.JOIN')} href={faction.invite} />
+              {/* Apenas um deles é exibido. Usar ternary seria o mais "correto", mas deixaria mais confuso. ENTRAR / SAIR / PEDIR PRA ENTRAR / (Teoricamente teria o Deletar, mas é melhor ficar em outra parte) */}
+              {
+                (!loggedUser) && <CustomButton label={"Logue para entrar"} href="/login" />
+              }
+              {
+                (loggedUser && loggedUser.factionId != faction.id) && faction.public && <Tippy content={loggedUser.factionId ? "Você deve sair da sua facção primeiro" : "Entrar na facção"}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
+              }
+              {
+                (loggedUser && loggedUser.factionId != faction.id) && !faction.public && <Tippy content={loggedUser.factionId ? "Você deve sair da sua facção primeiro" : "Entrar na facção"}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.ASK_TO_JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
+              }
+              {
+                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId != loggedUser.id) && <Tippy content={"Sair da facção"}><div><CustomButton color="#ff0000" label={language.getString('COMMON.LEAVE')} onClick={() => fetchWithAuth(`/factions/${faction.id}/leave`, "POST")} /></div></Tippy>
+              }
+              {
+                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId == loggedUser.id) && <Tippy content="Apagar para todo o sempre..."><div><CustomButton color="#ff0000" label={"Exluir facção"} onClick={async () => {
+                  const handle = prompt(`Você tem CERTEZA que quer apagar a facção ${faction.name}? Digite aqui o handle dela (${faction.handle})`);
+                  if (!handle) return;
+                  if (handle != faction.handle) return alert("Handle incorreto!");
+                  fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
+                    alert("Facção excluída com sucesso! Foi bom ela conosco :(")
+                    location.href = "/"
+                  })
+                }} /></div></Tippy>
+              }
+
             </div>
             <div style={{ display: "flex", flexDirection: "column", }}>
 
@@ -155,7 +212,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                             style={{ width: '15px', borderRadius: '50%' }}
                           />
                           <p>{member.user.username || `User ${member.userId}`}</p>
-                          <span style={{background: "#679467", padding: "3px 6px", borderRadius: "3px"}}>{member.role}</span>
+                          <span style={{ background: "#679467", padding: "3px 6px", borderRadius: "3px" }}>{member.role}</span>
                         </div>
                       );
                     })}

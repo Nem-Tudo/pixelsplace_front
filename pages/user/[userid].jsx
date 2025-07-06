@@ -336,7 +336,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                 user?.faction && user?.factionMember && <div className={styles.infoBox}>
                   <h2>Facção:</h2>
                   <img style={{ width: "60px", clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }} src={user.faction.icon_url || "/assets/avatar.png"} />
-                  <span>{user.faction.name}</span>
+                  <Link href={`/faction/${user.faction.id}`}>{user.faction.name}</Link>
                   <span>#{user.faction.handle}</span>
                   <span>{user.faction.public ? <span style={{ color: "green" }}>Pública</span> : <span style={{ color: "red" }}>Privada</span>}</span>
 

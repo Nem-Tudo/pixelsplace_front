@@ -36,11 +36,13 @@ module.exports = {
         LANGUAGE: "Language", // USAR "Language" em TODOS os outros idiomas
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
-        JOIN: 'Juntar-se',
+        JOIN: 'Entrar',
+        LEAVE: "Sair",
         PREFERENCES: "Preferências",
         SOUND_EFFECTS: "Efeitos sonoros",
         NOW: "Agora",
         THEME: "Tema",
+        ASK_TO_JOIN: "Pedir para entrar"
     },
     THEMES: {
         DARK: 'Padrão',
@@ -87,7 +89,7 @@ module.exports = {
         GUILD_CARD: {
             GUILD_ICON_ALT: "Ícone de {{guildName}}",
             JOIN: "Entrar",
-            VISIT: "Visitar",
+            VISIT: "Página",
         },
         PIXEL_CANVAS: {
             PIP: 'Ativar Picture-in-picture',
