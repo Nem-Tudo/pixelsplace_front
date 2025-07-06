@@ -201,6 +201,7 @@
   justify-content: space-around;
   overflow: hidden;
   box-shadow: var(--shadow);
+  overflow-x: auto; /*pra quando for mobile conseguir ver as opções ocultas*/
 
   input {
     display: none;

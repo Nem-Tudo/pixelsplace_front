@@ -38,6 +38,9 @@ export default function AdminPage() {
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [chosenPage, setChosenPage] = useState();
+  const [chosenTargetEval, setChosenTargetEval] = useState('all');
+  // const [chosenPage, setChosenPage] = useState();
+
   const [canvaSettings, setCanvaSettings] = useState();
 
   const [buildsOverride, setBuildsOverride] = useState([]);
@@ -169,6 +172,10 @@ export default function AdminPage() {
     if (chosenPage != "auditlogs") return;
     fetchAuditLogs()
   }, [chosenPage])
+
+    useEffect(() => {
+      console.log(chosenTargetEval);
+  }, [chosenTargetEval])
 
   const fetchWithAuth = async (url, method, body) => {
     try {
@@ -479,8 +486,33 @@ export default function AdminPage() {
 
             {/* Eval */}
             <fieldset>
-              <legend>
+              <legend style={{display: "flex", alignItems: "center", flexDirection: "row", gap: "10px"}}>
                 <strong>Executar Código (eval)</strong>
+                <div className={styles.pageSelector}>
+                  <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"all"} onChange={() => setChosenTargetEval('all')} />
+                  <label htmlFor={"TargetEvalAll"}>
+                    <PixelIcon codename={'sliders-2'} />
+                    <span className="mobileHidden_500">todos</span>
+                  </label>
+
+                  <input checked={chosenTargetEval === 'authenticated '} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"authenticated"} onChange={() => setChosenTargetEval('authenticated')} />
+                  <label htmlFor={"TargetEvalAuth"}>
+                    <PixelIcon codename={'sliders-2'} />
+                    <span className="mobileHidden_500">Logados</span>
+                  </label>
+
+                  <input checked={chosenTargetEval === 'anonymous '} type={"radio"} name={"TargetEval"} id={"TargetEvalAnonymous"} value={"anonymous"} onChange={() => setChosenTargetEval('anonymous')} />
+                  <label htmlFor={"TargetEvalAnonymous"}>
+                    <PixelIcon codename={'sliders-2'} />
+                    <span className="mobileHidden_500">Anonimos</span>
+                  </label>
+                  
+                  <input checked={chosenTargetEval === 'authenticated '} type={"radio"} name={"TargetEval"} id={"TargetEvalFlag"} value={"flag"} onChange={() => setChosenTargetEval('flag')} />
+                  <label htmlFor={"TargetEvalFlag"}>
+                    <PixelIcon codename={'sliders-2'} />
+                    <span className="mobileHidden_500">Flag</span>
+                  </label>
+                </div>
               </legend>
               <textarea
                 rows={6}
@@ -491,10 +523,11 @@ export default function AdminPage() {
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Executar Eval'} icon={'play'} disabled={loading} onClick={async () => {
                   if (!evalCode.trim()) return openPopup("error", { message: "Insira o código." });
+                  console.log(chosenTargetEval);
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
-                      const res = await fetchWithAuth("/admin/eval", "POST", {
+                      const res = await fetchWithAuth("/admin/eval?"+chosenTargetEval, "POST", {
                         content: evalCode,
                       });
                       res && openPopup("success", { message: `Executado em ${res.count} clients.` });

@@ -226,7 +226,7 @@ input[type="color"]::-moz-color-swatch {
 
 @media (max-width: 500px) {
   .mobileHidden_500 {
-    display: none;
+    display: none !important;
   }
 }
 
