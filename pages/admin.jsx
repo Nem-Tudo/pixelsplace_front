@@ -491,26 +491,20 @@ export default function AdminPage() {
                 <div className={styles.pageSelector}>
                   <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"all"} onChange={() => setChosenTargetEval('all')} />
                   <label htmlFor={"TargetEvalAll"}>
-                    <PixelIcon codename={'sliders-2'} />
+                    <PixelIcon codename={'users'} />
                     <span className="mobileHidden_500">todos</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'authenticated '} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"authenticated"} onChange={() => setChosenTargetEval('authenticated')} />
                   <label htmlFor={"TargetEvalAuth"}>
-                    <PixelIcon codename={'sliders-2'} />
+                    <PixelIcon codename={'user-plus'} />
                     <span className="mobileHidden_500">Logados</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'anonymous '} type={"radio"} name={"TargetEval"} id={"TargetEvalAnonymous"} value={"anonymous"} onChange={() => setChosenTargetEval('anonymous')} />
                   <label htmlFor={"TargetEvalAnonymous"}>
-                    <PixelIcon codename={'sliders-2'} />
+                    <PixelIcon codename={'user-x'} />
                     <span className="mobileHidden_500">Anonimos</span>
-                  </label>
-                  
-                  <input checked={chosenTargetEval === 'authenticated '} type={"radio"} name={"TargetEval"} id={"TargetEvalFlag"} value={"flag"} onChange={() => setChosenTargetEval('flag')} />
-                  <label htmlFor={"TargetEvalFlag"}>
-                    <PixelIcon codename={'sliders-2'} />
-                    <span className="mobileHidden_500">Flag</span>
                   </label>
                 </div>
               </legend>
@@ -527,7 +521,8 @@ export default function AdminPage() {
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
-                      const res = await fetchWithAuth("/admin/eval?"+chosenTargetEval, "POST", {
+                      // alert( `/admin/eval${chosenTargetEval === "all" ? "" : `?authenticated=${chosenTargetEval === "authenticated"}`}`);
+                      const res = await fetchWithAuth(`/admin/eval${chosenTargetEval === "all" ? "" : `?authenticated=${chosenTargetEval === "authenticated"}`}`, "POST", {
                         content: evalCode,
                       });
                       res && openPopup("success", { message: `Executado em ${res.count} clients.` });
