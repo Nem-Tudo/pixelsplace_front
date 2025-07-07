@@ -39,6 +39,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [chosenPage, setChosenPage] = useState();
   const [chosenTargetEval, setChosenTargetEval] = useState('all');
+  const [chosenTargetExtraEval, setChosenTargetExtraEval] = useState('');
+
   // const [chosenPage, setChosenPage] = useState();
 
   const [canvaSettings, setCanvaSettings] = useState();
@@ -176,6 +178,10 @@ export default function AdminPage() {
     useEffect(() => {
       console.log(chosenTargetEval);
   }, [chosenTargetEval])
+
+      useEffect(() => {
+      console.log(chosenTargetExtraEval);
+  }, [chosenTargetExtraEval])
 
   const fetchWithAuth = async (url, method, body) => {
     try {
@@ -492,13 +498,13 @@ export default function AdminPage() {
                   <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"authenticated"} onChange={() => setChosenTargetEval('all')} />
                   <label htmlFor={"TargetEvalAll"}>
                     <PixelIcon codename={'users'} />
-                    <span className="mobileHidden_500">todos</span>
+                    <span className="mobileHidden_500">Flags</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'authenticated'} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"all"} onChange={() => setChosenTargetEval('authenticated')} />
                   <label htmlFor={"TargetEvalAuth"}>
                     <PixelIcon codename={'user-plus'} />
-                    <span className="mobileHidden_500">Logados</span>
+                    <span className="mobileHidden_500">Users</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'anonymous'} type={"radio"} name={"TargetEval"} id={"TargetEvalAnonymous"} value={"anonymous"} onChange={() => setChosenTargetEval('anonymous')} />
@@ -521,8 +527,8 @@ export default function AdminPage() {
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
-                      // alert( `/admin/eval${chosenTargetEval === "all" ? "" : `?authenticated=${chosenTargetEval === "authenticated"}`}`);
-                      const res = await fetchWithAuth(`/admin/eval${chosenTargetEval === "all" ? "" : `?authenticated=${chosenTargetEval === "authenticated"}`}`, "POST", {
+                      console.log(`/admin/eval?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`);
+                      const res = await fetchWithAuth(`/admin/eval?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`, "POST", {
                         content: evalCode,
                       });
                       res && openPopup("success", { message: `Executado em ${res.count} clients.` });
@@ -530,6 +536,50 @@ export default function AdminPage() {
                   })
                 }}
                 />
+                <div className={styles.pageSelector}>
+                  <p>(opicional)Selecione permitido:</p>
+                  <input  type={"checkbox"} name={"TargetExtraEval"} id={"TargetExtraEvalRequiredFlags"} value={"requiredFlags"} onChange={() => {const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
+                                                                                                                                                  setChosenTargetExtraEval(chosenTargetExtraEval+"&requiredFlags="+requiredFlags);
+                                                                                                                                                  console.log(chosenTargetExtraEval);
+                                                                                                                                                  }}/>
+                  <label htmlFor={"TargetExtraEvalRequiredFlags"}>
+                    <PixelIcon codename={'flag'} />
+                    <span className="mobileHidden_500">Flags</span>
+                  </label>
+
+                  <input type={"checkbox"} name={"TargetExtraEval"} id={"TargetExtraEvalBannedFlags"} value={"userIds"} onChange={() => {const userIds = prompt("Escreva o id dos users (separados por virgula)")
+                                                                                                                                        setChosenTargetExtraEval(chosenTargetExtraEval+"&userIds="+userIds);
+                                                                                                                                        console.log(chosenTargetExtraEval);
+                                                                                                                                        }}/>
+                  <label htmlFor={"TargetExtraEvalBannedFlags"}>
+                    <PixelIcon codename={'user-plus'} />
+                    <span className="mobileHidden_500">Users</span>
+                  </label>
+                </div>
+
+                {/* --------------------------------------------- */}
+
+                <div className={styles.pageSelector}>
+                  <p>(opicional)Selecione excluidos:</p>
+                  <input  type={"checkbox"} name={"TargetExtraEval"} id={"TargetExtraEvalUserIds"} value={"bannedFlags"} onChange={() => {const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
+                                                                                                                                          setChosenTargetExtraEval(chosenTargetExtraEval+"&bannedFlags="+bannedFlags);
+                                                                                                                                          console.log(chosenTargetExtraEval);
+                                                                                                                                          }}/>
+                  <label htmlFor={"TargetExtraEvalUserIds"}>
+                    <PixelIcon codename={'flag'} />
+                    <span className="mobileHidden_500">Flags</span>
+                  </label>
+
+                  <input type={"checkbox"} name={"TargetExtraEval"} id={"TargetExtraEvalExcludeUserIds"} value={"excludeUserIds"} onChange={() => {const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
+                                                                                                                                                  setChosenTargetExtraEval(chosenTargetExtraEval+"&excludeUserIds="+excludeUserIds);
+                                                                                                                                                  console.log(chosenTargetExtraEval);
+                                                                                                                                                  }}/>
+                  <label htmlFor={"TargetExtraEvalExcludeUserIds"}>
+                    <PixelIcon codename={'user-minus'} />
+                    <span className="mobileHidden_500">Users</span>
+                  </label>
+
+                </div>
               </footer>
             </fieldset>
 
