@@ -489,19 +489,19 @@ export default function AdminPage() {
               <legend style={{display: "flex", alignItems: "center", flexDirection: "row", gap: "10px"}}>
                 <strong>Executar Código (eval)</strong>
                 <div className={styles.pageSelector}>
-                  <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"all"} onChange={() => setChosenTargetEval('all')} />
+                  <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"authenticated"} onChange={() => setChosenTargetEval('all')} />
                   <label htmlFor={"TargetEvalAll"}>
                     <PixelIcon codename={'users'} />
                     <span className="mobileHidden_500">todos</span>
                   </label>
 
-                  <input checked={chosenTargetEval === 'authenticated '} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"authenticated"} onChange={() => setChosenTargetEval('authenticated')} />
+                  <input checked={chosenTargetEval === 'authenticated'} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"all"} onChange={() => setChosenTargetEval('authenticated')} />
                   <label htmlFor={"TargetEvalAuth"}>
                     <PixelIcon codename={'user-plus'} />
                     <span className="mobileHidden_500">Logados</span>
                   </label>
 
-                  <input checked={chosenTargetEval === 'anonymous '} type={"radio"} name={"TargetEval"} id={"TargetEvalAnonymous"} value={"anonymous"} onChange={() => setChosenTargetEval('anonymous')} />
+                  <input checked={chosenTargetEval === 'anonymous'} type={"radio"} name={"TargetEval"} id={"TargetEvalAnonymous"} value={"anonymous"} onChange={() => setChosenTargetEval('anonymous')} />
                   <label htmlFor={"TargetEvalAnonymous"}>
                     <PixelIcon codename={'user-x'} />
                     <span className="mobileHidden_500">Anonimos</span>
