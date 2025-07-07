@@ -40,6 +40,9 @@ export default function AdminPage() {
   const [chosenPage, setChosenPage] = useState();
   const [chosenTargetEval, setChosenTargetEval] = useState('all');
   const [chosenTargetExtraEval, setChosenTargetExtraEval] = useState('');
+  const [chosenTargetAlert, setChosenTargetAlert] = useState('all');
+  const [chosenTargetExtraAlert, setChosenTargetExtraAlert] = useState('');
+
 
   // const [chosenPage, setChosenPage] = useState();
 
@@ -182,6 +185,14 @@ export default function AdminPage() {
       useEffect(() => {
       console.log(chosenTargetExtraEval);
   }, [chosenTargetExtraEval])
+
+    useEffect(() => {
+      console.log(chosenTargetAlert);
+  }, [chosenTargetAlert])
+
+      useEffect(() => {
+      console.log(chosenTargetExtraAlert);
+  }, [chosenTargetExtraAlert])
 
   const fetchWithAuth = async (url, method, body) => {
     try {
@@ -585,8 +596,27 @@ export default function AdminPage() {
 
             {/* Alert */}
             <fieldset>
-              <legend>
+              <legend style={{display: "flex", alignItems: "center", flexDirection: "row", gap: "10px"}}>
                 <strong>Enviar Alerta</strong>
+                <div className={styles.pageSelector}>
+                  <input checked={chosenTargetAlert === 'all'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAll"} value={"authenticated"} onChange={() => setChosenTargetAlert('all')} />
+                  <label htmlFor={"TargetAlertAll"}>
+                    <PixelIcon codename={'users'} />
+                    <span className="mobileHidden_500">Flags</span>
+                  </label>
+
+                  <input checked={chosenTargetAlert === 'authenticated'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAuth"} value={"all"} onChange={() => setChosenTargetAlert('authenticated')} />
+                  <label htmlFor={"TargetAlertAuth"}>
+                    <PixelIcon codename={'user-plus'} />
+                    <span className="mobileHidden_500">Users</span>
+                  </label>
+
+                  <input checked={chosenTargetAlert === 'anonymous'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAnonymous"} value={"anonymous"} onChange={() => setChosenTargetAlert('anonymous')} />
+                  <label htmlFor={"TargetAlertAnonymous"}>
+                    <PixelIcon codename={'user-x'} />
+                    <span className="mobileHidden_500">Anonimos</span>
+                  </label>
+                </div>
               </legend>
               <textarea
                 rows={3}
@@ -608,6 +638,50 @@ export default function AdminPage() {
                   })
                 }}
                 />
+                                <div className={styles.pageSelector}>
+                  <p>(opicional)Selecione permitido:</p>
+                  <input  type={"checkbox"} name={"TargetExtraAlert"} id={"TargetExtraAlertRequiredFlags"} value={"requiredFlags"} onChange={() => {const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
+                                                                                                                                                  setChosenTargetExtraAlert(chosenTargetExtraAlert+"&requiredFlags="+requiredFlags.toUpperCase());
+                                                                                                                                                  console.log(chosenTargetExtraAlert);
+                                                                                                                                                  }}/>
+                  <label htmlFor={"TargetExtraAlertRequiredFlags"}>
+                    <PixelIcon codename={'flag'} />
+                    <span className="mobileHidden_500">Flags</span>
+                  </label>
+
+                  <input type={"checkbox"} name={"TargetExtraAlert"} id={"TargetExtraAlertBannedFlags"} value={"userIds"} onChange={() => {const userIds = prompt("Escreva o id dos users (separados por virgula)")
+                                                                                                                                        setChosenTargetExtraAlert(chosenTargetExtraAlert+"&userIds="+userIds);
+                                                                                                                                        console.log(chosenTargetExtraAlert);
+                                                                                                                                        }}/>
+                  <label htmlFor={"TargetExtraAlertBannedFlags"}>
+                    <PixelIcon codename={'user-plus'} />
+                    <span className="mobileHidden_500">Users</span>
+                  </label>
+                </div>
+
+                {/* --------------------------------------------- */}
+
+                <div className={styles.pageSelector}>
+                  <p>(opicional)Selecione excluidos:</p>
+                  <input  type={"checkbox"} name={"TargetExtraAlert"} id={"TargetExtraAlertUserIds"} value={"bannedFlags"} onChange={() => {const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
+                                                                                                                                          setChosenTargetExtraAlert(chosenTargetExtraAlert+"&bannedFlags="+bannedFlags.toUpperCase());
+                                                                                                                                          console.log(chosenTargetExtraAlert);
+                                                                                                                                          }}/>
+                  <label htmlFor={"TargetExtraAlertUserIds"}>
+                    <PixelIcon codename={'flag'} />
+                    <span className="mobileHidden_500">Flags</span>
+                  </label>
+
+                  <input type={"checkbox"} name={"TargetExtraAlert"} id={"TargetExtraAlertExcludeUserIds"} value={"excludeUserIds"} onChange={() => {const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
+                                                                                                                                                  setChosenTargetExtraAlert(chosenTargetExtraAlert+"&excludeUserIds="+excludeUserIds);
+                                                                                                                                                  console.log(chosenTargetExtraAlert);
+                                                                                                                                                  }}/>
+                  <label htmlFor={"TargetExtraAlertExcludeUserIds"}>
+                    <PixelIcon codename={'user-minus'} />
+                    <span className="mobileHidden_500">Users</span>
+                  </label>
+
+                </div>
               </footer>
             </fieldset>
 
