@@ -29,6 +29,13 @@
         overflow: hidden;
         border: var(--outline);
 
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: inherit;
+            max-height: inherit;
+        }
+
         .title {
             font-size: x-large;
             font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;

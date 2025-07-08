@@ -13,11 +13,14 @@
   border: var(--outline);
   border-radius: 12px;
   display: flex;
+  flex-direction: row !important;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   overflow: hidden;
   box-shadow: var(--shadow);
   min-width: fit-content;
+  min-height: fit-content;
 
   input {
     display: none;
