@@ -60,6 +60,10 @@ export default function Place() {
   const [showingPixelInfo, setShowingPixelInfo] = useState(null);
   const [showingColors, setShowingColors] = useState(false);
 
+  //pixelinfo history
+  const [showingPixelInfoHistory, setShowingPixelInfoHistory] = useState(null);
+  const [pixelInfoHistory, setPixelInfoHistory] = useState(0);
+
   //obter informações da tela
   const screenHeight = typeof window !== "undefined" ? window.innerHeight : 800;
   const screenWidth = typeof window !== "undefined" ? window.innerWidth : 600;
@@ -71,6 +75,9 @@ export default function Place() {
     { x: pixelInfoInitialX, y: pixelInfoInitialY },
     "desktop"
   );
+
+  //getUserID
+  const [user, setUser] = useState(null);
 
   //executar inicialização dos sockets assim que a página carregar
   useEffect(() => {
@@ -277,8 +284,105 @@ export default function Place() {
     if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
 
     const data = await request.json();
+    console.log("PixelInfo: ");
+    console.log(data);
+    if(loggedUser?.premium){showPixelInfoHistory(x,y);};
     setShowingPixelInfo(data);
   }
+
+    async function showPixelInfoHistory(x, y) {
+    const request = await fetch(
+      `${settings.apiURL}/canvas/pixelhistory?x=${x}&y=${y}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        }
+      }
+    ).catch((e) => {
+      console.log("Erro ao obter pixel: ", e);
+      openPopup("error", { message: `${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}: ${e}` });
+    });
+    if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
+
+    const data = await request.json();
+    console.log("PixelInfoHistory: ");
+    console.log(data);  
+    setPixelInfoHistory(data.length-1);
+    setShowingPixelInfoHistory(data);
+  }
+
+    async function getUser(id) {
+    const res = await fetch(`${settings.apiURL}/users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    });
+    const data = await res.json();
+
+    if (res.status == 404) {
+      return(null);
+    } else {
+      return(data);
+    }
+
+  }
+
+    async function getGuild(id) {
+    const res = await fetch(`${settings.apiURL}/guilds/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+    });
+    const data = await res.json();
+
+    if (res.status == 404) {
+      return(null);
+    } else {
+      return(data);
+    }
+
+    if (res.status != 200)
+      return { error: true, status: res.status, message: data.message };
+  }
+
+
+useEffect(() => {
+  if (showingPixelInfo) {
+    const updatePixelInfo = async () => {
+      const newPixelInfo = showingPixelInfoHistory[pixelInfoHistory];
+
+      // Busca os dados do usuário
+      const user = await getUser(newPixelInfo.u);
+
+      // Atualiza o campo author
+      newPixelInfo.author = user;
+
+
+    newPixelInfo.author.settings.selected_guild = await getGuild(user.settings.selected_guild);
+
+
+      // Atualiza o estado com as informações modificadas
+      setShowingPixelInfo(newPixelInfo);
+
+      // Logs para depuração
+      console.log("showingPixelInfoHistory: ");
+      console.log(newPixelInfo);
+      console.log("PixelInfoHistory " + pixelInfoHistory + ": ");
+      console.log(showingPixelInfoHistory[pixelInfoHistory]);
+    };
+
+    updatePixelInfo();
+  }
+}, [pixelInfoHistory]);
+
+  
+
 
   //Se tudo está carregado
   const isAlready = () =>
@@ -330,7 +434,7 @@ export default function Place() {
                     '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
                   } : {}}
                 >
-                  <div>{console.log(showingPixelInfo)}</div>
+                  {/* <div>{console.log(showingPixelInfo)}</div> */}
                   <div style={{ position: "absolute", right: "20px" }}>
                     {isMobile ? (
                       <MdClose onClick={() => setShowingPixelInfo(null)} />
@@ -345,9 +449,9 @@ export default function Place() {
                       </span>
                     </div>
                     <span id={styles.pixelHistory}>
-                      <PremiumButton padding={1}><PixelIcon codename={"arrow-left"} /></PremiumButton>
+                      <PremiumButton padding={1}><PixelIcon codename={"arrow-left"} onClick={() => {pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory-1): ""}}/></PremiumButton>
                         {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                      <PremiumButton padding={1}><PixelIcon codename={"arrow-right"} /></PremiumButton>
+                      <PremiumButton padding={1}><PixelIcon codename={"arrow-right"} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/></PremiumButton>
                     </span>
                   </div>
                   {showingPixelInfo.u && (
@@ -361,7 +465,7 @@ export default function Place() {
                       </span>
                       {
                         showingPixelInfo?.author?.settings?.selected_guild && <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
-                          {showingPixelInfo.author.settings.selectedGuild.name}
+                          {showingPixelInfo.author.settings.selected_guild.name}
                         </Link >
                       }
 
@@ -546,7 +650,7 @@ export default function Place() {
             ref={canvasRef}
             onChangeSelectedPixel={({ x, y }) => {
               setSelectedPixel({ x, y })
-              if (selectedPixel?.x == x && selectedPixel?.y == y) { showPixelInfo(x, y) }
+              if (selectedPixel?.x == x && selectedPixel?.y == y) { showPixelInfo(x, y); }
             }}
             onRightClickPixel={showPixelInfo}
             onTransformChange={setCanvasTransform}
