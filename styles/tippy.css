@@ -1,6 +1,6 @@
 :root {
     --tippy-border-radius: 12px;
-    --tippy-color: rgb(14, 14, 14);
+    --tippy-color: rgba(14, 14, 14, 0.845);
     --tippy-text-color: #ffffff;
 }
 
