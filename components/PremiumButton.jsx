@@ -52,9 +52,9 @@ export default function PremiumButton({
     buttonStylePrimary['--btn-color-hover'] = darkenHex(color, 30);
     buttonStyleSecondary['--btn-color'] = color;
     buttonStyleSecondary['--btn-color-hover'] = darkenHex(color, 30);
-    buttonStylePrimary[`--btn-text`] = ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(color)/1.01)];
-    buttonStylePrimary[`--btn-text-hover`] = ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/1.01)];
-    buttonStyleSecondary[`--btn-text-hover`] = ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/1.01)];
+    buttonStylePrimary[`--btn-text`] = ['var(--btn-text-light)', 'var(--btn-text-dark)'][Math.round(getBrightness(color)/1.01)];
+    buttonStylePrimary[`--btn-text-hover`] = ['var(--btn-text-light)', 'var(--btn-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/1.01)];
+    buttonStyleSecondary[`--btn-text-hover`] = ['var(--btn-text-light)', 'var(--btn-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/1.01)];
   }
   
 

@@ -62,7 +62,7 @@ export default function FactionDelete({ closePopup, faction }) {
                     fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
                         openPopup("success", {
                             message: language.getString("POPUPS.FACTION_DELETE.SUCCESS"),
-                            timeout: 1000,
+                            timeout: 2000,
                             onTimeout: () => {location.href = "/"},
                         })
                     })

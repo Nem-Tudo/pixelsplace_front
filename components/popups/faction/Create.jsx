@@ -21,6 +21,7 @@ export default function FactionCreate({ closePopup }) {
     const [handle, setHandle] = useState('');
     const [description, setDescription] = useState('');
     const [iconUrl, setIconUrl] = useState('');
+    const [icon, setIcon] = useState('');
 
     const { token, loggedUser } = useAuth();
     const { openPopup } = usePopup();
@@ -49,8 +50,8 @@ export default function FactionCreate({ closePopup }) {
             }
 
             openPopup("success", { 
-                message: `${language.getString("POPUPS.FACTION_CREATE.SUCCESS", { factionName: response.faction.name })}`,
-                timeout: 1000,
+                message: language.getString("POPUPS.FACTION_CREATE.SUCCESS", { factionName: response.faction.name }),
+                timeout: 3000,
                 onTimeout: () => {location.href = `/faction/${response.faction.id}`},
             })
             updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
@@ -125,6 +126,85 @@ export default function FactionCreate({ closePopup }) {
                         onChange={(e) => setIconUrl(e.target.value)}
                         required
                     />
+                </div>
+
+                <div className={localStyles.radioSelector}>
+                    <input checked={icon === 'icon1'} type={"radio"} name={"icon"} id={"factionCreate_icon1"} value={"icon1"} onChange={() => setIcon('icon1')} />
+                    <label htmlFor={"factionCreate_icon1"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon2'} type={"radio"} name={"icon"} id={"factionCreate_icon2"} value={"icon2"} onChange={() => setIcon('icon2')} />
+                    <label htmlFor={"factionCreate_icon2"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon3'} type={"radio"} name={"icon"} id={"factionCreate_icon3"} value={"icon3"} onChange={() => setIcon('icon3')} />
+                    <label htmlFor={"factionCreate_icon3"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon4'} type={"radio"} name={"icon"} id={"factionCreate_icon4"} value={"icon4"} onChange={() => setIcon('icon4')} />
+                    <label htmlFor={"factionCreate_icon4"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon5'} type={"radio"} name={"icon"} id={"factionCreate_icon5"} value={"icon5"} onChange={() => setIcon('icon5')} />
+                    <label htmlFor={"factionCreate_icon5"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon6'} type={"radio"} name={"icon"} id={"factionCreate_icon6"} value={"icon6"} onChange={() => setIcon('icon6')} />
+                    <label htmlFor={"factionCreate_icon6"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon7'} type={"radio"} name={"icon"} id={"factionCreate_icon7"} value={"icon7"} onChange={() => setIcon('icon7')} />
+                    <label htmlFor={"factionCreate_icon7"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon8'} type={"radio"} name={"icon"} id={"factionCreate_icon8"} value={"icon8"} onChange={() => setIcon('icon8')} />
+                    <label htmlFor={"factionCreate_icon8"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon9'} type={"radio"} name={"icon"} id={"factionCreate_icon9"} value={"icon9"} onChange={() => setIcon('icon9')} />
+                    <label htmlFor={"factionCreate_icon9"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon10'} type={"radio"} name={"icon"} id={"factionCreate_icon10"} value={"icon10"} onChange={() => setIcon('icon10')} />
+                    <label htmlFor={"factionCreate_icon10"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon11'} type={"radio"} name={"icon"} id={"factionCreate_icon11"} value={"icon11"} onChange={() => setIcon('icon11')} />
+                    <label htmlFor={"factionCreate_icon11"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon12'} type={"radio"} name={"icon"} id={"factionCreate_icon12"} value={"icon12"} onChange={() => setIcon('icon12')} />
+                    <label htmlFor={"factionCreate_icon12"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon13'} type={"radio"} name={"icon"} id={"factionCreate_icon13"} value={"icon13"} onChange={() => setIcon('icon13')} />
+                    <label htmlFor={"factionCreate_icon13"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon14'} type={"radio"} name={"icon"} id={"factionCreate_icon14"} value={"icon14"} onChange={() => setIcon('icon14')} />
+                    <label htmlFor={"factionCreate_icon14"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+
+                    <input checked={icon === 'icon15'} type={"radio"} name={"icon"} id={"factionCreate_icon15"} value={"icon15"} onChange={() => setIcon('icon15')} />
+                    <label htmlFor={"factionCreate_icon15"}>
+                    <PixelIcon codename={'frame'} />
+                    </label>
+            
+                    
                 </div>
 
                 <div style={{flexDirection: 'row', alignItems: 'center'}}>

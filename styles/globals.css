@@ -160,6 +160,7 @@
 
 select, input[type=text], input[type=number], input[type=datetime-local], input[type=date], input[type=url], textarea {
   border: var(--outline);
+  background: var(--frosted-glass);
   filter: drop-shadow(var(--shadow));
   box-shadow: inset 0px 0px 8px 1px #ffffff00;
   transition: var(--smooth-transition);

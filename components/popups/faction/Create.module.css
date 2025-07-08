@@ -7,3 +7,41 @@
     }
     
 }
+
+.radioSelector {
+  background: var(--frosted-glass);
+  border: var(--outline);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  min-width: fit-content;
+
+  input {
+    display: none;
+  }
+
+  label {
+    flex-grow: 1;
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: var(--smooth-transition);
+  }
+
+  label:hover {
+    background: var(--color-hover);
+    scale: var(--hover-scale);
+  }
+
+  input:checked+label {
+    background-color: var(--color-accent);
+    color: white;
+  }
+}

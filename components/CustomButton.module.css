@@ -10,6 +10,8 @@
   gap: 8px;
   text-align: center;
   font-size: medium;
+  --btn-text-light: hsla(0, 0%, 100%, 75%);
+  --btn-text-dark: hsla(0, 0%, 25%, 75%);
 }
 
 .button:hover {
@@ -19,13 +21,13 @@
 /* cores e aspectos */
 .button.primary {
   background-color: var(--btn-color, var(--color-accent));
-  color: var(--btn-text, var(--color-text-light));
+  color: var(--btn-text, var(--btn-text-light));
   border: var(--outline);
 }
 
 .button.primary:hover {
   background-color: var(--btn-color-hover, var(--color-accent-hover));
-  color: var(--btn-text-hover, var(--color-text-light));
+  color: var(--btn-text-hover, var(--btn-text-light));
 }
 
 .button.secondary {
@@ -37,7 +39,7 @@
 .button.secondary:hover {
   background-color: var(--btn-color-hover, var(--color-accent-hover));
   border: var(--outline);
-  color: var(--btn-text-hover, var(--color-text-light));
+  color: var(--btn-text-hover, var(--btn-text-light));
 }
 
 .button.tertiary {
