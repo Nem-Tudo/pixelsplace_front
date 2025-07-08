@@ -433,7 +433,7 @@ useEffect(() => {
                     <span id={styles.pixelHistory}>
                       <CustomButton2 padding={1} icon={"arrow-left"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory > 0)} onClick={() => {pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory-1): ""}}/>
                         {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory < showingPixelInfoHistory.length-1)} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/>
+                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory < showingPixelInfoHistory?.length-1)} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/>
                     </span>
                   </div>
                   {showingPixelInfo.u && (
