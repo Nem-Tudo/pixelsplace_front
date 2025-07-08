@@ -109,6 +109,12 @@
             }
         }
     }
+
+    hl {
+        background: var(--color-outline);
+        min-height: 1px;
+        min-width: 100%;
+    }
 }
 
 .tippy-arrow {

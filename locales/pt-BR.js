@@ -33,7 +33,7 @@ module.exports = {
         RELOAD: "Recarregar",
         RELOAD_PAGE: "Recarregar página",
         BACK: "Voltar",
-        LANGUAGE: "Language", // USAR "Language" em TODOS os outros idiomas
+        LANGUAGE: "Linguagem", // USAR "Language" em TODOS os outros idiomas
         TIME_TRAVEL: "Viagem no tempo",
         VERIFIED: "Verificado(a)",
         JOIN: 'Entrar',
@@ -81,6 +81,7 @@ module.exports = {
             NORMAL_VIEW: "Visualização normal",
             VIEW_SETTINGS: "Opções de visualização",
             MINIGAMES: "Minijogos",
+            EDIT_FLAGS: "Editar flags"
         },
         BADGES: {
             ADMIN: "Administrador",

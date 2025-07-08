@@ -247,12 +247,15 @@ export default function Header() {
                                                 <span>{language.getString("COMMON.PREMIUM")}</span>
                                                 <ToggleSwitch id="ViewAsPremiumToggle" onChange={() => updateUserKey(["premium", !loggedUser?.premium])} checked={loggedUser?.premium} />
                                             </label>
-                                            <CustomButton onClick={() => {
+                                            <section><hl /></section>
+                                            <div onClick={() => {
                                                 const userflags = loggedUser.flags;
                                                 const newFlags = prompt("Editar flags (apenas visualmente)", String(userflags))
                                                 if(!newFlags) return;
                                                 updateUserKey(["flags", newFlags.split(",")])
-                                            }} label="Edit Flags" />
+                                            }}>
+                                                {language.getString("COMPONENTS.HEADER.EDIT_FLAGS")}
+                                            </div>
                                         </>
                                     )}>
                                         <div>
