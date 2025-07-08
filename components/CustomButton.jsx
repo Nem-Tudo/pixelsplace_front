@@ -39,8 +39,8 @@ export default function CustomButton({
             const el = ref.current;
             el.style.setProperty('--btn-color', color);
             el.style.setProperty('--btn-color-hover', darkenHex(color, 30));
-            hierarchy==1 && el.style.setProperty(`--btn-text`, ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(color)/101)]);
-            (hierarchy==1 || hierarchy==2) && el.style.setProperty(`--btn-text-hover`, ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/101)]);
+            hierarchy==1 && el.style.setProperty(`--btn-text`, ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(color)/1.01)]);
+            (hierarchy==1 || hierarchy==2) && el.style.setProperty(`--btn-text-hover`, ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/1.01)]);
         }
     }, [color]);
 
