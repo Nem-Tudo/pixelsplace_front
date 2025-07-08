@@ -10,7 +10,7 @@ module.exports = {
         OK: "Ok",
         CANCEL: "Cancelar",
         SUBMIT: "Enviar",
-        CONFIRM: "Confirmar"
+        CONFIRM: "Confirmar",
         DELETE: "Excluir",
         EDIT: "Editar",
         SAVE: "Salvar",
