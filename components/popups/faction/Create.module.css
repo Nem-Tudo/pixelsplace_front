@@ -20,7 +20,9 @@
   overflow: hidden;
   box-shadow: var(--shadow);
   min-width: fit-content;
-  min-height: fit-content;
+  min-height: max-content;
+  flex-shrink: 0;
+  height: max-content;
 
   input {
     display: none;
