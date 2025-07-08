@@ -184,50 +184,44 @@ export default function Faction({ faction: factionobject, error, errormessage })
               }
 
             </div>
-            <div style={{ display: "flex", flexDirection: "column", }}>
+            <div className={styles.moreInfo}>
 
-              <div className={styles.moreInfo}>
+              <div className={styles.infoBox} id={styles.description}>
+                {faction?.description}
+              </div>
+              <div className={styles.infoBox} id={styles.ownerFac}>
+                <p>{language.getString("PAGES.FACTION.OWNER")}</p>
+                <img src={settings.avatarURL(faction.owner.id, faction.owner.avatar)} alt="" />
+                <Link href={"/user/"+faction.owner.username}>{faction.owner.username}</Link>
+              </div>
 
-                <div className={styles.infoBox} id={styles.description}>
-                  {faction?.description}
-                </div>
-                <div className={styles.infoBox} id={styles.ownerFac} style={{ justifyContent: 'center', }}>
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <p>Dono:</p>
-                    <img src={settings.avatarURL(faction.owner.id, faction.owner.avatar)} alt="" style={{ width: '15px', borderRadius: '50%', }} />
-                    <Link href={"/user/"+faction.owner.username}>{faction.owner.username}</Link>
-                  </div>
-                </div>
+              <div className={styles.infoBox} id={styles.previewCanvas}>
+                <h1>{language.getString("PAGES.GUILD.PIXELS_PLACED")}: {faction.stats.pixelsPlacedCount}</h1>
 
-                <div className={styles.infoBox} id={styles.previewCanva} style={{ justifyContent: 'center', }}>
-                  <h1 style={{ alignSelf: 'center', }}>{language.getString("PAGES.GUILD.PIXELS_PLACED")}: {faction.stats.pixelsPlacedCount}</h1>
+                <PremiumButton
+                  onClick={() => openPopup("not_implemented_yet")}
+                >
+                  {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: faction?.name })}
+                </PremiumButton>
+              </div>
 
-                  <PremiumButton
-                    onClick={() => openPopup("not_implemented_yet")}
-                  >
-                    {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: faction?.name })}
-                  </PremiumButton>
-                </div>
-
-                <div className={styles.infoBox} id={styles.listUsers} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start !important', }}>
-                  <h1 style={{ alignSelf: 'center', }}>{language.getString("PAGES.FACTION.MEMBER_LIST")} {'('+faction.stats.membersCount}/{faction.stats.membersCount+')'}</h1>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    {members.map((member) => {
-                      return (
-                        <Link href={"/user/"+member.user.username}>
-                        <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }} >
+              <div className={styles.infoBox} id={styles.memberList}>
+                <h1>{language.getString("PAGES.FACTION.MEMBER_LIST")} {'('+faction.stats.membersCount}/{faction.stats.membersCount+')'}</h1>
+                <div>
+                  {members.map((member) => {
+                    return (
+                      <Link href={"/user/"+member.user.username} key={member.id}>
+                        <span className={styles.identity}>
                           <img
                             src={member.user.avatar ? settings.avatarURL(member.user.id, member.user.avatar) : "/assets/avatar.png"}
                             alt=""
-                            style={{ width: '15px', borderRadius: '50%' }}
                           />
                           <p>{member.user.username || `User ${member.userId}`}</p>
-                          <span style={{ background: "#679467", padding: "3px 6px", borderRadius: "3px" }}>{member.role}</span>
-                        </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
+                        </span>
+                        {member.role != "MEMBER" && <span className={styles.role}>{member.role}</span>}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
