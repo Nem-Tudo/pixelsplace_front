@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./CustomButton.module.css";
 import { usePopup } from '@/context/PopupContext';
-import { darkenHex } from "@/src/colorFunctions";
+import { darkenHex, getBrightness } from "@/src/colorFunctions";
 
 export default function PremiumButton({ 
   setStyle, 
@@ -44,18 +44,32 @@ export default function PremiumButton({
   // updatedAt : "2025-06-20T01:06:08.085Z"
   // username : "commandbat"
 
+  let buttonStylePrimary = {};
+  let buttonStyleSecondary = {};
+
+  if(color) {
+    buttonStylePrimary['--btn-color'] = color;
+    buttonStylePrimary['--btn-color-hover'] = darkenHex(color, 30);
+    buttonStyleSecondary['--btn-color'] = color;
+    buttonStyleSecondary['--btn-color-hover'] = darkenHex(color, 30);
+    buttonStylePrimary[`--btn-text`] = ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(color)/101)];
+    buttonStylePrimary[`--btn-text-hover`] = ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/101)];
+    buttonStyleSecondary[`--btn-text-hover`] = ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/101)];
+  }
+  
+
   // Caso seja o Link do Next.js
   if (Component === Link) {
     if (loggedUser?.premium) return (
       <>
-        <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+        <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStyleSecondary}>
           {children}
         </Component>
       </>
     );
     return (
       <>
-        <Component href={href} className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+        <Component href={href} className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={buttonStylePrimary}>
           <div className="glassEffect" />
           {children}
         </Component>
@@ -78,14 +92,14 @@ export default function PremiumButton({
   // Para 'button', 'a' ou outros componentes
   if (loggedUser?.premium) return (
     <>
-      <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+      <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStyleSecondary}>
         {children}
       </Component>
     </>
   );
   return (
     <>
-      <Component className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={{'--btn-color': color || '#0076d6', '--btn-color-hover': darkenHex(color, 30) || '#0058b8'}}>
+      <Component className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStylePrimary}>
         <div className="glassEffect" />
         {children}
       </Component>
