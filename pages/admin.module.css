@@ -26,6 +26,9 @@
       color: var(--color-muted);
       font-size: 1.2rem;
       padding: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
 
       strong {
         font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
@@ -192,7 +195,7 @@
   gap: 8px;
 }
 
-.pageSelector {
+.radioSelector {
   background-color: var(--color-mid);
   border: var(--outline);
   border-radius: 12px;
@@ -201,7 +204,10 @@
   justify-content: space-around;
   overflow: hidden;
   box-shadow: var(--shadow);
-  overflow-x: auto; /*pra quando for mobile conseguir ver as opções ocultas*/
+
+  @media (max-width: 500px) {
+    overflow-x: auto;
+  }
 
   input {
     display: none;
@@ -368,4 +374,9 @@
     background: linear-gradient(135deg, #ffffff12, #ffffff08);
   }
 
+}
+
+#userAvatar {
+  width: 50px;
+  border-radius: 12px;
 }
