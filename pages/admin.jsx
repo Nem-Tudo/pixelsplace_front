@@ -43,6 +43,9 @@ export default function AdminPage() {
   const [chosenTargetAlert, setChosenTargetAlert] = useState('all');
   const [chosenTargetExtraAlert, setChosenTargetExtraAlert] = useState('');
 
+  const [routeEval, setRouteEval] = useState('');
+  const [routeAlert, setRouteAlert] = useState('');
+
 
   // const [chosenPage, setChosenPage] = useState();
 
@@ -183,8 +186,24 @@ export default function AdminPage() {
   }, [chosenTargetEval])
 
   useEffect(() => {
-    console.log(chosenTargetExtraEval);
-  }, [chosenTargetExtraEval])
+    let TargetExtraEval = "";
+    if (routeEval.requiredFlags) {
+      TargetExtraEval += `requiredFlags=${routeEval.requiredFlags}&`;
+    }
+    if (routeEval.userIds) {
+      TargetExtraEval += `userIds=${routeEval.userIds}&`;
+    }
+    if (routeEval.bannedFlags) {
+      TargetExtraEval += `bannedFlags=${routeEval.bannedFlags}&`;
+    }
+    if (routeEval.excludeUserIds) {
+      TargetExtraEval += `excludeUserIds=${routeEval.excludeUserIds}&`;
+    }
+    
+    console.log(TargetExtraEval);
+    setChosenTargetExtraEval(TargetExtraEval);
+
+  }, [routeEval])
 
   useEffect(() => {
     console.log(chosenTargetAlert);
@@ -538,8 +557,8 @@ export default function AdminPage() {
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
-                      console.log(`/admin/evalclients?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`);
-                      const res = await fetchWithAuth(`/admin/eval?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`, "POST", {
+                      console.log(`/admin/evalclients?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}&`}${chosenTargetExtraEval}`);
+                      const res = await fetchWithAuth(`/admin/evalclients?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}&`}${chosenTargetExtraEval}`, "POST", {
                         content: evalCode,
                       });
                       res && openPopup("success", { message: `Executado em ${res.count} clients.` });
@@ -556,7 +575,11 @@ export default function AdminPage() {
                     value={"requiredFlags"}
                     onChange={() => {
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval + "&requiredFlags=" + requiredFlags);
+                      setRouteEval(prevRouteEval => ({
+                                    ...prevRouteEval,
+                                    requiredFlags: requiredFlags
+                                  }));
+                      // setChosenTargetExtraEval(chosenTargetExtraEval + "&requiredFlags=" + requiredFlags);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -570,8 +593,14 @@ export default function AdminPage() {
                     id={"TargetExtraEvalBannedFlags"}
                     value={"userIds"}
                     onChange={() => {
+
                       const userIds = prompt("Escreva o id dos users (separados por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval + "&userIds=" + userIds);
+
+                      setRouteEval(prevRouteEval => ({
+                                    ...prevRouteEval,
+                                    userIds: userIds
+                                  }));
+                      // setChosenTargetExtraEval(chosenTargetExtraEval + "&userIds=" + userIds);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -592,7 +621,11 @@ export default function AdminPage() {
                     value={"bannedFlags"}
                     onChange={() => {
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval + "&bannedFlags=" + bannedFlags);
+                      setRouteEval(prevRouteEval => ({
+                                    ...prevRouteEval,
+                                    bannedFlags: bannedFlags
+                                  }));
+                      // setChosenTargetExtraEval(chosenTargetExtraEval + "&bannedFlags=" + bannedFlags);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -607,7 +640,11 @@ export default function AdminPage() {
                     value={"excludeUserIds"}
                     onChange={() => {
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval + "&excludeUserIds=" + excludeUserIds);
+                      setRouteEval(prevRouteEval => ({
+                                    ...prevRouteEval,
+                                    excludeUserIds: excludeUserIds
+                                  }));
+                      // setChosenTargetExtraEval(chosenTargetExtraEval + "&excludeUserIds=" + excludeUserIds);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
