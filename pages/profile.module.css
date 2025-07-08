@@ -165,6 +165,7 @@
       max-width: 100dvw;
       padding-top: 10px;
       padding-right: 10px;
+      width: -webkit-fill-available;
 
       @media (max-width: 768px) {
         flex-direction: column;
@@ -182,6 +183,8 @@
       }
 
       #description {
+        width: 100%;
+        
         span, textarea {
           color: var(--user-color-text, var(--color-text-light));
           background: none;
