@@ -306,7 +306,7 @@ export default function Place() {
                     const link = `${currentDomain}/place?x=${selectedPixel.x}&y=${selectedPixel.y}&s=${Math.round(canvasTransform.scale)}&px=${Math.round(canvasTransform.translateX)}&py=${Math.round(canvasTransform.translateY)}`;
                     console.log(language.getString("PAGES.PLACE.LINK_GENERATED"), link);
                     copyText(link);
-                    openPopup("success", { timeout: 1000, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(canvasTransform.scale)})` });
+                    openPopup("success", { timeout: 800, message: `${language.getString("PAGES.PLACE.LINK_SUCCESSFULLY_COPIED")} (x: ${selectedPixel.x}, y: ${selectedPixel.y}, scale: ${Math.round(canvasTransform.scale)})` });
                   }}>
                     <PixelIcon codename={"forward"} />
                   </div>

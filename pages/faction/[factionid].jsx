@@ -160,7 +160,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
 
               {/* Apenas um deles é exibido. Usar ternary seria o mais "correto", mas deixaria mais confuso. ENTRAR / SAIR / PEDIR PRA ENTRAR / (Teoricamente teria o Deletar, mas é melhor ficar em outra parte) */}
               {
-                (!loggedUser) && <CustomButton label={"Logue para entrar"} href="/login" />
+                (!loggedUser) && <CustomButton label={language.getString("COMMON.LOG_IN_TO_JOIN")} href="/login" />
               }
               {
                 (loggedUser && loggedUser.factionId != faction.id) && faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></Tippy>
@@ -177,13 +177,15 @@ export default function Faction({ faction: factionobject, error, errormessage })
                   <CustomButton 
                     color="#ff0000" 
                     label={language.getString('PAGES.FACTION.DELETE')} 
-                    onClick={async () => {
-                      const handle = prompt(`Você tem CERTEZA que quer apagar a facção ${faction.name}? Digite aqui o handle dela (${faction.handle})`);
-                      if (!handle) return;
-                      if (handle != faction.handle) return alert("Handle incorreto!");
-                      fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
-                        alert("Facção excluída com sucesso! Foi bom ela conosco :(")
-                        location.href = "/"
+                    onClick={() => {
+                      openPopup("faction_delete", { 
+                        faction: faction, 
+                        execute: () => {
+                          fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
+                            openPopup("success", {message: language.getString("POPUPS_FACTION_DELETE.SUCCESS")})
+                            location.href = "/"
+                          })
+                        } 
                       })
                     }}
                   />

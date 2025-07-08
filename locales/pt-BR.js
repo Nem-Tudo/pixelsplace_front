@@ -42,7 +42,8 @@ module.exports = {
         SOUND_EFFECTS: "Efeitos sonoros",
         NOW: "Agora",
         THEME: "Tema",
-        ASK_TO_JOIN: "Pedir para entrar"
+        ASK_TO_JOIN: "Pedir para entrar",
+        LOG_IN_TO_JOIN: "Logue para entrar",
     },
     THEMES: {
         DARK: 'Padrão',
@@ -128,6 +129,12 @@ module.exports = {
         CONFIRM: {
             TITLE: "Confirmar",
             DESCRIPTION: "Você deseja confirmar?",
+        },
+        FACTION_DELETE: {
+            TITLE: "Você tem certeza que deseja apagar a facção {{factionName}}?",
+            DESCRIPTION: "Digite {{factionHandle}} para confirmar a exclusão irreversível da sua facção.",
+            INCORRECT_HANDLE: "Handle incorreto!",
+            SUCCESS: "Facção excluída com sucesso! Foi bom ela conosco :(",
         },
     },
     LAYOUTS: {
