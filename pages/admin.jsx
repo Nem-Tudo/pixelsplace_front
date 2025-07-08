@@ -509,7 +509,7 @@ export default function AdminPage() {
                   <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"authenticated"} onChange={() => setChosenTargetEval('all')} />
                   <label htmlFor={"TargetEvalAll"}>
                     <PixelIcon codename={'users'} />
-                    <span className="mobileHidden_500">Flags</span>
+                    <span className="mobileHidden_500">All</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'authenticated'} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"all"} onChange={() => setChosenTargetEval('authenticated')} />
@@ -628,7 +628,7 @@ export default function AdminPage() {
                   <input checked={chosenTargetAlert === 'all'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAll"} value={"authenticated"} onChange={() => setChosenTargetAlert('all')} />
                   <label htmlFor={"TargetAlertAll"}>
                     <PixelIcon codename={'users'} />
-                    <span className="mobileHidden_500">Flags</span>
+                    <span className="mobileHidden_500">All</span>
                   </label>
 
                   <input checked={chosenTargetAlert === 'authenticated'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAuth"} value={"all"} onChange={() => setChosenTargetAlert('authenticated')} />
