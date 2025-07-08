@@ -46,7 +46,7 @@
 .button.tertiary {
   box-shadow: none;
   color: var(--btn-color, var(--color-accent));
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
 }
 

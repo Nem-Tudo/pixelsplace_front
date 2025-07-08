@@ -15,6 +15,7 @@ export default function PremiumButton({
   href, 
   icon, 
   color, 
+  padding = 3,
   children, 
   ...props 
 }) {
@@ -30,6 +31,8 @@ export default function PremiumButton({
       openPopup("premium_required");
     }
   };
+
+  const paddings = [styles.lowestPadding, styles.lowerPadding, styles.regularPadding];
 
   // useEffect(() => {
   //   console.log(loggedUser);
@@ -60,14 +63,14 @@ export default function PremiumButton({
   if (Component === Link) {
     if (loggedUser?.premium) return (
       <>
-        <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStyleSecondary}>
+        <Component className={[styles.button, styles.secondary, paddings[padding - 1], setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStyleSecondary}>
           {children}
         </Component>
       </>
     );
     return (
       <>
-        <Component href={href} className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={buttonStylePrimary}>
+        <Component href={href} className={[styles.button, styles.primary, paddings[padding - 1], "premiumOnly", setClass].join(' ')} onClick={handleClick} {...props} style={buttonStylePrimary}>
           <div className="glassEffect" />
           {children}
         </Component>
@@ -90,14 +93,14 @@ export default function PremiumButton({
   // Para 'button', 'a' ou outros componentes
   if (loggedUser?.premium) return (
     <>
-      <Component className={[styles.button, styles.secondary, styles.regularPadding, setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStyleSecondary}>
+      <Component className={[styles.button, styles.secondary, paddings[padding - 1], setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStyleSecondary}>
         {children}
       </Component>
     </>
   );
   return (
     <>
-      <Component className={[styles.button, styles.primary, styles.regularPadding, "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStylePrimary}>
+      <Component className={[styles.button, styles.primary, paddings[padding - 1], "premiumOnly", setClass].join(' ')} href={href} onClick={handleClick} {...props} style={buttonStylePrimary}>
         <div className="glassEffect" />
         {children}
       </Component>

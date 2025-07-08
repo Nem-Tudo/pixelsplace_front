@@ -16,7 +16,7 @@
   flex-direction: row !important;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   overflow: hidden;
   box-shadow: var(--shadow);
   min-width: fit-content;
@@ -39,6 +39,11 @@
     cursor: pointer;
     transition: var(--smooth-transition);
     color: currentColor;
+    max-width: max-content;
+
+    svg {
+        filter: drop-shadow(1px 1px 5px var(--color-text-dark));
+    }
   }
 
   label:hover {
