@@ -151,8 +151,8 @@ module.exports = {
             DESCRIPTION_PLACEHOLDER: 'Discorra detalhadamente sobre sua facção e seus objetivos aqui...',
             ICON_URL: "Link do ícone",
             ICON_URL_PLACEHOLDER: "https://cdn.discordapp.com/avatars/427257953503019017/61c9d5736d211f5d64508d54e48e3982.webp",
-            PUBLIC: "Facção pública (WIP)"
-            SUCCESS: 'Facção {{factionName}} criada com sucesso!'
+            PUBLIC: "Facção pública (WIP)",
+            SUCCESS: 'Facção {{factionName}} criada com sucesso!',
         },
     },
     LAYOUTS: {
