@@ -472,13 +472,13 @@ useEffect(() => {
                     </div>
                   )}
                   <div className={styles.pixelButtons}>
-                    <PremiumButton
+                    {/* <PremiumButton
                       onClick={() => openPopup("not_implemented_yet")}
                       padding={2}
                       icon={'script-text'}
                     >
                       {language.getString("COMMON.HISTORY")}
-                    </PremiumButton>
+                    </PremiumButton> */}
                     <CustomButton
                       label={language.getString("PAGES.PLACE.PICK_COLOR")}
                       padding={2}
