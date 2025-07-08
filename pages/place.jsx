@@ -16,6 +16,7 @@ import { MdClose } from "react-icons/md";
 import PremiumButton from "@/components/PremiumButton";
 import Tippy from "@tippyjs/react";
 import CustomButton from '@/components/CustomButton';
+import CustomButton2 from '@/components/CustomButton2';
 import { hexToNumber, numberToHex } from "@/src/colorFunctions";
 import PixelIcon from "@/components/PixelIcon";
 import copyText from "@/src/copyText";
@@ -432,7 +433,7 @@ useEffect(() => {
                     <span id={styles.pixelHistory}>
                       <PremiumButton padding={1}><PixelIcon codename={"arrow-left"} onClick={() => {pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory-1): ""}}/></PremiumButton>
                         {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                      <PremiumButton padding={1}><PixelIcon codename={"arrow-right"} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/></PremiumButton>
+                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={1} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/>
                     </span>
                   </div>
                   {showingPixelInfo.u && (
