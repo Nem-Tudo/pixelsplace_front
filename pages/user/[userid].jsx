@@ -335,7 +335,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               </div>
               {/* Criar facção */}
               {
-                !user?.faction && loggedUser?.id === user.id && <div className={styles.infoBox}>
+                !user?.faction && loggedUser?.id === user.id && <div className={styles.infoBox} id={styles.factionJoinIncentive}>
                   <p>{language.getString("PAGES.USER.CREATE_FACTION_INCENTIVE")}</p>
                   <footer>
                     <CustomButton 
