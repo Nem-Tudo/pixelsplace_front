@@ -247,6 +247,7 @@ module.exports = {
             DELETE_TIPPY: "Apagar para todo o sempre...",
             DELETE: "Exluir facção",
             OWNER: "Líder",
+            PRIVATE_TIPPY: "Esta facção é privada",
         }
     },
 }

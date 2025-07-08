@@ -154,7 +154,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
               </div>
 
               <div className={styles.name}>
-                <h1 className={styles.displayName}>{faction?.name} {!faction?.public && <PixelIcon codename={'lock'} />}</h1>
+                <h1 className={styles.displayName}>{faction?.name} {!faction?.public && <Tippy arrow={false} content={language.getString("PAGES.FACTION.PRIVATE")}><PixelIcon codename={'lock'} /></Tippy>}</h1>
                 <p className={styles.userName}>#{faction?.handle}</p>
               </div>
 
@@ -163,24 +163,31 @@ export default function Faction({ faction: factionobject, error, errormessage })
                 (!loggedUser) && <CustomButton label={"Logue para entrar"} href="/login" />
               }
               {
-                (loggedUser && loggedUser.factionId != faction.id) && faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
+                (loggedUser && loggedUser.factionId != faction.id) && faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></Tippy>
               }
               {
-                (loggedUser && loggedUser.factionId != faction.id) && !faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.ASK_TO_JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
+                (loggedUser && loggedUser.factionId != faction.id) && !faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.ASK_TO_JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></Tippy>
               }
               {
-                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId != loggedUser.id) && <Tippy arrow={false} content={language.getString("PAGES.FACTION.LEAVE")}><div><CustomButton color="#ff0000" label={language.getString('COMMON.LEAVE')} onClick={() => fetchWithAuth(`/factions/${faction.id}/leave`, "POST")} /></div></Tippy>
+                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId != loggedUser.id) && <Tippy arrow={false} content={language.getString("PAGES.FACTION.LEAVE")}><CustomButton color="#ff0000" label={language.getString('COMMON.LEAVE')} onClick={() => fetchWithAuth(`/factions/${faction.id}/leave`, "POST")} /></Tippy>
               }
               {
-                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId == loggedUser.id) && <Tippy arrow={false} content={language.getString("PAGES.FACTION.DELETE_TIPPY")}><div><CustomButton color="#ff0000" label={language.getString('PAGES.FACTION.DELETE')} onClick={async () => {
-                  const handle = prompt(`Você tem CERTEZA que quer apagar a facção ${faction.name}? Digite aqui o handle dela (${faction.handle})`);
-                  if (!handle) return;
-                  if (handle != faction.handle) return alert("Handle incorreto!");
-                  fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
-                    alert("Facção excluída com sucesso! Foi bom ela conosco :(")
-                    location.href = "/"
-                  })
-                }} /></div></Tippy>
+                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId == loggedUser.id) && 
+                <Tippy arrow={false} content={language.getString("PAGES.FACTION.DELETE_TIPPY")}>
+                  <CustomButton 
+                    color="#ff0000" 
+                    label={language.getString('PAGES.FACTION.DELETE')} 
+                    onClick={async () => {
+                      const handle = prompt(`Você tem CERTEZA que quer apagar a facção ${faction.name}? Digite aqui o handle dela (${faction.handle})`);
+                      if (!handle) return;
+                      if (handle != faction.handle) return alert("Handle incorreto!");
+                      fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
+                        alert("Facção excluída com sucesso! Foi bom ela conosco :(")
+                        location.href = "/"
+                      })
+                    }}
+                  />
+                </Tippy>
               }
 
             </div>

@@ -184,7 +184,8 @@
 
       #description {
         width: 100%;
-        
+        word-break: break-all;
+
         span, textarea {
           color: var(--user-color-text, var(--color-text-light));
           background: none;
