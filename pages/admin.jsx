@@ -182,10 +182,6 @@ export default function AdminPage() {
   }, [chosenPage])
 
   useEffect(() => {
-    console.log(chosenTargetEval);
-  }, [chosenTargetEval])
-
-  useEffect(() => {
     let TargetExtraEval = "";
     if (routeEval.requiredFlags) {
       TargetExtraEval += `requiredFlags=${routeEval.requiredFlags}&`;
@@ -205,13 +201,26 @@ export default function AdminPage() {
 
   }, [routeEval])
 
-  useEffect(() => {
-    console.log(chosenTargetAlert);
-  }, [chosenTargetAlert])
 
   useEffect(() => {
-    console.log(chosenTargetExtraAlert);
-  }, [chosenTargetExtraAlert])
+    let TargetExtraAlert = "";
+    if (routeAlert.requiredFlags) {
+      TargetExtraAlert += `requiredFlags=${routeAlert.requiredFlags}&`;
+    }
+    if (routeAlert.userIds) {
+      TargetExtraAlert += `userIds=${routeAlert.userIds}&`;
+    }
+    if (routeAlert.bannedFlags) {
+      TargetExtraAlert += `bannedFlags=${routeAlert.bannedFlags}&`;
+    }
+    if (routeAlert.excludeUserIds) {
+      TargetExtraAlert += `excludeUserIds=${routeAlert.excludeUserIds}&`;
+    }
+    
+    console.log(TargetExtraAlert);
+    setChosenTargetExtraAlert(TargetExtraAlert);
+
+  }, [routeAlert])
 
   const fetchWithAuth = async (url, method, body) => {
     try {
@@ -569,11 +578,12 @@ export default function AdminPage() {
                 <div className={styles.radioSelector}>
                   <p>Permitido?</p>
                   <input
+                    checked={routeEval.requiredFlags}
                     type={"checkbox"}
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalRequiredFlags"}
                     value={"requiredFlags"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
                       setRouteEval(prevRouteEval => ({
                                     ...prevRouteEval,
@@ -588,6 +598,7 @@ export default function AdminPage() {
                     <span className="mobileHidden_500">Flags</span>
                   </label>
                   <input
+                    checked={routeEval.userIds}
                     type={"checkbox"}
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalBannedFlags"}
@@ -615,11 +626,12 @@ export default function AdminPage() {
                 <div className={styles.radioSelector}>
                   <p>Excluídos?</p>
                   <input
+                    checked={routeEval.bannedFlags}
                     type={"checkbox"}
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalUserIds"}
                     value={"bannedFlags"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
                       setRouteEval(prevRouteEval => ({
                                     ...prevRouteEval,
@@ -634,11 +646,12 @@ export default function AdminPage() {
                     <span className="mobileHidden_500">Flags</span>
                   </label>
                   <input
+                    checked={routeEval.excludeUserIds}
                     type={"checkbox"}
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalExcludeUserIds"}
                     value={"excludeUserIds"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
                       setRouteEval(prevRouteEval => ({
                                     ...prevRouteEval,
@@ -708,7 +721,9 @@ export default function AdminPage() {
                   openPopup("confirm", {
                     message: "Deseja enviar essa mensagem para todos os clients?",
                     execute: async () => {
-                      const res = await fetchWithAuth("/admin/alertmessage", "POST", {
+                      console.log(`/admin/alertmessage?${chosenTargetAlert === "all" ? "" : `authenticated=${chosenTargetAlert === "authenticated"}&`}${chosenTargetExtraAlert}`);
+                      const res = await fetchWithAuth(`/admin/alertmessage?${chosenTargetAlert === "all" ? "" : `authenticated=${chosenTargetAlert === "authenticated"}&`}${chosenTargetExtraAlert}`, "POST", {
+                      // const res = await fetchWithAuth("/admin/alertmessage", "POST", {
                         content: alertMessage,
                       });
                       res && openPopup('success', { message: `Mensagem enviada para ${res.count} clients.` });
@@ -719,13 +734,18 @@ export default function AdminPage() {
                 <div className={styles.radioSelector}>
                   <p>Permitido?</p>
                   <input
+                    checked={routeAlert.requiredFlags}
                     type={"checkbox"}
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertRequiredFlags"}
                     value={"requiredFlags"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&requiredFlags=" + requiredFlags.toUpperCase());
+                      setRouteAlert(prevRouteAlert => ({
+                                    ...prevRouteAlert,
+                                    requiredFlags: requiredFlags
+                                  }));
+                      // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&requiredFlags=" + requiredFlags.toUpperCase());
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -735,13 +755,18 @@ export default function AdminPage() {
                   </label>
 
                   <input
+                    checked={routeAlert.userIds}
                     type={"checkbox"}
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertBannedFlags"}
                     value={"userIds"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const userIds = prompt("Escreva o id dos users (separados por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&userIds=" + userIds);
+                      setRouteAlert(prevRouteAlert => ({
+                                    ...prevRouteAlert,
+                                    userIds: userIds
+                                  }));
+                      // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&userIds=" + userIds);
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -756,13 +781,18 @@ export default function AdminPage() {
                 <div className={styles.radioSelector}>
                   <p>Excluídos?</p>
                   <input
+                    checked={routeAlert.bannedFlags}
                     type={"checkbox"}
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertUserIds"}
                     value={"bannedFlags"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&bannedFlags=" + bannedFlags.toUpperCase());
+                      setRouteAlert(prevRouteAlert => ({
+                                    ...prevRouteAlert,
+                                    bannedFlags: bannedFlags
+                                  }));
+                      // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&bannedFlags=" + bannedFlags.toUpperCase());
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -772,13 +802,18 @@ export default function AdminPage() {
                   </label>
 
                   <input
+                    checked={routeAlert.excludeUserIds}
                     type={"checkbox"}
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertExcludeUserIds"}
                     value={"excludeUserIds"}
-                    onChange={() => {
+                    onClick={(e) =>{ e.preventDefault()
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&excludeUserIds=" + excludeUserIds);
+                      setRouteAlert(prevRouteAlert => ({
+                                    ...prevRouteAlert,
+                                    excludeUserIds: excludeUserIds
+                                  }));
+                      // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&excludeUserIds=" + excludeUserIds);
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
