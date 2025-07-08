@@ -63,6 +63,8 @@ class TranslationManager {
 
 const LanguageContext = createContext();
 
+LanguageContext.displayName = "LanguageContext"
+
 export const LanguageProvider = ({ children }) => {
     const [lang, setLang] = useState(DEFAULT_LANG);
     const [language, setLanguage] = useState(

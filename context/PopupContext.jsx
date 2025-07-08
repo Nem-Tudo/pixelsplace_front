@@ -19,6 +19,8 @@ const PopupContext = createContext({
     closePopup: () => { },
 });
 
+PopupContext.displayName = "PopupContext"
+
 export default function PopupProvider({ children }) {
     const [showingPopup, setShowingPopup] = useState(null);
     const popupDivRef = useRef(null);
