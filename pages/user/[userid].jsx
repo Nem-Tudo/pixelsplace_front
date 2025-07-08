@@ -350,28 +350,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                       label={language.getString("PAGES.USER.CREATE_FACTION")} 
                       icon={'plus'}
                       padding={2} 
-                      onClick={async () => {
-                        const name = prompt("Nome")
-                        const handle = prompt("Handle (alfanumérico e _)");
-                        const description = prompt("description (escreve algo ai kk)");
-                        const icon_url = prompt("Icon url") || null;
-
-                        const request = await fetch(`${settings.apiURL}/factions`, {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": token
-                          },
-                          body: JSON.stringify({ name, handle, description, icon_url })
-                        })
-                        const response = await request.json();
-                        if (!request.ok) {
-                          console.log(response, request)
-                          return openPopup("error", { message: `Erro ao criar: ${response.message}` })
-                        }
-                        alert(JSON.stringify(response));
-                        updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
-                      }} 
+                      onClick={() => openPopup("faction_create")} 
                     />
                   </footer>
                 </div>

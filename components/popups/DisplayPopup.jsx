@@ -12,6 +12,7 @@ import AdminColorAdd from "./admin/ColorAdd";
 import AdminFlagAdd from "./admin/FlagAdd";
 import AdminKick from "./admin/Kick";
 import FactionDelete from "./faction/Delete";
+import FactionCreate from "./faction/Create";
 
 /**
  * Função padrão para exibir pop-ups usando o contexto
@@ -35,11 +36,13 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "admin_flag_add": <AdminFlagAdd closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_kick": <AdminKick closePopup={closePopup} {...showingPopup?.settings} />,
         "faction_delete": <FactionDelete closePopup={closePopup} {...showingPopup?.settings} />,
+        "faction_create": <FactionCreate closePopup={closePopup} {...showingPopup?.settings} />
     };
 
     showingPopup?.settings?.timeout &&
     (setTimeout(() => {
         closePopup()
+        showingPopup.settings.onTimeout && showingPopup.settings.onTimeout() 
     }, showingPopup.settings.timeout))
 
     return (

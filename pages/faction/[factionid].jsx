@@ -178,15 +178,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                     color="#ff0000" 
                     label={language.getString('PAGES.FACTION.DELETE')} 
                     onClick={() => {
-                      openPopup("faction_delete", { 
-                        faction: faction, 
-                        execute: () => {
-                          fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
-                            openPopup("success", {message: language.getString("POPUPS.FACTION_DELETE.SUCCESS")})
-                            location.href = "/"
-                          })
-                        } 
-                      })
+                      openPopup("faction_delete", { faction })
                     }}
                   />
                 </Tippy>

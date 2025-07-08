@@ -7,18 +7,38 @@ import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import { usePopup } from '@/context/PopupContext';
+import settings from "@/settings.js";
+import { useAuth } from "@/context/AuthContext";
 
 /**
  * Pop-up de confirmação de exclusão de facção
  * @param {Object} properties - Passagem de propriedades pro pop-up
  * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
  * @param {{}} properties.faction - A facção
- * @param {() => {}} properties.execute - Código de exclusão
  */
-export default function FactionDelete({ closePopup, faction, execute }) {
+export default function FactionDelete({ closePopup, faction }) {
     const { language } = useLanguage();
     const [typedHandle, setTypedHandle] = useState("");
     const { openPopup } = usePopup();
+    const { token, loggedUser } = useAuth();
+
+    const fetchWithAuth = async (url, method, body) => {
+        try {
+            const res = await fetch(`${settings.apiURL}${url}`, {
+                method,
+                headers: {
+                "Content-Type": "application/json",
+                authorization: token,
+                },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Erro na requisição.");
+            return data;
+        } catch (err) {
+            openPopup("error", { message: `${err.message}` });
+        }
+    };
 
     return (
         <>
@@ -42,7 +62,13 @@ export default function FactionDelete({ closePopup, faction, execute }) {
                 <CustomButton label={language.getString("COMMON.CONFIRM")} color={'#ff0000'} onClick={() => {
                     if (typedHandle != faction.handle) return openPopup("error", {message: language.getString("POPUPS.FACTION_DELETE.INCORRECT_HANDLE")})
                     closePopup();
-                    execute();
+                    fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
+                        openPopup("success", {
+                            message: language.getString("POPUPS.FACTION_DELETE.SUCCESS"),
+                            timeout: 1000,
+                            onTimeout: () => {location.href = "/"}
+                        })
+                    })
                 }} />
             </footer>
         </>

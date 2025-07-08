@@ -15,6 +15,7 @@ module.exports = {
         EDIT: "Editar",
         SAVE: "Salvar",
         SAVE_CHANGES: "Salvar alterações",
+        CREATE: 'Criar',
         CLOSE: "Fechar",
         NAME: "Nome",
         AUTHOR: "Autor",
@@ -136,10 +137,22 @@ module.exports = {
             DESCRIPTION: "Você deseja confirmar?",
         },
         FACTION_DELETE: {
-            TITLE: "Você tem certeza que deseja apagar a facção {{factionName}}?",
-            MESSAGE: "Digite {{factionHandle}} para confirmar a exclusão irreversível da sua facção.",
-            INCORRECT_HANDLE: "Handle incorreto!",
+            TITLE: "Você quer MESMO apagar {{factionName}}?",
+            MESSAGE: 'Digite "{{factionHandle}}" no campo abaixo para confirmar a exclusão irreversível da sua facção.',
+            INCORRECT_HANDLE: "Identificador incorreto!",
             SUCCESS: "Facção excluída com sucesso! Foi bom ela conosco :(",
+        },
+        FACTION_CREATE: {
+            TITLE: 'Criar nova facção',
+            NAME: 'Nome da facção',
+            NAME_PLACEHOLDER: 'Facção grandiosa...',
+            HANDLE: 'Identificador da facção',
+            DESCRIPTION: 'Descrição da facção',
+            DESCRIPTION_PLACEHOLDER: 'Discorra detalhadamente sobre sua facção e seus objetivos aqui...',
+            ICON_URL: "Link do ícone",
+            ICON_URL_PLACEHOLDER: "https://cdn.discordapp.com/avatars/427257953503019017/61c9d5736d211f5d64508d54e48e3982.webp",
+            PUBLIC: "Facção pública (WIP)"
+            SUCCESS: 'Facção {{factionName}} criada com sucesso!'
         },
     },
     LAYOUTS: {

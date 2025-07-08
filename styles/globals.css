@@ -155,7 +155,7 @@
   transition: var(--smooth-transition);
 }
 
-select, input[type=text], input[type=number], input[type=datetime-local], input[type=date], textarea {
+select, input[type=text], input[type=number], input[type=datetime-local], input[type=date], input[type=url], textarea {
   border: var(--outline);
   filter: drop-shadow(var(--shadow));
   box-shadow: inset 0px 0px 8px 1px #ffffff00;
@@ -165,7 +165,7 @@ select, input[type=text], input[type=number], input[type=datetime-local], input[
   color: var(--color-text-dark);
 }
 
-select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=number]:hover, textarea:hover {
+select:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=url]:hover, input[type=number]:hover, textarea:hover {
   box-shadow: inset 0px 0px 8px 3px #ffffff1a;
 }
 
