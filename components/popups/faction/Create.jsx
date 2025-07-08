@@ -22,6 +22,7 @@ export default function FactionCreate({ closePopup }) {
     const [description, setDescription] = useState('');
     const [iconUrl, setIconUrl] = useState('');
     const [icon, setIcon] = useState('');
+    const [color, setColor] = useState("#ffffff");
 
     const { token, loggedUser } = useAuth();
     const { openPopup } = usePopup();
@@ -115,20 +116,19 @@ export default function FactionCreate({ closePopup }) {
                 </div>
 
                 <div>
-                    <label htmlFor="factionCreate_iconUrl">{language.getString("POPUPS.FACTION_CREATE.ICON_URL")}</label>
+                    <label htmlFor="factionCreate_iconUrl">{language.getString("POPUPS.FACTION_CREATE.ICON")}</label>
                     <input
                         type="url"
                         name="iconUrl"
-                        placeholder={language.getString("POPUPS.FACTION_CREATE.ICON_URL_PLACEHOLDER")}
                         pattern="https://.*"
                         id="factionCreate_iconUrl"
                         value={iconUrl}
                         onChange={(e) => setIconUrl(e.target.value)}
-                        required
                     />
                 </div>
-
-                <div className={localStyles.radioSelector}>
+                
+                <label>{language.getString("POPUPS.FACTION_CREATE.ICON")}</label>
+                <div className={localStyles.radioSelector} style={{color: color}}>
                     <input checked={icon === 'icon1'} type={"radio"} name={"icon"} id={"factionCreate_icon1"} value={"icon1"} onChange={() => setIcon('icon1')} />
                     <label htmlFor={"factionCreate_icon1"}>
                     <PixelIcon codename={'frame'} />
@@ -205,6 +205,19 @@ export default function FactionCreate({ closePopup }) {
                     </label>
             
                     
+                </div>
+
+                <div>
+                    <label htmlFor="factionCreate_color">{language.getString('POPUPS.FACTION_CREATE.ICON_COLOR')}</label>
+                    <input
+                        type="color"
+                        id="factionCreate_color"
+                        name="color"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                        required
+                        style={{width: '-webkit-fill-available'}}
+                    />
                 </div>
 
                 <div style={{flexDirection: 'row', alignItems: 'center'}}>

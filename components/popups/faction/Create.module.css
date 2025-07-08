@@ -36,6 +36,7 @@
     gap: 5px;
     cursor: pointer;
     transition: var(--smooth-transition);
+    color: currentColor;
   }
 
   label:hover {
@@ -45,6 +46,5 @@
 
   input:checked+label {
     background-color: var(--color-accent);
-    color: white;
   }
 }
