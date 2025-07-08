@@ -237,5 +237,13 @@ module.exports = {
             META_TITLE: "PixelsPlace Premium",
             META_DESCRIPTION: "Descubra as incríveis vantagens de se tornar um jogador Premium do PixelsPlace e apoie um projeto independente!",
         },
+        FACTION: {
+            MEMBER_LIST: "Lista de membros",
+            JOIN_TIPPY: "Se juntar à essa facção",
+            ALREADY_HAS_FACTION: "Você deve sair da sua facção primeiro",
+            LEAVE: "Sair da facção",
+            DELETE_TIPPY: "Apagar para todo o sempre...",
+            DELETE: "Exluir facção",
+        }
     },
 }

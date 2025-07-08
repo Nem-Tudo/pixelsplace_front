@@ -294,7 +294,7 @@
       padding: 8px 12px;
       background: #ffffff08;
       border-radius: 8px;
-      border: 1px solid #ffffff10;
+      border: var(--outline);
       flex-direction: column;
     }
 
@@ -328,7 +328,7 @@
       font-weight: 500;
       color: var(--color-text-light);
       margin: 0 0 12px 0;
-      border-bottom: 1px solid #ffffff20;
+      border-bottom: var(--outline);
       padding-bottom: 6px;
     }
 
@@ -344,7 +344,7 @@
       padding: 8px 12px;
       background: #ffffff06;
       border-radius: 6px;
-      border: 1px solid #ffffff08;
+      border: var(--outline);
     }
 
     /* Chave do detalhe */

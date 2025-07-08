@@ -163,16 +163,16 @@ export default function Faction({ faction: factionobject, error, errormessage })
                 (!loggedUser) && <CustomButton label={"Logue para entrar"} href="/login" />
               }
               {
-                (loggedUser && loggedUser.factionId != faction.id) && faction.public && <Tippy content={loggedUser.factionId ? "Você deve sair da sua facção primeiro" : "Entrar na facção"}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
+                (loggedUser && loggedUser.factionId != faction.id) && faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
               }
               {
-                (loggedUser && loggedUser.factionId != faction.id) && !faction.public && <Tippy content={loggedUser.factionId ? "Você deve sair da sua facção primeiro" : "Entrar na facção"}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.ASK_TO_JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
+                (loggedUser && loggedUser.factionId != faction.id) && !faction.public && <Tippy arrow={false} content={loggedUser.factionId ? language.getString("PAGES.FACTION.ALREADY_HAS_FACTION") : language.getString("PAGES.FACTION.JOIN_TIPPY")}><div><CustomButton disabled={loggedUser.factionId} label={language.getString('COMMON.ASK_TO_JOIN')} onClick={() => fetchWithAuth(`/factions/${faction.id}/join`, "POST")} /></div></Tippy>
               }
               {
-                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId != loggedUser.id) && <Tippy content={"Sair da facção"}><div><CustomButton color="#ff0000" label={language.getString('COMMON.LEAVE')} onClick={() => fetchWithAuth(`/factions/${faction.id}/leave`, "POST")} /></div></Tippy>
+                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId != loggedUser.id) && <Tippy arrow={false} content={language.getString("PAGES.FACTION.LEAVE")}><div><CustomButton color="#ff0000" label={language.getString('COMMON.LEAVE')} onClick={() => fetchWithAuth(`/factions/${faction.id}/leave`, "POST")} /></div></Tippy>
               }
               {
-                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId == loggedUser.id) && <Tippy content="Apagar para todo o sempre..."><div><CustomButton color="#ff0000" label={"Exluir facção"} onClick={async () => {
+                (loggedUser && loggedUser.factionId === faction.id) && (faction.ownerId == loggedUser.id) && <Tippy arrow={false} content={language.getString("PAGES.FACTION.DELETE_TIPPY")}><div><CustomButton color="#ff0000" label={language.getString('PAGES.FACTION.DELETE')} onClick={async () => {
                   const handle = prompt(`Você tem CERTEZA que quer apagar a facção ${faction.name}? Digite aqui o handle dela (${faction.handle})`);
                   if (!handle) return;
                   if (handle != faction.handle) return alert("Handle incorreto!");
@@ -198,11 +198,8 @@ export default function Faction({ faction: factionobject, error, errormessage })
                     <Link href={"/user/"+faction.owner.username}>{faction.owner.username}</Link>
                   </div>
                 </div>
-              </div>
 
-              <div className={styles.moreInfo} >
-
-                  <div className={styles.infoBox} id={styles.previewCanva} style={{ justifyContent: 'center', }}>
+                <div className={styles.infoBox} id={styles.previewCanva} style={{ justifyContent: 'center', }}>
                   <h1 style={{ alignSelf: 'center', }}>{language.getString("PAGES.GUILD.PIXELS_PLACED")}: {faction.stats.pixelsPlacedCount}</h1>
 
                   <PremiumButton
@@ -213,7 +210,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                 </div>
 
                 <div className={styles.infoBox} id={styles.listUsers} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start !important', }}>
-                  <h1 style={{ alignSelf: 'center', }}>Lista De membros   {faction.stats.membersCount}/{faction.stats.membersCount}</h1>
+                  <h1 style={{ alignSelf: 'center', }}>{language.getString("PAGES.FACTION.MEMBER_LIST")} {'('+faction.stats.membersCount}/{faction.stats.membersCount+')'}</h1>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {members.map((member) => {
                       return (
