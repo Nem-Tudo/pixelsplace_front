@@ -109,9 +109,12 @@
   --smooth-transition: all .3s cubic-bezier(0.34,-0.24, 0.75, 1.26);
 
   * {
-    border-radius: 8px !important;
     font-family: Arial !important;
-    font-size: small;
+    font-size: small !important;
+  }
+
+  *:not(header):not(main) {
+    border-radius: 8px !important;
   }
 }
 [data-theme=ARCADE] {
@@ -135,7 +138,7 @@
     border-radius: 0 !important;
     font-family: 'Dogica Pixel' !important;
     font-size: x-small;
-    line-height: 1.2;
+    line-height: 1.2 !important;
   }
 }
 
