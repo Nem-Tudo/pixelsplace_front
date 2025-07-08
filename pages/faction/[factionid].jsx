@@ -154,7 +154,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
               </div>
 
               <div className={styles.name}>
-                <h1 className={styles.displayName}>{faction?.name} {faction?.public ? '🔓' : '🔒'}</h1>
+                <h1 className={styles.displayName}>{faction?.name} {!faction?.public && <PixelIcon codename={'lock'} />}</h1>
                 <p className={styles.userName}>#{faction?.handle}</p>
               </div>
 
@@ -206,7 +206,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
               </div>
 
               <div className={styles.infoBox} id={styles.memberList}>
-                <h1>{language.getString("PAGES.FACTION.MEMBER_LIST")} {'('+faction.stats.membersCount}/{faction.stats.membersCount+')'}</h1>
+                <h1>{language.getString("PAGES.FACTION.MEMBER_LIST")} {'('+faction.stats.membersCount}/{faction.memberLimit+')'}</h1>
                 <div>
                   {members.map((member) => {
                     return (
