@@ -285,13 +285,14 @@ export default function Place() {
     if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
 
     const data = await request.json();
+    if((loggedUser?.premium)&&(data.u)){await showPixelInfoHistory(x,y);};
+    setShowingPixelInfo(data);
     console.log("PixelInfo: ");
     console.log(data);
-    if(loggedUser?.premium){showPixelInfoHistory(x,y);};
-    setShowingPixelInfo(data);
   }
 
     async function showPixelInfoHistory(x, y) {
+      console.log(`${settings.apiURL}/canvas/pixelhistory?x=${x}&y=${y}`)
     const request = await fetch(
       `${settings.apiURL}/canvas/pixelhistory?x=${x}&y=${y}`,
       {
