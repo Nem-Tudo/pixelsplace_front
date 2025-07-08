@@ -101,7 +101,7 @@ export default function AdminPage() {
         authorization: Cookies.get("authorization")
       }
     }).catch(() => { })
-    if (!res.ok) return;
+    if (!res?.ok) return;
     const data = await res.json();
     setStats(data);
   }
@@ -178,20 +178,20 @@ export default function AdminPage() {
     fetchAuditLogs()
   }, [chosenPage])
 
-    useEffect(() => {
-      console.log(chosenTargetEval);
+  useEffect(() => {
+    console.log(chosenTargetEval);
   }, [chosenTargetEval])
 
-      useEffect(() => {
-      console.log(chosenTargetExtraEval);
+  useEffect(() => {
+    console.log(chosenTargetExtraEval);
   }, [chosenTargetExtraEval])
 
-    useEffect(() => {
-      console.log(chosenTargetAlert);
+  useEffect(() => {
+    console.log(chosenTargetAlert);
   }, [chosenTargetAlert])
 
-      useEffect(() => {
-      console.log(chosenTargetExtraAlert);
+  useEffect(() => {
+    console.log(chosenTargetExtraAlert);
   }, [chosenTargetExtraAlert])
 
   const fetchWithAuth = async (url, method, body) => {
@@ -501,10 +501,10 @@ export default function AdminPage() {
               </footer>
             </fieldset>
 
-            {/* Eval */}
+            {/* Eval Clients */}
             <fieldset>
               <legend>
-                <strong>Executar Código (eval)</strong>
+                <strong>Executar Código (eval client)</strong>
                 <div className={styles.radioSelector}>
                   <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"authenticated"} onChange={() => setChosenTargetEval('all')} />
                   <label htmlFor={"TargetEvalAll"}>
@@ -538,7 +538,7 @@ export default function AdminPage() {
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
-                      console.log(`/admin/eval?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`);
+                      console.log(`/admin/evalclients?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`);
                       const res = await fetchWithAuth(`/admin/eval?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}`}${chosenTargetExtraEval}`, "POST", {
                         content: evalCode,
                       });
@@ -556,7 +556,7 @@ export default function AdminPage() {
                     value={"requiredFlags"}
                     onChange={() => {
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval+"&requiredFlags="+requiredFlags);
+                      setChosenTargetExtraEval(chosenTargetExtraEval + "&requiredFlags=" + requiredFlags);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -564,14 +564,14 @@ export default function AdminPage() {
                     <PixelIcon codename={'flag'} />
                     <span className="mobileHidden_500">Flags</span>
                   </label>
-                  <input 
-                    type={"checkbox"} 
-                    name={"TargetExtraEval"} 
-                    id={"TargetExtraEvalBannedFlags"} 
-                    value={"userIds"} 
+                  <input
+                    type={"checkbox"}
+                    name={"TargetExtraEval"}
+                    id={"TargetExtraEvalBannedFlags"}
+                    value={"userIds"}
                     onChange={() => {
                       const userIds = prompt("Escreva o id dos users (separados por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval+"&userIds="+userIds);
+                      setChosenTargetExtraEval(chosenTargetExtraEval + "&userIds=" + userIds);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -586,13 +586,13 @@ export default function AdminPage() {
                 <div className={styles.radioSelector}>
                   <p>Excluídos?</p>
                   <input
-                    type={"checkbox"} 
-                    name={"TargetExtraEval"} 
-                    id={"TargetExtraEvalUserIds"} 
-                    value={"bannedFlags"} 
+                    type={"checkbox"}
+                    name={"TargetExtraEval"}
+                    id={"TargetExtraEvalUserIds"}
+                    value={"bannedFlags"}
                     onChange={() => {
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval+"&bannedFlags="+bannedFlags);
+                      setChosenTargetExtraEval(chosenTargetExtraEval + "&bannedFlags=" + bannedFlags);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -600,14 +600,14 @@ export default function AdminPage() {
                     <PixelIcon codename={'flag'} />
                     <span className="mobileHidden_500">Flags</span>
                   </label>
-                  <input 
-                    type={"checkbox"} 
-                    name={"TargetExtraEval"} 
-                    id={"TargetExtraEvalExcludeUserIds"} 
-                    value={"excludeUserIds"} 
+                  <input
+                    type={"checkbox"}
+                    name={"TargetExtraEval"}
+                    id={"TargetExtraEvalExcludeUserIds"}
+                    value={"excludeUserIds"}
                     onChange={() => {
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
-                      setChosenTargetExtraEval(chosenTargetExtraEval+"&excludeUserIds="+excludeUserIds);
+                      setChosenTargetExtraEval(chosenTargetExtraEval + "&excludeUserIds=" + excludeUserIds);
                       console.log(chosenTargetExtraEval);
                     }}
                   />
@@ -617,6 +617,21 @@ export default function AdminPage() {
                   </label>
 
                 </div>
+              </footer>
+            </fieldset>
+
+            {/* Eval server */}
+            <fieldset>
+              <legend>Dangerously Eval Server <span style={{ color: "red" }}>(Exclusive permission required)</span></legend>
+              <footer>
+                <CustomButton label="Inserir código" onClick={async () => {
+                  const content = prompt("Digite o código");
+                  const response = await fetchWithAuth("/admin/evalserver", "POST", {
+                    content
+                  });
+                  console.log(response)
+                  alert(String(response.result));
+                }} />
               </footer>
             </fieldset>
 
@@ -646,7 +661,7 @@ export default function AdminPage() {
               </legend>
               <textarea
                 rows={3}
-                placeholder={`Desejo ${['uma boa meia noite', 'uma boa madrugada', 'um bom dia', 'uma boa tarde', 'uma boa noite'][Math.ceil(((new Date).getHours())/24*4)]} a todos jogadores do PixelsPlace...`}
+                placeholder={`Desejo ${['uma boa meia noite', 'uma boa madrugada', 'um bom dia', 'uma boa tarde', 'uma boa noite'][Math.ceil(((new Date).getHours()) / 24 * 4)]} a todos jogadores do PixelsPlace...`}
                 value={alertMessage}
                 onChange={(e) => setAlertMessage(e.target.value)}
               />
@@ -666,14 +681,14 @@ export default function AdminPage() {
                 />
                 <div className={styles.radioSelector}>
                   <p>Permitido?</p>
-                  <input  
-                    type={"checkbox"} 
-                    name={"TargetExtraAlert"} 
-                    id={"TargetExtraAlertRequiredFlags"} 
-                    value={"requiredFlags"} 
+                  <input
+                    type={"checkbox"}
+                    name={"TargetExtraAlert"}
+                    id={"TargetExtraAlertRequiredFlags"}
+                    value={"requiredFlags"}
                     onChange={() => {
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert+"&requiredFlags="+requiredFlags.toUpperCase());
+                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&requiredFlags=" + requiredFlags.toUpperCase());
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -682,14 +697,14 @@ export default function AdminPage() {
                     <span className="mobileHidden_500">Flags</span>
                   </label>
 
-                  <input 
-                    type={"checkbox"} 
-                    name={"TargetExtraAlert"} 
-                    id={"TargetExtraAlertBannedFlags"} 
-                    value={"userIds"} 
+                  <input
+                    type={"checkbox"}
+                    name={"TargetExtraAlert"}
+                    id={"TargetExtraAlertBannedFlags"}
+                    value={"userIds"}
                     onChange={() => {
                       const userIds = prompt("Escreva o id dos users (separados por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert+"&userIds="+userIds);
+                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&userIds=" + userIds);
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -704,13 +719,13 @@ export default function AdminPage() {
                 <div className={styles.radioSelector}>
                   <p>Excluídos?</p>
                   <input
-                    type={"checkbox"} 
-                    name={"TargetExtraAlert"} 
-                    id={"TargetExtraAlertUserIds"} 
-                    value={"bannedFlags"} 
+                    type={"checkbox"}
+                    name={"TargetExtraAlert"}
+                    id={"TargetExtraAlertUserIds"}
+                    value={"bannedFlags"}
                     onChange={() => {
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert+"&bannedFlags="+bannedFlags.toUpperCase());
+                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&bannedFlags=" + bannedFlags.toUpperCase());
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -719,14 +734,14 @@ export default function AdminPage() {
                     <span className="mobileHidden_500">Flags</span>
                   </label>
 
-                  <input 
-                    type={"checkbox"} 
-                    name={"TargetExtraAlert"} 
-                    id={"TargetExtraAlertExcludeUserIds"} 
-                    value={"excludeUserIds"} 
+                  <input
+                    type={"checkbox"}
+                    name={"TargetExtraAlert"}
+                    id={"TargetExtraAlertExcludeUserIds"}
+                    value={"excludeUserIds"}
                     onChange={() => {
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
-                      setChosenTargetExtraAlert(chosenTargetExtraAlert+"&excludeUserIds="+excludeUserIds);
+                      setChosenTargetExtraAlert(chosenTargetExtraAlert + "&excludeUserIds=" + excludeUserIds);
                       console.log(chosenTargetExtraAlert);
                     }}
                   />
@@ -1103,8 +1118,8 @@ export default function AdminPage() {
         </MainLayout>
       </>
     );
-  } 
-  
+  }
+
   else if (chosenPage === "auditlogs") {
     return (
       <>
