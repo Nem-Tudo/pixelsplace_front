@@ -61,7 +61,7 @@ export default function FactionCard({ faction, role, ...props }) {
                 <span>{faction.stats.membersCount} membros</span>
                 <span>{faction.stats.pixelsPlacedCount} pixels</span>
                 <footer className={styles.buttonsContainer}>
-                    <CustomButton label={language.getString("COMPONENTS.FACTION_CARD.VISIT")} icon={'external-link'} href={`/faction/${faction.id}`} />
+                    <CustomButton label={language.getString("COMPONENTS.FACTION_CARD.VISIT")} icon={'external-link'} padding={2} href={`/faction/${faction.id}`} />
                 </footer>
             </div>
         </div>

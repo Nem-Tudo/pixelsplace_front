@@ -259,6 +259,15 @@
         }
       }
 
+      #factionJoin {
+        flex-direction: column;
+
+        footer {
+          display: flex;
+          gap: 8px;
+        }
+      }
+
     }
 
     .editUserColors {

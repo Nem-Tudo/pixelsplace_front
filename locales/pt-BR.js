@@ -188,7 +188,7 @@ module.exports = {
             PIXELS_PLACED: "{{displayName}} inseriu {{pixelQuantity}} pixels",
             VIEW_PIXELS: "Ver os pixels de {{displayName}}",
             CREATE_FACTION_INCENTIVE: "Você não se sente mal com tanta solidão? Entre em uma facção!",
-            CREATE_FACTION: "Criar uma",
+            CREATE_FACTION: "Criar uma facção",
         },
         PARTNERS: {
             META_TITLE: "PixelsPlace - Parceiros",

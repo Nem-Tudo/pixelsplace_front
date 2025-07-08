@@ -337,30 +337,40 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               {
                 !user?.faction && loggedUser?.id === user.id && <div className={styles.infoBox}>
                   <p>{language.getString("PAGES.USER.CREATE_FACTION_INCENTIVE")}</p>
-                  <CustomButton label={language.getString('PAGES.FACTIONS.NAME')} hierarchy={2} icon={'external-link'} color={'#80bbff'} href="/factions" />
-                  <CustomButton label={language.getString("PAGES.USER.CREATE_FACTION")} icon={'plus'} onClick={async () => {
-                    const name = prompt("Nome")
-                    const handle = prompt("Handle (alfanumérico e _)");
-                    const description = prompt("description (escreve algo ai kk)");
-                    const icon_url = prompt("Icon url") || null;
+                  <footer>
+                    <CustomButton 
+                      label={language.getString('PAGES.FACTIONS.NAME')} 
+                      hierarchy={2} icon={'external-link'} 
+                      color={'#80bbff'} 
+                      href="/factions" 
+                    />
+                    <CustomButton 
+                      label={language.getString("PAGES.USER.CREATE_FACTION")} 
+                      icon={'plus'} 
+                      onClick={async () => {
+                        const name = prompt("Nome")
+                        const handle = prompt("Handle (alfanumérico e _)");
+                        const description = prompt("description (escreve algo ai kk)");
+                        const icon_url = prompt("Icon url") || null;
 
-                    const request = await fetch(`${settings.apiURL}/factions`, {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": token
-                      },
-                      body: JSON.stringify({ name, handle, description, icon_url })
-                    })
-                    const response = await request.json();
-                    if (!request.ok) {
-                      console.log(response, request)
-                      return openPopup("error", { message: `Erro ao criar: ${response.message}` })
-                    }
-                    alert(JSON.stringify(response));
-                    updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
-
-                  }} />
+                        const request = await fetch(`${settings.apiURL}/factions`, {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": token
+                          },
+                          body: JSON.stringify({ name, handle, description, icon_url })
+                        })
+                        const response = await request.json();
+                        if (!request.ok) {
+                          console.log(response, request)
+                          return openPopup("error", { message: `Erro ao criar: ${response.message}` })
+                        }
+                        alert(JSON.stringify(response));
+                        updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
+                      }} 
+                    />
+                  </footer>
                 </div>
               }
               {/* Faction Card */}
