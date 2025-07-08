@@ -347,8 +347,6 @@ export default function Place() {
       return(data);
     }
 
-    if (res.status != 200)
-      return { error: true, status: res.status, message: data.message };
   }
 
 
