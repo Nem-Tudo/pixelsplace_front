@@ -630,7 +630,7 @@ export default function AdminPage() {
                     content
                   });
                   console.log(response)
-                  alert(String(response.result));
+                  alert(JSON.stringify(response.result));
                 }} />
               </footer>
             </fieldset>
