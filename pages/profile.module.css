@@ -227,6 +227,8 @@
             display: flex;
             justify-content: space-between;
             transition: var(--smooth-transition);
+            align-items: center;
+            min-height: 1.5rem;
 
             .identity {
               display: flex;
@@ -234,6 +236,7 @@
 
               img {
                 width: 15px;
+                height: 15px;
                 border-radius: 50%;
                 border: var(--outline);
               }
