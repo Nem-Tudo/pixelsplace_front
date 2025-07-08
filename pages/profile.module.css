@@ -122,7 +122,7 @@
           font-family: 'Dogica Pixel', Arial, Helvetica, sans-serif;
           display: flex;
           align-items: center;
-          color: var(--user-color-text);
+          color: var(--user-color-text, var(--color-text-light));
           width: max-content;
           max-width: 20dvw;
           overflow: hidden;
@@ -135,7 +135,7 @@
 
         .userName {
           font-size: 1rem;
-          color: var(--user-color-text);
+          color: var(--user-color-text, var(--color-text-light));
           opacity: 75%;
           display: flex;
           align-items: center;
@@ -176,7 +176,7 @@
 
       #description {
         span, textarea {
-          color: var(--user-color-text);
+          color: var(--user-color-text, var(--color-text-light));
           background: none;
           border: none;
           flex-grow: 1;
@@ -245,7 +245,7 @@
   align-items: center !important;
   gap: 1rem !important;
   border-radius: 22px !important;
-  color: var(--user-color-text) !important;
+  color: var(--user-color-text, var(--color-text-light)) !important;
   transition: var(--smooth-transition) !important;
   padding: 10px !important;
   border: 1px solid var(--user-color-border, var(--color-outline)) !important;

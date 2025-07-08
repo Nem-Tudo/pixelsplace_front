@@ -206,6 +206,10 @@
   box-shadow: var(--shadow);
   min-width: fit-content;
 
+  p {
+    padding-left: 10px;
+  }
+
   input {
     display: none;
   }
@@ -265,7 +269,7 @@
     .auditLogAction {
       font-size: 1.1rem;
       font-weight: 600;
-      color: #ffffff;
+      color: var(--color-text-light);
       margin: 0;
       background: linear-gradient(45deg, #60a5fa, #34d399);
       -webkit-background-clip: text;
@@ -276,7 +280,7 @@
     /* Data do log */
     .auditLogDate {
       font-size: 0.85rem;
-      color: #ffffff80;
+      color: var(--color-text-light);
       background-color: #ffffff10;
       padding: 4px 8px;
       border-radius: 6px;
@@ -298,7 +302,7 @@
     .auditLogAdmin,
     .auditLogTarget {
       font-size: 0.9rem;
-      color: #ffffff90;
+      color: var(--color-text-light);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -322,7 +326,7 @@
     .auditLogDetailsTitle {
       font-size: 1rem;
       font-weight: 500;
-      color: #ffffff90;
+      color: var(--color-text-light);
       margin: 0 0 12px 0;
       border-bottom: 1px solid #ffffff20;
       padding-bottom: 6px;
@@ -346,7 +350,7 @@
     /* Chave do detalhe */
     .auditLogDetailKey {
       font-size: 0.85rem;
-      color: #ffffff70;
+      color: var(--color-text-light);
       display: block;
       margin-bottom: 2px;
       font-weight: 500;
@@ -356,7 +360,7 @@
     /* Valor do detalhe */
     .auditLogDetailValue {
       font-size: 0.9rem;
-      color: #ffffff;
+      color: var(--color-text-light);
       word-break: break-word;
     }
 
