@@ -313,41 +313,24 @@ export default function Place() {
     setShowingPixelInfoHistory(data);
   }
 
-    async function getUser(id) {
-    const res = await fetch(`${settings.apiURL}/users/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: token,
-      },
-    });
-    const data = await res.json();
+async function getResource(type, id) {
+  const res = await fetch(`${settings.apiURL}/${type}/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: token,
+    },
+  });
 
-    if (res.status == 404) {
-      return(null);
-    } else {
-      return(data);
-    }
+  const data = await res.json();
 
+  if (res.status === 404) {
+    return null;
+  } else {
+    return data;
   }
+}
 
-    async function getGuild(id) {
-    const res = await fetch(`${settings.apiURL}/guilds/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: token,
-      },
-    });
-    const data = await res.json();
-
-    if (res.status == 404) {
-      return(null);
-    } else {
-      return(data);
-    }
-
-  }
 
 
 useEffect(() => {
@@ -356,13 +339,13 @@ useEffect(() => {
       const newPixelInfo = showingPixelInfoHistory[pixelInfoHistory];
 
       // Busca os dados do usuário
-      const user = await getUser(newPixelInfo.u);
+      const user = await getResource("users", newPixelInfo.u);
 
       // Atualiza o campo author
       newPixelInfo.author = user;
 
 
-    newPixelInfo.author.settings.selected_guild = await getGuild(user.settings.selected_guild);
+    newPixelInfo.author.settings.selected_guild = await getResource("guilds", user.settings.selected_guild);
 
 
       // Atualiza o estado com as informações modificadas
