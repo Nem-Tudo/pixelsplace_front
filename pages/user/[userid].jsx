@@ -340,13 +340,16 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                   <footer>
                     <CustomButton 
                       label={language.getString('PAGES.FACTIONS.NAME')} 
-                      hierarchy={2} icon={'external-link'} 
+                      hierarchy={2} 
+                      padding={2}
+                      icon={'external-link'} 
                       color={'#80bbff'} 
                       href="/factions" 
                     />
                     <CustomButton 
                       label={language.getString("PAGES.USER.CREATE_FACTION")} 
-                      icon={'plus'} 
+                      icon={'plus'}
+                      padding={2} 
                       onClick={async () => {
                         const name = prompt("Nome")
                         const handle = prompt("Handle (alfanumérico e _)");
