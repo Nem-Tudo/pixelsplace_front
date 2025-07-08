@@ -63,7 +63,7 @@ export function numberToHex(num = 0) {
 /**
  * Obtém o nível de brilho de uma cor
  * @param {string} hexColor - Código hexadecimal da cor 
- * @returns {number} Porcentagem de luminosidade
+ * @returns {number} Porcentagem de luminosidade (de 0 a 1)
  */
 export function getBrightness(hexColor) {
   if(!hexColor) return 0 
