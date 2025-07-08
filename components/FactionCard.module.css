@@ -15,12 +15,24 @@
     box-shadow: var(--shadow);
 
     .factionIcon {
-        width: 64px;
-        height: 64px;
+        rotate: 45deg;
+        border: 2px solid var(--color-muted);
         border-radius: 12px;
-        object-fit: cover;
-        border: 2px solid #5599ff;
-        background-color: #1a263f;
+        margin: 10px;
+        background: var(--color-darkest);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        width: 54px;
+        height: 54px;
+
+        img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            rotate: -45deg;
+        }
     }
 
     .factionInfo {
@@ -54,17 +66,6 @@
             display: flex;
             gap: 8px;
             height: min-content;
-        }
-    }
-
-    .factionStar {
-        display: flex;
-        align-self: start;
-        cursor: pointer;
-        
-        svg {
-            width: 1.5rem;
-            height: 1.5rem;
         }
     }
 

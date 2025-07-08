@@ -50,7 +50,7 @@
             gap: 20px;
             color: var(--color-text-dark);
 
-            input[type="text"], input[type="datetime-local"], textarea {
+            input[type=text], input[type=datetime-local], input[type=url], textarea {
                 border-radius: 12px;
                 padding: 10px;
             }

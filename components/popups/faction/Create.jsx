@@ -38,7 +38,7 @@ export default function FactionCreate({ closePopup }) {
                 "Content-Type": "application/json",
                 "Authorization": token
                 },
-                body: JSON.stringify({ name, handle, description, icon_url: iconUrl })
+                body: JSON.stringify({ name, handle, description, icon_url: iconUrl || null })
             })
 
             const response = await request.json();

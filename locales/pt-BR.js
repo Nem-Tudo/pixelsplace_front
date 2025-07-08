@@ -272,7 +272,7 @@ module.exports = {
             ALREADY_HAS_FACTION: "Você deve sair da sua facção primeiro",
             LEAVE: "Sair da facção",
             DELETE_TIPPY: "Apagar para todo o sempre...",
-            DELETE: "Exluir facção",
+            DELETE: "Excluir facção",
             OWNER: "Líder",
             PRIVATE_TIPPY: "Esta facção é privada",
         },
