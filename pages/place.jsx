@@ -319,14 +319,17 @@ export default function Place() {
               style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
-                  className={`${styles.pixelInfo} ${showingPixelInfo?.author?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
-                    }`}
-                    ref={pixelInfoRef}
-                    style={showingPixelInfo?.author?.premium ? {
-                      '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
-                      '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
-                    } : {}}
-                    >
+                  className={`
+                    ${styles.pixelInfo} 
+                    ${showingPixelInfo?.author?.premium && styles.premium} 
+                    ${direction === "left" ? "showLeft" : "showRight"}`
+                  }
+                  ref={pixelInfoRef}
+                  style={showingPixelInfo?.author?.premium ? {
+                    '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
+                    '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
+                  } : {}}
+                >
                   <div>{console.log(showingPixelInfo)}</div>
                   <div style={{ position: "absolute", right: "20px" }}>
                     {isMobile ? (
@@ -341,10 +344,10 @@ export default function Place() {
                         {numberToHex(showingPixelInfo.c)}
                       </span>
                     </div>
-                    <span style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                    <PremiumButton><PixelIcon codename={"arrow-left"} /></PremiumButton>
-                      {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                    <PremiumButton setStyle={{padding: "0px !important"}}><PixelIcon codename={"arrow-right"} /></PremiumButton>
+                    <span id={styles.pixelHistory}>
+                      <PremiumButton padding={1}><PixelIcon codename={"arrow-left"} /></PremiumButton>
+                        {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
+                      <PremiumButton padding={1}><PixelIcon codename={"arrow-right"} /></PremiumButton>
                     </span>
                   </div>
                   {showingPixelInfo.u && (
@@ -367,11 +370,15 @@ export default function Place() {
                   <div className={styles.pixelButtons}>
                     <PremiumButton
                       onClick={() => openPopup("not_implemented_yet")}
+                      padding={2}
+                      icon={'script-text'}
                     >
                       {language.getString("COMMON.HISTORY")}
                     </PremiumButton>
                     <CustomButton
                       label={language.getString("PAGES.PLACE.PICK_COLOR")}
+                      padding={2}
+                      icon={'fill-half'}
                       onClick={() => {
                         if (canvasConfig.freeColors.includes(showingPixelInfo.c) || loggedUser?.premium) {
                           setSelectedColor(showingPixelInfo.c);

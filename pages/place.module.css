@@ -212,6 +212,12 @@
             }
         }
 
+        #pixelHistory {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
     }
 
     .pixelUserInfo {
@@ -251,7 +257,6 @@
 }
 
 .pixelInfo.premium {
-    background: white !important;
     backdrop-filter: none !important;
 }
 
