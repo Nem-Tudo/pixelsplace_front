@@ -204,10 +204,7 @@
   justify-content: space-around;
   overflow: hidden;
   box-shadow: var(--shadow);
-
-  @media (max-width: 500px) {
-    overflow-x: auto;
-  }
+  min-width: fit-content;
 
   input {
     display: none;

@@ -509,13 +509,13 @@ export default function AdminPage() {
                   <input checked={chosenTargetEval === 'all'} type={"radio"} name={"TargetEval"} id={"TargetEvalAll"} value={"authenticated"} onChange={() => setChosenTargetEval('all')} />
                   <label htmlFor={"TargetEvalAll"}>
                     <PixelIcon codename={'users'} />
-                    <span className="mobileHidden_500">All</span>
+                    <span className="mobileHidden_500">Todos</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'authenticated'} type={"radio"} name={"TargetEval"} id={"TargetEvalAuth"} value={"all"} onChange={() => setChosenTargetEval('authenticated')} />
                   <label htmlFor={"TargetEvalAuth"}>
-                    <PixelIcon codename={'user-plus'} />
-                    <span className="mobileHidden_500">Users</span>
+                    <PixelIcon codename={'lock'} />
+                    <span className="mobileHidden_500">Autenticados</span>
                   </label>
 
                   <input checked={chosenTargetEval === 'anonymous'} type={"radio"} name={"TargetEval"} id={"TargetEvalAnonymous"} value={"anonymous"} onChange={() => setChosenTargetEval('anonymous')} />
@@ -532,7 +532,7 @@ export default function AdminPage() {
                 onChange={(e) => setEvalCode(e.target.value)}
               />
               <footer className={styles.buttonsContainer}>
-                <CustomButton label={'Executar'} icon={'play'} disabled={loading} onClick={async () => {
+                <CustomButton label={'Executar'} padding={2} icon={'play'} disabled={loading} onClick={async () => {
                   if (!evalCode.trim()) return openPopup("error", { message: "Insira o código." });
                   console.log(chosenTargetEval);
                   openPopup("confirm", {
@@ -628,13 +628,13 @@ export default function AdminPage() {
                   <input checked={chosenTargetAlert === 'all'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAll"} value={"authenticated"} onChange={() => setChosenTargetAlert('all')} />
                   <label htmlFor={"TargetAlertAll"}>
                     <PixelIcon codename={'users'} />
-                    <span className="mobileHidden_500">All</span>
+                    <span className="mobileHidden_500">Todos</span>
                   </label>
 
                   <input checked={chosenTargetAlert === 'authenticated'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAuth"} value={"all"} onChange={() => setChosenTargetAlert('authenticated')} />
                   <label htmlFor={"TargetAlertAuth"}>
-                    <PixelIcon codename={'user-plus'} />
-                    <span className="mobileHidden_500">Users</span>
+                    <PixelIcon codename={'lock'} />
+                    <span className="mobileHidden_500">Autenticados</span>
                   </label>
 
                   <input checked={chosenTargetAlert === 'anonymous'} type={"radio"} name={"TargetAlert"} id={"TargetAlertAnonymous"} value={"anonymous"} onChange={() => setChosenTargetAlert('anonymous')} />
@@ -651,7 +651,7 @@ export default function AdminPage() {
                 onChange={(e) => setAlertMessage(e.target.value)}
               />
               <footer className={styles.buttonsContainer}>
-                <CustomButton label={'Enviar alerta'} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
+                <CustomButton label={'Enviar'} padding={2} icon={'message-arrow-right'} disabled={loading} onClick={async () => {
                   if (!alertMessage.trim()) return openPopup("error", { message: "Insira a mensagem." });
                   openPopup("confirm", {
                     message: "Deseja enviar essa mensagem para todos os clients?",
