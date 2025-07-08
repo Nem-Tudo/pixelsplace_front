@@ -98,6 +98,10 @@ module.exports = {
             PIP: 'Ativar Picture-in-picture',
             DOWNLOAD: 'Baixar como imagem',
         },
+        FACTION_CARD: {
+            FACTION_ICON_ALT: "Ícone de {{factionName}}",
+            VISIT: "Página",
+        },
     },
     POPUPS: {
         PREMIUM_REQUIRED: {

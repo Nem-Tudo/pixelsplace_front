@@ -20,6 +20,7 @@ import { usePopup } from '@/context/PopupContext';
 import Badges from "@/components/Badges";
 import Tippy from "@tippyjs/react";
 import CustomHead from "@/components/CustomHead";
+import FactionCard from "@/components/FactionCard";
 
 export async function getServerSideProps({ req, query }) {
   const cookies = req.headers.cookie || '';
@@ -332,52 +333,48 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
                   {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
                 </PremiumButton>
               </div>
+              {/* Criar facção */}
               {
-                user?.faction && user?.factionMember && <div className={styles.infoBox}>
-                  <h2>Facção:</h2>
-                  <img style={{ width: "60px", clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }} src={user.faction.icon_url || "/assets/avatar.png"} />
-                  <Link href={`/faction/${user.faction.id}`}>{user.faction.name}</Link>
-                  <span>#{user.faction.handle}</span>
-                  <span>{user.faction.public ? <span style={{ color: "green" }}>Pública</span> : <span style={{ color: "red" }}>Privada</span>}</span>
+                !user?.faction && loggedUser?.id === user.id && <div className={styles.infoBox}>
+                  <CustomButton label="Criar facção" onClick={async () => {
+                    const name = prompt("Nome")
+                    const handle = prompt("Handle (alfanumérico e _)");
+                    const description = prompt("description (escreve algo ai kk)");
+                    const icon_url = prompt("Icon url") || null;
 
-                  {/* MEMBER / MOD / OWNER */}
-                  <span>Cargo: {user.factionMember.role}</span>
-                  <span>{user.faction.stats.membersCount} membros</span>
-                  <span>{user.faction.stats.pixelsPlacedCount} pixels</span>
-                  {
-                    // Será que aqui é o melhor lugar mesmo? Talvez uma página de faction, sla
-                    user.id === loggedUser?.id && user.factionMember.role != "OWNER-dps-deixa-só-owner" && <CustomButton onClick={() => alert("nn feito - fetch POST /factions/:factionId/leave passando o token")} label="Sair" color="#ff0000" />
-                  }
+                    const request = await fetch(`${settings.apiURL}/factions`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                      },
+                      body: JSON.stringify({ name, handle, description, icon_url })
+                    })
+                    const response = await request.json();
+                    if (!request.ok) {
+                      console.log(response, request)
+                      return openPopup("error", { message: `Erro ao criar: ${response.message}` })
+                    }
+                    alert(JSON.stringify(response));
+                    updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
+
+                  }} />
                 </div>
               }
+              {/* Faction Card */}
+              {
+                user?.faction && user?.factionMember && 
+                <FactionCard 
+                  role={user.factionMember.role} 
+                  faction={user.faction} 
+                  className={styles.infoBox} 
+                />
+              }
             </div>
+            
+            {/* Mudar as cores (Premium) */}
             {
-              loggedUser?.id === user.id && <CustomButton label="Criar facção" onClick={async () => {
-                const name = prompt("Nome")
-                const handle = prompt("Handle (alfanumérico e _)");
-                const description = prompt("description (escreve algo ai kk)");
-                const icon_url = prompt("Icon url") || null;
-
-                const request = await fetch(`${settings.apiURL}/factions`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
-                  },
-                  body: JSON.stringify({ name, handle, description, icon_url })
-                })
-                const response = await request.json();
-                if (!request.ok) {
-                  console.log(response, request)
-                  return openPopup("error", { message: `Erro ao criar: ${response.message}` })
-                }
-                alert(JSON.stringify(response));
-                updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
-
-              }} />
-            }
-            {
-              loggedUser?.id === user?.id && <div className={styles.editUserColors}>
+              loggedUser?.id === user?.id loggedUser.premium && && <div className={styles.editUserColors}>
                 <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
                   updateStateKey(setUser, user, ["profile.color_primary", e.target.value])
                 }} />
