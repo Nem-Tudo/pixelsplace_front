@@ -182,91 +182,91 @@
         }
       }
 
-      #description {
-        width: 100%;
-        word-break: break-all;
+        #description {
+          width: 100%;
+          word-break: break-all;
 
-        span, textarea {
-          color: var(--user-color-text, var(--color-text-light));
-          background: none;
-          border: none;
-          flex-grow: 1;
-        }
-      }
-
-      #pixelsInfo {
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      #ownerFac {
-        justify-content: center;
-
-        img {
-          width: 30px;
-          border-radius: 50%;
-          border: var(--outline);
-        }
-      }
-
-      #previewCanvas {
-        justify-content: center;
-      }
-
-      #memberList {
-        flex-direction: column;
-        align-items: stretch !important;
-
-        h1 {
-          align-self: center;
+          span, textarea {
+            color: var(--user-color-text, var(--color-text-light));
+            background: none;
+            border: none;
+            flex-grow: 1;
+          }
         }
 
-        /* Lista de membros */
-        div {
-          display: flex;
+        #pixelsInfo {
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #ownerFac {
+          justify-content: center;
+
+          img {
+            width: 30px;
+            border-radius: 50%;
+            border: var(--outline);
+          }
+        }
+
+        #previewCanvas {
+          justify-content: center;
+        }
+
+        #memberList {
           flex-direction: column;
+          align-items: stretch !important;
 
-          /* Cada usuário é um a */
-          a {
+          h1 {
+            align-self: center;
+          }
+
+          /* Lista de membros */
+          div {
             display: flex;
-            justify-content: space-between;
-            transition: var(--smooth-transition);
-            align-items: center;
-            min-height: 1.5rem;
+            flex-direction: column;
 
-            .identity {
+            /* Cada usuário é um a */
+            a {
               display: flex;
-              gap: 8px;
+              justify-content: space-between;
+              transition: var(--smooth-transition);
+              align-items: center;
+              min-height: 1.5rem;
 
-              img {
-                width: 15px;
-                height: 15px;
-                border-radius: 50%;
+              .identity {
+                display: flex;
+                gap: 8px;
+
+                img {
+                  width: 15px;
+                  height: 15px;
+                  border-radius: 50%;
+                  border: var(--outline);
+                }
+              }
+
+              .role {
+                background: rgb(103, 148, 103);
+                padding: 3px 8px;
+                border-radius: 12px;
                 border: var(--outline);
               }
             }
-
-            .role {
-              background: rgb(103, 148, 103);
-              padding: 3px 8px;
-              border-radius: 12px;
-              border: var(--outline);
+            a:hover {
+              scale: var(--hover-scale);
             }
           }
-          a:hover {
-            scale: var(--hover-scale);
+        }
+
+        #factionJoinIncentive {
+          flex-direction: column;
+
+          footer {
+            display: flex;
+            gap: 8px;
           }
         }
-      }
-
-      #factionJoinIncentive {
-        flex-direction: column;
-
-        footer {
-          display: flex;
-          gap: 8px;
-        }
-      }
 
     }
 
