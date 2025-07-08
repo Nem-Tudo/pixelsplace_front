@@ -199,8 +199,8 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   return (
     <>
       <CustomHead
-        title={language.getString("PAGES.USER_PROFILE.META_TITLE", { userDisplayName: user?.display_name })}
-        description={user?.profile?.aboutme ? user.profile.aboutme : language.getString("PAGES.USER_PROFILE.META_DESCRIPTION")}
+        title={language.getString("PAGES.USER.META_TITLE", { userDisplayName: user?.display_name })}
+        description={user?.profile?.aboutme ? user.profile.aboutme : language.getString("PAGES.USER.META_DESCRIPTION")}
         url={`https://pixelsplace.nemtudo.me/user/${user?.id}`}
         imageUrl={settings.avatarURL(user.id, user.avatar)}
       />
@@ -243,7 +243,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             )}
             <img
               src={user?.premium ? (user.profile.banner_url || 'https://images2.alphacoders.com/941/thumb-1920-941898.jpg') : ''}
-              alt={language.getString("PAGES.USER_PROFILE.PROFILE_BACKGROUND_ALT")}
+              alt={language.getString("PAGES.USER.PROFILE_BACKGROUND_ALT")}
             />
           </div>
 
@@ -251,7 +251,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
             <div className={styles.profile}>
               <div className={styles.avatar}>
-                <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER_PROFILE.USER_AVATAR_ALT")} />
+                <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER.USER_AVATAR_ALT")} />
               </div>
 
               <div className={styles.name}>
@@ -324,19 +324,21 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
               )}
               <div className={styles.infoBox} id={styles.pixelsInfo}>
                 <p className={styles.pixelsText}>
-                  {language.getString("PAGES.USER_PROFILE.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
+                  {language.getString("PAGES.USER.PIXELS_PLACED", { displayName: user.display_name, pixelQuantity: user.stats.pixelsPlacedCount })}
                 </p>
                 <PremiumButton
                   color={profileTheme.text}
                   onClick={() => openPopup("not_implemented_yet")}
                 >
-                  {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: user?.display_name })}
+                  {language.getString("PAGES.USER.VIEW_PIXELS", { displayName: user?.display_name })}
                 </PremiumButton>
               </div>
               {/* Criar facção */}
               {
                 !user?.faction && loggedUser?.id === user.id && <div className={styles.infoBox}>
-                  <CustomButton label="Criar facção" onClick={async () => {
+                  <p>{language.getString("PAGES.USER.CREATE_FACTION_INCENTIVE")}</p>
+                  <CustomButton label={language.getString('PAGES.FACTIONS.NAME')} hierarchy={2} icon={'external-link'} color={'#80bbff'} href="/factions" />
+                  <CustomButton label={language.getString("PAGES.USER.CREATE_FACTION")} icon={'plus'} onClick={async () => {
                     const name = prompt("Nome")
                     const handle = prompt("Handle (alfanumérico e _)");
                     const description = prompt("description (escreve algo ai kk)");
@@ -388,7 +390,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
           </div>
 
           {
-            JSON.stringify(user) != JSON.stringify(savedUser) && (
+            JSON.stringify(user.profile) != JSON.stringify(savedUser.profile) && (
               <CustomButton
                 className={styles.saveChanges}
                 color={"#33b32e"}

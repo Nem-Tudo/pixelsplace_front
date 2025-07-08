@@ -210,7 +210,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                 <PremiumButton
                   onClick={() => openPopup("not_implemented_yet")}
                 >
-                  {language.getString("PAGES.USER_PROFILE.VIEW_PIXELS", { displayName: faction?.name })}
+                  {language.getString("PAGES.USER.VIEW_PIXELS", { displayName: faction?.name })}
                 </PremiumButton>
               </div>
 

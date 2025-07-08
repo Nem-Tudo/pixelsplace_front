@@ -70,8 +70,8 @@ export default function GuildCard({ guild, showStar = "ONLY_IF_SELECTED", ...pro
                     <Verified verified={guild.flags.includes("VERIFIED")} />
                 </h2>
                 <footer className={styles.buttonsContainer}>
-                    <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.JOIN")} href={guild.invite} target="_blank" rel="norreferer" />
-                    <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.VISIT")} color={'#80bbff'} hierarchy={2} href={`/guild/${guild.id}`} />
+                    <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.JOIN")} icon={'user-plus'} href={guild.invite} target="_blank" rel="norreferer" />
+                    <CustomButton label={language.getString("COMPONENTS.GUILD_CARD.VISIT")} icon={'external-link'} color={'#80bbff'} hierarchy={2} href={`/guild/${guild.id}`} />
                 </footer>
             </div>
             <div

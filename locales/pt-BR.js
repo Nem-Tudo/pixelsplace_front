@@ -178,7 +178,7 @@ module.exports = {
             UPDATING_BUILD: "Atualizando build...",
             REMOVE_INSTRUCTION: "Caso você queira remover depois, basta clicar nas configurações do seu perfil",
         },
-        USER_PROFILE: {
+        USER: {
             META_TITLE: 'Perfil de {{userDisplayName}} no PixelsPlace',
             META_DESCRIPTION: 'Verifique as estatísticas e mais informações da jornada desse usuário no PixelsPlace.',
             PROFILE_BACKGROUND_ALT: "Papel de parede do usuário",
@@ -187,6 +187,8 @@ module.exports = {
             JOIN_GUILD: "Entrar",
             PIXELS_PLACED: "{{displayName}} inseriu {{pixelQuantity}} pixels",
             VIEW_PIXELS: "Ver os pixels de {{displayName}}",
+            CREATE_FACTION_INCENTIVE: "Você não se sente mal com tanta solidão? Entre em uma facção!",
+            CREATE_FACTION: "Criar uma",
         },
         PARTNERS: {
             META_TITLE: "PixelsPlace - Parceiros",
@@ -260,6 +262,9 @@ module.exports = {
             DELETE: "Exluir facção",
             OWNER: "Líder",
             PRIVATE_TIPPY: "Esta facção é privada",
+        },
+        FACTIONS: {
+            NAME: 'Descobrir facções',
         }
     },
 }
