@@ -374,7 +374,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
             
             {/* Mudar as cores (Premium) */}
             {
-              loggedUser?.id === user?.id loggedUser.premium && && <div className={styles.editUserColors}>
+              loggedUser?.id === user?.id && loggedUser.premium && <div className={styles.editUserColors}>
                 <input type="color" id={styles.editPrimaryColor} value={user.profile.color_primary} onChange={(e) => {
                   updateStateKey(setUser, user, ["profile.color_primary", e.target.value])
                 }} />

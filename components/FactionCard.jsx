@@ -47,7 +47,7 @@ export default function FactionCard({ faction, role, ...props }) {
     ].join(' ');
 
     return (
-        <div {...props} className={className} style={loggedUser?.settings.selected_faction === faction.id ? { background: "linear-gradient(rgb(0 255 81 / 10%), rgb(10 255 115 / 16%)), rgb(34 38 35)" } : {}}>
+        <div {...props} className={className}>
             <img
                 className={styles.factionIcon}
                 src={faction.icon_url || "/assets/avatar.png"}
