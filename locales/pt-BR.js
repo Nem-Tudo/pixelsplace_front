@@ -10,6 +10,7 @@ module.exports = {
         OK: "Ok",
         CANCEL: "Cancelar",
         SUBMIT: "Enviar",
+        CONFIRM: "Confirmar"
         DELETE: "Excluir",
         EDIT: "Editar",
         SAVE: "Salvar",
@@ -132,7 +133,7 @@ module.exports = {
         },
         FACTION_DELETE: {
             TITLE: "Você tem certeza que deseja apagar a facção {{factionName}}?",
-            DESCRIPTION: "Digite {{factionHandle}} para confirmar a exclusão irreversível da sua facção.",
+            MESSAGE: "Digite {{factionHandle}} para confirmar a exclusão irreversível da sua facção.",
             INCORRECT_HANDLE: "Handle incorreto!",
             SUCCESS: "Facção excluída com sucesso! Foi bom ela conosco :(",
         },

@@ -154,7 +154,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
               </div>
 
               <div className={styles.name}>
-                <h1 className={styles.displayName}>{faction?.name} {!faction?.public && <Tippy arrow={false} content={language.getString("PAGES.FACTION.PRIVATE")}><PixelIcon codename={'lock'} /></Tippy>}</h1>
+                <h1 className={styles.displayName}>{faction?.name} {!faction?.public && <Tippy arrow={false} content={language.getString("PAGES.FACTION.PRIVATE_TIPPY")}><PixelIcon codename={'lock'} /></Tippy>}</h1>
                 <p className={styles.userName}>#{faction?.handle}</p>
               </div>
 
@@ -182,7 +182,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                         faction: faction, 
                         execute: () => {
                           fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {
-                            openPopup("success", {message: language.getString("POPUPS_FACTION_DELETE.SUCCESS")})
+                            openPopup("success", {message: language.getString("POPUPS.FACTION_DELETE.SUCCESS")})
                             location.href = "/"
                           })
                         } 

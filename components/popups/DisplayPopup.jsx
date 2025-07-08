@@ -11,7 +11,7 @@ import AdminBuildAdd from "./admin/BuildAdd";
 import AdminColorAdd from "./admin/ColorAdd";
 import AdminFlagAdd from "./admin/FlagAdd";
 import AdminKick from "./admin/Kick";
-import FactionDelete from "./FactionDelete"
+import FactionDelete from "./faction/Delete"
 
 /**
  * Função padrão para exibir pop-ups usando o contexto
