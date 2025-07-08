@@ -30,7 +30,7 @@ export default function Header() {
 
     const HeaderLinks = {
         pixelsplace: {
-            icon: (<img width={'1.5rem'} src="/logo.png" alt="" />),
+            icon: (<img width={'24px'} src="/logo.png" alt="" />),
             label: 'PixelsPlace',
             href: '/'
         },
