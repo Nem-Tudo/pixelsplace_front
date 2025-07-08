@@ -9,6 +9,7 @@
   justify-content: center;
   gap: 8px;
   text-align: center;
+  font-size: medium;
 }
 
 .button:hover {

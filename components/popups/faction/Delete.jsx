@@ -1,7 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { MdClose } from "react-icons/md";
-import Link from "next/link";
-import PremiumButton from "@/components/PremiumButton";
+import { useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import { useLanguage } from '@/context/LanguageContext';
 import styles from "@/components/popups/DisplayPopup.module.css";
@@ -66,7 +63,7 @@ export default function FactionDelete({ closePopup, faction }) {
                         openPopup("success", {
                             message: language.getString("POPUPS.FACTION_DELETE.SUCCESS"),
                             timeout: 1000,
-                            onTimeout: () => {location.href = "/"}
+                            onTimeout: () => {location.href = "/"},
                         })
                     })
                 }} />

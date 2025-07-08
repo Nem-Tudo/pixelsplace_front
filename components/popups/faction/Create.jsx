@@ -4,7 +4,6 @@ import styles from "@/components/popups/DisplayPopup.module.css";
 import localStyles from "@/components/popups/faction/Create.module.css";
 import PixelIcon from "@/components/PixelIcon";
 import ToggleSwitch from "@/components/ToggleSwitch";
-import { dateToTimestamp } from "@/src/dateFunctions";
 import { usePopup } from '@/context/PopupContext';
 import settings from "@/settings.js";
 import { useAuth } from "@/context/AuthContext";
@@ -22,7 +21,6 @@ export default function FactionCreate({ closePopup }) {
     const [handle, setHandle] = useState('');
     const [description, setDescription] = useState('');
     const [iconUrl, setIconUrl] = useState('');
-    const [public, setPublic] = useState(false); // ainda não implementado?
 
     const { token, loggedUser } = useAuth();
     const { openPopup } = usePopup();
@@ -51,9 +49,9 @@ export default function FactionCreate({ closePopup }) {
             }
 
             openPopup("success", { 
-                message: `${language.getString("POPUPS.FACTION_CREATE.SUCCESS", { factionName: response.faction.name })}` 
+                message: `${language.getString("POPUPS.FACTION_CREATE.SUCCESS", { factionName: response.faction.name })}`,
                 timeout: 1000,
-                onTimeout: () => {location.href = `/faction/${response.faction.id}`};
+                onTimeout: () => {location.href = `/faction/${response.faction.id}`},
             })
             updateStateKey(setUser, user, ["faction", response.faction], ["factionId", response.faction.id])
 
@@ -80,8 +78,8 @@ export default function FactionCreate({ closePopup }) {
                         placeholder={language.getString("POPUPS.FACTION_CREATE.NAME_PLACEHOLDER")}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        minlength="4"
-                        maxlength="100"
+                        minLength="4"
+                        maxLength="100"
                         required
                     />
                 </div>
@@ -93,7 +91,7 @@ export default function FactionCreate({ closePopup }) {
                         name="handle"
                         id="factionCreate_handle"
                         value={"#"+handle}
-                        minlength="2"
+                        minLength="2"
                         onChange={(e) => {
                             // Filtra apenas caracteres permitidos e converte para minúscula
                             const filteredValue = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
