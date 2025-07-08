@@ -431,9 +431,9 @@ useEffect(() => {
                       </span>
                     </div>
                     <span id={styles.pixelHistory}>
-                      <PremiumButton padding={1}><PixelIcon codename={"arrow-left"} onClick={() => {pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory-1): ""}}/></PremiumButton>
+                      <CustomButton2 padding={1} icon={"arrow-left"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory > 0)} onClick={() => {pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory-1): ""}}/>
                         {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={1} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/>
+                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory < showingPixelInfoHistory.length-1)} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/>
                     </span>
                   </div>
                   {showingPixelInfo.u && (
