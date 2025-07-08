@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Link from "next/link";
 import styles from "@/components/CustomButton.module.css";
-import { darkenHex } from "@/src/colorFunctions";
+import { darkenHex, getBrightness } from "@/src/colorFunctions";
 import PixelIcon from '@/components/PixelIcon';
 
 /**
@@ -22,7 +22,7 @@ export default function CustomButton({
     children,
     label = '',
     href = undefined,
-    color = '#0075d5',
+    color,
     onClick = undefined,
     hierarchy = 1,
     padding = 3,
@@ -35,11 +35,12 @@ export default function CustomButton({
     const paddings = [styles.lowestPadding, styles.lowerPadding, styles.regularPadding];
 
     useEffect(() => {
-        if (ref.current) {
+        if (ref.current && color) {
             const el = ref.current;
-
             el.style.setProperty('--btn-color', color);
             el.style.setProperty('--btn-color-hover', darkenHex(color, 30));
+            hierarchy==1 && el.style.setProperty(`--btn-text`, ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(color)/101)]);
+            (hierarchy==1 || hierarchy==2) & el.style.setProperty(`--btn-text-hover`, ['var(--color-text-light)', 'var(--color-text-dark)'][Math.round(getBrightness(darkenHex(color, 30))/101)]);
         }
     }, [color]);
 

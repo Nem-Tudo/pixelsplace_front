@@ -19,12 +19,13 @@
 /* cores e aspectos */
 .button.primary {
   background-color: var(--btn-color, var(--color-accent));
-  color: white;
+  color: var(--btn-text, var(--color-text-light));
   border: var(--outline);
 }
 
 .button.primary:hover {
   background-color: var(--btn-color-hover, var(--color-accent-hover));
+  color: var(--btn-text-hover, var(--color-text-light));
 }
 
 .button.secondary {
@@ -36,7 +37,7 @@
 .button.secondary:hover {
   background-color: var(--btn-color-hover, var(--color-accent-hover));
   border: var(--outline);
-  color: white;
+  color: var(--btn-text-hover, var(--color-text-light));
 }
 
 .button.tertiary {
