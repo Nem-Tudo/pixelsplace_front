@@ -315,18 +315,19 @@ export default function Place() {
             )}
             {showingPixelInfo && (
               <div
-                ref={movePixelInfoRef}
-                style={{ ...styleDrag, touchAction: "none" }}
+              ref={movePixelInfoRef}
+              style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
                   className={`${styles.pixelInfo} ${showingPixelInfo?.author?.premium && styles.premium} ${direction === "left" ? "showLeft" : "showRight"
                     }`}
-                  ref={pixelInfoRef}
-                  style={showingPixelInfo?.author?.premium ? {
-                    '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
-                    '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
-                  } : {}}
-                >
+                    ref={pixelInfoRef}
+                    style={showingPixelInfo?.author?.premium ? {
+                      '--user-color-primary': `${showingPixelInfo?.author?.profile?.color_primary}`,
+                      '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
+                    } : {}}
+                    >
+                  <div>{console.log(showingPixelInfo)}</div>
                   <div style={{ position: "absolute", right: "20px" }}>
                     {isMobile ? (
                       <MdClose onClick={() => setShowingPixelInfo(null)} />
@@ -340,9 +341,10 @@ export default function Place() {
                         {numberToHex(showingPixelInfo.c)}
                       </span>
                     </div>
-
-                    <span>
+                    <span style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                    <PremiumButton><PixelIcon codename={"arrow-left"} /></PremiumButton>
                       {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
+                    <PremiumButton setStyle={{padding: "0px !important"}}><PixelIcon codename={"arrow-right"} /></PremiumButton>
                     </span>
                   </div>
                   {showingPixelInfo.u && (
