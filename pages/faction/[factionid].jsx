@@ -65,7 +65,6 @@ export default function Faction({ faction: factionobject, error, errormessage })
   useEffect(() => {
     if (router.query.factionid && factionobject) {
       setFaction(factionobject);
-      console.log(factionobject);
 
       // Só faz replace se a URL atual for diferente da desejada
       const currentPath = router.asPath;
