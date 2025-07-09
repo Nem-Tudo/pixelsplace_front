@@ -76,7 +76,6 @@ export default function AdminPage() {
       setUser(null);
     } else {
       setUser(data);
-      console.log(data);
     }
 
     if (res.status != 200)
@@ -88,7 +87,6 @@ export default function AdminPage() {
   const fetchCanvas = async () => {
     const res = await fetch(`${settings.apiURL}/canvas`);
     const data = await res.json();
-    console.log(data);
     setCanvas(data);
     setWidth(data.width);
     setHeight(data.height);
@@ -196,7 +194,6 @@ export default function AdminPage() {
       TargetExtraEval += `excludeUserIds=${routeEval.excludeUserIds}&`;
     }
     
-    console.log(TargetExtraEval);
     setChosenTargetExtraEval(TargetExtraEval);
 
   }, [routeEval])
@@ -217,7 +214,6 @@ export default function AdminPage() {
       TargetExtraAlert += `excludeUserIds=${routeAlert.excludeUserIds}&`;
     }
     
-    console.log(TargetExtraAlert);
     setChosenTargetExtraAlert(TargetExtraAlert);
 
   }, [routeAlert])
@@ -562,11 +558,9 @@ export default function AdminPage() {
               <footer className={styles.buttonsContainer}>
                 <CustomButton label={'Executar'} padding={2} icon={'play'} disabled={loading} onClick={async () => {
                   if (!evalCode.trim()) return openPopup("error", { message: "Insira o código." });
-                  console.log(chosenTargetEval);
                   openPopup("confirm", {
                     message: "Tem certeza que deseja executar este código em todos os clients?",
                     execute: async () => {
-                      console.log(`/admin/evalclients?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}&`}${chosenTargetExtraEval}`);
                       const res = await fetchWithAuth(`/admin/evalclients?${chosenTargetEval === "all" ? "" : `authenticated=${chosenTargetEval === "authenticated"}&`}${chosenTargetExtraEval}`, "POST", {
                         content: evalCode,
                       });
@@ -590,7 +584,6 @@ export default function AdminPage() {
                                     requiredFlags: requiredFlags
                                   }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&requiredFlags=" + requiredFlags);
-                      console.log(chosenTargetExtraEval);
                     }}
                   />
                   <label htmlFor={"TargetExtraEvalRequiredFlags"}>
@@ -612,7 +605,6 @@ export default function AdminPage() {
                                     userIds: userIds
                                   }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&userIds=" + userIds);
-                      console.log(chosenTargetExtraEval);
                     }}
                   />
                   <label htmlFor={"TargetExtraEvalBannedFlags"}>
@@ -638,7 +630,6 @@ export default function AdminPage() {
                                     bannedFlags: bannedFlags
                                   }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&bannedFlags=" + bannedFlags);
-                      console.log(chosenTargetExtraEval);
                     }}
                   />
                   <label htmlFor={"TargetExtraEvalUserIds"}>
@@ -658,7 +649,6 @@ export default function AdminPage() {
                                     excludeUserIds: excludeUserIds
                                   }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&excludeUserIds=" + excludeUserIds);
-                      console.log(chosenTargetExtraEval);
                     }}
                   />
                   <label htmlFor={"TargetExtraEvalExcludeUserIds"}>
@@ -721,7 +711,6 @@ export default function AdminPage() {
                   openPopup("confirm", {
                     message: "Deseja enviar essa mensagem para todos os clients?",
                     execute: async () => {
-                      console.log(`/admin/alertmessage?${chosenTargetAlert === "all" ? "" : `authenticated=${chosenTargetAlert === "authenticated"}&`}${chosenTargetExtraAlert}`);
                       const res = await fetchWithAuth(`/admin/alertmessage?${chosenTargetAlert === "all" ? "" : `authenticated=${chosenTargetAlert === "authenticated"}&`}${chosenTargetExtraAlert}`, "POST", {
                       // const res = await fetchWithAuth("/admin/alertmessage", "POST", {
                         content: alertMessage,
@@ -746,7 +735,6 @@ export default function AdminPage() {
                                     requiredFlags: requiredFlags
                                   }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&requiredFlags=" + requiredFlags.toUpperCase());
-                      console.log(chosenTargetExtraAlert);
                     }}
                   />
                   <label htmlFor={"TargetExtraAlertRequiredFlags"}>
@@ -767,7 +755,6 @@ export default function AdminPage() {
                                     userIds: userIds
                                   }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&userIds=" + userIds);
-                      console.log(chosenTargetExtraAlert);
                     }}
                   />
                   <label htmlFor={"TargetExtraAlertBannedFlags"}>
@@ -793,7 +780,6 @@ export default function AdminPage() {
                                     bannedFlags: bannedFlags
                                   }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&bannedFlags=" + bannedFlags.toUpperCase());
-                      console.log(chosenTargetExtraAlert);
                     }}
                   />
                   <label htmlFor={"TargetExtraAlertUserIds"}>
@@ -814,7 +800,6 @@ export default function AdminPage() {
                                     excludeUserIds: excludeUserIds
                                   }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&excludeUserIds=" + excludeUserIds);
-                      console.log(chosenTargetExtraAlert);
                     }}
                   />
                   <label htmlFor={"TargetExtraAlertExcludeUserIds"}>
@@ -1084,7 +1069,6 @@ export default function AdminPage() {
                     icon={'save'}
                     disabled={loading}
                     onClick={async () => {
-                      console.log(user?.id);
                       await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
                         flags: user.flags,
                       });
@@ -1106,16 +1090,13 @@ export default function AdminPage() {
                     hierarchy={user.premium ? "2" : "1"}
                     color={'#27b84d'}
                     onClick={async () => {
-                      // console.log("Antes: "+user?.premium)
                       let newPremim = user?.premium;
                       if (user?.premium) {
                         newPremim = 0;
                       } else {
                         newPremim = 1;
                       };
-                      // console.log("Depois: "+newPremim)
                       updateStateKey(setUser, user, ["premium", newPremim]);
-                      // console.log(user?.id);
                       await fetchWithAuth("/admin/users/" + user?.id, "PATCH", {
                         premium: newPremim,
                       });
