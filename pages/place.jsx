@@ -401,7 +401,7 @@ useEffect(() => {
                       </span>
                       {
                         showingPixelInfo?.author?.settings?.selected_guild && <Link href={`/guild/${showingPixelInfo.author.settings.selected_guild}`}>
-                          {showingPixelInfo.author.settings.selected_guild.name}
+                          {showingPixelInfo.author.settings.selectedGuild.name}
                         </Link >
                       }
 
