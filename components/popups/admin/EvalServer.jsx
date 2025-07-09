@@ -35,7 +35,7 @@ export default function EvalServer({ closePopup }) {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const response = await fetchWithAuth("/admin/evalserver", "POST", {
