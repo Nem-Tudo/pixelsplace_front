@@ -849,7 +849,7 @@ const PixelCanvas = forwardRef(({
                             const startY = touch.clientY;
 
                             if (e.touches.length > 1) {
-                                if (e.currentTarget.touchData?.longPressTimer) {
+                                if (e.currentTarget?.touchData?.longPressTimer) {
                                     clearTimeout(e.currentTarget.touchData.longPressTimer);
                                     e.currentTarget.touchData.longPressTimer = null;
                                 }
@@ -869,7 +869,7 @@ const PixelCanvas = forwardRef(({
 
                                     if (navigator.vibrate) navigator.vibrate(50);
 
-                                    if (e.currentTarget.touchData) {
+                                    if (e.currentTarget?.touchData) {
                                         e.currentTarget.touchData.longPressTriggered = true;
                                     }
                                 }
@@ -886,7 +886,7 @@ const PixelCanvas = forwardRef(({
                             };
                         }}
                         onTouchMove={(e) => {
-                            if (e.currentTarget.touchData) {
+                            if (e.currentTarget?.touchData) {
                                 const touch = e.touches[0];
                                 const { startX, startY } = e.currentTarget.touchData;
 
@@ -898,7 +898,7 @@ const PixelCanvas = forwardRef(({
                                 e.currentTarget.touchData.moveDistance = distance;
 
                                 if (distance > MOVEMENT_TOLERANCE) {
-                                    if (e.currentTarget.touchData.longPressTimer) {
+                                    if (e.currentTarget?.touchData.longPressTimer) {
                                         clearTimeout(e.currentTarget.touchData.longPressTimer);
                                         e.currentTarget.touchData.longPressTimer = null;
                                     }
