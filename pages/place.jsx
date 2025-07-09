@@ -287,12 +287,9 @@ export default function Place() {
     const data = await request.json();
     if((loggedUser?.premium)&&(data.u)){await showPixelInfoHistory(x,y);};
     setShowingPixelInfo(data);
-    console.log("PixelInfo: ");
-    console.log(data);
   }
 
     async function showPixelInfoHistory(x, y) {
-      console.log(`${settings.apiURL}/canvas/pixelhistory?x=${x}&y=${y}&parseAuthor=true&parseAuthorGuild=true`)
     const request = await fetch(
       `${settings.apiURL}/canvas/pixelhistory?x=${x}&y=${y}&parseAuthor=true&parseAuthorGuild=true`,
       {
@@ -309,8 +306,6 @@ export default function Place() {
     if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
 
     const data = await request.json();
-    console.log("PixelInfoHistory: ");
-    console.log(data);  
     setPixelInfoHistory(data.length-1);
     setShowingPixelInfoHistory(data);
   }
@@ -318,20 +313,8 @@ export default function Place() {
 
 useEffect(() => {
   if (showingPixelInfo) {
-    const updatePixelInfo = async () => {
-      const newPixelInfo = showingPixelInfoHistory[pixelInfoHistory];
-
       // Atualiza o estado com as informações modificadas
-      setShowingPixelInfo(newPixelInfo);
-
-      // Logs para depuração
-      console.log("showingPixelInfoHistory: ");
-      console.log(newPixelInfo);
-      console.log("PixelInfoHistory " + pixelInfoHistory + ": ");
-      console.log(showingPixelInfoHistory[pixelInfoHistory]);
-    };
-
-    updatePixelInfo();
+      setShowingPixelInfo(showingPixelInfoHistory[pixelInfoHistory]);
   }
 }, [pixelInfoHistory]);
 
@@ -388,7 +371,6 @@ useEffect(() => {
                     '--user-color-secondary': `${showingPixelInfo?.author?.profile?.color_secundary}`,
                   } : {}}
                 >
-                  {/* <div>{console.log(showingPixelInfo)}</div> */}
                   <div style={{ position: "absolute", right: "20px" }}>
                     {isMobile ? (
                       <MdClose onClick={() => setShowingPixelInfo(null)} />
