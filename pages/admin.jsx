@@ -672,15 +672,15 @@ export default function AdminPage() {
 
             {/* Eval server */}
             <fieldset>
-              <legend>Dangerously Eval Server <span style={{ color: "red" }}>(Exclusive permission required)</span></legend>
+              <legend>
+                <strong>
+                  Executar código (eval server)
+                </strong>
+              </legend>
+              <span style={{ color: "red" }}>Permissão exclusiva exigida*</span>
               <footer>
-                <CustomButton label="Inserir código" onClick={async () => {
-                  const content = prompt("Digite o código");
-                  const response = await fetchWithAuth("/admin/evalserver", "POST", {
-                    content
-                  });
-                  console.log(response)
-                  alert(JSON.stringify(response.result));
+                <CustomButton label="Inserir código" icon={'script-text'} onClick={async () => {
+                  openPopup('admin_eval_server')
                 }} />
               </footer>
             </fieldset>

@@ -36,7 +36,7 @@ export default function Confirm({ closePopup, message, execute }) {
             
             <footer className={styles.footer}>
                 <CustomButton label={language.getString("COMMON.NO")} hierarchy={3} color={'#636363'} onClick={() => closePopup()} />
-                <CustomButton label={language.getString("COMMON.YES")} onClick={() => {
+                <CustomButton label={language.getString("COMMON.YES")} icon='check' onClick={() => {
                     closePopup();
                     execute();
                 }} />

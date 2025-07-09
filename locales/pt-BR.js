@@ -46,6 +46,7 @@ module.exports = {
         THEME: "Tema",
         ASK_TO_JOIN: "Pedir para entrar",
         LOG_IN_TO_JOIN: "Logue para entrar",
+        DOWNLOAD: 'Baixar',
     },
     THEMES: {
         DARK: 'Padrão',
@@ -153,6 +154,10 @@ module.exports = {
             ICON_COLOR: "Cor do ícone",
             PUBLIC: "Facção pública (WIP)",
             SUCCESS: 'Facção {{factionName}} criada com sucesso!',
+        },
+        CANVAS_DOWNLOAD: {
+            TITLE: 'Baixar Canvas como imagem',
+            LABEL: 'Cada pixel deve equivaler a quantos pixels? (1 = tamanho real)',
         },
     },
     LAYOUTS: {

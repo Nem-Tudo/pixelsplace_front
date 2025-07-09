@@ -13,6 +13,8 @@ import AdminFlagAdd from "./admin/FlagAdd";
 import AdminKick from "./admin/Kick";
 import FactionDelete from "./faction/Delete";
 import FactionCreate from "./faction/Create";
+import CanvasDownload from "./CanvasDownload";
+import AdminEvalServer from "./admin/EvalServer";
 
 /**
  * Função padrão para exibir pop-ups usando o contexto
@@ -36,7 +38,9 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "admin_flag_add": <AdminFlagAdd closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_kick": <AdminKick closePopup={closePopup} {...showingPopup?.settings} />,
         "faction_delete": <FactionDelete closePopup={closePopup} {...showingPopup?.settings} />,
-        "faction_create": <FactionCreate closePopup={closePopup} {...showingPopup?.settings} />
+        "faction_create": <FactionCreate closePopup={closePopup} {...showingPopup?.settings} />,
+        "canvas_download": <CanvasDownload closePopup={closePopup} {...showingPopup?.settings} />,
+        "admin_eval_server": <AdminEvalServer closePopup={closePopup} {...showingPopup?.settings} />
     };
 
     showingPopup?.settings?.timeout &&

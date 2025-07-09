@@ -77,12 +77,12 @@ export default function TimeTravel() {
             }
         ).catch((e) => {
             console.log("Erro ao obter pixel: ", e);
-            alert(e)
+            openPopup('error', {message: `${e}`})
         });
-        if (!request.ok) return alert("erro", request.status)
+        if (!request.ok) return openPopup("error", {message: `${request.status}`})
 
         const data = await request.json();
-        alert(JSON.stringify(data))
+        openPopup('generic', {message: JSON.stringify(data)})
     }
 
     // Função para formatar data para input datetime-local

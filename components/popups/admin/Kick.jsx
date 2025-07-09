@@ -68,6 +68,7 @@ export default function AdminKick({ closePopup, user }) {
         />
         <CustomButton
           label="Desconectar"
+          icon='user-x'
           type="submit"
         />
       </footer>

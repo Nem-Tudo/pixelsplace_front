@@ -11,7 +11,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import updateStateKey from "@/src/updateStateKey";
 
 /**
- * Pop-up administrativo de criação de nova Build baseada em uma branch do github
+ * Pop-up de criação de facção
  * @param {Object} properties - Passagem de propriedades pro pop-up
  * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
  */

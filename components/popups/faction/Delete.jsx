@@ -40,7 +40,7 @@ export default function FactionDelete({ closePopup, faction }) {
     return (
         <>
             <h1 className={styles.title}>
-                <PixelIcon codename={'alert'} />
+                <PixelIcon codename={'trash'} />
                 {language.getString("POPUPS.FACTION_DELETE.TITLE", {factionName: faction.name})}
             </h1>
 
@@ -56,7 +56,7 @@ export default function FactionDelete({ closePopup, faction }) {
             
             <footer className={styles.footer}>
                 <CustomButton label={language.getString("COMMON.NO")} hierarchy={3} color={'#636363'} onClick={() => closePopup()} />
-                <CustomButton label={language.getString("COMMON.CONFIRM")} color={'#ff0000'} onClick={() => {
+                <CustomButton label={language.getString("COMMON.CONFIRM")} icon={'trash'} color={'#ff0000'} onClick={() => {
                     if (typedHandle != faction.handle) return openPopup("error", {message: language.getString("POPUPS.FACTION_DELETE.INCORRECT_HANDLE")})
                     closePopup();
                     fetchWithAuth(`/factions/${faction.id}`, "DELETE").then(() => {

@@ -3,6 +3,7 @@ import styles from "./PixelCanvas.module.css";
 import checkFlags from "@/src/checkFlags";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from '@/context/LanguageContext';
+import { usePopup } from "@/context/PopupContext";
 import Tippy from "@tippyjs/react";
 import downloadCanvasImage from "@/src/downloadCanvasImage";
 import CustomButton from "@/components/CustomButton";
@@ -41,6 +42,7 @@ const PixelCanvas = forwardRef(({
 
     const { loggedUser } = useAuth();
     const { language } = useLanguage();
+    const { openPopup } = usePopup();
 
     // States
     const [, forceUpdate] = useState(0);
@@ -400,7 +402,7 @@ const PixelCanvas = forwardRef(({
 
         } catch (error) {
             console.error("Erro no PiP:", error);
-            alert(`Erro no PiP: ${error.message}`);
+            openPopup('error', {message: `${error.message}`})
         }
     }
 
@@ -762,9 +764,7 @@ const PixelCanvas = forwardRef(({
                                     tools_setInitialBytes(null)
                                 }}>Reset</CustomButton>
                                 <CustomButton hierarchy={3} padding={1} onClick={() => {
-                                    const multipler = Number(prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)") || 10);
-                                    if (isNaN(multipler)) return alert("deve ser um número")
-                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                                    openPopup('canvas_download', { canvasRef, downloadCanvasImage })
                                 }}>Download</CustomButton>
                             </section>
                             <section>
@@ -958,19 +958,16 @@ const PixelCanvas = forwardRef(({
 
                         {
                             loggedUser?.premium && <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.DOWNLOAD')} placement="top">
-                                <PixelIcon codename={'download'} className={styles.tool} onClick={() => {
-                                    const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
-                                    if (multiplierdata === null) return;
-                                    const multipler = Number(multiplierdata || 10)
-                                    if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
-                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
-                                }} onTouchStart={() => {
-                                    const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
-                                    if (multiplierdata === null) return;
-                                    const multipler = Number(multiplierdata || 10)
-                                    if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
-                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
-                                }} />
+                                <PixelIcon 
+                                    codename={'download'}
+                                    className={styles.tool} 
+                                    onClick={() => {
+                                        openPopup('canvas_download', { canvasRef, downloadCanvasImage })
+                                    }}
+                                    onTouchStart={() => {
+                                        openPopup('canvas_download', { canvasRef, downloadCanvasImage })
+                                    }} 
+                                />
                             </Tippy>
                         }
                     </div>
