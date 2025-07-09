@@ -73,7 +73,6 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
   useEffect(() => {
     if (router.query.userid && userobject) {
       setUser(userobject);
-      console.log(user);
       setSavedUser(userobject);
 
       // Reset edit states quando mudar de usuário
@@ -146,7 +145,6 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
       const imageURL = URL.createObjectURL(file);
       updateStateKey(setUser, user, ["profile.banner_url", imageURL])
       setFilesToUpload([...filesToUpload, file])
-      console.log("Imagem selecionada:", file);
     }
   };
 
