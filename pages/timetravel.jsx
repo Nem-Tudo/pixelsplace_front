@@ -306,13 +306,13 @@ export default function TimeTravel() {
                 </div>}
 
                 {/* Canvas */}
-                {!loading && !apiError && <div id={styles.main}>
+                {!loading && !apiError && <main id={styles.main}>
                     <PixelCanvas
                         ref={canvasRef}
                         fetchCanvas={fetchCanvas}
                         onRightClickPixel={(x, y) => showPixelInfo(x, y)}
                     />
-                </div>}
+                </main>}
             </MainLayout>
         </>
     );

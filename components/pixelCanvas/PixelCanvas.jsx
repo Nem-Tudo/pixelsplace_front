@@ -521,7 +521,7 @@ const PixelCanvas = forwardRef(({
 
         // Touch Events
         const handleTouchStart = (e) => {
-            // e.preventDefault();
+            e.preventDefault();
 
             if (e.touches.length === 1) {
                 isDragging = true;
@@ -789,7 +789,7 @@ const PixelCanvas = forwardRef(({
                     </>
                 }
             </div>
-            <div
+            <main
                 className={`${styles.canvasContainer} ${className}`}
                 style={style}
                 {...props}
@@ -849,7 +849,7 @@ const PixelCanvas = forwardRef(({
                             const startY = touch.clientY;
 
                             if (e.touches.length > 1) {
-                                if (e.currentTarget.touchData?.longPressTimer) {
+                                if (e.currentTarget?.touchData?.longPressTimer) {
                                     clearTimeout(e.currentTarget.touchData.longPressTimer);
                                     e.currentTarget.touchData.longPressTimer = null;
                                 }
@@ -869,7 +869,7 @@ const PixelCanvas = forwardRef(({
 
                                     if (navigator.vibrate) navigator.vibrate(50);
 
-                                    if (e.currentTarget.touchData) {
+                                    if (e.currentTarget?.touchData) {
                                         e.currentTarget.touchData.longPressTriggered = true;
                                     }
                                 }
@@ -886,7 +886,7 @@ const PixelCanvas = forwardRef(({
                             };
                         }}
                         onTouchMove={(e) => {
-                            if (e.currentTarget.touchData) {
+                            if (e.currentTarget?.touchData) {
                                 const touch = e.touches[0];
                                 const { startX, startY } = e.currentTarget.touchData;
 
@@ -898,7 +898,7 @@ const PixelCanvas = forwardRef(({
                                 e.currentTarget.touchData.moveDistance = distance;
 
                                 if (distance > MOVEMENT_TOLERANCE) {
-                                    if (e.currentTarget.touchData.longPressTimer) {
+                                    if (e.currentTarget?.touchData.longPressTimer) {
                                         clearTimeout(e.currentTarget.touchData.longPressTimer);
                                         e.currentTarget.touchData.longPressTimer = null;
                                     }
@@ -953,7 +953,7 @@ const PixelCanvas = forwardRef(({
                     />
                     <div className={styles.bottomCanvasTools}>
                         <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.PIP')} placement="top">
-                            <PixelIcon codename={'picture-in-picture-alt'} className={styles.tool} onClick={() => pipCanvas()} />
+                            <PixelIcon codename={'picture-in-picture-alt'} className={styles.tool} onClick={() => pipCanvas()} onTouchStart={() => pipCanvas()} />
                         </Tippy>
 
                         {
@@ -964,12 +964,18 @@ const PixelCanvas = forwardRef(({
                                     const multipler = Number(multiplierdata || 10)
                                     if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
                                     downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                                }} onTouchStart={() => {
+                                    const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
+                                    if (multiplierdata === null) return;
+                                    const multipler = Number(multiplierdata || 10)
+                                    if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
+                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
                                 }} />
                             </Tippy>
                         }
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 });
