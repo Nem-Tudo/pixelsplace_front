@@ -346,8 +346,9 @@ useEffect(() => {
       // Atualiza o campo author
       newPixelInfo.author = user;
 
-
+    if(user.settings.selected_guild){
     newPixelInfo.author.settings.selected_guild = await getResource("guilds", user.settings.selected_guild);
+    }
 
 
       // Atualiza o estado com as informações modificadas
