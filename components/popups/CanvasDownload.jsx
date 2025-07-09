@@ -53,7 +53,7 @@ export default function CanvasDownload({ closePopup, canvasRef, downloadCanvasIm
                 />
                 <CustomButton
                     label={language.getString('COMMON.DOWNLOAD')}
-                    icon='download'
+                    icon={'download'}
                     type="submit"
                 />
             </footer>

@@ -74,7 +74,7 @@ export default function EvalServer({ closePopup }) {
                 />
                 <CustomButton
                     label="Executar"
-                    icon='play'
+                    icon={'play'}
                     type="submit"
                 />
             </footer>

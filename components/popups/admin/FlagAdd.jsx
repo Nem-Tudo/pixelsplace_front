@@ -70,7 +70,7 @@ export default function AdminFlagAdd({ closePopup, user, setUser, updateStateKey
         />
         <CustomButton
           label="Adicionar"
-          icon='plus'
+          icon={'plus'}
           type="submit"
         />
       </footer>

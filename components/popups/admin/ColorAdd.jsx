@@ -70,7 +70,7 @@ export default function AdminColorAdd({ closePopup, freeColors, setFreeColors })
                 />
                 <CustomButton
                     label="Adicionar"
-                    icon='plus'
+                    icon={'plus'}
                     type="submit"
                 />
             </footer>

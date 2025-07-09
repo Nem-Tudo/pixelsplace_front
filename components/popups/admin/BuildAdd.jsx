@@ -178,7 +178,7 @@ export default function AdminBuildAdd({ closePopup }) {
                 />
                 <CustomButton
                     label={'Criar'}
-                    icon='plus'
+                    icon={'plus'}
                     type="submit"
                 />
             </footer>
