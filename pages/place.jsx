@@ -626,7 +626,7 @@ useEffect(() => {
           </Failure>
         )}
 
-        <div id={styles.main}
+        <main id={styles.main}
           style={{ display: isAlready() ? "unset" : "none" }}
         >
           <PixelCanvas
@@ -639,7 +639,7 @@ useEffect(() => {
             onTransformChange={setCanvasTransform}
             fetchCanvas={fetchCanvas}
           />
-        </div>
+        </main>
       </MainLayout>
     </>
   );

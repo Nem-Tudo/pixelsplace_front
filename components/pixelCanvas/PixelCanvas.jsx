@@ -789,7 +789,7 @@ const PixelCanvas = forwardRef(({
                     </>
                 }
             </div>
-            <div
+            <main
                 className={`${styles.canvasContainer} ${className}`}
                 style={style}
                 {...props}
@@ -969,7 +969,7 @@ const PixelCanvas = forwardRef(({
                         }
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 });

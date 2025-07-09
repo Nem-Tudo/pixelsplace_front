@@ -75,7 +75,7 @@
   textarea {
     width: 100%;
     padding: 10px;
-    background-color: var(--color-input-bg);
+    background: var(--color-input-bg);
     color: var(--color-text-light);
     border: var(--outline);
     border-radius: 12px;
