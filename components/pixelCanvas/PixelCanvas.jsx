@@ -521,7 +521,7 @@ const PixelCanvas = forwardRef(({
 
         // Touch Events
         const handleTouchStart = (e) => {
-            // e.preventDefault();
+            e.preventDefault();
 
             if (e.touches.length === 1) {
                 isDragging = true;
@@ -953,12 +953,18 @@ const PixelCanvas = forwardRef(({
                     />
                     <div className={styles.bottomCanvasTools}>
                         <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.PIP')} placement="top">
-                            <PixelIcon codename={'picture-in-picture-alt'} className={styles.tool} onClick={() => pipCanvas()} />
+                            <PixelIcon codename={'picture-in-picture-alt'} className={styles.tool} onClick={() => pipCanvas()} onTouchStart={() => pipCanvas()} />
                         </Tippy>
 
                         {
                             loggedUser?.premium && <Tippy arrow={false} content={language.getString('COMPONENTS.PIXEL_CANVAS.DOWNLOAD')} placement="top">
                                 <PixelIcon codename={'download'} className={styles.tool} onClick={() => {
+                                    const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
+                                    if (multiplierdata === null) return;
+                                    const multipler = Number(multiplierdata || 10)
+                                    if (!Number.isInteger(multipler)) return alert("O multiplicador deve ser um número inteiro")
+                                    downloadCanvasImage(canvasRef.current, `canvas-x${multipler}-${Date.now()}.png`, multipler)
+                                }} onTouchStart={() => {
                                     const multiplierdata = prompt("Cada pixel equivale a quantos pixels? (default = 10) (1 = tamanho real)");
                                     if (multiplierdata === null) return;
                                     const multipler = Number(multiplierdata || 10)
