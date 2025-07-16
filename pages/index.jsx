@@ -415,6 +415,7 @@ export default function Home() {
         }
 
         body {
+          background: #1a1a2e !important;
         }
       `;
       document.head.appendChild(style);
