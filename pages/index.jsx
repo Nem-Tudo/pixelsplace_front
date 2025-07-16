@@ -22,6 +22,7 @@ export default function Home() {
     let mouseX = 0;
     let mouseY = 0;
     let animationId;
+    let deviceOrientation = { beta: 0, gamma: 0 }; // beta: frente/trás, gamma: esquerda/direita
 
     // Classe para o background animado
     class PixelBackground {
@@ -45,6 +46,7 @@ export default function Home() {
         this.createFloatingPixels();
         this.startAnimations();
         this.startMouseInteraction();
+        this.startOrientationListener();
       }
 
       createPixelGrid() {
@@ -108,34 +110,74 @@ export default function Home() {
         }
       }
 
+      startOrientationListener() {
+        // Verificar se o dispositivo suporta orientação
+        if (typeof DeviceOrientationEvent !== 'undefined') {
+          // Solicitar permissão para iOS 13+
+          if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+              .then(permissionState => {
+                if (permissionState === 'granted') {
+                  window.addEventListener('deviceorientation', this.handleOrientation);
+                }
+              })
+              .catch(console.error);
+          } else {
+            // Para outros dispositivos/navegadores
+            window.addEventListener('deviceorientation', this.handleOrientation);
+          }
+        }
+      }
+
+      handleOrientation = (event) => {
+        // Limitar os valores para evitar movimentos extremos
+        const maxTilt = 30; // graus máximos
+        const beta = Math.max(-maxTilt, Math.min(maxTilt, event.beta || 0));
+        const gamma = Math.max(-maxTilt, Math.min(maxTilt, event.gamma || 0));
+        
+        deviceOrientation = { beta, gamma };
+      }
+
       startMouseInteraction() {
         const updatePixelPositions = () => {
           const repulsionRadius = 520;
           const repulsionForce = 800;
+          
+          // Calcular força da gravidade baseada na orientação
+          const gravityForce = 0.5;
+          const gravityX = (deviceOrientation.gamma / 30) * gravityForce;
+          const gravityY = (deviceOrientation.beta / 30) * gravityForce;
 
           this.pixels.forEach(pixel => {
             const dx = pixel.currentX - mouseX;
             const dy = pixel.currentY - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
+            let targetX = pixel.originalX;
+            let targetY = pixel.originalY;
+
+            // Aplicar efeito de gravidade da orientação
+            targetX += gravityX * 50;
+            targetY += gravityY * 50;
+
             if (distance < repulsionRadius && distance > 0) {
               const force = (repulsionRadius - distance) / repulsionRadius;
               const repulsionX = (dx / distance) * force * repulsionForce;
               const repulsionY = (dy / distance) * force * repulsionForce;
 
-              pixel.currentX = pixel.originalX + repulsionX;
-              pixel.currentY = pixel.originalY + repulsionY;
+              pixel.currentX = targetX + repulsionX;
+              pixel.currentY = targetY + repulsionY;
             } else {
-              // Retornar suavemente à posição original
-              pixel.currentX += (pixel.originalX - pixel.currentX) * 0.1;
-              pixel.currentY += (pixel.originalY - pixel.currentY) * 0.1;
+              // Retornar suavemente à posição com gravidade
+              pixel.currentX += (targetX - pixel.currentX) * 0.1;
+              pixel.currentY += (targetY - pixel.currentY) * 0.1;
             }
 
             pixel.style.left = pixel.currentX + 'px';
             pixel.style.top = pixel.currentY + 'px';
           });
 
-          // Aplicar repulsão aos pixels flutuantes também
+          // Aplicar repulsão e gravidade aos pixels flutuantes
           this.floatingPixels.forEach(pixel => {
             if (pixel.parentNode) {
               const rect = pixel.getBoundingClientRect();
@@ -146,15 +188,19 @@ export default function Home() {
               const dy = pixelY - mouseY;
               const distance = Math.sqrt(dx * dx + dy * dy);
 
+              let transformX = gravityX * 20;
+              let transformY = gravityY * 20;
+
               if (distance < repulsionRadius && distance > 0) {
                 const force = (repulsionRadius - distance) / repulsionRadius;
                 const repulsionX = (dx / distance) * force * 30;
                 const repulsionY = (dy / distance) * force * 30;
 
-                pixel.style.transform = `translate(${repulsionX}px, ${repulsionY}px)`;
-              } else {
-                pixel.style.transform = 'translate(0px, 0px)';
+                transformX += repulsionX;
+                transformY += repulsionY;
               }
+
+              pixel.style.transform = `translate(${transformX}px, ${transformY}px)`;
             }
           });
 
@@ -386,6 +432,7 @@ export default function Home() {
     // Cleanup ao desmontar
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('deviceorientation', pixelBg.handleOrientation);
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
