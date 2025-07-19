@@ -160,7 +160,8 @@ export default function BuildSwitcher() {
                         flexGrow: 1,
                         padding: '5px',
                         borderRadius: '4px',
-                        border: '1px solid #ccc'
+                        border: '1px solid #ccc',
+                        width: '-webkit-fill-available'
                     }}
                 >
                     <option value="main">main</option>

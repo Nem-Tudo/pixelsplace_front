@@ -30,7 +30,7 @@ export default function FactionCard({ faction, role, ...props }) {
             <div className={styles.factionInfo}>
                 <h2 className={styles.factionName} translate="no">
                     <span>{faction.name}{!faction.public && <PixelIcon codename={'lock'} />}</span>
-                    <span>#{faction.handle}</span>
+                    <span id={styles.identifier}>#{faction.handle}</span>
                 </h2>
                 <span>{faction.stats.membersCount} membros</span>
                 <progress value={faction.stats.membersCount} max={faction.memberLimit} />
