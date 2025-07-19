@@ -1,0 +1,136 @@
+/* Keyframe Animations */
+@keyframes float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  95% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gridMove {
+  0% { 
+    transform: translate(0, 0); 
+  }
+  100% { 
+    transform: translate(24px, 24px); 
+  }
+}
+
+@keyframes ambientMove {
+  0%, 100% {
+    transform: translate(10vw, 10vh) scale(0.8);
+  }
+  25% {
+    transform: translate(80vw, 20vh) scale(1.2);
+  }
+  50% {
+    transform: translate(70vw, 70vh) scale(0.9);
+  }
+  75% {
+    transform: translate(20vw, 80vh) scale(1.1);
+  }
+}
+
+@keyframes waveMove {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+/* Main Container */
+.backgroundContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #1a1a2e;
+  z-index: -10;
+  pointer-events: none;
+}
+
+/* Wave Effect */
+.waveEffect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, 
+    rgba(74, 172, 254, 0.03) 0%, 
+    transparent 25%, 
+    transparent 75%, 
+    rgba(74, 172, 254, 0.03) 100%);
+  animation: waveMove 25s infinite ease-in-out;
+}
+
+/* Ambient Glows */
+.ambientGlow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74, 172, 254, 0.1) 0%, transparent 70%);
+}
+
+.ambientGlow1 {
+  animation: ambientMove 20s infinite ease-in-out;
+  animation-delay: 0s;
+}
+
+.ambientGlow2 {
+  animation: ambientMove 25s infinite ease-in-out;
+  animation-delay: 7s;
+}
+
+.ambientGlow3 {
+  animation: ambientMove 30s infinite ease-in-out;
+  animation-delay: 14s;
+}
+
+/* Grid Overlay */
+.gridOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+  animation: gridMove 30s linear infinite;
+}
+
+/* Static Pixels */
+.pixel {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Floating Pixels */
+.floatingPixel {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  opacity: 0.6;
+  animation: float 15s infinite linear;
+  transition: transform 0.3s ease-out;
+}
