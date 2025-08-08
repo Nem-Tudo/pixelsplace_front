@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
-  
+
   async headers() {
     return [
       {
@@ -18,6 +18,14 @@ const nextConfig = {
             value: '/',
           },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://apipixelsplace.com/:path*",
       },
     ];
   },
