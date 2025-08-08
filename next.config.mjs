@@ -24,7 +24,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
+        source: "/proxyapi/:path*",
         destination: "https://apipixelsplace.com/:path*",
       },
     ];
