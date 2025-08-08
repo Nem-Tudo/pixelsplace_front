@@ -25,7 +25,7 @@ const nextConfig = {
     return [
       {
         source: "/proxyapi/:path*",
-        destination: "https://apipixelsplace.com/:path*",
+        destination: "https://apipixelsplace.nemtudo.me/:path*",
       },
     ];
   },
