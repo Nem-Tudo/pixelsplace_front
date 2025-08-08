@@ -21,7 +21,7 @@ const createSocket = () => {
     try {
         const token = getTokenFromCookie(); // Pega o token do cookie
 
-        socketInstance = io(settings.socketURL, {
+        socketInstance = io(settings.socketProtocol + '://' + settings.socketURL, {
             auth: {
                 token: token // Usa o token do cookie
             },
