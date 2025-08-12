@@ -21,14 +21,14 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: "/proxyapi/:path*",
-        destination: "https://apipixelsplace.nemtudo.me/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/proxyapi/:path*",
+  //       destination: "https://apipixelsplace.nemtudo.me/:path*",
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;
