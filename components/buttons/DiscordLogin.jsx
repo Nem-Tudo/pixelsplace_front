@@ -29,7 +29,7 @@ export default function DiscordLogin({ onUpdateLoading = () => { }, customStyle 
 
                 setIsLoading(false);
                 // Recarregar a página principal
-                // window.location.reload();
+                window.location.reload();
                 refreshUser();
                 closePopup();
             }

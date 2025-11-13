@@ -26,6 +26,8 @@ export default function TwitterLogin({ onUpdateLoading = () => { }, customStyle 
                 Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
                 Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
                 setIsLoading(false);
+                
+                window.location.reload();
                 refreshUser();
                 closePopup();
 

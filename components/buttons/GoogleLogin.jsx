@@ -27,7 +27,7 @@ export default function GoogleLogin({ onUpdateLoading = () => { }, customStyle =
                 Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
                 setIsLoading(false);
                 // Recarregar a página principal
-                // window.location.reload();
+                window.location.reload();
                 refreshUser();
                 closePopup();
             }
