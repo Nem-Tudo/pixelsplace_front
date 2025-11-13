@@ -226,7 +226,7 @@ export default function Place() {
       if (data.closePopup) closePopup();
       setUser(data.user)
     });
-    
+
     console.log("[WebSocket] Loaded sockets");
   }
 
@@ -456,7 +456,9 @@ export default function Place() {
                   {!showingColors && timeLeft == "0:00" && (!loggedUser || (canvasConfig.mode === "PAID" && (loggedUser.pixelCredits > 0)) || (canvasConfig.mode === "FREE")) && (
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px" }}>
                       {
-                        (canvasConfig.mode === "PAID" && loggedUser) && <span>{loggedUser?.pixelCredits} crédito{loggedUser?.pixelCredits === 1 ? "" : "s"}</span>
+                        (canvasConfig.mode === "PAID" && loggedUser) && <span className={styles.credits} onClick={() => {
+                          openPopup("buy_pixel", { loggedUser, pixelPrice: canvasConfig.pixelPrice })
+                        }}>{loggedUser?.pixelCredits} crédito{loggedUser?.pixelCredits === 1 ? "" : "s"}</span>
                       }
                       <CustomButton
                         label={loggedUser ? (language.getString("PAGES.PLACE.PLACE_PIXEL", { credits: loggedUser.pixelCredits })) : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}

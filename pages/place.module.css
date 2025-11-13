@@ -112,6 +112,7 @@
                 }
             }
         }
+
         .pixelPlacement[data-showing-colors="true"] {
             background: var(--frosted-glass);
             box-shadow: var(--shadow);
@@ -146,8 +147,9 @@
                 max-width: 100%;
                 padding: 10px;
                 gap: 10px;
-                
-                .color, .confirmation .color {
+
+                .color,
+                .confirmation .color {
                     width: 50px;
                     min-width: 50px;
                     height: 50px;
@@ -158,7 +160,8 @@
                     transition: var(--smooth-transition);
                 }
 
-                .color:hover, .confirmation .color:hover {
+                .color:hover,
+                .confirmation .color:hover {
                     scale: var(--hover-scale);
                 }
             }
@@ -226,7 +229,7 @@
         gap: 16px;
         font-size: 0.95rem;
 
-        .userAvatar{
+        .userAvatar {
             width: 35px;
             height: 35px;
             border-radius: 50%;
@@ -244,6 +247,7 @@
             text-decoration: none;
             text-align: center;
         }
+
         a:hover {
             text-decoration: underline;
         }
@@ -260,16 +264,16 @@
     backdrop-filter: none !important;
 }
 
-.pixelInfo.premium::before, .pixelInfo.premium::after {
+.pixelInfo.premium::before,
+.pixelInfo.premium::after {
     content: "";
     position: absolute;
     inset: -3px;
     z-index: -1;
-    background: conic-gradient(
-        from var(--gradient-angle),
-        var(--user-color-primary, transparent),
-        var(--user-color-secondary, transparent),
-        var(--user-color-primary, transparent));
+    background: conic-gradient(from var(--gradient-angle),
+            var(--user-color-primary, transparent),
+            var(--user-color-secondary, transparent),
+            var(--user-color-primary, transparent));
     border-radius: 25px;
     animation: gradientRotate 20s linear infinite;
 }
@@ -279,6 +283,20 @@
 }
 
 @keyframes gradientRotate {
-    0% { --gradient-angle: 0deg; }
-    100% { --gradient-angle: 360deg; }
+    0% {
+        --gradient-angle: 0deg;
+    }
+
+    100% {
+        --gradient-angle: 360deg;
+    }
+}
+
+
+.credits {
+    cursor: pointer;
+}
+
+.credits:hover {
+    text-decoration: underline;
 }
