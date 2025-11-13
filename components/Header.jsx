@@ -11,6 +11,7 @@ import PixelIcon from "@/components/PixelIcon"
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useTheme } from 'next-themes';
 import CustomButton from "./CustomButton"
+import { usePopup } from "@/context/PopupContext"
 
 /**
  * Header superior do site
@@ -21,6 +22,7 @@ export default function Header() {
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
     const { theme, setTheme } = useTheme();
+    const { openPopup } = usePopup();
 
     useEffect(() => {
         if (Cookies.get("active-build-token")) {
@@ -280,10 +282,10 @@ export default function Header() {
                                 </div>
                             </Tippy>
                         </> : <>
-                            <Link href={"/login"} className={styles.loggedUser}>
+                            <div onClick={() => openPopup("select_login")} className={styles.loggedUser}>
                                 <span className={styles.userName}>{language.getString("COMPONENTS.HEADER.LOGIN")}</span>
                                 <img className="mobileHidden_500" src="/assets/avatar.png" alt={language.getString("COMPONENTS.HEADER.LOGGED_OUT")} />
-                            </Link>
+                            </div>
                         </>
                     }
                 </nav>
