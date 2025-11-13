@@ -29,7 +29,7 @@ export default function Home() {
         <main className={styles.main}>
           <div className={styles.logo}>
             <img src="/logo.png" alt={language.getString("PAGES.INDEX.LOGO_ALT")} />
-            <h1>Pixels Place</h1>
+            <h1>HACKED Place</h1>
           </div>
           <div className={styles.buttons}>
             <CustomButton label={language.getString("PAGES.INDEX.START")} icon={'image'} href={"/place"} style={{fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif', fontSize: 'small'}} />
