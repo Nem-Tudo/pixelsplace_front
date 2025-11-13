@@ -1081,7 +1081,7 @@ export default function AdminPage() {
                   <strong>Informações do usuário</strong>
                 </legend>
                 <main>
-                  <img src={settings.avatarURL(user.id, user.avatar)} id={styles.userAvatar} />
+                  <img src={settings.avatarURL(user.providerId, user.avatar, user.providerType)} id={styles.userAvatar} />
                   <section>
                     <span>Nome: {user?.display_name} (@{user?.username}) <Verified verified={user?.premium || user?.flags.includes("VERIFIED")} /></span>
                     <span>Criação: {dateToString(user?.createdAt)}</span>

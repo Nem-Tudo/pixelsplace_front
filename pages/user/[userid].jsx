@@ -200,7 +200,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
         title={language.getString("PAGES.USER.META_TITLE", { userDisplayName: user?.display_name })}
         description={user?.profile?.aboutme ? user.profile.aboutme : language.getString("PAGES.USER.META_DESCRIPTION")}
         url={`https://pixelsplace.nemtudo.me/user/${user?.id}`}
-        imageUrl={settings.avatarURL(user.id, user.avatar)}
+        imageUrl={settings.avatarURL(user.providerId, user.avatar, user.providerType)}
       />
       <MainLayout>
         <main
@@ -249,7 +249,7 @@ export default function UserProfile({ user: userobject, error, errormessage }) {
 
             <div className={styles.profile}>
               <div className={styles.avatar}>
-                <img src={settings.avatarURL(user.id, user.avatar)} alt={language.getString("PAGES.USER.USER_AVATAR_ALT")} />
+                <img src={settings.avatarURL(user.providerId, user.avatar, user.providerType)} alt={language.getString("PAGES.USER.USER_AVATAR_ALT")} />
               </div>
 
               <div className={styles.name}>

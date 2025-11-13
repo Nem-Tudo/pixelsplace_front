@@ -16,6 +16,7 @@ import FactionCreate from "./faction/Create";
 import CanvasDownload from "./CanvasDownload";
 import AdminEvalServer from "./admin/EvalServer";
 import BuyPixel from "./BuyPixel";
+import SelectLogin from "./SelectLogin";
 
 /**
  * Função padrão para exibir pop-ups usando o contexto
@@ -43,6 +44,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "faction_create": <FactionCreate closePopup={closePopup} {...showingPopup?.settings} />,
         "canvas_download": <CanvasDownload closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_eval_server": <AdminEvalServer closePopup={closePopup} {...showingPopup?.settings} />,
+        "select_login": <SelectLogin closePopup={closePopup} {...showingPopup?.settings}/>
     };
 
     showingPopup?.settings?.timeout &&

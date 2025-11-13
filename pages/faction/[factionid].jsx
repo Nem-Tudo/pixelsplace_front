@@ -191,7 +191,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
               </div>
               <div className={styles.infoBox} id={styles.ownerFac}>
                 <p>{language.getString("PAGES.FACTION.OWNER")}</p>
-                <img src={settings.avatarURL(faction.owner.id, faction.owner.avatar)} alt="" />
+                <img src={settings.avatarURL(faction.owner.providerId, faction.owner.avatar, faction.owner.providerType)} alt="" />
                 <Link href={"/user/"+faction.owner.username}>{faction.owner.username}</Link>
               </div>
 
@@ -213,7 +213,7 @@ export default function Faction({ faction: factionobject, error, errormessage })
                       <Link href={"/user/"+member.user.username} key={member.id}>
                         <span className={styles.identity}>
                           <img
-                            src={member.user.avatar ? settings.avatarURL(member.user.id, member.user.avatar) : "/assets/avatar.png"}
+                            src={member.user.avatar ? settings.avatarURL(member.user.providerId, member.user.avatar, member.user.providerType) : "/assets/avatar.png"}
                             alt=""
                           />
                           <p>{member.user.username || `User ${member.userId}`}</p>

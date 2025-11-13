@@ -400,7 +400,7 @@ export default function Place() {
                   {showingPixelInfo.u && (
                     <div className={styles.pixelUserInfo}>
                       <span>
-                        <img onError={e => e.target.src = "/assets/avatar.png"} className={styles.userAvatar} src={settings.avatarURL(showingPixelInfo.author.id, showingPixelInfo.author.avatar)} alt="avatar" />
+                        <img onError={e => e.target.src = "/assets/avatar.png"} className={styles.userAvatar} src={settings.avatarURL(showingPixelInfo.author.providerId, showingPixelInfo.author.avatar, showPixelInfo.author.providerType)} alt="avatar" />
                         <Link href={`/user/${showingPixelInfo.u}`}>
                           {showingPixelInfo.author.username}
                         </Link>{" "}
@@ -464,7 +464,7 @@ export default function Place() {
                         label={loggedUser ? (language.getString("PAGES.PLACE.PLACE_PIXEL", { credits: loggedUser.pixelCredits })) : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
                         className={styles.placePixel}
                         onClick={() => {
-                          if (!loggedUser) return (location.href = "/login");
+                          if (!loggedUser) return openPopup("select_login");
                           setShowingColors(true);
                         }}
                         style={{

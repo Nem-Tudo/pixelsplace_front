@@ -27,6 +27,7 @@ export default function PopupProvider({ children }) {
 
     //fecha se apertar ESC ou clicar fora
     useEffect(() => {
+        console.log("Running ntPopups... https://ntpopups.nemtudo.me/demo")
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 e.preventDefault();

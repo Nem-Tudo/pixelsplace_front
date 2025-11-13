@@ -276,7 +276,7 @@ export default function Header() {
                             </>}>
                                 <div className={styles.loggedUser}>
                                     <span className={styles.userName + " mobileHidden_720"}>{loggedUser.username}</span>
-                                    <img src={settings.avatarURL(loggedUser.id, loggedUser.avatar)} alt={loggedUser.username} />
+                                    <img src={settings.avatarURL(loggedUser.providerId, loggedUser.avatar, loggedUser.providerType)} alt={loggedUser.username} />
                                 </div>
                             </Tippy>
                         </> : <>
