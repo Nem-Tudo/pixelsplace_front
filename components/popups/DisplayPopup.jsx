@@ -15,6 +15,7 @@ import FactionDelete from "./faction/Delete";
 import FactionCreate from "./faction/Create";
 import CanvasDownload from "./CanvasDownload";
 import AdminEvalServer from "./admin/EvalServer";
+import BuyPixel from "./BuyPixel";
 
 /**
  * Função padrão para exibir pop-ups usando o contexto
@@ -32,6 +33,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "not_implemented_yet": <NotImplementedYet closePopup={closePopup} {...showingPopup?.settings} />,
         "success": <Success closePopup={closePopup} {...showingPopup?.settings} />,
         "generic": <Generic closePopup={closePopup} {...showingPopup?.settings} />,
+        "buy_pixel": <BuyPixel closePopup={closePopup} {...showingPopup?.settings} />,
         "confirm": <Confirm closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_build_add": <AdminBuildAdd closePopup={closePopup} {...showingPopup?.settings} />,
         "admin_color_add": <AdminColorAdd closePopup={closePopup} {...showingPopup?.settings} />,
@@ -40,7 +42,7 @@ export default function DisplayPopup({ showingPopup, popupDivRef, closePopup }) 
         "faction_delete": <FactionDelete closePopup={closePopup} {...showingPopup?.settings} />,
         "faction_create": <FactionCreate closePopup={closePopup} {...showingPopup?.settings} />,
         "canvas_download": <CanvasDownload closePopup={closePopup} {...showingPopup?.settings} />,
-        "admin_eval_server": <AdminEvalServer closePopup={closePopup} {...showingPopup?.settings} />
+        "admin_eval_server": <AdminEvalServer closePopup={closePopup} {...showingPopup?.settings} />,
     };
 
     showingPopup?.settings?.timeout &&

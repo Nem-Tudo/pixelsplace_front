@@ -25,13 +25,14 @@ import { formatDate } from "@/src/dateFunctions";
 import playSound from "@/src/playSound";
 import PixelCanvas from "@/components/pixelCanvas/PixelCanvas.jsx";
 import CustomHead from "@/components/CustomHead";
+import centsToPrice from "@/src/centsToPrice";
 
 export default function Place() {
   //contexts
   const router = useRouter();
-  const { token, loggedUser } = useAuth();
+  const { token, loggedUser, updateUserKey, setUser } = useAuth();
   const { language } = useLanguage();
-  const { openPopup } = usePopup()
+  const { openPopup, closePopup } = usePopup()
 
   const { connected: socketconnected, connecting: socketconnecting, error: socketerror, reconnect: socketreconnect, disconnectforced: socketdisconnectforced } = useSocketConnection();
 
@@ -76,9 +77,6 @@ export default function Place() {
     { x: pixelInfoInitialX, y: pixelInfoInitialY },
     "desktop"
   );
-
-  //getUserID
-  const [user, setUser] = useState(null);
 
   //executar inicialização dos sockets assim que a página carregar
   useEffect(() => {
@@ -221,6 +219,14 @@ export default function Place() {
     socket.on("canvasconfig_cooldownchange", (data) => {
       setCanvasConfig(data);
     });
+    socket.on("canvasconfig_modechange", (data) => {
+      setCanvasConfig(data);
+    });
+    socket.on("user_update", (data) => {
+      if (data.closePopup) closePopup();
+      setUser(data.user)
+    });
+    
     console.log("[WebSocket] Loaded sockets");
   }
 
@@ -268,6 +274,7 @@ export default function Place() {
       if (oldpixelcolor) canvasRef.current.updatePixel(x, y, oldpixelcolor);
       return openPopup("error", { message: `${language.getString("PAGES.PLACE.ERROR_PLACING_PIXEL")}: ${data.message}` });
     }
+    updateUserKey(["pixelCredits", loggedUser.pixelCredits - 1])
     setCooldownInfo({ lastPaintPixel: new Date() });
   }
 
@@ -285,11 +292,11 @@ export default function Place() {
     if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
 
     const data = await request.json();
-    if((loggedUser?.premium)&&(data.u)){await showPixelInfoHistory(x,y);};
+    if ((loggedUser?.premium) && (data.u)) { await showPixelInfoHistory(x, y); };
     setShowingPixelInfo(data);
   }
 
-    async function showPixelInfoHistory(x, y) {
+  async function showPixelInfoHistory(x, y) {
     const request = await fetch(
       `${settings.apiURL}/canvas/pixelhistory?x=${x}&y=${y}&parseAuthor=true&parseAuthorGuild=true`,
       {
@@ -306,19 +313,19 @@ export default function Place() {
     if (!request.ok) return openPopup("error", { message: `[${request.status}] ${language.getString("PAGES.PLACE.ERROR_OBTAINING_PIXEL")}` });
 
     const data = await request.json();
-    setPixelInfoHistory(data.length-1);
+    setPixelInfoHistory(data.length - 1);
     setShowingPixelInfoHistory(data);
   }
 
 
-useEffect(() => {
-  if (showingPixelInfo) {
+  useEffect(() => {
+    if (showingPixelInfo) {
       // Atualiza o estado com as informações modificadas
       setShowingPixelInfo(showingPixelInfoHistory[pixelInfoHistory]);
-  }
-}, [pixelInfoHistory]);
+    }
+  }, [pixelInfoHistory]);
 
-  
+
 
 
   //Se tudo está carregado
@@ -356,8 +363,8 @@ useEffect(() => {
             )}
             {showingPixelInfo && (
               <div
-              ref={movePixelInfoRef}
-              style={{ ...styleDrag, touchAction: "none" }}
+                ref={movePixelInfoRef}
+                style={{ ...styleDrag, touchAction: "none" }}
               >
                 <div
                   className={`
@@ -385,9 +392,9 @@ useEffect(() => {
                       </span>
                     </div>
                     <span id={styles.pixelHistory}>
-                      <CustomButton2 padding={1} icon={"arrow-left"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory > 0)} onClick={() => {pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory-1): ""}}/>
-                        {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
-                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory < showingPixelInfoHistory?.length-1)} onClick={() => {pixelInfoHistory < showingPixelInfoHistory.length-1 ? setPixelInfoHistory(pixelInfoHistory+1):""}}/>
+                      <CustomButton2 padding={1} icon={"arrow-left"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory > 0)} onClick={() => { pixelInfoHistory > 0 ? setPixelInfoHistory(pixelInfoHistory - 1) : "" }} />
+                      {showingPixelInfo?.ca && formatDate(showingPixelInfo.ca)}
+                      <CustomButton2 padding={1} icon={"arrow-right"} premium={true} hierarchy={2} disabled={!(pixelInfoHistory < showingPixelInfoHistory?.length - 1)} onClick={() => { pixelInfoHistory < showingPixelInfoHistory.length - 1 ? setPixelInfoHistory(pixelInfoHistory + 1) : "" }} />
                     </span>
                   </div>
                   {showingPixelInfo.u && (
@@ -446,19 +453,40 @@ useEffect(() => {
                       disabled={true}
                     />
                   )}
-                  {!showingColors && timeLeft == "0:00" && (
-                    <CustomButton
-                      label={loggedUser ? language.getString("PAGES.PLACE.PLACE_PIXEL") : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
-                      className={styles.placePixel}
-                      onClick={() => {
-                        if (!loggedUser) return (location.href = "/login");
-                        setShowingColors(true);
-                      }}
-                      style={{
-                        fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
-                        lineHeight: 1.5
-                      }}
-                    />
+                  {!showingColors && timeLeft == "0:00" && (!loggedUser || (canvasConfig.mode === "PAID" && (loggedUser.pixelCredits > 0)) || (canvasConfig.mode === "FREE")) && (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px" }}>
+                      {
+                        (canvasConfig.mode === "PAID" && loggedUser) && <span>{loggedUser?.pixelCredits} crédito{loggedUser?.pixelCredits === 1 ? "" : "s"}</span>
+                      }
+                      <CustomButton
+                        label={loggedUser ? (language.getString("PAGES.PLACE.PLACE_PIXEL", { credits: loggedUser.pixelCredits })) : language.getString("PAGES.PLACE.LOG_IN_TO_PLACE_PIXEL")}
+                        className={styles.placePixel}
+                        onClick={() => {
+                          if (!loggedUser) return (location.href = "/login");
+                          setShowingColors(true);
+                        }}
+                        style={{
+                          fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
+                          lineHeight: 1.5
+                        }}
+                      />
+                    </div>
+                  )}
+                  {!showingColors && timeLeft == "0:00" && loggedUser && (canvasConfig.mode === "PAID" && (loggedUser.pixelCredits <= 0)) && (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px" }}>
+                      <span>{loggedUser.pixelCredits} créditos</span>
+                      <CustomButton
+                        label={`Comprar pixel (R$${centsToPrice(canvasConfig.pixelPrice)})`}
+                        className={styles.placePixel}
+                        onClick={() => {
+                          openPopup("buy_pixel", { loggedUser, pixelPrice: canvasConfig.pixelPrice })
+                        }}
+                        style={{
+                          fontFamily: 'Dogica Pixel, Arial, Helvetica, sans-serif',
+                          lineHeight: 1.5
+                        }}
+                      />
+                    </div>
                   )}
                   {showingColors && (
                     <CustomButton
@@ -512,7 +540,7 @@ useEffect(() => {
                           </div>
                         </>
                       }>
-                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{ '--selected-color': `${numberToHex(selectedColor)}` }} onChange={() => {}} onClick={(e) => {
+                        <input type="color" id={styles.premiumPicker} value={numberToHex(selectedColor)} style={{ '--selected-color': `${numberToHex(selectedColor)}` }} onChange={() => { }} onClick={(e) => {
                           e.preventDefault();
                           openPopup("premium_required");
                         }} />

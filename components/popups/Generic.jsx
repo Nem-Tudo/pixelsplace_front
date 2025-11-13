@@ -13,26 +13,26 @@ import PixelIcon from "@/components/PixelIcon";
  * @param {() => {}} properties.closePopup - Função de fechamento do pop-up
  * @param {string} properties.message - Mensagem a ser exibida pro usuário
  */
-export default function Generic({ closePopup, message }) {
+export default function Generic({ closePopup, message, title, icon }) {
     const { language } = useLanguage();
 
-    if(!message) message = language.getString("POPUPS.GENERIC.MESSAGE");
+    if (!message) message = language.getString("POPUPS.GENERIC.MESSAGE");
 
     return (
         <>
             <h1 className={styles.title}>
-                <PixelIcon codename={'alert'} />
-                {language.getString("POPUPS.GENERIC.TITLE")}
+                {icon || <PixelIcon codename={'alert'} />}
+                {title || language.getString("POPUPS.GENERIC.TITLE")}
             </h1>
 
             <main className={styles.scrollable}>
-                
-                <h2 style={{fontSize: 'larger'}}>
+
+                <h2 style={{ fontSize: 'larger' }}>
                     {message}
                 </h2>
 
             </main>
-            
+
             <footer className={styles.footer}>
                 <CustomButton label={language.getString("COMMON.OK")} onClick={() => closePopup()} />
             </footer>

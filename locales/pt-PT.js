@@ -138,6 +138,7 @@ module.exports = {
             PICK_A_COLOR: "Selecciona uma cor",
             PREMIUM_ONLY_COLOR: "Esta cor está disponível apenas para Premiums! :(",
             PLACE_PIXEL: "Colocar pixel",
+            PLACE_PIXEL_PAID: "Colocar pixel ({{credits}} créditos restantes)",
             LOG_IN_TO_PLACE_PIXEL: "Inicia sessão para colocar pixel",
             PLACE: "Colocar!",
             PREMIUM_ANY_COLOR: "Escolhe a cor que quiseres com",

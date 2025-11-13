@@ -32,6 +32,10 @@ export default function AdminPage() {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [freeColors, setFreeColors] = useState([]);
+
+  const [canvasMode, setCanvasMode] = useState(null);
+  const [pixelPrice, setPixelPrice] = useState(0);
+
   const [cooldownFree, setCooldownFree] = useState(0);
   const [cooldownPremium, setCooldownPremium] = useState(0);
   const [evalCode, setEvalCode] = useState("");
@@ -94,6 +98,9 @@ export default function AdminPage() {
     setCooldownFree(data.cooldown_free);
     setCooldownPremium(data.cooldown_premium);
     setCanvaSettings(data.settings);
+
+    setCanvasMode(data.mode);
+    setPixelPrice(data.pixelPrice);
   };
 
   const fetchStats = async () => {
@@ -193,7 +200,7 @@ export default function AdminPage() {
     if (routeEval.excludeUserIds) {
       TargetExtraEval += `excludeUserIds=${routeEval.excludeUserIds}&`;
     }
-    
+
     setChosenTargetExtraEval(TargetExtraEval);
 
   }, [routeEval])
@@ -213,7 +220,7 @@ export default function AdminPage() {
     if (routeAlert.excludeUserIds) {
       TargetExtraAlert += `excludeUserIds=${routeAlert.excludeUserIds}&`;
     }
-    
+
     setChosenTargetExtraAlert(TargetExtraAlert);
 
   }, [routeAlert])
@@ -525,6 +532,40 @@ export default function AdminPage() {
               </footer>
             </fieldset>
 
+            {/* CANVAS MODE */}
+            <fieldset>
+              <legend>
+                <strong>Modo do canvas</strong>
+              </legend>
+              <main>
+                <section>
+                  <label>Modo:</label>
+                  <select value={canvasMode} onChange={e => setCanvasMode(e.target.value)}>
+                    <option value="FREE">FREE</option>
+                    <option value="PAID">PAID</option>
+                  </select>
+                </section>
+                <section>
+                  <label>Preço do pixel:</label>
+                  <input
+                    type="number"
+                    value={pixelPrice}
+                    onChange={(e) => setPixelPrice(Number(e.target.value))}
+                  />
+                </section>
+              </main>
+              <footer className={styles.buttonsContainer}>
+                <CustomButton label={'Salvar modo'} icon={'save'} disabled={loading} onClick={async () => {
+                  await fetchWithAuth("/canvas/admin/mode", "PATCH", {
+                    mode: canvasMode,
+                    pixelPrice
+                  });
+                  fetchCanvas();
+                }}
+                />
+              </footer>
+            </fieldset>
+
             {/* Eval Clients */}
             <fieldset>
               <legend>
@@ -577,12 +618,13 @@ export default function AdminPage() {
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalRequiredFlags"}
                     value={"requiredFlags"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
                       setRouteEval(prevRouteEval => ({
-                                    ...prevRouteEval,
-                                    requiredFlags: requiredFlags
-                                  }));
+                        ...prevRouteEval,
+                        requiredFlags: requiredFlags
+                      }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&requiredFlags=" + requiredFlags);
                     }}
                   />
@@ -601,9 +643,9 @@ export default function AdminPage() {
                       const userIds = prompt("Escreva o id dos users (separados por virgula)")
 
                       setRouteEval(prevRouteEval => ({
-                                    ...prevRouteEval,
-                                    userIds: userIds
-                                  }));
+                        ...prevRouteEval,
+                        userIds: userIds
+                      }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&userIds=" + userIds);
                     }}
                   />
@@ -623,12 +665,13 @@ export default function AdminPage() {
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalUserIds"}
                     value={"bannedFlags"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
                       setRouteEval(prevRouteEval => ({
-                                    ...prevRouteEval,
-                                    bannedFlags: bannedFlags
-                                  }));
+                        ...prevRouteEval,
+                        bannedFlags: bannedFlags
+                      }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&bannedFlags=" + bannedFlags);
                     }}
                   />
@@ -642,12 +685,13 @@ export default function AdminPage() {
                     name={"TargetExtraEval"}
                     id={"TargetExtraEvalExcludeUserIds"}
                     value={"excludeUserIds"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
                       setRouteEval(prevRouteEval => ({
-                                    ...prevRouteEval,
-                                    excludeUserIds: excludeUserIds
-                                  }));
+                        ...prevRouteEval,
+                        excludeUserIds: excludeUserIds
+                      }));
                       // setChosenTargetExtraEval(chosenTargetExtraEval + "&excludeUserIds=" + excludeUserIds);
                     }}
                   />
@@ -712,7 +756,7 @@ export default function AdminPage() {
                     message: "Deseja enviar essa mensagem para todos os clients?",
                     execute: async () => {
                       const res = await fetchWithAuth(`/admin/alertmessage?${chosenTargetAlert === "all" ? "" : `authenticated=${chosenTargetAlert === "authenticated"}&`}${chosenTargetExtraAlert}`, "POST", {
-                      // const res = await fetchWithAuth("/admin/alertmessage", "POST", {
+                        // const res = await fetchWithAuth("/admin/alertmessage", "POST", {
                         content: alertMessage,
                       });
                       res && openPopup('success', { message: `Mensagem enviada para ${res.count} clients.` });
@@ -728,12 +772,13 @@ export default function AdminPage() {
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertRequiredFlags"}
                     value={"requiredFlags"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const requiredFlags = prompt("Escreva as Flags (separadas por virgula)")
                       setRouteAlert(prevRouteAlert => ({
-                                    ...prevRouteAlert,
-                                    requiredFlags: requiredFlags
-                                  }));
+                        ...prevRouteAlert,
+                        requiredFlags: requiredFlags
+                      }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&requiredFlags=" + requiredFlags.toUpperCase());
                     }}
                   />
@@ -748,12 +793,13 @@ export default function AdminPage() {
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertBannedFlags"}
                     value={"userIds"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const userIds = prompt("Escreva o id dos users (separados por virgula)")
                       setRouteAlert(prevRouteAlert => ({
-                                    ...prevRouteAlert,
-                                    userIds: userIds
-                                  }));
+                        ...prevRouteAlert,
+                        userIds: userIds
+                      }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&userIds=" + userIds);
                     }}
                   />
@@ -773,12 +819,13 @@ export default function AdminPage() {
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertUserIds"}
                     value={"bannedFlags"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const bannedFlags = prompt("Escreva as Flags (separadas por virgula)")
                       setRouteAlert(prevRouteAlert => ({
-                                    ...prevRouteAlert,
-                                    bannedFlags: bannedFlags
-                                  }));
+                        ...prevRouteAlert,
+                        bannedFlags: bannedFlags
+                      }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&bannedFlags=" + bannedFlags.toUpperCase());
                     }}
                   />
@@ -793,12 +840,13 @@ export default function AdminPage() {
                     name={"TargetExtraAlert"}
                     id={"TargetExtraAlertExcludeUserIds"}
                     value={"excludeUserIds"}
-                    onClick={(e) =>{ e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       const excludeUserIds = prompt("Escreva o id dos users (separadas por virgula)")
                       setRouteAlert(prevRouteAlert => ({
-                                    ...prevRouteAlert,
-                                    excludeUserIds: excludeUserIds
-                                  }));
+                        ...prevRouteAlert,
+                        excludeUserIds: excludeUserIds
+                      }));
                       // setChosenTargetExtraAlert(chosenTargetExtraAlert + "&excludeUserIds=" + excludeUserIds);
                     }}
                   />

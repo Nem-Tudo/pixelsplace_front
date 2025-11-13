@@ -175,6 +175,7 @@ module.exports = {
             PICK_A_COLOR: "Pick a color",
             PREMIUM_ONLY_COLOR: "This color is available only for Premium users! :(",
             PLACE_PIXEL: "Place pixel",
+            PLACE_PIXEL_PAID: "Place pixel ({{credits}} credits remaining)",
             LOG_IN_TO_PLACE_PIXEL: "Log in to place a pixel",
             PLACE: "Place!",
             PREMIUM_ANY_COLOR: "Pick any color you want with",

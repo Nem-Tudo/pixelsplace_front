@@ -1,19 +1,29 @@
-/**
- * Copia um texto para a área de transferência do usuário
- * @param {string} text 
- */
-export default function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
+export function copyText(text) {
+  if (typeof navigator === "undefined") return;
+  if (typeof document === "undefined") return;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text)
+      .then(() => true)
+      .catch((err) => {
+        console.log('Erro ao copiar texto:', err);
+        return false;
+      });
   } else {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
+    // Fallback para navegadores mais antigos
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return Promise.resolve(success);
+    } catch (err) {
+      console.log('Erro ao copiar texto (fallback):', err);
+      return Promise.resolve(false);
+    }
   }
 }
