@@ -14,6 +14,7 @@ export default function Oauth2() {
     useEffect(() => {
         // Aguarda o router estar pronto
         if (!router.isReady || isProcessing) return
+        if(!token) return;
 
         setIsProcessing(true)
 
@@ -34,16 +35,17 @@ export default function Oauth2() {
                     : `/${redirectURL}`
                 router.push(targetURL)
             }
-        } else {
-            if (window.opener) {
-                window.close()
-            } else {
-                const targetURL = redirectURL.startsWith('/')
-                    ? redirectURL
-                    : `/${redirectURL}`
-                router.push(targetURL)
-            }
         }
+        // else {
+        //     if (window.opener) {
+        //         window.close()
+        //     } else {
+        //         const targetURL = redirectURL.startsWith('/')
+        //             ? redirectURL
+        //             : `/${redirectURL}`
+        //         router.push(targetURL)
+        //     }
+        // }
     }, [router.isReady, token, provider, redirectURL, isProcessing])
 
     return (

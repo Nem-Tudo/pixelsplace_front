@@ -25,13 +25,13 @@ export default function DiscordLogin({ onUpdateLoading = () => { }, customStyle 
             // Verificar se a mensagem é do nosso popup
             if (event.data?.type === 'oauth_success' && event.data?.data?.provider === "discord") {
                 console.log("Discord login")
-                location.reload();
-                // Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
-                // Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
+                // location.reload();
+                Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
+                Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
 
-                // setIsLoading(false);
-                // refreshUser();
-                // closePopup();
+                setIsLoading(false);
+                refreshUser();
+                closePopup();
             }
             if (event.data?.type === 'oauth_error' && event.data?.data?.provider === "discord") {
                 setIsLoading(false);

@@ -24,12 +24,12 @@ export default function GoogleLogin({ onUpdateLoading = () => { }, customStyle =
             // Verificar se a mensagem é do nosso popup
             if (event.data?.type === 'oauth_success' && event.data?.data?.provider === "google") {
                 console.log("Google login")
-                location.reload();
-                // Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
-                // Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
-                // setIsLoading(false);
-                // refreshUser();
-                // closePopup();
+                // location.reload();
+                Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
+                Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
+                setIsLoading(false);
+                refreshUser();
+                closePopup();
             }
             if (event.data?.type === 'oauth_error' && event.data?.data?.provider === "google") {
                 setIsLoading(false);
