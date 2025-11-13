@@ -29,7 +29,7 @@ export function AuthErrorContent() {
     return (
         <>
             <header className={styles.header}>
-                <h1>Pixelsplace Auth</h1>
+                <h1>PixelsPlace Auth</h1>
             </header>
             <main className={styles.main}>
                 <h1 style={{ color: "red" }}>Erro na authenticação com {provider} ({reason})</h1>
