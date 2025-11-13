@@ -9,7 +9,7 @@ import Head from "next/head";
  * @param {string} [properties.imageUrl] - Link da imagem da página (opcional)
  */
 export default function CustomHead({
-    title = "PixelsPlace",
+    title = "HACKEDPlace",
     description = "Se junte ao PixelsPlace!",
     url = 'https://pixelsplace.nemtudo.me',
     imageUrl = "/logo.png"
