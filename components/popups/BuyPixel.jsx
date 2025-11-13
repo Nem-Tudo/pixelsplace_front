@@ -24,7 +24,7 @@ export default function BuyPixel({ closePopup, pixelPrice }) {
 
     async function buy() {
         setLoading(true);
-        const request = await fetch(`${settings.apiURL}/buy/pixel`, {
+        const request = await fetch(`${settings.apiURL}/buy/pixel?method=${selectedMethod}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
