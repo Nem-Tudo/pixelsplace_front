@@ -264,7 +264,7 @@ export default function Header() {
                                         </div>
                                     </Tippy>
                                 }
-                                <Link href={"/auth/discord"} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
+                                <Link href={"/auth"} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
                                     <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
                                 </Link>
                                 {
