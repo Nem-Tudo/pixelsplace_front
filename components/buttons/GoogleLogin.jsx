@@ -23,13 +23,13 @@ export default function GoogleLogin({ onUpdateLoading = () => { }, customStyle =
         const handleMessage = (event) => {
             // Verificar se a mensagem é do nosso popup
             if (event.data?.type === 'oauth_success' && event.data?.data?.provider === "google") {
-                Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
-                Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
-                setIsLoading(false);
-                // Recarregar a página principal
-                window.location.reload();
-                refreshUser();
-                closePopup();
+                console.log("Google login")
+                location.reload();
+                // Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
+                // Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
+                // setIsLoading(false);
+                // refreshUser();
+                // closePopup();
             }
             if (event.data?.type === 'oauth_error' && event.data?.data?.provider === "google") {
                 setIsLoading(false);
