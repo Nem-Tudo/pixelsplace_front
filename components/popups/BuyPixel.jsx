@@ -61,7 +61,7 @@ export default function BuyPixel({ closePopup, pixelPrice }) {
                 icon: <FaCreditCard />,
                 title: "Aguardando pagamento via Cartão",
                 message: <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <Link className={styles.copyButton} href={response.payment.payment_url} target="_blank" ref={"noreferrer"}>Ir para pagamento</Link>
+                    <Link className={styles.copyButton} href={response.payment.payment_url} target="_blank" rel="noreferer">Ir para pagamento</Link>
                 </div>
             })
         }
