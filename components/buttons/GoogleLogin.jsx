@@ -1,10 +1,10 @@
-"use client";
 import { useState, useEffect, useRef } from 'react';
 import styles from './GoogleLogin.module.css';
 import { useAuth } from '@/context/AuthContext';
 import isMobile from "@/src/isMobile";
 import { usePopup } from '@/context/PopupContext';
 import settings from '@/settings';
+import Cookies from 'js-cookie';
 
 export default function GoogleLogin({ onUpdateLoading = () => { }, customStyle = {} }) {
     const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +23,8 @@ export default function GoogleLogin({ onUpdateLoading = () => { }, customStyle =
         const handleMessage = (event) => {
             // Verificar se a mensagem é do nosso popup
             if (event.data?.type === 'oauth_success' && event.data?.data?.provider === "google") {
+                Cookies.set('authorization', event.data?.data?.token, { expires: 365, path: '/' })
+                Cookies.set('auth_provider', event.data?.data?.provider || '', { expires: 365, path: '/' })
                 setIsLoading(false);
                 // Recarregar a página principal
                 // window.location.reload();

@@ -23,7 +23,7 @@ export default function Oauth2() {
 
             if (window.opener) {
                 window.opener.postMessage(
-                    { type: 'oauth_success', data: { provider } },
+                    { type: 'oauth_success', data: { provider, token } },
                     window.location.origin
                 )
                 window.close()

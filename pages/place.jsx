@@ -400,7 +400,7 @@ export default function Place() {
                   {showingPixelInfo.u && (
                     <div className={styles.pixelUserInfo}>
                       <span>
-                        <img onError={e => e.target.src = "/assets/avatar.png"} className={styles.userAvatar} src={settings.avatarURL(showingPixelInfo.author.providerId, showingPixelInfo.author.avatar, showPixelInfo.author.providerType)} alt="avatar" />
+                        <img onError={e => e.target.src = "/assets/avatar.png"} className={styles.userAvatar} src={settings.avatarURL(showingPixelInfo.author.providerId, showingPixelInfo.author.avatar, showingPixelInfo.author.providerType)} alt="avatar" />
                         <Link href={`/user/${showingPixelInfo.u}`}>
                           {showingPixelInfo.author.username}
                         </Link>{" "}
