@@ -17,7 +17,7 @@ import CustomButton from "./CustomButton"
  */
 export default function Header() {
     const { language, changeLanguage, lang, availableLanguages } = useLanguage();
-    const { loggedUser, updateUserKey } = useAuth();
+    const { loggedUser, updateUserKey, logout } = useAuth();
     const [usingBuildOverride, setUsingBuildOverride] = useState(false);
     const [realUserFlags, setRealUserFlags] = useState([]);
     const { theme, setTheme } = useTheme();
@@ -251,7 +251,7 @@ export default function Header() {
                                             <div onClick={() => {
                                                 const userflags = loggedUser.flags;
                                                 const newFlags = prompt("Editar flags (apenas visualmente)", String(userflags))
-                                                if(!newFlags) return;
+                                                if (!newFlags) return;
                                                 updateUserKey(["flags", newFlags.split(",")])
                                             }}>
                                                 {language.getString("COMPONENTS.HEADER.EDIT_FLAGS")}
@@ -264,9 +264,9 @@ export default function Header() {
                                         </div>
                                     </Tippy>
                                 }
-                                <Link href={"/auth"} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
+                                <div onClick={() => logout()} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
                                     <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.DISCONNECT")}</span>
-                                </Link>
+                                </div>
                                 {
                                     usingBuildOverride && <Link href={"/buildoverride?t=main"} style={{ "--hover-color-text": "#ffffff", "--hover-color": "#ff0000" }}>
                                         <span style={{ color: "red" }}>{language.getString("COMPONENTS.HEADER.REMOVE_BUILD_OVERRIDE")}</span>

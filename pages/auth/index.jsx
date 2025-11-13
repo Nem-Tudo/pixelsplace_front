@@ -40,8 +40,6 @@ function Oauth2Content() {
                 router.push(targetURL)
             }
         } else {
-            Cookies.remove("authorization");
-            Cookies.remove("auth_provider");
             if (window.opener) {
                 window.close();
             } else {
