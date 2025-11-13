@@ -1,47 +1,42 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/router' // Note: 'next/router', não 'next/navigation'
 import Cookies from 'js-cookie'
 import { useAuth } from '@/context/AuthContext'
 
-function Oauth2Content() {
-    const searchParams = useSearchParams()
+export default function Oauth2() {
     const router = useRouter()
     const [isProcessing, setIsProcessing] = useState(false)
+    const { refreshUser } = useAuth()
 
-    const { refreshUser } = useAuth();
-
-    const token = searchParams.get('token')
-    const provider = searchParams.get('provider')
-    const redirectURL = searchParams.get('redirectURL') || '/'
+    // No Pages Router, os query params vêm direto do router.query
+    const { token, provider, redirectURL = '/' } = router.query
 
     useEffect(() => {
-        if (isProcessing) return
+        // Aguarda o router estar pronto
+        if (!router.isReady || isProcessing) return
+
         setIsProcessing(true)
 
         if (token) {
-            // Salva nos cookies (7 dias)
             Cookies.set('authorization', token, { expires: 365, path: '/' })
             Cookies.set('auth_provider', provider || '', { expires: 365, path: '/' })
 
-            // Notificar a janela principal que o login foi bem-sucedido
             if (window.opener) {
                 window.opener.postMessage(
                     { type: 'oauth_success', data: { provider } },
                     window.location.origin
-                );
-                window.close();
+                )
+                window.close()
             } else {
-                refreshUser();
-                // Se não for um popup, redirecionar normalmente
+                refreshUser()
                 const targetURL = redirectURL.startsWith('/')
                     ? redirectURL
                     : `/${redirectURL}`
-
                 router.push(targetURL)
             }
         } else {
             if (window.opener) {
-                window.close();
+                window.close()
             } else {
                 const targetURL = redirectURL.startsWith('/')
                     ? redirectURL
@@ -49,7 +44,7 @@ function Oauth2Content() {
                 router.push(targetURL)
             }
         }
-    }, [token, provider, redirectURL, router, isProcessing])
+    }, [router.isReady, token, provider, redirectURL, isProcessing])
 
     return (
         <div style={{
@@ -71,11 +66,5 @@ function Oauth2Content() {
                 }
             </h1>
         </div>
-    )
-}
-
-export default function Oauth2() {
-    return (
-        <Oauth2Content />
     )
 }
