@@ -44,7 +44,8 @@
   --color-mid-hover: hsl(223, 29%, 31%);
   --color-mid: hsl(222, 26%, 22%);
   --color-input-bg: hsl(225, 36%, 17%);
-  --color-darkest: hsl(222, 40%, 13%);
+  --color-darkest: red;
+  /*hsl(222, 40%, 13%);*/
   --color-bg: var(--color-darkest);
   --color-muted: hsl(212, 100%, 75%);
   --color-text-dark: hsla(0, 0%, 25%, 75%);
