@@ -14,12 +14,12 @@ export default function Credits() {
 
     {
       name: 'Nem Tudo',
-      id: '612651439701098558',
+      id: 'i231080212414468619',
       role: "CEO"
     },
     {
       name: 'Commandbat',
-      id: '385478022670843904',
+      id: 'i231080573990476854',
       role: "Developer frontend"
     },
     {
@@ -39,12 +39,12 @@ export default function Credits() {
 
     {
       name: 'Nem Tudo',
-      id: '612651439701098558',
+      id: 'i231080212414468619',
       role: language.getString("PAGES.CREDITS.CHIEF_COW")
     },
     {
       name: 'Commandbat',
-      id: '385478022670843904',
+      id: 'i231080573990476854',
       role: language.getString("PAGES.CREDITS.CHIEF_DRAGGABLE")
     },
     {
