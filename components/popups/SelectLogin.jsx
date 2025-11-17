@@ -65,7 +65,7 @@ export default function SelectLogin({ closePopup }) {
             </main>
 
             <footer className={popupstyles.footer}>
-                <CustomButton label={"Cancelar"} onClick={() => closePopup()} />
+                <CustomButton label={"Cancelar"} hierarchy={3} color="#959595ff" onClick={() => closePopup()} />
             </footer>
         </>
     );

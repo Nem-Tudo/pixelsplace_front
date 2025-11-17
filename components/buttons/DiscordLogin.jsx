@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import styles from './DiscordLogin.module.css';
+import styles from './Login.module.css';
 import { useAuth } from '@/context/AuthContext';
 import isMobile from "@/src/isMobile";
 import { usePopup } from '@/context/PopupContext';
