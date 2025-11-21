@@ -18,53 +18,53 @@ export default function SelectLogin({ closePopup }) {
 
     const [openingMethod, setOpeningMethod] = useState(null);
 
-    return (
-        <>
-            <h1 className={popupstyles.title}>
-                <CiCircleAlert />
-                Selecione o método de login
-            </h1>
+    // return (
+    //     <>
+    //         <h1 className={popupstyles.title}>
+    //             <CiCircleAlert />
+    //             Selecione o método de login
+    //         </h1>
 
-            <main className={popupstyles.scrollable} style={{ gap: "5px" }}>
+    //         <main className={popupstyles.scrollable} style={{ gap: "5px" }}>
 
-                {/* <GoogleLogin
-                    customStyle={
-                        openingMethod === "google"
-                            ? { opacity: 1, zIndex: 1, backgroundColor: "#e8e8e8" }
-                            : openingMethod === "discord" || openingMethod === "twitter"
-                                ? { marginBottom: "-53px" }
-                                : {}
-                    }
-                    onUpdateLoading={(loading) => loading ? setOpeningMethod("google") : setOpeningMethod(null)}
-                /> */}
+    //             {/* <GoogleLogin
+    //                 customStyle={
+    //                     openingMethod === "google"
+    //                         ? { opacity: 1, zIndex: 1, backgroundColor: "#e8e8e8" }
+    //                         : openingMethod === "discord" || openingMethod === "twitter"
+    //                             ? { marginBottom: "-53px" }
+    //                             : {}
+    //                 }
+    //                 onUpdateLoading={(loading) => loading ? setOpeningMethod("google") : setOpeningMethod(null)}
+    //             /> */}
 
-                <DiscordLogin
-                    customStyle={
-                        openingMethod === "discord"
-                            ? { opacity: 1, zIndex: 1, backgroundColor: "#e8e8e8" }
-                            : {}
-                    }
-                    onUpdateLoading={(loading) => loading ? setOpeningMethod("discord") : setOpeningMethod(null)}
-                />
+    //             <DiscordLogin
+    //                 customStyle={
+    //                     openingMethod === "discord"
+    //                         ? { opacity: 1, zIndex: 1, backgroundColor: "#e8e8e8" }
+    //                         : {}
+    //                 }
+    //                 onUpdateLoading={(loading) => loading ? setOpeningMethod("discord") : setOpeningMethod(null)}
+    //             />
 
-                {/* <TwitterLogin
-                    customStyle={
-                        openingMethod === "twitter"
-                            ? { opacity: 1, zIndex: 1, backgroundColor: "#e8e8e8" }
-                            : openingMethod === "google" || openingMethod === "discord"
-                                ? { marginTop: "-53px" }
-                                : {}
-                    }
-                    onUpdateLoading={(loading) => loading ? setOpeningMethod("twitter") : setOpeningMethod(null)}
-                /> */}
+    //             {/* <TwitterLogin
+    //                 customStyle={
+    //                     openingMethod === "twitter"
+    //                         ? { opacity: 1, zIndex: 1, backgroundColor: "#e8e8e8" }
+    //                         : openingMethod === "google" || openingMethod === "discord"
+    //                             ? { marginTop: "-53px" }
+    //                             : {}
+    //                 }
+    //                 onUpdateLoading={(loading) => loading ? setOpeningMethod("twitter") : setOpeningMethod(null)}
+    //             /> */}
 
-            </main>
+    //         </main>
 
-            <footer className={popupstyles.footer}>
-                <CustomButton label={"Cancelar"} hierarchy={3} color="#959595ff" onClick={() => closePopup()} />
-            </footer>
-        </>
-    );
+    //         <footer className={popupstyles.footer}>
+    //             <CustomButton label={"Cancelar"} hierarchy={3} color="#959595ff" onClick={() => closePopup()} />
+    //         </footer>
+    //     </>
+    // );
 
     return (
         <>
